@@ -27,11 +27,23 @@ const Navbar = () => {
     <nav className="bg-white shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-sm font-fraunces">GC</span>
+          <Link to="/" className="flex items-center space-x-3">
+            <img 
+              src="/logo.png" 
+              alt="Upper Room Fellowship" 
+              className="h-10 w-auto"
+              onError={(e) => {
+                // Fallback to text logo if image fails to load
+                e.target.style.display = 'none';
+                e.target.nextSibling.style.display = 'flex';
+              }}
+            />
+            <div className="hidden items-center space-x-2">
+              <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-sm font-inter">UR</span>
+              </div>
+              <span className="text-xl font-bold text-secondary font-inter">Upper Room Fellowship</span>
             </div>
-            <span className="text-xl font-bold text-secondary font-fraunces">Grace Community</span>
           </Link>
 
           {/* Desktop Menu */}

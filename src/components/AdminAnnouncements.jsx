@@ -45,7 +45,7 @@ const AdminAnnouncements = () => {
     try {
       const announcementData = {
         title: formData.title,
-        content: formData.content, // Store HTML directly
+        content: formData.content, // Save exactly what's in the editor
         author: formData.author
       };
 
@@ -64,7 +64,11 @@ const AdminAnnouncements = () => {
         if (error) throw error;
       }
 
-      setFormData({ title: '', content: '', author: '' });
+      setFormData({
+        title: '',
+        content: '',
+        author: ''
+      });
       setEditingId(null);
       setShowForm(false);
       fetchAnnouncements();
@@ -79,7 +83,7 @@ const AdminAnnouncements = () => {
   const handleEdit = (announcement) => {
     setFormData({
       title: announcement.title,
-      content: announcement.content, // Use HTML directly
+      content: announcement.content, // Load exactly what's stored
       author: announcement.author || ''
     });
     setEditingId(announcement.id);
@@ -104,20 +108,27 @@ const AdminAnnouncements = () => {
   };
 
   const handleCancel = () => {
-    setFormData({ title: '', content: '', author: '' });
+    setFormData({
+      title: '',
+      content: '',
+      author: ''
+    });
     setEditingId(null);
     setShowForm(false);
   };
 
   const handleContentChange = (e) => {
-    setFormData({ ...formData, content: e.target.value });
+    setFormData({
+      ...formData,
+      content: e.target.value // Save exactly what's in the editor
+    });
   };
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-secondary font-fraunces">
+        <h2 className="text-2xl font-bold text-secondary font-inter">
           Manage Announcements
         </h2>
         <button
@@ -215,15 +226,12 @@ const AdminAnnouncements = () => {
               <div key={announcement.id} className="p-6">
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-secondary font-fraunces mb-2">
+                    <h3 className="text-lg font-semibold text-secondary font-inter mb-2">
                       {announcement.title}
                     </h3>
                     <div 
-                      className="text-secondary font-inter text-sm mb-2 prose prose-sm max-w-none"
+                      className="text-secondary font-inter text-sm mb-2 prose prose-sm max-w-none rendered-content"
                       dangerouslySetInnerHTML={{ __html: announcement.content }}
-                      style={{ 
-                        lineHeight: '1.6'
-                      }}
                     />
                     <div className="text-sm text-secondary-light font-inter">
                       {announcement.author && `By ${announcement.author} • `}

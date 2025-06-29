@@ -5,24 +5,34 @@ import SafeIcon from '../common/SafeIcon';
 import RichTextEditor from './RichTextEditor';
 import supabase from '../lib/supabase';
 
-const { FiPlus, FiEdit, FiTrash2, FiSave, FiX } = FiIcons;
+const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiLayers } = FiIcons;
 
 const AdminSermons = () => {
   const [sermons, setSermons] = useState([]);
+  const [sermonSeries, setSermonSeries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [showSeriesForm, setShowSeriesForm] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     speaker: '',
     sermon_date: '',
     youtube_url: '',
     summary: '',
-    discussion_questions: ''
+    discussion_questions: '',
+    sermon_series_id: ''
+  });
+  const [seriesFormData, setSeriesFormData] = useState({
+    name: '',
+    description: '',
+    start_date: '',
+    end_date: ''
   });
 
   useEffect(() => {
     fetchSermons();
+    fetchSermonSeries();
   }, []);
 
   const fetchSermons = async () => {
@@ -41,6 +51,20 @@ const AdminSermons = () => {
     }
   };
 
+  const fetchSermonSeries = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('sermon_series_portal123')
+        .select('*')
+        .order('start_date', { ascending: false });
+
+      if (error) throw error;
+      setSermonSeries(data || []);
+    } catch (error) {
+      console.error('Error fetching sermon series:', error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -51,8 +75,9 @@ const AdminSermons = () => {
         speaker: formData.speaker,
         sermon_date: formData.sermon_date,
         youtube_url: formData.youtube_url,
-        summary: formData.summary, // Store HTML directly
-        discussion_questions: formData.discussion_questions // Store HTML directly
+        summary: formData.summary,
+        discussion_questions: formData.discussion_questions,
+        sermon_series_id: formData.sermon_series_id || null
       };
 
       if (editingId) {
@@ -76,7 +101,8 @@ const AdminSermons = () => {
         sermon_date: '',
         youtube_url: '',
         summary: '',
-        discussion_questions: ''
+        discussion_questions: '',
+        sermon_series_id: ''
       });
       setEditingId(null);
       setShowForm(false);
@@ -89,14 +115,42 @@ const AdminSermons = () => {
     }
   };
 
+  const handleSeriesSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const { error } = await supabase
+        .from('sermon_series_portal123')
+        .insert([seriesFormData]);
+
+      if (error) throw error;
+
+      setSeriesFormData({
+        name: '',
+        description: '',
+        start_date: '',
+        end_date: ''
+      });
+      setShowSeriesForm(false);
+      fetchSermonSeries();
+    } catch (error) {
+      console.error('Error saving sermon series:', error);
+      alert('Error saving sermon series. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleEdit = (sermon) => {
     setFormData({
       title: sermon.title,
       speaker: sermon.speaker || '',
       sermon_date: sermon.sermon_date,
       youtube_url: sermon.youtube_url || '',
-      summary: sermon.summary, // Use HTML directly
-      discussion_questions: sermon.discussion_questions // Use HTML directly
+      summary: sermon.summary,
+      discussion_questions: sermon.discussion_questions,
+      sermon_series_id: sermon.sermon_series_id || ''
     });
     setEditingId(sermon.id);
     setShowForm(true);
@@ -119,6 +173,23 @@ const AdminSermons = () => {
     }
   };
 
+  const handleDeleteSeries = async (id) => {
+    if (!confirm('Are you sure you want to delete this sermon series? This will not delete the sermons in the series.')) return;
+
+    try {
+      const { error } = await supabase
+        .from('sermon_series_portal123')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      fetchSermonSeries();
+    } catch (error) {
+      console.error('Error deleting sermon series:', error);
+      alert('Error deleting sermon series. Please try again.');
+    }
+  };
+
   const handleCancel = () => {
     setFormData({
       title: '',
@@ -126,29 +197,159 @@ const AdminSermons = () => {
       sermon_date: '',
       youtube_url: '',
       summary: '',
-      discussion_questions: ''
+      discussion_questions: '',
+      sermon_series_id: ''
     });
     setEditingId(null);
     setShowForm(false);
+  };
+
+  const getSeriesName = (seriesId) => {
+    const series = sermonSeries.find(s => s.id === seriesId);
+    return series ? series.name : 'Standalone Sermon';
   };
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-secondary font-fraunces">
+        <h2 className="text-2xl font-bold text-secondary font-inter">
           Manage Sermons
         </h2>
-        <button
-          onClick={() => setShowForm(true)}
-          className="bg-primary text-white px-4 py-2 rounded-lg font-semibold hover:bg-primary-dark transition-colors inline-flex items-center space-x-2 font-inter"
-        >
-          <SafeIcon icon={FiPlus} className="h-4 w-4" />
-          <span>New Sermon</span>
-        </button>
+        <div className="space-x-2">
+          <button
+            onClick={() => setShowSeriesForm(true)}
+            className="bg-secondary text-white px-4 py-2 rounded-lg font-semibold hover:bg-secondary-dark transition-colors inline-flex items-center space-x-2 font-inter"
+          >
+            <SafeIcon icon={FiLayers} className="h-4 w-4" />
+            <span>New Series</span>
+          </button>
+          <button
+            onClick={() => setShowForm(true)}
+            className="bg-primary text-white px-4 py-2 rounded-lg font-semibold hover:bg-primary-dark transition-colors inline-flex items-center space-x-2 font-inter"
+          >
+            <SafeIcon icon={FiPlus} className="h-4 w-4" />
+            <span>New Sermon</span>
+          </button>
+        </div>
       </div>
 
-      {/* Form */}
+      {/* Series Management */}
+      {sermonSeries.length > 0 && (
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h3 className="text-lg font-semibold text-secondary mb-4 font-inter">
+            Sermon Series
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {sermonSeries.map((series) => (
+              <div key={series.id} className="border border-accent-dark rounded-lg p-4">
+                <div className="flex justify-between items-start mb-2">
+                  <h4 className="font-semibold text-secondary font-inter">{series.name}</h4>
+                  <button
+                    onClick={() => handleDeleteSeries(series.id)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    <SafeIcon icon={FiTrash2} className="h-4 w-4" />
+                  </button>
+                </div>
+                <p className="text-sm text-secondary-light mb-2 font-inter">{series.description}</p>
+                <div className="text-xs text-secondary-light font-inter">
+                  {new Date(series.start_date).toLocaleDateString()} - {series.end_date ? new Date(series.end_date).toLocaleDateString() : 'Ongoing'}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Series Form */}
+      {showSeriesForm && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white rounded-lg shadow-md p-6"
+        >
+          <h3 className="text-lg font-semibold text-secondary mb-4 font-inter">
+            Create New Sermon Series
+          </h3>
+          <form onSubmit={handleSeriesSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                  Series Name *
+                </label>
+                <input
+                  type="text"
+                  value={seriesFormData.name}
+                  onChange={(e) => setSeriesFormData({ ...seriesFormData, name: e.target.value })}
+                  required
+                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+                  placeholder="e.g., Faith in Action"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                  Start Date *
+                </label>
+                <input
+                  type="date"
+                  value={seriesFormData.start_date}
+                  onChange={(e) => setSeriesFormData({ ...seriesFormData, start_date: e.target.value })}
+                  required
+                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+                />
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                  Description
+                </label>
+                <textarea
+                  value={seriesFormData.description}
+                  onChange={(e) => setSeriesFormData({ ...seriesFormData, description: e.target.value })}
+                  rows={3}
+                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none font-inter"
+                  placeholder="Brief description of the sermon series"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                  End Date (Optional)
+                </label>
+                <input
+                  type="date"
+                  value={seriesFormData.end_date}
+                  onChange={(e) => setSeriesFormData({ ...seriesFormData, end_date: e.target.value })}
+                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+                />
+              </div>
+            </div>
+
+            <div className="flex space-x-4">
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-dark transition-colors disabled:opacity-50 inline-flex items-center space-x-2 font-inter"
+              >
+                <SafeIcon icon={FiSave} className="h-4 w-4" />
+                <span>Create Series</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowSeriesForm(false)}
+                className="bg-gray-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-600 transition-colors inline-flex items-center space-x-2 font-inter"
+              >
+                <SafeIcon icon={FiX} className="h-4 w-4" />
+                <span>Cancel</span>
+              </button>
+            </div>
+          </form>
+        </motion.div>
+      )}
+
+      {/* Sermon Form */}
       {showForm && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -199,16 +400,34 @@ const AdminSermons = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-secondary mb-2 font-inter">
-                  YouTube URL
+                  Sermon Series
                 </label>
-                <input
-                  type="url"
-                  value={formData.youtube_url}
-                  onChange={(e) => setFormData({ ...formData, youtube_url: e.target.value })}
+                <select
+                  value={formData.sermon_series_id}
+                  onChange={(e) => setFormData({ ...formData, sermon_series_id: e.target.value })}
                   className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
-                  placeholder="https://youtube.com/watch?v=..."
-                />
+                >
+                  <option value="">Standalone Sermon</option>
+                  {sermonSeries.map((series) => (
+                    <option key={series.id} value={series.id}>
+                      {series.name}
+                    </option>
+                  ))}
+                </select>
               </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                YouTube URL
+              </label>
+              <input
+                type="url"
+                value={formData.youtube_url}
+                onChange={(e) => setFormData({ ...formData, youtube_url: e.target.value })}
+                className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+                placeholder="https://youtube.com/watch?v=..."
+              />
             </div>
 
             <div>
@@ -274,24 +493,37 @@ const AdminSermons = () => {
               <div key={sermon.id} className="p-6">
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-secondary font-fraunces mb-2">
+                    <h3 className="text-lg font-semibold text-secondary font-inter mb-2">
                       {sermon.title}
                     </h3>
+                    
+                    {sermon.sermon_series_id && (
+                      <div className="mb-2">
+                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary text-white font-inter">
+                          <SafeIcon icon={FiLayers} className="h-3 w-3 mr-1" />
+                          {getSeriesName(sermon.sermon_series_id)}
+                        </span>
+                      </div>
+                    )}
+                    
                     <div className="text-sm text-secondary-light font-inter mb-2">
                       {sermon.speaker && `${sermon.speaker} • `}
                       {new Date(sermon.sermon_date).toLocaleDateString()}
                     </div>
+                    
                     {sermon.youtube_url && (
                       <div className="text-sm text-primary font-inter mb-2">
                         YouTube: {sermon.youtube_url}
                       </div>
                     )}
+                    
                     {sermon.summary && (
                       <div className="text-sm text-secondary font-inter mb-2">
                         Summary: {sermon.summary.replace(/<[^>]*>/g, '').substring(0, 100)}...
                       </div>
                     )}
                   </div>
+                  
                   <div className="flex space-x-2 ml-4">
                     <button
                       onClick={() => handleEdit(sermon)}

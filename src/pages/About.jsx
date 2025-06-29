@@ -34,7 +34,7 @@ const About = () => {
       name: 'Pastor John Smith',
       role: 'Senior Pastor',
       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face',
-      bio: 'Pastor John has been leading Grace Community for over 15 years with a heart for discipleship and community outreach.'
+      bio: 'Pastor John has been leading Upper Room Fellowship for over 15 years with a heart for discipleship and community outreach.'
     },
     {
       name: 'Sarah Johnson',
@@ -59,9 +59,9 @@ const About = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-bold mb-6 font-fraunces"
+            className="text-4xl md:text-6xl font-bold mb-6 font-inter"
           >
-            About Grace Community
+            About Upper Room Fellowship
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -79,9 +79,9 @@ const About = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-6 font-fraunces">Our Story</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-6 font-inter">Our Story</h2>
               <p className="text-lg text-secondary mb-4 font-inter">
-                Grace Community Church was founded in 1985 with a simple vision: to create a place where people from all walks of life could come together to worship, grow, and serve God.
+                Upper Room Fellowship was founded in 1985 with a simple vision: to create a place where people from all walks of life could come together to worship, grow, and serve God.
               </p>
               <p className="text-lg text-secondary mb-4 font-inter">
                 Over the years, we've grown from a small gathering of families to a vibrant community of believers who are passionate about making a difference in our city and beyond.
@@ -111,7 +111,7 @@ const About = () => {
               transition={{ duration: 0.8 }}
               className="bg-white p-8 rounded-lg shadow-md"
             >
-              <h3 className="text-2xl font-bold text-secondary mb-4 font-fraunces">Our Mission</h3>
+              <h3 className="text-2xl font-bold text-secondary mb-4 font-inter">Our Mission</h3>
               <p className="text-secondary text-lg font-inter">
                 To make disciples of Jesus Christ who love God, love people, and serve the world with passion and purpose. We exist to help people find and follow Jesus.
               </p>
@@ -122,7 +122,7 @@ const About = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="bg-white p-8 rounded-lg shadow-md"
             >
-              <h3 className="text-2xl font-bold text-secondary mb-4 font-fraunces">Our Vision</h3>
+              <h3 className="text-2xl font-bold text-secondary mb-4 font-inter">Our Vision</h3>
               <p className="text-secondary text-lg font-inter">
                 To be a church that transforms lives and communities through the power of God's love, creating a lasting impact for generations to come.
               </p>
@@ -135,7 +135,7 @@ const About = () => {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4 font-fraunces">Our Core Values</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4 font-inter">Our Core Values</h2>
             <p className="text-xl text-secondary font-inter">The principles that guide everything we do</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -147,8 +147,8 @@ const About = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="text-center p-6 bg-accent rounded-lg hover:shadow-md transition-shadow"
               >
-                <SafeIcon icon={value.icon} className="h-12 w-12 text-primary mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-3 text-secondary font-fraunces">{value.title}</h3>
+                <SafeIcon icon={value.icon} className="h-12 w-12 text-secondary mx-auto mb-4" />
+                <h3 className="text-xl font-semibold mb-3 text-secondary font-inter">{value.title}</h3>
                 <p className="text-secondary font-inter">{value.description}</p>
               </motion.div>
             ))}
@@ -160,7 +160,7 @@ const About = () => {
       <section className="py-16 bg-accent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4 font-fraunces">Meet Our Team</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4 font-inter">Meet Our Team</h2>
             <p className="text-xl text-secondary font-inter">The dedicated leaders serving our church family</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -178,7 +178,7 @@ const About = () => {
                   className="w-full h-64 object-cover"
                 />
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-1 text-secondary font-fraunces">{member.name}</h3>
+                  <h3 className="text-xl font-semibold mb-1 text-secondary font-inter">{member.name}</h3>
                   <p className="text-primary font-medium mb-3 font-inter">{member.role}</p>
                   <p className="text-secondary font-inter">{member.bio}</p>
                 </div>

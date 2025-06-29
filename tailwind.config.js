@@ -8,20 +8,33 @@ export default {
     extend: {
       colors: {
         primary: '#E2BA49',
-        secondary: '#484846',
+        secondary: '#304E4E', // Updated to the new color
         accent: '#F3F1E6',
         white: '#FFFFFF',
         // Additional shades for better design flexibility
         'primary-light': '#E8C461',
         'primary-dark': '#D4A632',
-        'secondary-light': '#5A5A57',
-        'secondary-dark': '#363635',
+        'secondary-light': '#4A6B6B', // Lighter version of #304E4E
+        'secondary-dark': '#1F3333', // Darker version of #304E4E
         'accent-light': '#F7F5F0',
         'accent-dark': '#EFECD5',
+        // Additional secondary color variations
+        'secondary-50': '#F0F4F4',
+        'secondary-100': '#DBE4E4',
+        'secondary-200': '#B8CACA',
+        'secondary-300': '#8FA9A9',
+        'secondary-400': '#6B8A8A',
+        'secondary-500': '#304E4E',
+        'secondary-600': '#2A4444',
+        'secondary-700': '#243B3B',
+        'secondary-800': '#1F3333',
+        'secondary-900': '#1A2C2C',
       },
       fontFamily: {
         'sans': ['Inter Tight', 'sans-serif'],
         'serif': ['Inter Tight', 'sans-serif'],
+        'inter': ['Inter Tight', 'sans-serif'],
+        'fraunces': ['Inter Tight', 'sans-serif'], // Changed from Fraunces to Inter Tight
       },
     },
   },

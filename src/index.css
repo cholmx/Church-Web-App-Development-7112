@@ -9,12 +9,222 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  letter-spacing: 0.1px;
 }
 
 #root {
   width: 100%;
   height: 100%;
+}
+
+/* Force Inter Tight on ALL elements with high specificity */
+* {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+/* Specifically target all text elements */
+h1, h2, h3, h4, h5, h6, p, span, div, a, li, ul, ol, strong, b, em, i, u, small, label, input, textarea, button, select {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+/* Rich text editor specific styling */
+.rich-text-editor {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+.rich-text-editor * {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+/* Force Inter Tight on all rendered content */
+.prose * {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+/* Specifically target dangerouslySetInnerHTML content */
+div[dangerouslysetinnerhtml] * {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+.rendered-content * {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+/* Override any inline font styles with maximum specificity */
+*[style*="font-family"] {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+/* Preserve paragraph breaks and spacing in rendered content */
+.preserve-formatting {
+  line-height: 1.6;
+  letter-spacing: 0.1px !important;
+}
+
+.preserve-formatting * {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+.preserve-formatting p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+.preserve-formatting p:last-child {
+  margin-bottom: 0;
+}
+
+.preserve-formatting br {
+  line-height: 1.6;
+}
+
+.preserve-formatting ul, .preserve-formatting ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+.preserve-formatting li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+.preserve-formatting h1, .preserve-formatting h2, .preserve-formatting h3, 
+.preserve-formatting h4, .preserve-formatting h5, .preserve-formatting h6 {
+  margin: 1rem 0;
+  line-height: 1.4;
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+/* Force Inter Tight on all content classes */
+.force-inter-tight * {
+  font-family: 'Inter Tight', sans-serif !important;
+  line-height: 1.6;
+  letter-spacing: 0.1px !important;
+}
+
+.force-inter-tight p {
+  margin-bottom: 1rem;
+  font-family: 'Inter Tight', sans-serif !important;
+}
+
+.force-inter-tight p:last-child {
+  margin-bottom: 0;
+}
+
+.force-inter-tight br {
+  line-height: 1.6;
+}
+
+/* Ensure line breaks are preserved in all displayed content */
+.preserve-line-breaks {
+  white-space: pre-wrap !important;
+}
+
+.preserve-line-breaks * {
+  white-space: pre-wrap !important;
+  font-family: 'Inter Tight', sans-serif !important;
+}
+
+/* Rendered content styling - ensure paragraphs display properly */
+.rendered-content p {
+  margin-bottom: 1rem;
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+  line-height: 1.6;
+}
+
+.rendered-content p:last-child {
+  margin-bottom: 0;
+}
+
+.rendered-content br {
+  line-height: 1.6;
+}
+
+.rendered-content ul, .rendered-content ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+  font-family: 'Inter Tight', sans-serif !important;
+}
+
+.rendered-content li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+  font-family: 'Inter Tight', sans-serif !important;
+}
+
+.rendered-content h1, .rendered-content h2, .rendered-content h3, 
+.rendered-content h4, .rendered-content h5, .rendered-content h6 {
+  margin: 1rem 0;
+  line-height: 1.4;
+  font-weight: bold;
+  font-family: 'Inter Tight', sans-serif !important;
+}
+
+.rendered-content strong, .rendered-content b {
+  font-weight: bold;
+  font-family: 'Inter Tight', sans-serif !important;
+}
+
+.rendered-content em, .rendered-content i {
+  font-style: italic;
+  font-family: 'Inter Tight', sans-serif !important;
+}
+
+.rendered-content u {
+  text-decoration: underline;
+  font-family: 'Inter Tight', sans-serif !important;
+}
+
+/* Additional overrides for any missed elements */
+table, th, td, caption {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+pre, code, kbd, samp {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+fieldset, legend {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+/* Override any framework or library fonts */
+.prose, .prose * {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+/* Make sure form elements use Inter Tight */
+input, textarea, select, button {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
+}
+
+/* Override any CSS-in-JS or inline styles */
+div[style], span[style], p[style] {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: 0.1px !important;
 }
