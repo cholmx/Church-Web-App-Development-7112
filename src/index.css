@@ -89,7 +89,20 @@
   /* Discussion questions background for sermon blog */
   .discussion-questions-section,
   .discussion-questions,
-  .discussion-bg {
+  .discussion-bg,
+  .discussion-questions-section *,
+  .discussion-questions *,
+  .discussion-bg * {
+    background-color: #F3F1E6 !important;
+  }
+
+  /* Override inline styles for discussion questions lists */
+  ol[style*="background-color"],
+  li[style*="background-color"],
+  .rendered-content ol,
+  .rendered-content li,
+  .announcement-content ol,
+  .announcement-content li {
     background-color: #F3F1E6 !important;
   }
 }
