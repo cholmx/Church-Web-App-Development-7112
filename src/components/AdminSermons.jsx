@@ -5,7 +5,7 @@ import SafeIcon from '../common/SafeIcon';
 import RichTextEditor from './RichTextEditor';
 import supabase from '../lib/supabase';
 
-const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiLayers } = FiIcons;
+const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiLayers, FiAlertTriangle, FiCheckCircle } = FiIcons;
 
 const AdminSermons = () => {
   const [sermons, setSermons] = useState([]);
@@ -14,6 +14,9 @@ const AdminSermons = () => {
   const [editingId, setEditingId] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [showSeriesForm, setShowSeriesForm] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState('');
+  
   const [formData, setFormData] = useState({
     title: '',
     speaker: '',
@@ -23,6 +26,7 @@ const AdminSermons = () => {
     discussion_questions: '',
     sermon_series_id: ''
   });
+
   const [seriesFormData, setSeriesFormData] = useState({
     name: '',
     description: '',
@@ -37,6 +41,7 @@ const AdminSermons = () => {
 
   const fetchSermons = async () => {
     try {
+      setError(null);
       const { data, error } = await supabase
         .from('sermons_portal123')
         .select('*')
@@ -46,6 +51,7 @@ const AdminSermons = () => {
       setSermons(data || []);
     } catch (error) {
       console.error('Error fetching sermons:', error);
+      setError('Failed to fetch sermons: ' + error.message);
     } finally {
       setLoading(false);
     }
@@ -68,6 +74,8 @@ const AdminSermons = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
+    setSuccess('');
 
     try {
       const sermonData = {
@@ -87,12 +95,14 @@ const AdminSermons = () => {
           .eq('id', editingId);
 
         if (error) throw error;
+        setSuccess('Sermon updated successfully!');
       } else {
         const { error } = await supabase
           .from('sermons_portal123')
           .insert([sermonData]);
 
         if (error) throw error;
+        setSuccess('Sermon created successfully!');
       }
 
       setFormData({
@@ -109,7 +119,7 @@ const AdminSermons = () => {
       fetchSermons();
     } catch (error) {
       console.error('Error saving sermon:', error);
-      alert('Error saving sermon. Please try again.');
+      setError('Error saving sermon: ' + error.message);
     } finally {
       setLoading(false);
     }
@@ -118,6 +128,8 @@ const AdminSermons = () => {
   const handleSeriesSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
+    setSuccess('');
 
     try {
       const { error } = await supabase
@@ -125,7 +137,8 @@ const AdminSermons = () => {
         .insert([seriesFormData]);
 
       if (error) throw error;
-
+      
+      setSuccess('Sermon series created successfully!');
       setSeriesFormData({
         name: '',
         description: '',
@@ -136,7 +149,7 @@ const AdminSermons = () => {
       fetchSermonSeries();
     } catch (error) {
       console.error('Error saving sermon series:', error);
-      alert('Error saving sermon series. Please try again.');
+      setError('Error saving sermon series: ' + error.message);
     } finally {
       setLoading(false);
     }
@@ -154,6 +167,8 @@ const AdminSermons = () => {
     });
     setEditingId(sermon.id);
     setShowForm(true);
+    setError(null);
+    setSuccess('');
   };
 
   const handleDelete = async (id) => {
@@ -166,10 +181,11 @@ const AdminSermons = () => {
         .eq('id', id);
 
       if (error) throw error;
+      setSuccess('Sermon deleted successfully!');
       fetchSermons();
     } catch (error) {
       console.error('Error deleting sermon:', error);
-      alert('Error deleting sermon. Please try again.');
+      setError('Error deleting sermon: ' + error.message);
     }
   };
 
@@ -183,10 +199,11 @@ const AdminSermons = () => {
         .eq('id', id);
 
       if (error) throw error;
+      setSuccess('Sermon series deleted successfully!');
       fetchSermonSeries();
     } catch (error) {
       console.error('Error deleting sermon series:', error);
-      alert('Error deleting sermon series. Please try again.');
+      setError('Error deleting sermon series: ' + error.message);
     }
   };
 
@@ -202,6 +219,8 @@ const AdminSermons = () => {
     });
     setEditingId(null);
     setShowForm(false);
+    setError(null);
+    setSuccess('');
   };
 
   const getSeriesName = (seriesId) => {
@@ -211,6 +230,34 @@ const AdminSermons = () => {
 
   return (
     <div className="space-y-6">
+      {/* Success Message */}
+      {success && (
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-green-50 border border-green-200 rounded-lg p-4"
+        >
+          <div className="flex items-center space-x-2">
+            <SafeIcon icon={FiCheckCircle} className="h-5 w-5 text-green-600" />
+            <p className="text-green-700 font-inter">{success}</p>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Error Message */}
+      {error && (
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-red-50 border border-red-200 rounded-lg p-4"
+        >
+          <div className="flex items-center space-x-2">
+            <SafeIcon icon={FiAlertTriangle} className="h-5 w-5 text-red-600" />
+            <p className="text-red-700 font-inter">{error}</p>
+          </div>
+        </motion.div>
+      )}
+
       {/* Header */}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-secondary font-inter">
@@ -254,7 +301,9 @@ const AdminSermons = () => {
                 </div>
                 <p className="text-sm text-secondary-light mb-2 font-inter">{series.description}</p>
                 <div className="text-xs text-secondary-light font-inter">
-                  {new Date(series.start_date).toLocaleDateString()} - {series.end_date ? new Date(series.end_date).toLocaleDateString() : 'Ongoing'}
+                  {new Date(series.start_date).toLocaleDateString()} - {
+                    series.end_date ? new Date(series.end_date).toLocaleDateString() : 'Ongoing'
+                  }
                 </div>
               </div>
             ))}
@@ -281,7 +330,7 @@ const AdminSermons = () => {
                 <input
                   type="text"
                   value={seriesFormData.name}
-                  onChange={(e) => setSeriesFormData({ ...seriesFormData, name: e.target.value })}
+                  onChange={(e) => setSeriesFormData({...seriesFormData, name: e.target.value})}
                   required
                   className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
                   placeholder="e.g., Faith in Action"
@@ -294,13 +343,13 @@ const AdminSermons = () => {
                 <input
                   type="date"
                   value={seriesFormData.start_date}
-                  onChange={(e) => setSeriesFormData({ ...seriesFormData, start_date: e.target.value })}
+                  onChange={(e) => setSeriesFormData({...seriesFormData, start_date: e.target.value})}
                   required
                   className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
                 />
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-secondary mb-2 font-inter">
@@ -308,7 +357,7 @@ const AdminSermons = () => {
                 </label>
                 <textarea
                   value={seriesFormData.description}
-                  onChange={(e) => setSeriesFormData({ ...seriesFormData, description: e.target.value })}
+                  onChange={(e) => setSeriesFormData({...seriesFormData, description: e.target.value})}
                   rows={3}
                   className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none font-inter"
                   placeholder="Brief description of the sermon series"
@@ -321,7 +370,7 @@ const AdminSermons = () => {
                 <input
                   type="date"
                   value={seriesFormData.end_date}
-                  onChange={(e) => setSeriesFormData({ ...seriesFormData, end_date: e.target.value })}
+                  onChange={(e) => setSeriesFormData({...seriesFormData, end_date: e.target.value})}
                   className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
                 />
               </div>
@@ -365,7 +414,7 @@ const AdminSermons = () => {
                 <input
                   type="text"
                   value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  onChange={(e) => setFormData({...formData, title: e.target.value})}
                   required
                   className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
                   placeholder="Sermon title"
@@ -378,7 +427,7 @@ const AdminSermons = () => {
                 <input
                   type="text"
                   value={formData.speaker}
-                  onChange={(e) => setFormData({ ...formData, speaker: e.target.value })}
+                  onChange={(e) => setFormData({...formData, speaker: e.target.value})}
                   className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
                   placeholder="Speaker name"
                 />
@@ -393,7 +442,7 @@ const AdminSermons = () => {
                 <input
                   type="date"
                   value={formData.sermon_date}
-                  onChange={(e) => setFormData({ ...formData, sermon_date: e.target.value })}
+                  onChange={(e) => setFormData({...formData, sermon_date: e.target.value})}
                   required
                   className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
                 />
@@ -404,7 +453,7 @@ const AdminSermons = () => {
                 </label>
                 <select
                   value={formData.sermon_series_id}
-                  onChange={(e) => setFormData({ ...formData, sermon_series_id: e.target.value })}
+                  onChange={(e) => setFormData({...formData, sermon_series_id: e.target.value})}
                   className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
                 >
                   <option value="">Standalone Sermon</option>
@@ -424,7 +473,7 @@ const AdminSermons = () => {
               <input
                 type="url"
                 value={formData.youtube_url}
-                onChange={(e) => setFormData({ ...formData, youtube_url: e.target.value })}
+                onChange={(e) => setFormData({...formData, youtube_url: e.target.value})}
                 className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
                 placeholder="https://youtube.com/watch?v=..."
               />
@@ -436,7 +485,7 @@ const AdminSermons = () => {
               </label>
               <RichTextEditor
                 value={formData.summary}
-                onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
+                onChange={(e) => setFormData({...formData, summary: e.target.value})}
                 placeholder="Paste your sermon summary here... Formatting will be preserved!"
                 rows={6}
               />
@@ -448,7 +497,7 @@ const AdminSermons = () => {
               </label>
               <RichTextEditor
                 value={formData.discussion_questions}
-                onChange={(e) => setFormData({ ...formData, discussion_questions: e.target.value })}
+                onChange={(e) => setFormData({...formData, discussion_questions: e.target.value})}
                 placeholder="Paste your discussion questions here... Lists and formatting will be preserved!"
                 rows={6}
               />
@@ -496,7 +545,6 @@ const AdminSermons = () => {
                     <h3 className="text-lg font-semibold text-secondary font-inter mb-2">
                       {sermon.title}
                     </h3>
-                    
                     {sermon.sermon_series_id && (
                       <div className="mb-2">
                         <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary text-white font-inter">
@@ -505,25 +553,21 @@ const AdminSermons = () => {
                         </span>
                       </div>
                     )}
-                    
                     <div className="text-sm text-secondary-light font-inter mb-2">
                       {sermon.speaker && `${sermon.speaker} • `}
                       {new Date(sermon.sermon_date).toLocaleDateString()}
                     </div>
-                    
                     {sermon.youtube_url && (
                       <div className="text-sm text-primary font-inter mb-2">
                         YouTube: {sermon.youtube_url}
                       </div>
                     )}
-                    
                     {sermon.summary && (
                       <div className="text-sm text-secondary font-inter mb-2">
                         Summary: {sermon.summary.replace(/<[^>]*>/g, '').substring(0, 100)}...
                       </div>
                     )}
                   </div>
-                  
                   <div className="flex space-x-2 ml-4">
                     <button
                       onClick={() => handleEdit(sermon)}

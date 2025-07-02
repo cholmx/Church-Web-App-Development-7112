@@ -12,7 +12,35 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
     persistSession: true,
     autoRefreshToken: true
+  },
+  realtime: {
+    params: {
+      eventsPerSecond: 10
+    }
   }
 })
+
+// Test connection and log status
+const testConnection = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('announcements_portal123')
+      .select('count', { count: 'exact', head: true })
+    
+    if (error) {
+      console.error('Supabase connection error:', error)
+      return false
+    }
+    
+    console.log('✅ Supabase connected successfully')
+    return true
+  } catch (error) {
+    console.error('Supabase connection failed:', error)
+    return false
+  }
+}
+
+// Test connection on module load
+testConnection()
 
 export default supabase

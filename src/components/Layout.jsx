@@ -1,14 +1,9 @@
-import Navbar from './Navbar'
-import Footer from './Footer'
-
-const Layout = ({ children, showNav = true, showFooter = true }) => {
+const Layout = ({ children, showNav = false, showFooter = false }) => {
   return (
     <div className="min-h-screen bg-accent">
-      {showNav && <Navbar />}
       <main>
         {children}
       </main>
-      {showFooter && <Footer />}
     </div>
   )
 }

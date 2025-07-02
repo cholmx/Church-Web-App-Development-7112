@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 
-const { FiUsers, FiHeart, FiBookOpen, FiMusic, FiTarget, FiGift } = FiIcons;
+const { FiUsers, FiHeart, FiBookOpen, FiMusic, FiTarget, FiGift, FiHome } = FiIcons;
 
 const Ministries = () => {
   const ministries = [
@@ -94,7 +95,18 @@ const Ministries = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-accent">
+      {/* Home Link */}
+      <div className="pt-6 px-4 sm:px-6 lg:px-8">
+        <Link
+          to="/"
+          className="inline-flex items-center space-x-2 text-primary hover:text-primary-dark transition-colors"
+        >
+          <SafeIcon icon={FiHome} className="h-4 w-4" />
+          <span>Back to Home</span>
+        </Link>
+      </div>
+
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-r from-primary to-secondary text-white">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
