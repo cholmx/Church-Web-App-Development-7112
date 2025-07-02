@@ -6,8 +6,11 @@ import SafeIcon from '../common/SafeIcon';
 import AdminAnnouncements from '../components/AdminAnnouncements';
 import AdminSermons from '../components/AdminSermons';
 import AdminEvents from '../components/AdminEvents';
+import AdminClasses from '../components/AdminClasses';
+import AdminResources from '../components/AdminResources';
+import AdminScriptures from '../components/AdminScriptures';
 
-const { FiSettings, FiBell, FiPlay, FiCalendar, FiHome, FiLock } = FiIcons;
+const { FiSettings, FiBell, FiPlay, FiCalendar, FiBookOpen, FiHome, FiLock } = FiIcons;
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -31,7 +34,10 @@ const Admin = () => {
   const tabs = [
     { id: 'announcements', label: 'Announcements', icon: FiBell },
     { id: 'sermons', label: 'Sermons', icon: FiPlay },
-    { id: 'events', label: 'Events', icon: FiCalendar }
+    { id: 'events', label: 'Events', icon: FiCalendar },
+    { id: 'classes', label: 'Classes', icon: FiBookOpen },
+    { id: 'resources', label: 'Resources', icon: FiBookOpen },
+    { id: 'scriptures', label: 'Daily Scripture', icon: FiBookOpen }
   ];
 
   const renderContent = () => {
@@ -42,6 +48,12 @@ const Admin = () => {
         return <AdminSermons />;
       case 'events':
         return <AdminEvents />;
+      case 'classes':
+        return <AdminClasses />;
+      case 'resources':
+        return <AdminResources />;
+      case 'scriptures':
+        return <AdminScriptures />;
       default:
         return <AdminAnnouncements />;
     }
@@ -160,12 +172,12 @@ const Admin = () => {
           className="bg-white rounded-lg shadow-md mb-8"
         >
           <div className="border-b border-accent">
-            <nav className="flex space-x-8 px-8">
+            <nav className="flex space-x-8 px-8 overflow-x-auto">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`py-4 px-2 border-b-2 font-medium text-sm transition-colors duration-200 ${
+                  className={`py-4 px-2 border-b-2 font-medium text-sm transition-colors duration-200 whitespace-nowrap ${
                     activeTab === tab.id
                       ? 'border-primary text-primary'
                       : 'border-transparent text-secondary hover:text-primary'

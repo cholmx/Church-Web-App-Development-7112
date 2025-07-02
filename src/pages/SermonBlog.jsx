@@ -73,31 +73,18 @@ const SermonBlog = () => {
   };
 
   // Filter sermons based on selected series
-  const filteredSermons = selectedSeries === '' 
-    ? sermons 
+  const filteredSermons = selectedSeries === ''
+    ? sermons
     : selectedSeries === 'standalone'
-      ? sermons.filter(sermon => !sermon.sermon_series_id)
-      : sermons.filter(sermon => sermon.sermon_series_id === selectedSeries);
-
-  // Group sermons by series for better organization
-  const groupedSermons = () => {
-    if (selectedSeries !== '') return filteredSermons;
-    
-    const grouped = {};
-    sermons.forEach(sermon => {
-      const key = sermon.sermon_series_id || 'standalone';
-      if (!grouped[key]) grouped[key] = [];
-      grouped[key].push(sermon);
-    });
-    return grouped;
-  };
+    ? sermons.filter(sermon => !sermon.sermon_series_id)
+    : sermons.filter(sermon => sermon.sermon_series_id === selectedSeries);
 
   if (loading) {
     return (
       <div className="min-h-screen bg-accent py-12 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-secondary font-inter">Loading sermons...</p>
+          <p className="font-inter" style={{ color: '#484846' }}>Loading sermons...</p>
         </div>
       </div>
     );
@@ -113,7 +100,7 @@ const SermonBlog = () => {
             className="inline-flex items-center space-x-2 text-primary hover:text-primary-dark transition-colors font-inter"
           >
             <SafeIcon icon={FiHome} className="h-4 w-4" />
-            <span>Back to Home</span>
+            <span style={{ color: '#484846' }}>Back to Home</span>
           </Link>
         </div>
 
@@ -123,18 +110,21 @@ const SermonBlog = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="flex items-center justify-center space-x-4 mb-6"
+            className="flex items-center justify-center space-x-4 mb-3"
           >
-            <SafeIcon icon={FiPlay} className="h-12 w-12 text-primary" />
-            <h1 className="text-4xl md:text-5xl font-bold text-secondary font-inter">
-              Sermon Blog
-            </h1>
+            <SafeIcon icon={FiPlay} className="h-8 w-8 text-primary" />
+            <Link to="/" className="hover:text-primary transition-colors">
+              <h1 className="text-3xl md:text-4xl font-bold font-inter" style={{ color: '#484846' }}>
+                Sermon Blog
+              </h1>
+            </Link>
           </motion.div>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl text-secondary font-inter"
+            className="text-lg font-inter"
+            style={{ color: '#484846' }}
           >
             Weekly sermons and discussion questions for Table Groups
           </motion.p>
@@ -149,27 +139,25 @@ const SermonBlog = () => {
         >
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center space-x-2">
-              <SafeIcon icon={FiFilter} className="h-5 w-5 text-secondary" />
-              <span className="font-medium text-secondary font-inter">Filter by Series:</span>
+              <SafeIcon icon={FiFilter} className="h-5 w-5" style={{ color: '#484846' }} />
+              <span className="font-medium font-inter" style={{ color: '#484846' }}>Filter by Series:</span>
             </div>
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setSelectedSeries('')}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${
-                  selectedSeries === ''
-                    ? 'bg-primary text-white'
-                    : 'bg-accent text-secondary hover:bg-accent-dark'
+                  selectedSeries === '' ? 'bg-primary text-white' : 'bg-accent hover:bg-accent-dark'
                 }`}
+                style={selectedSeries !== '' ? { color: '#484846' } : {}}
               >
                 All Sermons
               </button>
               <button
                 onClick={() => setSelectedSeries('standalone')}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${
-                  selectedSeries === 'standalone'
-                    ? 'bg-primary text-white'
-                    : 'bg-accent text-secondary hover:bg-accent-dark'
+                  selectedSeries === 'standalone' ? 'bg-primary text-white' : 'bg-accent hover:bg-accent-dark'
                 }`}
+                style={selectedSeries !== 'standalone' ? { color: '#484846' } : {}}
               >
                 Standalone Sermons
               </button>
@@ -178,10 +166,9 @@ const SermonBlog = () => {
                   key={series.id}
                   onClick={() => setSelectedSeries(series.id)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${
-                    selectedSeries === series.id
-                      ? 'bg-primary text-white'
-                      : 'bg-accent text-secondary hover:bg-accent-dark'
+                    selectedSeries === series.id ? 'bg-primary text-white' : 'bg-accent hover:bg-accent-dark'
                   }`}
+                  style={selectedSeries !== series.id ? { color: '#484846' } : {}}
                 >
                   {series.name}
                 </button>
@@ -213,10 +200,10 @@ const SermonBlog = () => {
           {filteredSermons.length === 0 ? (
             <div className="text-center py-12">
               <SafeIcon icon={FiPlay} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <p className="text-xl text-secondary font-inter">
+              <p className="text-xl font-inter" style={{ color: '#484846' }}>
                 {selectedSeries === '' ? 'No sermons yet' : 'No sermons in this series'}
               </p>
-              <p className="text-secondary-light font-inter">Check back soon for updates!</p>
+              <p className="font-inter" style={{ color: '#484846', opacity: 0.7 }}>Check back soon for updates!</p>
             </div>
           ) : (
             filteredSermons.map((sermon, index) => (
@@ -232,7 +219,7 @@ const SermonBlog = () => {
                   <div className="flex items-center justify-between mb-6">
                     <div>
                       <div className="flex items-center space-x-3 mb-2">
-                        <h2 className="text-3xl font-bold text-secondary font-inter">
+                        <h2 className="text-3xl font-bold font-inter" style={{ color: '#484846' }}>
                           {sermon.title}
                         </h2>
                         {sermon.sermon_series_id && selectedSeries === '' && (
@@ -242,7 +229,7 @@ const SermonBlog = () => {
                           </span>
                         )}
                       </div>
-                      <div className="flex items-center space-x-4 text-secondary-light">
+                      <div className="flex items-center space-x-4" style={{ color: '#484846', opacity: 0.7 }}>
                         <div className="flex items-center space-x-2">
                           <SafeIcon icon={FiCalendar} className="h-4 w-4" />
                           <span className="text-sm font-inter">
@@ -278,17 +265,18 @@ const SermonBlog = () => {
                   {/* Sermon Summary */}
                   {sermon.summary && (
                     <div className="mb-8">
-                      <h3 className="text-xl font-semibold text-secondary mb-4 font-inter">
+                      <h3 className="text-xl font-semibold mb-4 font-inter" style={{ color: '#484846' }}>
                         Sermon Summary
                       </h3>
                       <div className="prose max-w-none">
                         <div
-                          className="text-secondary leading-relaxed preserve-formatting rendered-content"
+                          className="leading-relaxed preserve-formatting rendered-content"
                           dangerouslySetInnerHTML={{ __html: sermon.summary }}
                           style={{
                             fontFamily: 'Inter Tight, sans-serif',
                             lineHeight: '1.6',
-                            letterSpacing: '0.1px'
+                            letterSpacing: '0.1px',
+                            color: '#484846'
                           }}
                         />
                       </div>
@@ -297,21 +285,26 @@ const SermonBlog = () => {
 
                   {/* Discussion Questions */}
                   {sermon.discussion_questions && (
-                    <div className="bg-accent p-6 rounded-lg">
+                    <div
+                      className="p-6 rounded-lg discussion-questions-section"
+                      style={{ backgroundColor: '#f9f9f4 !important' }}
+                    >
                       <div className="flex items-center space-x-2 mb-4">
                         <SafeIcon icon={FiMessageCircle} className="h-5 w-5 text-primary" />
-                        <h3 className="text-xl font-semibold text-secondary font-inter">
+                        <h3 className="text-xl font-semibold font-inter" style={{ color: '#484846' }}>
                           Table Group Discussion Questions
                         </h3>
                       </div>
-                      <div className="prose max-w-none">
+                      <div className="prose max-w-none" style={{ backgroundColor: '#f9f9f4 !important' }}>
                         <div
-                          className="text-secondary leading-relaxed preserve-formatting rendered-content"
+                          className="leading-relaxed preserve-formatting rendered-content"
                           dangerouslySetInnerHTML={{ __html: sermon.discussion_questions }}
                           style={{
                             fontFamily: 'Inter Tight, sans-serif',
                             lineHeight: '1.6',
-                            letterSpacing: '0.1px'
+                            letterSpacing: '0.1px',
+                            color: '#484846',
+                            backgroundColor: '#f9f9f4 !important'
                           }}
                         />
                       </div>

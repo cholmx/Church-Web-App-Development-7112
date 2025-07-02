@@ -31,18 +31,20 @@ const Give = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="flex items-center justify-center space-x-4 mb-6"
+            className="flex items-center justify-center space-x-4 mb-3"
           >
-            <SafeIcon icon={FiCreditCard} className="h-12 w-12 text-primary" />
-            <h1 className="text-4xl md:text-5xl font-bold text-secondary">
-              Give
-            </h1>
+            <SafeIcon icon={FiCreditCard} className="h-8 w-8 text-primary" />
+            <Link to="/" className="hover:text-primary transition-colors">
+              <h1 className="text-3xl md:text-4xl font-bold text-secondary">
+                Give
+              </h1>
+            </Link>
           </motion.div>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl text-secondary"
+            className="text-lg text-secondary"
           >
             Support our church through online giving
           </motion.p>
@@ -60,13 +62,14 @@ const Give = () => {
             <h2 className="text-3xl font-bold mb-4">
               Give with Joy
             </h2>
-            <p className="text-primary-light text-lg">
+            <p className="text-white text-lg">
               "Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver."
             </p>
-            <p className="text-primary-light text-sm mt-2">
+            <p className="text-white text-sm mt-2">
               - 2 Corinthians 9:7
             </p>
           </div>
+
           <div className="p-8">
             <div className="text-center mb-8">
               <h3 className="text-2xl font-bold text-secondary mb-4">

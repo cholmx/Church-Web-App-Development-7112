@@ -8,16 +8,20 @@ export default {
     extend: {
       colors: {
         primary: '#E2BA49',
-        secondary: '#304E4E', // Updated to the new color
+        secondary: '#304E4E',
         accent: '#F3F1E6',
         white: '#FFFFFF',
         // Additional shades for better design flexibility
         'primary-light': '#E8C461',
         'primary-dark': '#D4A632',
-        'secondary-light': '#4A6B6B', // Lighter version of #304E4E
-        'secondary-dark': '#1F3333', // Darker version of #304E4E
+        'secondary-light': '#4A6B6B',
+        'secondary-dark': '#1F3333',
         'accent-light': '#F7F5F0',
         'accent-dark': '#EFECD5',
+        // Custom text color
+        'text-custom': '#484846',
+        // Discussion questions background - Updated to new color
+        'discussion-bg': '#f9f9f4',
         // Additional secondary color variations
         'secondary-50': '#F0F4F4',
         'secondary-100': '#DBE4E4',
@@ -34,7 +38,7 @@ export default {
         'sans': ['Inter Tight', 'sans-serif'],
         'serif': ['Inter Tight', 'sans-serif'],
         'inter': ['Inter Tight', 'sans-serif'],
-        'fraunces': ['Inter Tight', 'sans-serif'], // Changed from Fraunces to Inter Tight
+        'fraunces': ['Inter Tight', 'sans-serif'],
       },
     },
   },

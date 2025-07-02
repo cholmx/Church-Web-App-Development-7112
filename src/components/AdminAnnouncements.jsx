@@ -15,7 +15,8 @@ const AdminAnnouncements = () => {
   const [formData, setFormData] = useState({
     title: '',
     content: '',
-    author: ''
+    author: '',
+    announcement_date: ''
   });
 
   useEffect(() => {
@@ -27,7 +28,7 @@ const AdminAnnouncements = () => {
       const { data, error } = await supabase
         .from('announcements_portal123')
         .select('*')
-        .order('created_at', { ascending: false });
+        .order('announcement_date', { ascending: false });
 
       if (error) throw error;
       setAnnouncements(data || []);
@@ -46,7 +47,8 @@ const AdminAnnouncements = () => {
       const announcementData = {
         title: formData.title,
         content: formData.content, // Save exactly what's in the editor
-        author: formData.author
+        author: formData.author,
+        announcement_date: formData.announcement_date || new Date().toISOString().split('T')[0]
       };
 
       if (editingId) {
@@ -67,7 +69,8 @@ const AdminAnnouncements = () => {
       setFormData({
         title: '',
         content: '',
-        author: ''
+        author: '',
+        announcement_date: ''
       });
       setEditingId(null);
       setShowForm(false);
@@ -84,7 +87,8 @@ const AdminAnnouncements = () => {
     setFormData({
       title: announcement.title,
       content: announcement.content, // Load exactly what's stored
-      author: announcement.author || ''
+      author: announcement.author || '',
+      announcement_date: announcement.announcement_date || ''
     });
     setEditingId(announcement.id);
     setShowForm(true);
@@ -111,7 +115,8 @@ const AdminAnnouncements = () => {
     setFormData({
       title: '',
       content: '',
-      author: ''
+      author: '',
+      announcement_date: ''
     });
     setEditingId(null);
     setShowForm(false);
@@ -121,6 +126,15 @@ const AdminAnnouncements = () => {
     setFormData({
       ...formData,
       content: e.target.value // Save exactly what's in the editor
+    });
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
     });
   };
 
@@ -148,18 +162,32 @@ const AdminAnnouncements = () => {
           className="bg-white rounded-lg shadow-md p-6"
         >
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
-                Title *
-              </label>
-              <input
-                type="text"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                required
-                className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
-                placeholder="Announcement title"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                  Title *
+                </label>
+                <input
+                  type="text"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  required
+                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+                  placeholder="Announcement title"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                  Date *
+                </label>
+                <input
+                  type="date"
+                  value={formData.announcement_date}
+                  onChange={(e) => setFormData({ ...formData, announcement_date: e.target.value })}
+                  required
+                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+                />
+              </div>
             </div>
 
             <div>
@@ -229,13 +257,13 @@ const AdminAnnouncements = () => {
                     <h3 className="text-lg font-semibold text-secondary font-inter mb-2">
                       {announcement.title}
                     </h3>
-                    <div 
+                    <div
                       className="text-secondary font-inter text-sm mb-2 prose prose-sm max-w-none rendered-content"
                       dangerouslySetInnerHTML={{ __html: announcement.content }}
                     />
                     <div className="text-sm text-secondary-light font-inter">
                       {announcement.author && `By ${announcement.author} • `}
-                      {new Date(announcement.created_at).toLocaleDateString()}
+                      {announcement.announcement_date ? formatDate(announcement.announcement_date) : formatDate(announcement.created_at)}
                     </div>
                   </div>
                   <div className="flex space-x-2 ml-4">

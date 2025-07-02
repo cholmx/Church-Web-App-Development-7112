@@ -5,10 +5,10 @@ import SafeIcon from '../common/SafeIcon';
 import RichTextEditor from './RichTextEditor';
 import supabase from '../lib/localStorage';
 
-const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiCalendar, FiExternalLink } = FiIcons;
+const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiBookOpen, FiExternalLink } = FiIcons;
 
-const AdminEvents = () => {
-  const [events, setEvents] = useState([]);
+const AdminClasses = () => {
+  const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
   const [showForm, setShowForm] = useState(false);
@@ -19,20 +19,20 @@ const AdminEvents = () => {
   });
 
   useEffect(() => {
-    fetchEvents();
+    fetchClasses();
   }, []);
 
-  const fetchEvents = async () => {
+  const fetchClasses = async () => {
     try {
       const { data, error } = await supabase
-        .from('events_portal123')
+        .from('classes_portal123')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setEvents(data || []);
+      setClasses(data || []);
     } catch (error) {
-      console.error('Error fetching events:', error);
+      console.error('Error fetching classes:', error);
     } finally {
       setLoading(false);
     }
@@ -43,7 +43,7 @@ const AdminEvents = () => {
     setLoading(true);
 
     try {
-      const eventData = {
+      const classData = {
         title: formData.title,
         details: formData.details,
         link: formData.link
@@ -51,15 +51,15 @@ const AdminEvents = () => {
 
       if (editingId) {
         const { error } = await supabase
-          .from('events_portal123')
-          .update(eventData)
+          .from('classes_portal123')
+          .update(classData)
           .eq('id', editingId);
 
         if (error) throw error;
       } else {
         const { error } = await supabase
-          .from('events_portal123')
-          .insert([eventData]);
+          .from('classes_portal123')
+          .insert([classData]);
 
         if (error) throw error;
       }
@@ -71,39 +71,39 @@ const AdminEvents = () => {
       });
       setEditingId(null);
       setShowForm(false);
-      fetchEvents();
+      fetchClasses();
     } catch (error) {
-      console.error('Error saving event:', error);
-      alert('Error saving event. Please try again.');
+      console.error('Error saving class:', error);
+      alert('Error saving class. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleEdit = (event) => {
+  const handleEdit = (classItem) => {
     setFormData({
-      title: event.title,
-      details: event.details,
-      link: event.link || ''
+      title: classItem.title,
+      details: classItem.details,
+      link: classItem.link || ''
     });
-    setEditingId(event.id);
+    setEditingId(classItem.id);
     setShowForm(true);
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this event?')) return;
+    if (!confirm('Are you sure you want to delete this class?')) return;
 
     try {
       const { error } = await supabase
-        .from('events_portal123')
+        .from('classes_portal123')
         .delete()
         .eq('id', id);
 
       if (error) throw error;
-      fetchEvents();
+      fetchClasses();
     } catch (error) {
-      console.error('Error deleting event:', error);
-      alert('Error deleting event. Please try again.');
+      console.error('Error deleting class:', error);
+      alert('Error deleting class. Please try again.');
     }
   };
 
@@ -125,15 +125,15 @@ const AdminEvents = () => {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-secondary font-fraunces">
-          Manage Events
+        <h2 className="text-2xl font-bold text-secondary font-inter">
+          Manage Classes
         </h2>
         <button
           onClick={() => setShowForm(true)}
           className="bg-primary text-white px-4 py-2 rounded-lg font-semibold hover:bg-primary-dark transition-colors inline-flex items-center space-x-2 font-inter"
         >
           <SafeIcon icon={FiPlus} className="h-4 w-4" />
-          <span>New Event</span>
+          <span>New Class</span>
         </button>
       </div>
 
@@ -147,7 +147,7 @@ const AdminEvents = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-secondary mb-2 font-inter">
-                Event Title *
+                Class Title *
               </label>
               <input
                 type="text"
@@ -155,35 +155,35 @@ const AdminEvents = () => {
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 required
                 className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
-                placeholder="Event title"
+                placeholder="Class title"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-secondary mb-2 font-inter">
-                Event Details *
+                Class Details *
               </label>
               <RichTextEditor
                 value={formData.details}
                 onChange={handleDetailsChange}
-                placeholder="Enter event description, date, time, location, cost, etc..."
+                placeholder="Enter class description, schedule, requirements, etc..."
                 rows={8}
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-secondary mb-2 font-inter">
-                External Link
+                Registration Link
               </label>
               <input
                 type="url"
                 value={formData.link}
                 onChange={(e) => setFormData({ ...formData, link: e.target.value })}
                 className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
-                placeholder="https://example.com/event-details"
+                placeholder="https://example.com/register"
               />
               <p className="text-sm text-secondary-light mt-1 font-inter">
-                Optional: Add a link to external registration, more info, or related content
+                Optional: Add a link to external registration or more information
               </p>
             </div>
 
@@ -209,55 +209,55 @@ const AdminEvents = () => {
         </motion.div>
       )}
 
-      {/* Events List */}
+      {/* Classes List */}
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         {loading ? (
           <div className="p-8 text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
             <p className="text-secondary font-inter">Loading...</p>
           </div>
-        ) : events.length === 0 ? (
+        ) : classes.length === 0 ? (
           <div className="p-8 text-center">
-            <p className="text-secondary font-inter">No events yet.</p>
+            <p className="text-secondary font-inter">No classes yet.</p>
           </div>
         ) : (
           <div className="divide-y divide-accent">
-            {events.map((event) => (
-              <div key={event.id} className="p-6">
+            {classes.map((classItem) => (
+              <div key={classItem.id} className="p-6">
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-secondary font-fraunces mb-2">
-                      {event.title}
+                    <h3 className="text-lg font-semibold text-secondary font-inter mb-2">
+                      {classItem.title}
                     </h3>
-                    <div className="text-secondary text-sm mb-3 prose prose-sm max-w-none rendered-content"
-                      dangerouslySetInnerHTML={{ __html: event.details }}
+                    <div className="text-secondary font-inter text-sm mb-2 prose prose-sm max-w-none rendered-content"
+                      dangerouslySetInnerHTML={{ __html: classItem.details }}
                     />
-                    {event.link && (
-                      <div className="mb-3">
+                    {classItem.link && (
+                      <div className="mb-2">
                         <a
-                          href={event.link}
+                          href={classItem.link}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center space-x-1 text-primary hover:text-primary-dark font-inter text-sm underline"
                         >
                           <SafeIcon icon={FiExternalLink} className="h-3 w-3" />
-                          <span>External Link</span>
+                          <span>Registration Link</span>
                         </a>
                       </div>
                     )}
                     <div className="text-sm text-secondary-light font-inter">
-                      Created: {new Date(event.created_at).toLocaleDateString()}
+                      Created: {new Date(classItem.created_at).toLocaleDateString()}
                     </div>
                   </div>
                   <div className="flex space-x-2 ml-4">
                     <button
-                      onClick={() => handleEdit(event)}
+                      onClick={() => handleEdit(classItem)}
                       className="p-2 text-primary hover:bg-primary hover:text-white rounded-lg transition-colors"
                     >
                       <SafeIcon icon={FiEdit} className="h-4 w-4" />
                     </button>
                     <button
-                      onClick={() => handleDelete(event.id)}
+                      onClick={() => handleDelete(classItem.id)}
                       className="p-2 text-red-500 hover:bg-red-500 hover:text-white rounded-lg transition-colors"
                     >
                       <SafeIcon icon={FiTrash2} className="h-4 w-4" />
@@ -273,4 +273,4 @@ const AdminEvents = () => {
   );
 };
 
-export default AdminEvents;
+export default AdminClasses;

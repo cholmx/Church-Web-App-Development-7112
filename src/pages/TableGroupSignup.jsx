@@ -22,7 +22,10 @@ const TableGroupSignup = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const handleDayToggle = (day) => {
@@ -122,18 +125,20 @@ const TableGroupSignup = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="flex items-center justify-center space-x-4 mb-6"
+            className="flex items-center justify-center space-x-4 mb-3"
           >
-            <SafeIcon icon={FiUsers} className="h-12 w-12 text-primary" />
-            <h1 className="text-4xl md:text-5xl font-bold text-secondary">
-              Table Group Sign-Up
-            </h1>
+            <SafeIcon icon={FiUsers} className="h-8 w-8 text-primary" />
+            <Link to="/" className="hover:text-primary transition-colors">
+              <h1 className="text-3xl md:text-4xl font-bold text-secondary">
+                Table Group Sign-Up
+              </h1>
+            </Link>
           </motion.div>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl text-secondary"
+            className="text-lg text-secondary"
           >
             Complete this quick form, and we'll be in touch soon.
           </motion.p>

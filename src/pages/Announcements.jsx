@@ -70,18 +70,20 @@ const Announcements = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="flex items-center justify-center space-x-4 mb-6"
+            className="flex items-center justify-center space-x-4 mb-3"
           >
-            <SafeIcon icon={FiBell} className="h-12 w-12 text-primary" />
-            <h1 className="text-4xl md:text-5xl font-bold text-secondary font-inter">
-              Announcements
-            </h1>
+            <SafeIcon icon={FiBell} className="h-8 w-8 text-primary" />
+            <Link to="/" className="hover:text-primary transition-colors">
+              <h1 className="text-3xl md:text-4xl font-bold text-secondary font-inter">
+                Announcements
+              </h1>
+            </Link>
           </motion.div>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl text-secondary font-inter"
+            className="text-lg text-secondary font-inter"
           >
             Stay updated with the latest church news and events
           </motion.p>
@@ -116,9 +118,8 @@ const Announcements = () => {
                       </span>
                     </div>
                   </div>
-
                   <div className="prose max-w-none">
-                    <div 
+                    <div
                       className="text-secondary leading-relaxed force-inter-tight font-inter preserve-formatting rendered-content"
                       dangerouslySetInnerHTML={{ __html: announcement.content }}
                       style={{
@@ -128,7 +129,6 @@ const Announcements = () => {
                       }}
                     />
                   </div>
-
                   {announcement.author && (
                     <div className="mt-6 pt-4 border-t border-accent flex items-center space-x-2">
                       <SafeIcon icon={FiUser} className="h-4 w-4 text-secondary-light" />

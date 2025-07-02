@@ -19,7 +19,6 @@ const ShinePodcast = () => {
 
   const fetchPodcastData = async () => {
     setLoading(true);
-    
     try {
       const data = await podcastRSSService.getEpisodes();
       setPodcastData(data);
@@ -87,12 +86,14 @@ const ShinePodcast = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="flex items-center justify-center space-x-4 mb-6"
+            className="flex items-center justify-center space-x-4 mb-3"
           >
-            <SafeIcon icon={FiMic} className="h-12 w-12 text-primary" />
-            <h1 className="text-4xl md:text-5xl font-bold text-secondary font-fraunces">
-              Shine Podcast
-            </h1>
+            <SafeIcon icon={FiMic} className="h-8 w-8 text-primary" />
+            <Link to="/" className="hover:text-primary transition-colors">
+              <h1 className="text-3xl md:text-4xl font-bold text-secondary font-fraunces">
+                Shine Podcast
+              </h1>
+            </Link>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -100,7 +101,7 @@ const ShinePodcast = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex items-center justify-center space-x-4"
           >
-            <p className="text-xl text-secondary font-inter">
+            <p className="text-lg text-secondary font-inter">
               Listen to our latest podcast episodes
             </p>
             <button
@@ -113,51 +114,12 @@ const ShinePodcast = () => {
           </motion.div>
         </div>
 
-        {/* Channel Info */}
-        {podcastData.channel && (
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="bg-white rounded-lg shadow-md p-6 mb-8"
-          >
-            <div className="flex items-start space-x-6">
-              {podcastData.channel.image && (
-                <img
-                  src={podcastData.channel.image}
-                  alt="Shine Podcast"
-                  className="w-24 h-24 rounded-lg object-cover"
-                  onError={(e) => {
-                    e.target.src = 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&h=400&fit=crop';
-                  }}
-                />
-              )}
-              <div className="flex-1">
-                <h2 className="text-2xl font-bold text-secondary mb-2 font-fraunces">
-                  {podcastData.channel.title || 'Shine Podcast'}
-                </h2>
-                {podcastData.channel.description && (
-                  <p className="text-secondary font-inter mb-4">
-                    {stripHtml(podcastData.channel.description)}
-                  </p>
-                )}
-                {podcastData.channel.author && (
-                  <p className="text-secondary-light font-inter">
-                    By {podcastData.channel.author}
-                  </p>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        )}
-
         {/* Episodes List */}
         {podcastData.episodes && podcastData.episodes.length > 0 && (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-secondary font-fraunces">
               Episodes ({podcastData.episodes.length})
             </h2>
-            
             {podcastData.episodes.map((episode, index) => (
               <motion.div
                 key={episode.id}
@@ -178,7 +140,6 @@ const ShinePodcast = () => {
                         }}
                       />
                     )}
-                    
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between mb-2">
                         <h3 className="text-lg font-semibold text-secondary font-fraunces">
@@ -194,7 +155,6 @@ const ShinePodcast = () => {
                           </button>
                         )}
                       </div>
-                      
                       <div className="flex items-center space-x-4 text-sm text-secondary-light mb-3">
                         {episode.pubDate && (
                           <div className="flex items-center space-x-1">
@@ -209,13 +169,11 @@ const ShinePodcast = () => {
                           </div>
                         )}
                       </div>
-                      
                       {episode.summary && (
                         <p className="text-secondary mb-4 font-inter">
                           {truncateText(stripHtml(episode.summary))}
                         </p>
                       )}
-                      
                       <div className="flex items-center space-x-4">
                         {episode.audioUrl ? (
                           <button
