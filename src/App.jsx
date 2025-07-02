@@ -1,6 +1,5 @@
 import { HashRouter as Router, Routes, Route } from 'react-router-dom'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
+import Layout from './components/Layout'
 import Home from './pages/Home'
 import About from './pages/About'
 import Services from './pages/Services'
@@ -17,31 +16,42 @@ import ClassRegistration from './pages/ClassRegistration'
 import JoinRealm from './pages/JoinRealm'
 import Resources from './pages/Resources'
 import Admin from './pages/Admin'
+import NotFound from './pages/NotFound'
 import './App.css'
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-accent">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<><Navbar /><About /><Footer /></>} />
-          <Route path="/services" element={<><Navbar /><Services /><Footer /></>} />
-          <Route path="/events" element={<><Navbar /><Events /><Footer /></>} />
-          <Route path="/ministries" element={<><Navbar /><Ministries /><Footer /></>} />
-          <Route path="/announcements" element={<Announcements />} />
-          <Route path="/sermon-blog" element={<SermonBlog />} />
-          <Route path="/shine-podcast" element={<ShinePodcast />} />
-          <Route path="/table-group-signup" element={<TableGroupSignup />} />
-          <Route path="/event-registration" element={<EventRegistration />} />
-          <Route path="/class-registration" element={<ClassRegistration />} />
-          <Route path="/give" element={<Give />} />
-          <Route path="/join-realm" element={<JoinRealm />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/resources" element={<Resources />} />
-          <Route path="/admin" element={<Admin />} />
-        </Routes>
-      </div>
+      <Routes>
+        {/* Home page - no nav/footer if it has its own layout */}
+        <Route path="/" element={<Home />} />
+        
+        {/* Main pages with full layout */}
+        <Route path="/about" element={<Layout><About /></Layout>} />
+        <Route path="/services" element={<Layout><Services /></Layout>} />
+        <Route path="/events" element={<Layout><Events /></Layout>} />
+        <Route path="/ministries" element={<Layout><Ministries /></Layout>} />
+        <Route path="/give" element={<Layout><Give /></Layout>} />
+        <Route path="/contact" element={<Layout><Contact /></Layout>} />
+        <Route path="/resources" element={<Layout><Resources /></Layout>} />
+        
+        {/* Pages that might need different layouts */}
+        <Route path="/announcements" element={<Layout><Announcements /></Layout>} />
+        <Route path="/sermon-blog" element={<Layout><SermonBlog /></Layout>} />
+        <Route path="/shine-podcast" element={<Layout><ShinePodcast /></Layout>} />
+        
+        {/* Registration/signup pages */}
+        <Route path="/table-group-signup" element={<Layout><TableGroupSignup /></Layout>} />
+        <Route path="/event-registration" element={<Layout><EventRegistration /></Layout>} />
+        <Route path="/class-registration" element={<Layout><ClassRegistration /></Layout>} />
+        <Route path="/join-realm" element={<Layout><JoinRealm /></Layout>} />
+        
+        {/* Admin page - no nav/footer for clean admin interface */}
+        <Route path="/admin" element={<Layout showNav={false} showFooter={false}><Admin /></Layout>} />
+        
+        {/* 404 page */}
+        <Route path="*" element={<Layout><NotFound /></Layout>} />
+      </Routes>
     </Router>
   )
 }
