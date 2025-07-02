@@ -85,6 +85,13 @@
   .announcement-content b {
     font-weight: 700 !important;
   }
+
+  /* Discussion questions background for sermon blog */
+  .discussion-questions-section,
+  .discussion-questions,
+  .discussion-bg {
+    background-color: #F3F1E6 !important;
+  }
 }
 
 @layer utilities {
