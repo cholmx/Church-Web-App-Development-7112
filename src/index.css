@@ -2,67 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import Inter Tight font */
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap');
-
-/* Reset and base styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* CSS Custom Properties for easier maintenance */
+:root {
+  --font-family: 'Inter Tight', sans-serif;
+  --text-color: #5f5f5a;
 }
 
-/* Base font styles - Inter Tight Medium for all text */
-html, body, * {
-  font-family: 'Inter Tight', sans-serif;
-  font-weight: 500;
-  color: #5f5f5a;
+/* Use Tailwind's @layer for better integration */
+@layer base {
+  /* Reset and base styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-family);
+    font-weight: 500;
+    color: var(--text-color);
+  }
+
+  /* Headings - Bold weight */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+  }
+
+  /* Strong/bold text */
+  strong, b {
+    font-weight: 700;
+  }
+
+  /* Italic text */
+  em, i {
+    font-style: italic;
+  }
+
+  /* Lists inherit base styles automatically */
+  ul, ol {
+    /* No need to redefine - inherits from * */
+  }
 }
 
-/* All body text and content - Inter Tight Medium */
-body, p, span, div, a, button, input, textarea, select, label, li, td, th, 
-.prose, .prose *, .announcement-content, .announcement-content *, 
-.rendered-content, .rendered-content *, .discussion-questions-section * {
-  font-family: 'Inter Tight', sans-serif;
-  font-weight: 500;
-  color: #5f5f5a;
+@layer components {
+  /* White text overrides for colored backgrounds */
+  .text-white,
+  .text-white *,
+  .bg-primary *,
+  .bg-secondary * {
+    color: white !important;
+  }
 }
 
-/* All headings - Inter Tight Bold */
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Inter Tight', sans-serif;
-  font-weight: 700;
-  color: #5f5f5a;
-}
-
-/* Lists */
-ul, ol {
-  font-family: 'Inter Tight', sans-serif;
-  font-weight: 500;
-  color: #5f5f5a;
-}
-
-/* Strong/bold text */
-strong, b {
-  font-family: 'Inter Tight', sans-serif;
-  font-weight: 700;
-  color: #5f5f5a;
-}
-
-/* Italic text */
-em, i {
-  font-family: 'Inter Tight', sans-serif;
-  font-weight: 500;
-  font-style: italic;
-  color: #5f5f5a;
-}
-
-/* Override any white text on colored backgrounds to remain white */
-.text-white, .text-white *, .bg-primary *, .bg-secondary * {
-  color: white !important;
-}
-
-/* Keep icon colors as they are */
-svg {
-  color: inherit;
+@layer utilities {
+  /* Preserve icon colors */
+  svg {
+    color: inherit;
+  }
 }
