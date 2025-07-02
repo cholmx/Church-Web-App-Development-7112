@@ -46,7 +46,7 @@ const AdminAnnouncements = () => {
     try {
       const announcementData = {
         title: formData.title,
-        content: formData.content, // Save exactly what's in the editor
+        content: formData.content,
         author: formData.author,
         announcement_date: formData.announcement_date || new Date().toISOString().split('T')[0]
       };
@@ -86,7 +86,7 @@ const AdminAnnouncements = () => {
   const handleEdit = (announcement) => {
     setFormData({
       title: announcement.title,
-      content: announcement.content, // Load exactly what's stored
+      content: announcement.content,
       author: announcement.author || '',
       announcement_date: announcement.announcement_date || ''
     });
@@ -123,10 +123,7 @@ const AdminAnnouncements = () => {
   };
 
   const handleContentChange = (e) => {
-    setFormData({
-      ...formData,
-      content: e.target.value // Save exactly what's in the editor
-    });
+    setFormData({ ...formData, content: e.target.value });
   };
 
   const formatDate = (dateString) => {
@@ -254,16 +251,23 @@ const AdminAnnouncements = () => {
               <div key={announcement.id} className="p-6">
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-secondary font-inter mb-2">
+                    <h3 className="text-2xl text-secondary mb-2"
+                        style={{ 
+                          fontFamily: 'Inter Tight, sans-serif',
+                          fontWeight: 'bold'
+                        }}>
                       {announcement.title}
                     </h3>
                     <div
-                      className="text-secondary font-inter text-sm mb-2 prose prose-sm max-w-none rendered-content"
+                      className="announcement-content text-sm mb-2 prose prose-sm max-w-none"
                       dangerouslySetInnerHTML={{ __html: announcement.content }}
                     />
                     <div className="text-sm text-secondary-light font-inter">
                       {announcement.author && `By ${announcement.author} • `}
-                      {announcement.announcement_date ? formatDate(announcement.announcement_date) : formatDate(announcement.created_at)}
+                      {announcement.announcement_date 
+                        ? formatDate(announcement.announcement_date) 
+                        : formatDate(announcement.created_at)
+                      }
                     </div>
                   </div>
                   <div className="flex space-x-2 ml-4">

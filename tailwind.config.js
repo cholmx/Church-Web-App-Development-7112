@@ -19,8 +19,8 @@ export default {
         'accent-light': '#F7F5F0',
         'accent-dark': '#EFECD5',
         // Custom text color
-        'text-custom': '#484846',
-        // Discussion questions background - Updated to new color
+        'text-custom': '#5f5f5a',
+        // Discussion questions background
         'discussion-bg': '#f9f9f4',
         // Additional secondary color variations
         'secondary-50': '#F0F4F4',

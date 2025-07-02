@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import RichTextEditor from './RichTextEditor';
-import supabase from '../lib/localStorage';
+import supabase from '../lib/supabase';
 
 const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiBookOpen, FiUpload, FiDownload } = FiIcons;
 

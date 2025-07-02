@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
-import supabase from '../lib/localStorage';
+import supabase from '../lib/supabase';
 
 const { FiBookOpen, FiRefreshCw } = FiIcons;
 
@@ -84,7 +84,7 @@ const DailyScripture = () => {
         </div>
 
         <div className="space-y-3">
-          <div 
+          <div
             className="text-secondary leading-relaxed scripture-text"
             style={{
               fontFamily: 'Inter Tight, sans-serif',
@@ -96,7 +96,6 @@ const DailyScripture = () => {
           >
             <div dangerouslySetInnerHTML={{ __html: currentScripture.verse_text }} />
           </div>
-          
           <div className="text-right">
             <span className="text-primary font-semibold font-inter">
               - {currentScripture.reference}

@@ -2,177 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base styles */
+/* Import Inter Tight font */
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap');
+
+/* Reset and base styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Inter Tight', sans-serif !important;
-  letter-spacing: 1.3px !important;
-  color: #484846 !important; /* Global text color */
 }
 
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #484846 !important;
+/* Base font styles - Inter Tight Medium for all text */
+html, body, * {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  color: #5f5f5a;
 }
 
-/* Paragraph styling - 16px Inter Tight Medium with 1.3px character spacing */
-p,
-p[style],
-.rendered-content p,
-.prose p,
-div[style] p,
-*[style*="font-"] p {
-  font-family: 'Inter Tight', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: 500 !important;
-  letter-spacing: 1.3px !important;
-  line-height: 1.6 !important;
-  margin-bottom: 1rem;
-  color: #484846 !important;
+/* All body text and content - Inter Tight Medium */
+body, p, span, div, a, button, input, textarea, select, label, li, td, th, 
+.prose, .prose *, .announcement-content, .announcement-content *, 
+.rendered-content, .rendered-content *, .discussion-questions-section * {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  color: #5f5f5a;
 }
 
-p:last-child {
-  margin-bottom: 0;
+/* All headings - Inter Tight Bold */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 700;
+  color: #5f5f5a;
 }
 
-/* Scripture text styling - smaller 14px Inter Tight Medium with default spacing */
-.scripture-text,
-.scripture-text *,
-.scripture-text p,
-.scripture-text div {
-  font-family: 'Inter Tight', sans-serif !important;
-  font-size: 14px !important;
-  font-weight: 500 !important;
-  letter-spacing: normal !important;
-  line-height: 1.6 !important;
-  color: #484846 !important;
-  margin-bottom: 0 !important;
+/* Lists */
+ul, ol {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  color: #5f5f5a;
 }
 
-/* Override CSS variables */
-:root {
-  --brz-paragraphfontfamily: 'Inter Tight', sans-serif !important;
-  --brz-paragraphfontsize: 16px !important;
-  --brz-paragraphfontweight: 500 !important;
-  --brz-paragraphletterspacing: 1.3px !important;
-  --brz-paragraphlineheight: 1.6 !important;
+/* Strong/bold text */
+strong, b {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 700;
+  color: #5f5f5a;
 }
 
-/* Rendered content styling */
-.rendered-content {
-  line-height: 1.6;
-  color: #484846 !important;
-}
-
-.rendered-content * {
-  color: #484846 !important;
-}
-
-.rendered-content ul,
-.rendered-content ol {
-  margin: 1rem 0;
-  padding-left: 2rem;
-}
-
-.rendered-content li {
-  margin-bottom: 0.5rem;
-  line-height: 1.6;
-  color: #484846 !important;
-}
-
-.rendered-content h1,
-.rendered-content h2,
-.rendered-content h3,
-.rendered-content h4,
-.rendered-content h5,
-.rendered-content h6 {
-  margin: 1rem 0;
-  font-weight: bold;
-  color: #484846 !important;
-}
-
-.rendered-content strong,
-.rendered-content b {
-  font-weight: bold;
-  color: #484846 !important;
-}
-
-.rendered-content em,
-.rendered-content i {
+/* Italic text */
+em, i {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
   font-style: italic;
-  color: #484846 !important;
+  color: #5f5f5a;
 }
 
-/* Discussion Questions Background - Updated to #f9f9f4 */
-.discussion-questions-section {
-  background-color: #f9f9f4 !important;
-}
-
-.discussion-questions-section * {
-  background-color: #f9f9f4 !important;
-  color: #484846 !important;
-}
-
-.discussion-questions-section .rendered-content {
-  background-color: #f9f9f4 !important;
-}
-
-.discussion-questions-section .rendered-content * {
-  background-color: #f9f9f4 !important;
-  color: #484846 !important;
-}
-
-.discussion-questions-section .rendered-content p,
-.discussion-questions-section .rendered-content div,
-.discussion-questions-section .rendered-content ol,
-.discussion-questions-section .rendered-content ul,
-.discussion-questions-section .rendered-content li {
-  background-color: #f9f9f4 !important;
-  color: #484846 !important;
-}
-
-/* Rich text editor styling */
-.rich-text-editor p {
-  font-family: 'Inter Tight', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: 500 !important;
-  letter-spacing: 1.3px !important;
-  line-height: 1.6 !important;
-  color: #484846 !important;
-}
-
-.rich-text-editor:empty:before {
-  content: attr(data-placeholder);
-  color: #9CA3AF;
-  font-style: italic;
-}
-
-kbd {
-  background-color: #f1f1f1;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  padding: 1px 4px;
-  font-size: 0.85rem;
-  color: #484846 !important;
-}
-
-/* Ensure all text elements use the custom color */
-h1, h2, h3, h4, h5, h6, span, div, a, button, input, textarea, select, label, li, td, th {
-  color: #484846 !important;
-}
-
-/* Special cases for white text on colored backgrounds */
-.bg-primary *,
-.bg-secondary *,
-.text-white,
-.text-primary-light {
+/* Override any white text on colored backgrounds to remain white */
+.text-white, .text-white *, .bg-primary *, .bg-secondary * {
   color: white !important;
 }
 
-/* Icon colors should remain as they are */
+/* Keep icon colors as they are */
 svg {
-  color: inherit !important;
+  color: inherit;
 }

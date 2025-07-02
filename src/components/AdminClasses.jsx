@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import RichTextEditor from './RichTextEditor';
-import supabase from '../lib/localStorage';
+import supabase from '../lib/supabase';
 
 const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiBookOpen, FiExternalLink } = FiIcons;
 
@@ -64,11 +64,7 @@ const AdminClasses = () => {
         if (error) throw error;
       }
 
-      setFormData({
-        title: '',
-        details: '',
-        link: ''
-      });
+      setFormData({ title: '', details: '', link: '' });
       setEditingId(null);
       setShowForm(false);
       fetchClasses();
@@ -108,11 +104,7 @@ const AdminClasses = () => {
   };
 
   const handleCancel = () => {
-    setFormData({
-      title: '',
-      details: '',
-      link: ''
-    });
+    setFormData({ title: '', details: '', link: '' });
     setEditingId(null);
     setShowForm(false);
   };
@@ -229,7 +221,8 @@ const AdminClasses = () => {
                     <h3 className="text-lg font-semibold text-secondary font-inter mb-2">
                       {classItem.title}
                     </h3>
-                    <div className="text-secondary font-inter text-sm mb-2 prose prose-sm max-w-none rendered-content"
+                    <div
+                      className="text-secondary font-inter text-sm mb-2 prose prose-sm max-w-none rendered-content"
                       dangerouslySetInnerHTML={{ __html: classItem.details }}
                     />
                     {classItem.link && (
