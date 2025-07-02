@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import DailyScripture from '../components/DailyScripture';
-import supabase from '../lib/localStorage';
+import supabase from '../lib/supabase'; // Fixed import
 
 const {
   FiBell,
@@ -240,12 +240,12 @@ const Home = () => {
               onError={(e) => {
                 // Fallback to text logo if image fails to load
                 e.target.style.display = 'none';
-                e.target.nextSibling.style.display = 'flex';
+                e.target.nextElementSibling.style.display = 'flex';
               }}
             />
-            <div className="hidden items-center space-x-4">
+            <div className="hidden items-center space-x-4" style={{display: 'none'}}>
               <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-lg font-inter">URF</span>
+                <span className="text-white font-bold text-lg">URF</span>
               </div>
               <h1 className="text-4xl md:text-5xl font-bold text-secondary">
                 Upper Room Fellowship
