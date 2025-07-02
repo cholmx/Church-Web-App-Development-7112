@@ -36,9 +36,7 @@ export default {
       },
       fontFamily: {
         'sans': ['Inter Tight', 'sans-serif'],
-        'serif': ['Inter Tight', 'sans-serif'],
         'inter': ['Inter Tight', 'sans-serif'],
-        'fraunces': ['Inter Tight', 'sans-serif'],
       },
     },
   },
