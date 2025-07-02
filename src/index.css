@@ -1,59 +1,38 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* CSS Custom Properties for easier maintenance */
-:root {
-  --font-family: 'Inter Tight', sans-serif;
-  --text-color: #5f5f5a;
-}
-
-/* Use Tailwind's @layer for better integration */
-@layer base {
-  /* Reset and base styles */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: var(--font-family);
-    font-weight: 500;
-    color: var(--text-color);
-  }
-
-  /* Headings - Bold weight */
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
-  }
-
-  /* Strong/bold text */
-  strong, b {
-    font-weight: 700;
-  }
-
-  /* Italic text */
-  em, i {
-    font-style: italic;
-  }
-
-  /* Lists inherit base styles automatically */
-  ul, ol {
-    /* No need to redefine - inherits from * */
-  }
-}
-
-@layer components {
-  /* White text overrides for colored backgrounds */
-  .text-white,
-  .text-white *,
-  .bg-primary *,
-  .bg-secondary * {
-    color: white !important;
-  }
-}
-
-@layer utilities {
-  /* Preserve icon colors */
-  svg {
-    color: inherit;
-  }
-}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Upper Room Fellowship - A welcoming church community dedicated to faith, fellowship, and service." />
+    <meta name="keywords" content="church, fellowship, community, faith, worship, ministry, events, Upper Room" />
+    <meta name="author" content="Upper Room Fellowship" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://soft-sopapillas-ca9bee.netlify.app/" />
+    <meta property="og:title" content="Upper Room Fellowship" />
+    <meta property="og:description" content="A welcoming church community dedicated to faith, fellowship, and service." />
+    <meta property="og:image" content="/logo.png" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://soft-sopapillas-ca9bee.netlify.app/" />
+    <meta property="twitter:title" content="Upper Room Fellowship" />
+    <meta property="twitter:description" content="A welcoming church community dedicated to faith, fellowship, and service." />
+    <meta property="twitter:image" content="/logo.png" />
+    
+    <title>Upper Room Fellowship</title>
+    
+    <!-- Font Loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
