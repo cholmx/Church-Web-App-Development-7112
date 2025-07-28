@@ -8,18 +8,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
       /* Ensure Inter Tight loads first */
-      * {
-        font-family: "Inter Tight", sans-serif !important;
-        letter-spacing: 0px !important;
-      }
+      * {font-family: "Inter Tight", sans-serif !important;}
       
-      /* Make all titles bold by default */
-      h1, h2, h3, h4, h5, h6,
-      .text-xl, .text-2xl, .text-3xl, .text-4xl, .text-5xl, .text-6xl,
-      [class*="title"], [class*="heading"], .font-semibold, .font-bold {
-        font-weight: 700 !important;
+      /* Direct Fraunces override with -2.5px letter spacing */
+      .font-fraunces, 
+      [class*="font-fraunces"], 
+      .fraunces-tagline, 
+      .page-subtitle {
+        font-family: 'Fraunces', serif !important;
+        letter-spacing: -2.5px !important;
       }
     </style>
   </head>

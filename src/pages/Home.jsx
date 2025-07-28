@@ -3,31 +3,16 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
-import DailyScripture from '../components/DailyScripture';
-import supabase from '../lib/supabase'; // Fixed import
+import supabase from '../lib/supabase';
 
-const {
-  FiBell,
-  FiPlay,
-  FiMic,
-  FiUsers,
-  FiCreditCard,
-  FiUserPlus,
-  FiMail,
-  FiCalendar,
-  FiBookOpen,
-  FiSettings,
-  FiFacebook,
-  FiInstagram,
-  FiYoutube,
-} = FiIcons;
+const { FiBell, FiPlay, FiMic, FiUsers, FiCreditCard, FiUserPlus, FiMail, FiCalendar, FiBookOpen, FiSettings, FiFacebook, FiInstagram, FiYoutube } = FiIcons;
 
 const Home = () => {
   const [hasEvents, setHasEvents] = useState(false);
   const [hasClasses, setHasClasses] = useState(false);
   const [hasResources, setHasResources] = useState(false);
-  const [hasScriptures, setHasScriptures] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [logoError, setLogoError] = useState(false);
 
   useEffect(() => {
     checkAvailability();
@@ -48,24 +33,23 @@ const Home = () => {
         .limit(1);
 
       // Check for resources
-      const resourcesData = localStorage.getItem('resources_portal123');
-      const resources = resourcesData ? JSON.parse(resourcesData) : null;
-
-      // Check for scriptures
-      const { data: scriptures } = await supabase
-        .from('daily_scriptures_portal123')
+      const { data: resources } = await supabase
+        .from('resources_portal123')
         .select('id')
         .limit(1);
 
       setHasEvents(events && events.length > 0);
       setHasClasses(classes && classes.length > 0);
-      setHasResources(resources && resources.length > 0 && resources[0].amazon_link);
-      setHasScriptures(scriptures && scriptures.length > 0);
+      setHasResources(resources && resources.length > 0);
     } catch (error) {
       console.error('Error checking availability:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleLogoError = () => {
+    setLogoError(true);
   };
 
   // Core buttons that always appear (first row)
@@ -103,7 +87,7 @@ const Home = () => {
       ? [
           {
             title: 'Resources',
-            description: 'Books and materials',
+            description: 'Books and helpful materials',
             icon: FiBookOpen,
             path: '/resources',
           },
@@ -162,8 +146,10 @@ const Home = () => {
   if (hasEvents || hasClasses || hasResources) {
     // First row: Core buttons (3 buttons)
     allButtons = [...coreButtons];
-    // Second row: Give + Events/Classes/Resources
+
+    // Second row: Give + Resources/Events/Classes
     allButtons = [...allButtons, ...secondRowButtons];
+
     // Third row: Bottom buttons (3 buttons)
     allButtons = [...allButtons, ...bottomButtons];
   } else {
@@ -223,7 +209,7 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-accent py-12">
+    <div className="min-h-screen py-12" style={{ backgroundColor: '#fcfaf2' }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-8">
@@ -231,54 +217,39 @@ const Home = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="flex items-center justify-center space-x-4 mb-3"
+            className="flex flex-col items-center justify-center mb-2"
           >
-            <img
-              src="/logo.png"
-              alt="Upper Room Fellowship"
-              className="h-16 w-auto"
-              onError={(e) => {
-                // Fallback to text logo if image fails to load
-                e.target.style.display = 'none';
-                e.target.nextElementSibling.style.display = 'flex';
-              }}
-            />
-            <div className="hidden items-center space-x-4" style={{display: 'none'}}>
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-lg">URF</span>
+            {!logoError ? (
+              <img
+                src="/logo.png"
+                alt="Upper Room Fellowship"
+                className="h-16 w-auto mb-4"
+                onError={handleLogoError}
+              />
+            ) : (
+              <div className="mb-4">
+                {/* Fallback content if logo fails to load */}
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-secondary">
-                Upper Room Fellowship
-              </h1>
-            </div>
+            )}
+            <h1 className="text-4xl md:text-5xl font-bold text-secondary font-inter">
+              Upper Room Fellowship
+            </h1>
           </motion.div>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl text-secondary"
+            className="text-xl text-secondary font-inter font-bold"
           >
             Your hub for church life and community connection
           </motion.p>
         </div>
 
-        {/* Daily Scripture */}
-        {hasScriptures && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="mb-12"
-          >
-            <DailyScripture />
-          </motion.div>
-        )}
-
         {/* Social Media Icons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
           className="flex justify-center space-x-6 mb-12"
         >
           {socialLinks.map((social, index) => (
@@ -289,8 +260,8 @@ const Home = () => {
               rel="noopener noreferrer"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-              className={`text-primary ${social.hoverColor} transition-colors duration-300 transform hover:scale-110`}
+              transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+              className="text-social-green hover:text-secondary transition-colors duration-300 transform hover:scale-110"
               title={`Follow us on ${social.name}`}
             >
               <SafeIcon icon={social.icon} className="h-8 w-8" />
@@ -309,16 +280,32 @@ const Home = () => {
             >
               <Link
                 to={button.path}
-                className="bg-white text-secondary p-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 block text-center group border border-gray-200 h-full flex flex-col justify-center items-center min-h-[200px]"
+                className="relative overflow-hidden text-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 block text-center group border border-gray-200 h-full flex flex-col justify-center items-center min-h-[200px]"
+                style={{
+                  background: 'linear-gradient(135deg, #506E6E 0%, #406060 100%)',
+                }}
               >
-                <SafeIcon
-                  icon={button.icon}
-                  className="h-12 w-12 mx-auto mb-4 text-secondary group-hover:text-primary group-hover:scale-110 transition-all duration-300"
-                />
-                <h3 className="text-xl font-semibold mb-2 text-secondary">
-                  {button.title}
-                </h3>
-                <p className="text-sm text-secondary opacity-75">{button.description}</p>
+                {/* Gradient overlay for hover effect */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{
+                    background: 'linear-gradient(135deg, #E2BA49 0%, #F0C660 100%)',
+                  }}
+                ></div>
+
+                {/* Content */}
+                <div className="relative z-10">
+                  <SafeIcon
+                    icon={button.icon}
+                    className="h-12 w-12 mx-auto mb-4 text-yellow-400 group-hover:text-white group-hover:scale-110 transition-all duration-300"
+                  />
+                  <h3 className="text-xl font-bold mb-2 text-white font-inter">
+                    {button.title}
+                  </h3>
+                  <p className="text-sm text-gray-200 group-hover:text-white font-inter">
+                    {button.description}
+                  </p>
+                </div>
               </Link>
             </motion.div>
           ))}

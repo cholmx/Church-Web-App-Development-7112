@@ -41,7 +41,7 @@ const AdminPodcast = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSaving(true)
-    
+
     try {
       const podcastData = [{
         id: '1',
@@ -50,7 +50,7 @@ const AdminPodcast = () => {
         description: formData.description,
         updated_at: new Date().toISOString()
       }]
-      
+
       localStorage.setItem('podcast_portal123', JSON.stringify(podcastData))
       alert('Podcast updated successfully!')
     } catch (error) {
@@ -63,7 +63,10 @@ const AdminPodcast = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
   }
 
   if (loading) {

@@ -1,5 +1,4 @@
 // Local storage utility for church portal data
-
 class LocalStorageDB {
   constructor() {
     this.initializeData();
@@ -185,13 +184,8 @@ class MockSupabase {
     return {
       select: () => ({
         order: (column, orderOptions = {}) => ({
-          limit: (limitCount) => this.db.select(table, {
-            order: { column, ascending: orderOptions.ascending !== false },
-            limit: limitCount
-          }),
-          then: (callback) => this.db.select(table, {
-            order: { column, ascending: orderOptions.ascending !== false }
-          }).then(callback)
+          limit: (limitCount) => this.db.select(table, { order: { column, ascending: orderOptions.ascending !== false }, limit: limitCount }),
+          then: (callback) => this.db.select(table, { order: { column, ascending: orderOptions.ascending !== false } }).then(callback)
         }),
         limit: (limitCount) => this.db.select(table, { limit: limitCount }),
         then: (callback) => this.db.select(table).then(callback)

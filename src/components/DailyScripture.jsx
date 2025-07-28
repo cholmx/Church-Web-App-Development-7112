@@ -1,38 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React,{useState,useEffect} from 'react';
+import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
 
-const { FiBookOpen, FiRefreshCw } = FiIcons;
+const {FiBookOpen,FiRefreshCw}=FiIcons;
 
-const DailyScripture = () => {
-  const [currentScripture, setCurrentScripture] = useState(null);
-  const [loading, setLoading] = useState(true);
+const DailyScripture=()=> {
+  const [currentScripture,setCurrentScripture]=useState(null);
+  const [loading,setLoading]=useState(true);
 
-  useEffect(() => {
+  useEffect(()=> {
     fetchTodaysScripture();
-  }, []);
+  },[]);
 
-  const fetchTodaysScripture = async () => {
+  const fetchTodaysScripture=async ()=> {
     try {
-      const { data, error } = await supabase
+      const {data,error}=await supabase
         .from('daily_scriptures_portal123')
         .select('*')
-        .order('created_at', { ascending: true });
+        .order('created_at',{ascending: true});
 
       if (error) throw error;
 
       if (data && data.length > 0) {
         // Calculate which verse to show based on days since epoch
-        const daysSinceEpoch = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
-        const scriptureIndex = daysSinceEpoch % data.length;
+        const daysSinceEpoch=Math.floor(Date.now() / (1000 * 60 * 60 * 24));
+        const scriptureIndex=daysSinceEpoch % data.length;
         setCurrentScripture(data[scriptureIndex]);
       } else {
         setCurrentScripture(null);
       }
     } catch (error) {
-      console.error('Error fetching daily scripture:', error);
+      console.error('Error fetching daily scripture:',error);
       setCurrentScripture(null);
     } finally {
       setLoading(false);
@@ -42,8 +42,8 @@ const DailyScripture = () => {
   if (loading) {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{opacity: 0,y: 20}}
+        animate={{opacity: 1,y: 0}}
         className="bg-white rounded-lg shadow-md p-6"
       >
         <div className="animate-pulse">
@@ -61,9 +61,9 @@ const DailyScripture = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
+      initial={{opacity: 0,y: 20}}
+      animate={{opacity: 1,y: 0}}
+      transition={{duration: 0.8}}
       className="bg-white rounded-lg shadow-md overflow-hidden border-l-4 border-primary"
     >
       <div className="p-6">
@@ -76,7 +76,7 @@ const DailyScripture = () => {
           </div>
           <button
             onClick={fetchTodaysScripture}
-            className="p-1 text-gray-400 hover:text-primary transition-colors"
+            className="p-1 text-secondary hover:text-primary transition-colors"
             title="Refresh"
           >
             <SafeIcon icon={FiRefreshCw} className="h-4 w-4" />
@@ -90,14 +90,13 @@ const DailyScripture = () => {
               fontFamily: 'Inter Tight, sans-serif',
               fontSize: '14px',
               fontWeight: '500',
-              lineHeight: '1.6',
-              color: '#484846'
+              lineHeight: '1.6'
             }}
           >
-            <div dangerouslySetInnerHTML={{ __html: currentScripture.verse_text }} />
+            <div dangerouslySetInnerHTML={{__html: currentScripture.verse_text}} />
           </div>
           <div className="text-right">
-            <span className="text-primary font-semibold font-inter">
+            <span className="text-secondary font-semibold font-inter">
               - {currentScripture.reference}
             </span>
           </div>

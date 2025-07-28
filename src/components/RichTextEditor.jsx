@@ -6,11 +6,40 @@ const RichTextEditor = ({ value, onChange, placeholder, rows = 12, className = '
   useEffect(() => {
     if (editorRef.current && value !== editorRef.current.innerHTML) {
       editorRef.current.innerHTML = value || ''
+      // Clean up inline styles after content is set
+      cleanupInlineStyles()
     }
   }, [value])
 
+  const cleanupInlineStyles = () => {
+    if (!editorRef.current) return
+    
+    // Remove problematic inline styles from all elements
+    const elements = editorRef.current.querySelectorAll('*')
+    elements.forEach(element => {
+      if (element.style) {
+        // Keep only essential styles, remove font-related ones
+        const display = element.style.display
+        const float = element.style.float
+        
+        // Clear all styles
+        element.removeAttribute('style')
+        
+        // Restore only essential layout styles if needed
+        if (display === 'inline' || display === 'block') {
+          element.style.display = display
+        }
+        if (float && float !== 'none') {
+          element.style.float = float
+        }
+      }
+    })
+  }
+
   const handleInput = () => {
     if (editorRef.current && onChange) {
+      // Clean up styles before saving
+      cleanupInlineStyles()
       onChange({ target: { value: editorRef.current.innerHTML } })
     }
   }
@@ -25,7 +54,18 @@ const RichTextEditor = ({ value, onChange, placeholder, rows = 12, className = '
       if (selection.rangeCount > 0) {
         const range = selection.getRangeAt(0)
         range.deleteContents()
-        const fragment = document.createRange().createContextualFragment(paste)
+        
+        // Create a temporary div to clean the pasted content
+        const tempDiv = document.createElement('div')
+        tempDiv.innerHTML = paste
+        
+        // Remove all inline styles from pasted content
+        const elements = tempDiv.querySelectorAll('*')
+        elements.forEach(element => {
+          element.removeAttribute('style')
+        })
+        
+        const fragment = document.createRange().createContextualFragment(tempDiv.innerHTML)
         range.insertNode(fragment)
         range.collapse(false)
         selection.removeAllRanges()
@@ -71,7 +111,6 @@ const RichTextEditor = ({ value, onChange, placeholder, rows = 12, className = '
         💡 <strong>Tip:</strong> Paste formatted text directly! Bold, italics, lists, and paragraphs will be preserved. 
         Press <kbd>Enter</kbd> for new paragraph, <kbd>Shift+Enter</kbd> for line break.
       </div>
-      
       <div
         ref={editorRef}
         contentEditable={true}

@@ -8,7 +8,6 @@ import AdminSermons from '../components/AdminSermons';
 import AdminEvents from '../components/AdminEvents';
 import AdminClasses from '../components/AdminClasses';
 import AdminResources from '../components/AdminResources';
-import AdminScriptures from '../components/AdminScriptures';
 
 const { FiSettings, FiBell, FiPlay, FiCalendar, FiBookOpen, FiHome, FiLock } = FiIcons;
 
@@ -18,7 +17,7 @@ const Admin = () => {
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('announcements');
 
-  const ADMIN_PASSWORD = 'admin123'; // You can change this to any password you want
+  const ADMIN_PASSWORD = 'urf500admin'; // Updated password
 
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
@@ -37,7 +36,6 @@ const Admin = () => {
     { id: 'events', label: 'Events', icon: FiCalendar },
     { id: 'classes', label: 'Classes', icon: FiBookOpen },
     { id: 'resources', label: 'Resources', icon: FiBookOpen },
-    { id: 'scriptures', label: 'Daily Scripture', icon: FiBookOpen }
   ];
 
   const renderContent = () => {
@@ -52,8 +50,6 @@ const Admin = () => {
         return <AdminClasses />;
       case 'resources':
         return <AdminResources />;
-      case 'scriptures':
-        return <AdminScriptures />;
       default:
         return <AdminAnnouncements />;
     }
@@ -62,24 +58,25 @@ const Admin = () => {
   // Password protection screen
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-accent py-12 flex items-center justify-center">
+      <div className="min-h-screen py-12 flex items-center justify-center relative" style={{ backgroundColor: '#fcfaf2' }}>
+        {/* Back to Home Button - Top Right */}
+        <div className="fixed top-6 right-6 z-50">
+          <Link
+            to="/"
+            className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
+            style={{ backgroundColor: '#83A682' }}
+            title="Back to Home"
+          >
+            <SafeIcon icon={FiHome} className="h-5 w-5 text-white" />
+          </Link>
+        </div>
+
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
           className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full mx-4"
         >
-          {/* Home Link */}
-          <div className="mb-6">
-            <Link
-              to="/"
-              className="inline-flex items-center space-x-2 text-primary hover:text-primary-dark transition-colors font-inter"
-            >
-              <SafeIcon icon={FiHome} className="h-4 w-4" />
-              <span>Back to Home</span>
-            </Link>
-          </div>
-
           <div className="text-center mb-6">
             <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
               <SafeIcon icon={FiLock} className="h-8 w-8 text-white" />
@@ -128,19 +125,20 @@ const Admin = () => {
 
   // Main admin dashboard (shown after authentication)
   return (
-    <div className="min-h-screen bg-accent py-12">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Home Link */}
-        <div className="mb-6">
-          <Link
-            to="/"
-            className="inline-flex items-center space-x-2 text-primary hover:text-primary-dark transition-colors"
-          >
-            <SafeIcon icon={FiHome} className="h-4 w-4" />
-            <span>Back to Home</span>
-          </Link>
-        </div>
+    <div className="min-h-screen py-12 relative" style={{ backgroundColor: '#fcfaf2' }}>
+      {/* Back to Home Button - Top Right */}
+      <div className="fixed top-6 right-6 z-50">
+        <Link
+          to="/"
+          className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
+          style={{ backgroundColor: '#83A682' }}
+          title="Back to Home"
+        >
+          <SafeIcon icon={FiHome} className="h-5 w-5 text-white" />
+        </Link>
+      </div>
 
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
           <motion.div

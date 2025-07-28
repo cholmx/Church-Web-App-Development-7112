@@ -9,15 +9,15 @@ export default {
       colors: {
         primary: '#E2BA49',
         secondary: '#304E4E',
-        accent: '#F3F1E6',
+        accent: '#fcfaf2',
         white: '#FFFFFF',
         // Additional shades for better design flexibility
         'primary-light': '#E8C461',
         'primary-dark': '#D4A632',
         'secondary-light': '#4A6B6B',
         'secondary-dark': '#1F3333',
-        'accent-light': '#F7F5F0',
-        'accent-dark': '#EFECD5',
+        'accent-light': '#fefcf5',
+        'accent-dark': '#f9f6ed',
         // Custom text color
         'text-custom': '#5f5f5a',
         // Discussion questions background
@@ -33,6 +33,8 @@ export default {
         'secondary-700': '#243B3B',
         'secondary-800': '#1F3333',
         'secondary-900': '#1A2C2C',
+        // Social media icon color
+        'social-green': '#83A682',
       },
       fontFamily: {
         'sans': ['Inter Tight', 'sans-serif'],
@@ -41,4 +43,6 @@ export default {
     },
   },
   plugins: [],
+  // Important: This ensures all Tailwind utilities get !important
+  important: true,
 }

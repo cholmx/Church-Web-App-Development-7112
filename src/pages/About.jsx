@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import {Link} from 'react-router-dom';
+import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 
-const { FiHeart, FiUsers, FiBookOpen, FiTarget, FiHome } = FiIcons;
+const {FiHeart, FiUsers, FiBookOpen, FiTarget, FiHome} = FiIcons;
 
 const About = () => {
   const values = [
@@ -52,15 +52,11 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-accent">
-      {/* Home Link */}
-      <div className="pt-6 px-4 sm:px-6 lg:px-8">
-        <Link
-          to="/"
-          className="inline-flex items-center space-x-2 text-primary hover:text-primary-dark transition-colors"
-        >
-          <SafeIcon icon={FiHome} className="h-4 w-4" />
-          <span>Back to Home</span>
+    <div className="min-h-screen relative" style={{backgroundColor: '#fcfaf2'}}>
+      {/* Back to Home Button - Top Right */}
+      <div className="fixed top-6 right-6 z-50">
+        <Link to="/" className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105" style={{backgroundColor: '#83A682'}} title="Back to Home">
+          <SafeIcon icon={FiHome} className="h-5 w-5 text-white" />
         </Link>
       </div>
 
@@ -68,18 +64,18 @@ const About = () => {
       <section className="py-20 bg-gradient-to-r from-primary to-secondary text-white">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={{opacity: 0, y: 30}}
+            animate={{opacity: 1, y: 0}}
+            transition={{duration: 0.8}}
             className="text-4xl md:text-6xl font-bold mb-6 font-inter"
           >
             About Upper Room Fellowship
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl text-primary-light font-inter"
+            initial={{opacity: 0, y: 30}}
+            animate={{opacity: 1, y: 0}}
+            transition={{duration: 0.8, delay: 0.2}}
+            className="text-xl text-primary-light page-subtitle"
           >
             Discover our story, mission, and the heart behind our church community
           </motion.p>
@@ -91,7 +87,7 @@ const About = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-6 font-inter">Our Story</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-6 font-fraunces">Our Story</h2>
               <p className="text-lg text-secondary mb-4 font-inter">
                 Upper Room Fellowship was founded in 1985 with a simple vision: to create a place where people from all walks of life could come together to worship, grow, and serve God.
               </p>
@@ -114,27 +110,27 @@ const About = () => {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-16 bg-accent">
+      <section className="py-16" style={{backgroundColor: '#fcfaf2'}}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              initial={{opacity: 0, x: -30}}
+              animate={{opacity: 1, x: 0}}
+              transition={{duration: 0.8}}
               className="bg-white p-8 rounded-lg shadow-md"
             >
-              <h3 className="text-2xl font-bold text-secondary mb-4 font-inter">Our Mission</h3>
+              <h3 className="text-2xl font-bold text-secondary mb-4 font-fraunces">Our Mission</h3>
               <p className="text-secondary text-lg font-inter">
                 To make disciples of Jesus Christ who love God, love people, and serve the world with passion and purpose. We exist to help people find and follow Jesus.
               </p>
             </motion.div>
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              initial={{opacity: 0, x: 30}}
+              animate={{opacity: 1, x: 0}}
+              transition={{duration: 0.8, delay: 0.2}}
               className="bg-white p-8 rounded-lg shadow-md"
             >
-              <h3 className="text-2xl font-bold text-secondary mb-4 font-inter">Our Vision</h3>
+              <h3 className="text-2xl font-bold text-secondary mb-4 font-fraunces">Our Vision</h3>
               <p className="text-secondary text-lg font-inter">
                 To be a church that transforms lives and communities through the power of God's love, creating a lasting impact for generations to come.
               </p>
@@ -147,20 +143,21 @@ const About = () => {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4 font-inter">Our Core Values</h2>
-            <p className="text-xl text-secondary font-inter">The principles that guide everything we do</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4 font-fraunces">Our Core Values</h2>
+            <p className="text-xl text-secondary page-subtitle">The principles that guide everything we do</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="text-center p-6 bg-accent rounded-lg hover:shadow-md transition-shadow"
+                initial={{opacity: 0, y: 30}}
+                animate={{opacity: 1, y: 0}}
+                transition={{duration: 0.5, delay: index * 0.1}}
+                className="text-center p-6 rounded-lg hover:shadow-md transition-shadow"
+                style={{backgroundColor: '#fcfaf2'}}
               >
                 <SafeIcon icon={value.icon} className="h-12 w-12 text-secondary mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-3 text-secondary font-inter">{value.title}</h3>
+                <h3 className="text-xl font-semibold mb-3 text-secondary font-fraunces">{value.title}</h3>
                 <p className="text-secondary font-inter">{value.description}</p>
               </motion.div>
             ))}
@@ -169,28 +166,24 @@ const About = () => {
       </section>
 
       {/* Staff Section */}
-      <section className="py-16 bg-accent">
+      <section className="py-16" style={{backgroundColor: '#fcfaf2'}}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4 font-inter">Meet Our Team</h2>
-            <p className="text-xl text-secondary font-inter">The dedicated leaders serving our church family</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4 font-fraunces">Meet Our Team</h2>
+            <p className="text-xl text-secondary page-subtitle">The dedicated leaders serving our church family</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {staff.map((member, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                initial={{opacity: 0, y: 30}}
+                animate={{opacity: 1, y: 0}}
+                transition={{duration: 0.5, delay: index * 0.1}}
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
               >
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-full h-64 object-cover"
-                />
+                <img src={member.image} alt={member.name} className="w-full h-64 object-cover" />
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-1 text-secondary font-inter">{member.name}</h3>
+                  <h3 className="text-xl font-semibold mb-1 text-secondary font-fraunces">{member.name}</h3>
                   <p className="text-primary font-medium mb-3 font-inter">{member.role}</p>
                   <p className="text-secondary font-inter">{member.bio}</p>
                 </div>

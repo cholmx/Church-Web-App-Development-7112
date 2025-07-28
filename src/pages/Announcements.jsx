@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import React, {useState, useEffect} from 'react';
+import {Link} from 'react-router-dom';
+import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
+import {useCleanContent} from '../hooks/useCleanContent';
 import supabase from '../lib/supabase';
 
-const { FiBell, FiCalendar, FiUser, FiHome } = FiIcons;
+const {FiBell, FiCalendar, FiUser, FiHome} = FiIcons;
 
 const Announcements = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Use the custom hook to clean inline styles
+  useCleanContent();
 
   useEffect(() => {
     fetchAnnouncements();
@@ -17,11 +21,10 @@ const Announcements = () => {
 
   const fetchAnnouncements = async () => {
     try {
-      const { data, error } = await supabase
+      const {data, error} = await supabase
         .from('announcements_portal123')
         .select('*')
-        .order('announcement_date', { ascending: false });
-
+        .order('announcement_date', {ascending: false});
       if (error) throw error;
       setAnnouncements(data || []);
     } catch (error) {
@@ -42,7 +45,7 @@ const Announcements = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-accent py-12 flex items-center justify-center">
+      <div className="min-h-screen py-12 flex items-center justify-center" style={{backgroundColor: '#fcfaf2'}}>
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p>Loading announcements...</p>
@@ -52,25 +55,21 @@ const Announcements = () => {
   }
 
   return (
-    <div className="min-h-screen bg-accent py-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Home Link */}
-        <div className="mb-6">
-          <Link
-            to="/"
-            className="inline-flex items-center space-x-2 text-primary hover:text-primary-dark transition-colors"
-          >
-            <SafeIcon icon={FiHome} className="h-4 w-4" />
-            <span>Back to Home</span>
-          </Link>
-        </div>
+    <div className="min-h-screen py-12 relative" style={{backgroundColor: '#fcfaf2'}}>
+      {/* Back to Home Button - Top Right */}
+      <div className="fixed top-6 right-6 z-50">
+        <Link to="/" className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105" style={{backgroundColor: '#83A682'}} title="Back to Home">
+          <SafeIcon icon={FiHome} className="h-5 w-5 text-white" />
+        </Link>
+      </div>
 
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={{opacity: 0, y: 30}}
+            animate={{opacity: 1, y: 0}}
+            transition={{duration: 0.8}}
             className="flex items-center justify-center space-x-4 mb-3"
           >
             <SafeIcon icon={FiBell} className="h-8 w-8 text-primary" />
@@ -81,10 +80,10 @@ const Announcements = () => {
             </Link>
           </motion.div>
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg"
+            initial={{opacity: 0, y: 30}}
+            animate={{opacity: 1, y: 0}}
+            transition={{duration: 0.8, delay: 0.2}}
+            className="text-lg page-subtitle"
           >
             Stay updated with the latest church news and events
           </motion.p>
@@ -102,33 +101,26 @@ const Announcements = () => {
             announcements.map((announcement, index) => (
               <motion.div
                 key={announcement.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                initial={{opacity: 0, y: 30}}
+                animate={{opacity: 1, y: 0}}
+                transition={{duration: 0.5, delay: index * 0.1}}
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
               >
                 <div className="p-8">
                   <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-3xl md:text-4xl font-bold leading-tight">
+                    <h2 className="text-3xl md:text-4xl leading-tight font-fraunces">
                       {announcement.title}
                     </h2>
                     <div className="flex items-center space-x-2 text-gray-500">
                       <SafeIcon icon={FiCalendar} className="h-4 w-4" />
                       <span className="text-sm">
-                        {announcement.announcement_date
-                          ? formatDate(announcement.announcement_date)
-                          : formatDate(announcement.created_at)}
+                        {announcement.announcement_date ? formatDate(announcement.announcement_date) : formatDate(announcement.created_at)}
                       </span>
                     </div>
                   </div>
-
                   <div className="prose max-w-none">
-                    <div
-                      className="announcement-content"
-                      dangerouslySetInnerHTML={{ __html: announcement.content }}
-                    />
+                    <div className="announcement-content" dangerouslySetInnerHTML={{__html: announcement.content}} />
                   </div>
-
                   {announcement.author && (
                     <div className="mt-6 pt-4 border-t border-accent flex items-center space-x-2">
                       <SafeIcon icon={FiUser} className="h-4 w-4 text-gray-400" />

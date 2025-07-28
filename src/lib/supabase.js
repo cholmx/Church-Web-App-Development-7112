@@ -20,18 +20,18 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   }
 })
 
-// Test connection and log status
+// Test connection
 const testConnection = async () => {
   try {
     const { data, error } = await supabase
       .from('announcements_portal123')
       .select('count', { count: 'exact', head: true })
-    
+
     if (error) {
       console.error('Supabase connection error:', error)
       return false
     }
-    
+
     console.log('✅ Supabase connected successfully')
     return true
   } catch (error) {

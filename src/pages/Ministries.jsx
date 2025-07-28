@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import {Link} from 'react-router-dom';
+import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 
-const { FiUsers, FiHeart, FiBookOpen, FiMusic, FiTarget, FiGift, FiHome } = FiIcons;
+const {FiUsers, FiHeart, FiBookOpen, FiMusic, FiTarget, FiGift, FiHome} = FiIcons;
 
 const Ministries = () => {
   const ministries = [
@@ -95,15 +95,11 @@ const Ministries = () => {
   };
 
   return (
-    <div className="min-h-screen bg-accent">
-      {/* Home Link */}
-      <div className="pt-6 px-4 sm:px-6 lg:px-8">
-        <Link
-          to="/"
-          className="inline-flex items-center space-x-2 text-primary hover:text-primary-dark transition-colors"
-        >
-          <SafeIcon icon={FiHome} className="h-4 w-4" />
-          <span>Back to Home</span>
+    <div className="min-h-screen bg-accent relative">
+      {/* Back to Home Button - Top Right */}
+      <div className="fixed top-6 right-6 z-50">
+        <Link to="/" className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105" style={{backgroundColor: '#83A682'}} title="Back to Home">
+          <SafeIcon icon={FiHome} className="h-5 w-5 text-white" />
         </Link>
       </div>
 
@@ -111,18 +107,18 @@ const Ministries = () => {
       <section className="py-20 bg-gradient-to-r from-primary to-secondary text-white">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-bold mb-6 font-fraunces"
+            initial={{opacity: 0, y: 30}}
+            animate={{opacity: 1, y: 0}}
+            transition={{duration: 0.8}}
+            className="text-4xl md:text-6xl font-bold mb-6 font-inter"
           >
             Our Ministries
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl text-primary-light font-inter"
+            initial={{opacity: 0, y: 30}}
+            animate={{opacity: 1, y: 0}}
+            transition={{duration: 0.8, delay: 0.2}}
+            className="text-xl text-primary-light page-subtitle"
           >
             Discover ways to grow, serve, and connect through our various ministry opportunities
           </motion.p>
@@ -136,9 +132,9 @@ const Ministries = () => {
             {ministries.map((ministry, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                initial={{opacity: 0, y: 30}}
+                animate={{opacity: 1, y: 0}}
+                transition={{duration: 0.5, delay: index * 0.1}}
                 className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden"
               >
                 <div className="p-6">
@@ -148,10 +144,10 @@ const Ministries = () => {
                       {ministry.ageGroup}
                     </span>
                   </div>
-                  <h3 className="text-xl font-semibold mb-3 text-secondary font-fraunces">{ministry.title}</h3>
+                  <h3 className="text-xl mb-3 text-secondary font-fraunces">{ministry.title}</h3>
                   <p className="text-secondary mb-4 font-inter">{ministry.description}</p>
                   <div>
-                    <h4 className="font-semibold text-secondary mb-2 font-fraunces">What We Offer:</h4>
+                    <h4 className="text-secondary mb-2 font-fraunces">What We Offer:</h4>
                     <ul className="space-y-1">
                       {ministry.features.map((feature, featureIndex) => (
                         <li key={featureIndex} className="flex items-center space-x-2 text-secondary">
@@ -177,7 +173,7 @@ const Ministries = () => {
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-6 font-fraunces">Ready to Get Involved?</h2>
-          <p className="text-xl text-secondary mb-8 font-inter">
+          <p className="text-xl text-secondary mb-8 page-subtitle">
             Whether you're new to faith or have been walking with Jesus for years, there's a place for you to serve and grow.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
@@ -185,21 +181,21 @@ const Ministries = () => {
               <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
                 <SafeIcon icon={FiUsers} className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-lg font-semibold mb-2 font-fraunces">Connect</h3>
+              <h3 className="text-lg mb-2 font-fraunces">Connect</h3>
               <p className="text-secondary font-inter">Find your community and build meaningful relationships</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
                 <SafeIcon icon={FiBookOpen} className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-lg font-semibold mb-2 font-fraunces">Grow</h3>
+              <h3 className="text-lg mb-2 font-fraunces">Grow</h3>
               <p className="text-secondary font-inter">Deepen your faith through study and discipleship</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
                 <SafeIcon icon={FiHeart} className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-lg font-semibold mb-2 font-fraunces">Serve</h3>
+              <h3 className="text-lg mb-2 font-fraunces">Serve</h3>
               <p className="text-secondary font-inter">Use your gifts to make a difference in others' lives</p>
             </div>
           </div>
@@ -214,7 +210,7 @@ const Ministries = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4 font-fraunces">Ministry Leadership</h2>
-            <p className="text-xl text-secondary font-inter">Meet some of the dedicated leaders serving our church family</p>
+            <p className="text-xl text-secondary page-subtitle">Meet some of the dedicated leaders serving our church family</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
@@ -236,18 +232,14 @@ const Ministries = () => {
             ].map((leader, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                initial={{opacity: 0, y: 30}}
+                animate={{opacity: 1, y: 0}}
+                transition={{duration: 0.5, delay: index * 0.1}}
                 className="bg-white rounded-lg shadow-md overflow-hidden text-center"
               >
-                <img
-                  src={leader.image}
-                  alt={leader.name}
-                  className="w-full h-64 object-cover"
-                />
+                <img src={leader.image} alt={leader.name} className="w-full h-64 object-cover" />
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-1 text-secondary font-fraunces">{leader.name}</h3>
+                  <h3 className="text-xl mb-1 text-secondary font-fraunces">{leader.name}</h3>
                   <p className="text-primary font-medium font-inter">{leader.role}</p>
                 </div>
               </motion.div>

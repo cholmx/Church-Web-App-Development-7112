@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
+import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 
-const { FiCalendar, FiClock, FiMapPin, FiUsers, FiFilter, FiHome } = FiIcons;
+const {FiCalendar, FiClock, FiMapPin, FiUsers, FiFilter, FiHome} = FiIcons;
 
 const Events = () => {
   const [filter, setFilter] = useState('all');
@@ -73,13 +73,13 @@ const Events = () => {
   ];
 
   const categories = [
-    { key: 'all', label: 'All Events' },
-    { key: 'worship', label: 'Worship' },
-    { key: 'prayer', label: 'Prayer' },
-    { key: 'youth', label: 'Youth' },
-    { key: 'family', label: 'Family' },
-    { key: 'outreach', label: 'Outreach' },
-    { key: 'study', label: 'Bible Study' }
+    {key: 'all', label: 'All Events'},
+    {key: 'worship', label: 'Worship'},
+    {key: 'prayer', label: 'Prayer'},
+    {key: 'youth', label: 'Youth'},
+    {key: 'family', label: 'Family'},
+    {key: 'outreach', label: 'Outreach'},
+    {key: 'study', label: 'Bible Study'}
   ];
 
   const filteredEvents = filter === 'all' ? events : events.filter(event => event.category === filter);
@@ -107,15 +107,11 @@ const Events = () => {
   };
 
   return (
-    <div className="min-h-screen bg-accent">
-      {/* Home Link */}
-      <div className="pt-6 px-4 sm:px-6 lg:px-8">
-        <Link
-          to="/"
-          className="inline-flex items-center space-x-2 text-primary hover:text-primary-dark transition-colors"
-        >
-          <SafeIcon icon={FiHome} className="h-4 w-4" />
-          <span>Back to Home</span>
+    <div className="min-h-screen bg-accent relative">
+      {/* Back to Home Button - Top Right */}
+      <div className="fixed top-6 right-6 z-50">
+        <Link to="/" className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105" style={{backgroundColor: '#83A682'}} title="Back to Home">
+          <SafeIcon icon={FiHome} className="h-5 w-5 text-white" />
         </Link>
       </div>
 
@@ -123,18 +119,18 @@ const Events = () => {
       <section className="py-20 bg-gradient-to-r from-primary to-secondary text-white">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-bold mb-6 font-fraunces"
+            initial={{opacity: 0, y: 30}}
+            animate={{opacity: 1, y: 0}}
+            transition={{duration: 0.8}}
+            className="text-4xl md:text-6xl font-bold mb-6 font-inter"
           >
             Upcoming Events
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl text-primary-light font-inter"
+            initial={{opacity: 0, y: 30}}
+            animate={{opacity: 1, y: 0}}
+            transition={{duration: 0.8, delay: 0.2}}
+            className="text-xl text-primary-light page-subtitle"
           >
             Stay connected and grow together through our church events and activities
           </motion.p>
@@ -153,11 +149,7 @@ const Events = () => {
               <button
                 key={category.key}
                 onClick={() => setFilter(category.key)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${
-                  filter === category.key
-                    ? 'bg-primary text-white'
-                    : 'bg-accent text-secondary hover:bg-accent-dark'
-                }`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${filter === category.key ? 'bg-primary text-white' : 'bg-accent text-secondary hover:bg-accent-dark'}`}
               >
                 {category.label}
               </button>
@@ -173,18 +165,14 @@ const Events = () => {
             {filteredEvents.map((event, index) => (
               <motion.div
                 key={event.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                initial={{opacity: 0, y: 30}}
+                animate={{opacity: 1, y: 0}}
+                transition={{duration: 0.5, delay: index * 0.1}}
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
               >
-                <img
-                  src={event.image}
-                  alt={event.title}
-                  className="w-full h-48 object-cover"
-                />
+                <img src={event.image} alt={event.title} className="w-full h-48 object-cover" />
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-3 text-secondary font-fraunces">{event.title}</h3>
+                  <h3 className="text-xl mb-3 text-secondary font-fraunces">{event.title}</h3>
                   <p className="text-secondary mb-4 font-inter">{event.description}</p>
                   <div className="space-y-2 text-sm text-secondary-light">
                     <div className="flex items-center space-x-2">
@@ -220,8 +208,8 @@ const Events = () => {
       {/* Call to Action */}
       <section className="py-16 bg-primary text-white">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 font-fraunces">Stay Connected</h2>
-          <p className="text-xl mb-8 text-primary-light font-inter">
+          <h2 className="text-3xl md:text-4xl mb-4 font-fraunces">Stay Connected</h2>
+          <p className="text-xl mb-8 text-primary-light page-subtitle">
             Don't miss out on upcoming events and opportunities to grow in faith and community.
           </p>
           <div className="space-x-4">
