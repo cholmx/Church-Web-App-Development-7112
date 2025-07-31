@@ -9,6 +9,7 @@ import Contact from './pages/Contact'
 import Announcements from './pages/Announcements'
 import SermonBlog from './pages/SermonBlog'
 import ShinePodcast from './pages/ShinePodcast'
+import SermonPodcast from './pages/SermonPodcast'
 import TableGroupSignup from './pages/TableGroupSignup'
 import EventRegistration from './pages/EventRegistration'
 import ClassRegistration from './pages/ClassRegistration'
@@ -34,6 +35,7 @@ function App() {
           <Route path="/announcements" element={<Announcements />} />
           <Route path="/sermon-blog" element={<SermonBlog />} />
           <Route path="/shine-podcast" element={<ShinePodcast />} />
+          <Route path="/sermon-podcast" element={<SermonPodcast />} />
           <Route path="/table-group-signup" element={<TableGroupSignup />} />
           <Route path="/event-registration" element={<EventRegistration />} />
           <Route path="/class-registration" element={<ClassRegistration />} />

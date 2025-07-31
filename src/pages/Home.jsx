@@ -77,6 +77,12 @@ const Home = () => {
   // Second row buttons
   const secondRowButtons = [
     {
+      title: 'Sermon Podcast',
+      description: 'Listen to our sermon recordings',
+      icon: FiPlay,
+      path: '/sermon-podcast',
+    },
+    {
       title: 'Give',
       description: 'Online giving portal',
       icon: FiCreditCard,
@@ -147,17 +153,21 @@ const Home = () => {
     // First row: Core buttons (3 buttons)
     allButtons = [...coreButtons];
 
-    // Second row: Give + Resources/Events/Classes
+    // Second row: Sermon Podcast, Give + Resources/Events/Classes
     allButtons = [...allButtons, ...secondRowButtons];
 
     // Third row: Bottom buttons (3 buttons)
     allButtons = [...allButtons, ...bottomButtons];
   } else {
-    // No additional content - organize in 2 rows
-    // First row: Announcements, Sermon Blog, Shine Podcast
-    // Second row: Give, Table Group Sign-Up, Join Realm, Contact
+    // No additional content - organize in proper rows
     allButtons = [
       ...coreButtons,
+      {
+        title: 'Sermon Podcast',
+        description: 'Listen to our sermon recordings',
+        icon: FiPlay,
+        path: '/sermon-podcast',
+      },
       {
         title: 'Give',
         description: 'Online giving portal',
@@ -282,7 +292,7 @@ const Home = () => {
                 to={button.path}
                 className="relative overflow-hidden text-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 block text-center group border border-gray-200 h-full flex flex-col justify-center items-center min-h-[200px]"
                 style={{
-                  background: 'linear-gradient(135deg, #506E6E 0%, #406060 100%)',
+                  background: 'linear-gradient(135deg, #2c4747 0%, #1a2a2a 100%)',
                 }}
               >
                 {/* Gradient overlay for hover effect */}

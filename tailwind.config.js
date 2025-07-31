@@ -7,13 +7,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#E2BA49',
+        primary: '#2c4747',
         secondary: '#304E4E',
         accent: '#fcfaf2',
         white: '#FFFFFF',
         // Additional shades for better design flexibility
-        'primary-light': '#E8C461',
-        'primary-dark': '#D4A632',
+        'primary-light': '#3e5d5d',
+        'primary-dark': '#1a2a2a',
         'secondary-light': '#4A6B6B',
         'secondary-dark': '#1F3333',
         'accent-light': '#fefcf5',

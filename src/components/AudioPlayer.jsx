@@ -106,7 +106,6 @@ const AudioPlayer = ({ episode, onClose }) => {
 
   const formatTime = (time) => {
     if (isNaN(time)) return '0:00';
-    
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
@@ -121,29 +120,20 @@ const AudioPlayer = ({ episode, onClose }) => {
       exit={{ opacity: 0, y: 20 }}
       className="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-accent z-50"
     >
-      <audio
-        ref={audioRef}
-        src={episode.audioUrl}
-        preload="metadata"
-      />
-      
+      <audio ref={audioRef} src={episode.audioUrl} preload="metadata" />
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center space-x-4">
           {/* Episode Info */}
           <div className="flex items-center space-x-3 min-w-0 flex-1">
             {episode.image && (
-              <img
-                src={episode.image}
-                alt={episode.title}
-                className="w-12 h-12 rounded-lg object-cover"
-              />
+              <img src={episode.image} alt={episode.title} className="w-12 h-12 rounded-lg object-cover" />
             )}
             <div className="min-w-0 flex-1">
               <h4 className="font-semibold text-secondary font-fraunces truncate">
                 {episode.title}
               </h4>
               <p className="text-sm text-secondary-light font-inter">
-                Shine Podcast
+                Sermon Podcast
               </p>
             </div>
           </div>
@@ -157,11 +147,11 @@ const AudioPlayer = ({ episode, onClose }) => {
             >
               <SafeIcon icon={FiSkipBack} className="h-5 w-5" />
             </button>
-
             <button
               onClick={togglePlay}
               disabled={loading || !episode.audioUrl}
               className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center hover:bg-primary-dark transition-colors disabled:opacity-50"
+              style={{ backgroundColor: '#2c4747' }}
             >
               {loading ? (
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
@@ -169,7 +159,6 @@ const AudioPlayer = ({ episode, onClose }) => {
                 <SafeIcon icon={isPlaying ? FiPause : FiPlay} className="h-6 w-6" />
               )}
             </button>
-
             <button
               onClick={() => skipTime(30)}
               className="p-2 text-secondary hover:text-primary transition-colors"
@@ -189,7 +178,7 @@ const AudioPlayer = ({ episode, onClose }) => {
               >
                 <div
                   className="h-full bg-primary rounded-full transition-all"
-                  style={{ width: `${progressPercent}%` }}
+                  style={{ width: `${progressPercent}%`, backgroundColor: '#2c4747' }}
                 />
               </div>
               <span>{formatTime(duration)}</span>
@@ -216,10 +205,7 @@ const AudioPlayer = ({ episode, onClose }) => {
           </div>
 
           {/* Close */}
-          <button
-            onClick={onClose}
-            className="p-2 text-secondary hover:text-primary transition-colors"
-          >
+          <button onClick={onClose} className="p-2 text-secondary hover:text-primary transition-colors">
             <SafeIcon icon={FiIcons.FiX} className="h-5 w-5" />
           </button>
         </div>
