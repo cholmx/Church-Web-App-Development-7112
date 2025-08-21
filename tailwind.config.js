@@ -37,8 +37,9 @@ export default {
         'social-green': '#83A682',
       },
       fontFamily: {
-        'sans': ['Inter Tight', 'sans-serif'],
-        'inter': ['Inter Tight', 'sans-serif'],
+        'sans': ['Inter', 'sans-serif'],
+        'inter': ['Inter', 'sans-serif'],
+        'inter-tight': ['Inter Tight', 'sans-serif'],
       },
     },
   },
