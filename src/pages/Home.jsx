@@ -52,8 +52,32 @@ const Home = () => {
     setLogoError(true);
   };
 
-  // Core buttons that always appear (first row)
-  const coreButtons = [
+  // Featured buttons at the top (Classes and Events)
+  const featuredButtons = [
+    ...(hasClasses
+      ? [
+          {
+            title: 'Classes',
+            description: 'Available church classes',
+            icon: FiBookOpen,
+            path: '/class-registration',
+          },
+        ]
+      : []),
+    ...(hasEvents
+      ? [
+          {
+            title: 'Events',
+            description: 'Upcoming church events',
+            icon: FiCalendar,
+            path: '/event-registration',
+          },
+        ]
+      : []),
+  ];
+
+  // All other buttons in one grid (including Table Groups back in regular buttons)
+  const allButtons = [
     {
       title: 'Announcements',
       description: 'Latest church news and updates',
@@ -72,15 +96,17 @@ const Home = () => {
       icon: FiMic,
       path: '/shine-podcast',
     },
-  ];
-
-  // Second row buttons
-  const secondRowButtons = [
     {
       title: 'Sermon Podcast',
       description: 'Listen to our sermon recordings',
       icon: FiPlay,
       path: '/sermon-podcast',
+    },
+    {
+      title: 'Table Group Sign-Up',
+      description: 'Join a small group',
+      icon: FiUsers,
+      path: '/table-group-signup',
     },
     {
       title: 'Give',
@@ -99,38 +125,6 @@ const Home = () => {
           },
         ]
       : []),
-    // Conditionally include event registration
-    ...(hasEvents
-      ? [
-          {
-            title: 'Events',
-            description: 'Upcoming church events',
-            icon: FiCalendar,
-            path: '/event-registration',
-          },
-        ]
-      : []),
-    // Conditionally include class registration
-    ...(hasClasses
-      ? [
-          {
-            title: 'Classes',
-            description: 'Available church classes',
-            icon: FiBookOpen,
-            path: '/class-registration',
-          },
-        ]
-      : []),
-  ];
-
-  // Bottom row buttons (always at bottom)
-  const bottomButtons = [
-    {
-      title: 'Table Group Sign-Up',
-      description: 'Join a small group',
-      icon: FiUsers,
-      path: '/table-group-signup',
-    },
     {
       title: 'Join Realm',
       description: 'Become a member',
@@ -144,58 +138,6 @@ const Home = () => {
       path: '/contact',
     },
   ];
-
-  // Calculate how many rows we need
-  let allButtons = [];
-
-  // If we have additional content, organize in proper rows
-  if (hasEvents || hasClasses || hasResources) {
-    // First row: Core buttons (3 buttons)
-    allButtons = [...coreButtons];
-
-    // Second row: Sermon Podcast, Give + Resources/Events/Classes
-    allButtons = [...allButtons, ...secondRowButtons];
-
-    // Third row: Bottom buttons (3 buttons)
-    allButtons = [...allButtons, ...bottomButtons];
-  } else {
-    // No additional content - organize in proper rows
-    allButtons = [
-      ...coreButtons,
-      {
-        title: 'Sermon Podcast',
-        description: 'Listen to our sermon recordings',
-        icon: FiPlay,
-        path: '/sermon-podcast',
-      },
-      {
-        title: 'Give',
-        description: 'Online giving portal',
-        icon: FiCreditCard,
-        path: '/give',
-      },
-      {
-        title: 'Table Group Sign-Up',
-        description: 'Join a small group',
-        icon: FiUsers,
-        path: '/table-group-signup',
-      },
-      {
-        title: 'Join Realm',
-        description: 'Become a member',
-        icon: FiUserPlus,
-        path: '/join-realm',
-      },
-    ];
-
-    // Add contact as the last button
-    allButtons.push({
-      title: 'Contact',
-      description: 'Get in touch with us',
-      icon: FiMail,
-      path: '/contact',
-    });
-  }
 
   const socialLinks = [
     {
@@ -279,53 +221,102 @@ const Home = () => {
           ))}
         </motion.div>
 
-        {/* Portal Buttons Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {allButtons.map((button, index) => (
-            <motion.div
-              key={`${button.title}-${index}`}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.7 + index * 0.1 }}
-            >
-              <Link
-                to={button.path}
-                className="relative overflow-hidden text-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 block text-center group border border-gray-200 h-full flex flex-col justify-center items-center min-h-[200px]"
-                style={{
-                  background: 'linear-gradient(135deg, #2c4747 0%, #1a2a2a 100%)',
-                }}
-              >
-                {/* Gradient overlay for hover effect */}
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{
-                    background: 'linear-gradient(135deg, #E2BA49 0%, #F0C660 100%)',
-                  }}
-                ></div>
+        {/* FEATURED SECTION - Classes and Events (15% Bigger) */}
+        {featuredButtons.length > 0 && (
+          <div className="mb-12">
+            <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
+              {featuredButtons.map((button, index) => (
+                <motion.div
+                  key={`featured-${button.title}-${index}`}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
+                  className="flex-shrink-0"
+                >
+                  <Link
+                    to={button.path}
+                    className="relative overflow-hidden text-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 block text-center group border-2 border-yellow-400 h-full flex flex-col justify-center items-center w-[253px] h-[161px]"
+                    style={{
+                      background: 'linear-gradient(135deg, #E2BA49 0%, #F0C660 100%)',
+                    }}
+                  >
+                    {/* Gradient overlay for hover effect */}
+                    <div
+                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      style={{
+                        background: 'linear-gradient(135deg, #2c4747 0%, #1a2a2a 100%)',
+                      }}
+                    ></div>
 
-                {/* Content */}
-                <div className="relative z-10">
-                  <SafeIcon
-                    icon={button.icon}
-                    className="h-12 w-12 mx-auto mb-4 text-yellow-400 group-hover:text-white group-hover:scale-110 transition-all duration-300"
-                  />
-                  <h3 className="text-xl font-bold mb-2 text-white font-inter">
-                    {button.title}
-                  </h3>
-                  <p className="text-sm text-gray-200 group-hover:text-white font-inter">
-                    {button.description}
-                  </p>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+                    {/* Content */}
+                    <div className="relative z-10">
+                      <SafeIcon
+                        icon={button.icon}
+                        className="h-8 w-8 mx-auto mb-3 text-white group-hover:text-yellow-400 group-hover:scale-110 transition-all duration-300"
+                      />
+                      <h3 className="text-sm font-bold mb-1 text-white font-inter leading-tight">
+                        {button.title}
+                      </h3>
+                      <p className="text-xs text-white opacity-90 font-inter leading-tight">
+                        {button.description}
+                      </p>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ALL OTHER BUTTONS SECTION - 3x3 Grid Layout */}
+        <div className="mb-8">
+          <div className="grid grid-cols-3 gap-4 max-w-3xl mx-auto">
+            {allButtons.map((button, index) => (
+              <motion.div
+                key={`button-${button.title}-${index}`}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.7 + index * 0.05 }}
+              >
+                <Link
+                  to={button.path}
+                  className="relative overflow-hidden text-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 block text-center group border border-gray-200 h-full flex flex-col justify-center items-center w-full h-[161px]"
+                  style={{
+                    background: 'linear-gradient(135deg, #2c4747 0%, #1a2a2a 100%)',
+                  }}
+                >
+                  {/* Gradient overlay for hover effect */}
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{
+                      background: 'linear-gradient(135deg, #E2BA49 0%, #F0C660 100%)',
+                    }}
+                  ></div>
+
+                  {/* Content */}
+                  <div className="relative z-10">
+                    <SafeIcon
+                      icon={button.icon}
+                      className="h-8 w-8 mx-auto mb-3 text-yellow-400 group-hover:text-white group-hover:scale-110 transition-all duration-300"
+                    />
+                    <h3 className="text-sm font-bold mb-1 text-white font-inter leading-tight">
+                      {button.title}
+                    </h3>
+                    <p className="text-xs text-gray-200 group-hover:text-white font-inter opacity-80 leading-tight">
+                      {button.description}
+                    </p>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
         </div>
 
         {/* Admin Link */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.5 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
           className="mt-16 text-center"
         >
           <Link

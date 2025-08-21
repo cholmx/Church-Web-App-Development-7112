@@ -10,15 +10,20 @@ export default [
     files: ['**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: { ...globals.browser },
+      globals: {
+        ...globals.browser,
+        ...globals.node
+      },
       parserOptions: {
-        ecmaFeatures: { jsx: true },
-        sourceType: 'module'
-      }
+        ecmaFeatures: {
+          jsx: true,
+        },
+        sourceType: 'module',
+      },
     },
     plugins: {
       'react-hooks': reactHooks,
-      'react-refresh': reactRefresh
+      'react-refresh': reactRefresh,
     },
     rules: {
       'react-hooks/rules-of-hooks': 'error',
@@ -26,6 +31,6 @@ export default [
       'react-refresh/only-export-components': 'off',
       'no-unused-vars': 'off', // Disable unused vars warnings for build
       'no-undef': 'error'
-    }
-  }
+    },
+  },
 ]
