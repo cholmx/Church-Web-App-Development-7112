@@ -72,7 +72,7 @@ path: '/event-registration',
 ] : []),
 ];
 
-// Main buttons (excluding Contact which will be separate)
+// Main buttons (including Contact for desktop)
 const mainButtons=[
 {
 title: 'Announcements',
@@ -125,9 +125,18 @@ description: 'Become a member',
 icon: FiUserPlus,
 path: '/join-realm',
 },
+{
+title: 'Contact',
+description: 'Get in touch with us',
+icon: FiMail,
+path: '/contact',
+},
 ];
 
-// Contact button (separate for centering on mobile)
+// Mobile-only buttons (excluding Contact)
+const mobileMainButtons=mainButtons.filter(button=> button.title !=='Contact');
+
+// Contact button (separate for mobile centering)
 const contactButton={
 title: 'Contact',
 description: 'Get in touch with us',
@@ -260,13 +269,13 @@ className="h-9 w-9 mx-auto mb-3 text-white group-hover:text-yellow-400 group-hov
 </div>
 )}
 
-{/* MAIN BUTTONS SECTION - Responsive Grid */}
+{/* MAIN BUTTONS SECTION */}
 <div className="mb-8">
-{/* Desktop: 3x3 Grid, Mobile: 2 columns */}
-<div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
+{/* Desktop: 3x3 Grid with Contact included */}
+<div className="hidden md:grid md:grid-cols-3 gap-4 max-w-3xl mx-auto">
 {mainButtons.map((button,index)=> (
 <motion.div
-key={`button-${button.title}-${index}`}
+key={`desktop-button-${button.title}-${index}`}
 initial={{opacity: 0,y: 30}}
 animate={{opacity: 1,y: 0}}
 transition={{duration: 0.5,delay: 0.7 + index * 0.05}}
@@ -304,14 +313,56 @@ className="h-9 w-9 mx-auto mb-3 text-yellow-400 group-hover:text-white group-hov
 ))}
 </div>
 
-{/* CONTACT BUTTON - Centered below main grid */}
-<div className="flex justify-center mt-4">
+{/* Mobile: 2 columns WITHOUT Contact */}
+<div className="grid grid-cols-2 md:hidden gap-4 max-w-3xl mx-auto">
+{mobileMainButtons.map((button,index)=> (
 <motion.div
-key="contact-button"
+key={`mobile-button-${button.title}-${index}`}
 initial={{opacity: 0,y: 30}}
 animate={{opacity: 1,y: 0}}
-transition={{duration: 0.5,delay: 0.7 + mainButtons.length * 0.05}}
-className="w-full max-w-[calc(50%-0.5rem)] md:max-w-[calc(33.333%-0.75rem)]"
+transition={{duration: 0.5,delay: 0.7 + index * 0.05}}
+>
+<Link
+to={button.path}
+className="relative overflow-hidden text-white p-7 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 block text-center group border border-gray-200 h-full flex flex-col justify-center items-center w-full h-[185px]"
+style={{
+background: 'linear-gradient(135deg,#2c4747 0%,#1a2a2a 100%)',
+}}
+>
+{/* Gradient overlay for hover effect */}
+<div
+className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+style={{
+background: 'linear-gradient(135deg,#E2BA49 0%,#F0C660 100%)',
+}}
+></div>
+
+{/* Content */}
+<div className="relative z-10">
+<SafeIcon
+icon={button.icon}
+className="h-9 w-9 mx-auto mb-3 text-yellow-400 group-hover:text-white group-hover:scale-110 transition-all duration-300"
+/>
+<h3 className="text-base font-bold mb-1 text-white font-inter leading-tight">
+{button.title}
+</h3>
+<p className="text-sm text-gray-200 group-hover:text-white font-inter opacity-80 leading-tight">
+{button.description}
+</p>
+</div>
+</Link>
+</motion.div>
+))}
+</div>
+
+{/* MOBILE ONLY: Contact button centered below main grid */}
+<div className="flex justify-center mt-4 md:hidden">
+<motion.div
+key="mobile-contact-button"
+initial={{opacity: 0,y: 30}}
+animate={{opacity: 1,y: 0}}
+transition={{duration: 0.5,delay: 0.7 + mobileMainButtons.length * 0.05}}
+className="w-full max-w-[calc(50%-0.5rem)]"
 >
 <Link
 to={contactButton.path}
