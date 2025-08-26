@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
+import { SkeletonGrid, LoadingTransition } from '../components/LoadingSkeletons';
 import supabase from '../lib/supabase';
 
 const {FiBell,FiPlay,FiMic,FiUsers,FiCreditCard,FiUserPlus,FiMail,FiCalendar,FiBookOpen,FiSettings,FiFacebook,FiInstagram,FiYoutube}=FiIcons;
@@ -44,7 +45,8 @@ setHasResources(resources && resources.length > 0);
 } catch (error) {
 console.error('Error checking availability:',error);
 } finally {
-setLoading(false);
+// Add a minimum delay to show skeleton
+setTimeout(() => setLoading(false), 800);
 }
 };
 
@@ -287,7 +289,12 @@ title={`Follow us on ${social.name}`}
 ))}
 </motion.div>
 
-{/* FEATURED SECTION - Classes and Events */}
+{/* FEATURED SECTION - Classes and Events with Loading */}
+<LoadingTransition
+isLoading={loading}
+skeleton={<SkeletonGrid items={2} columns={2} />}
+delay={0.5}
+>
 {featuredButtons.length > 0 && (
 <div className="mb-4 flex justify-center">
 {/* Center the featured buttons */}
@@ -334,8 +341,14 @@ className="h-5 w-5 md:h-7 md:w-7 mx-auto mb-2 md:mb-3 text-white group-hover:tex
 </div>
 </div>
 )}
+</LoadingTransition>
 
-{/* MAIN BUTTONS SECTION */}
+{/* MAIN BUTTONS SECTION with Loading */}
+<LoadingTransition
+isLoading={loading}
+skeleton={<SkeletonGrid items={9} columns={3} />}
+delay={0.7}
+>
 <div className="mb-8 flex justify-center">
 {/* Desktop: 3x3 Grid with Contact included */}
 <div className="hidden md:grid md:grid-cols-3 gap-4">
@@ -461,6 +474,7 @@ className="h-5 w-5 mx-auto mb-2 text-yellow-400 group-hover:text-white group-hov
 </Link>
 </motion.div>
 </div>
+</LoadingTransition>
 
 {/* Admin Link */}
 <motion.div
