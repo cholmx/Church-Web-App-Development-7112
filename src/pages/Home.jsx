@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
-import { SkeletonGrid, LoadingTransition } from '../components/LoadingSkeletons';
+import {SkeletonGrid,LoadingTransition} from '../components/LoadingSkeletons';
 import supabase from '../lib/supabase';
 
 const {FiBell,FiPlay,FiMic,FiUsers,FiCreditCard,FiUserPlus,FiMail,FiCalendar,FiBookOpen,FiSettings,FiFacebook,FiInstagram,FiYoutube}=FiIcons;
@@ -46,7 +46,7 @@ setHasResources(resources && resources.length > 0);
 console.error('Error checking availability:',error);
 } finally {
 // Add a minimum delay to show skeleton
-setTimeout(() => setLoading(false), 800);
+setTimeout(()=> setLoading(false),800);
 }
 };
 
@@ -167,6 +167,95 @@ hoverColor: 'hover:text-red-600',
 },
 ];
 
+// Custom skeleton for featured buttons (horizontal layout)
+const FeaturedButtonsSkeleton=()=> (
+<div className="mb-4 flex justify-center">
+<div className="flex justify-center gap-4">
+{Array.from({length: featuredButtons.length || 2}).map((_,i)=> (
+<div 
+key={i}
+className="animate-pulse bg-gray-200 rounded-lg shadow-md featured-skeleton"
+style={{
+// Mobile: 160px x 120px, Desktop: 225px x 150px (matches actual buttons)
+width: '160px',
+height: '120px'
+}}
+>
+<div className="p-4 flex flex-col items-center justify-center h-full">
+<div className="w-6 h-6 bg-gray-300 rounded-full mb-2"></div>
+<div className="h-3 bg-gray-300 rounded w-16 mb-1"></div>
+<div className="h-2 bg-gray-300 rounded w-20"></div>
+</div>
+</div>
+))}
+</div>
+</div>
+);
+
+// Custom skeleton for main buttons (matches actual layout)
+const MainButtonsSkeleton=()=> (
+<div className="mb-8 flex justify-center">
+{/* Desktop: 3x3 Grid */}
+<div className="hidden md:grid md:grid-cols-3 gap-4">
+{Array.from({length: 9}).map((_,i)=> (
+<div 
+key={i}
+className="animate-pulse bg-gray-200 rounded-lg shadow-md"
+style={{
+width: '225px',
+height: '150px'
+}}
+>
+<div className="p-7 flex flex-col items-center justify-center h-full">
+<div className="w-7 h-7 bg-gray-300 rounded-full mb-3"></div>
+<div className="h-3 bg-gray-300 rounded w-20 mb-1"></div>
+<div className="h-2 bg-gray-300 rounded w-24"></div>
+</div>
+</div>
+))}
+</div>
+
+{/* Mobile: 2 columns */}
+<div className="grid grid-cols-2 md:hidden gap-3">
+{Array.from({length: 8}).map((_,i)=> (
+<div 
+key={i}
+className="animate-pulse bg-gray-200 rounded-lg shadow-md"
+style={{
+width: '160px',
+height: '120px'
+}}
+>
+<div className="p-4 flex flex-col items-center justify-center h-full">
+<div className="w-5 h-5 bg-gray-300 rounded-full mb-2"></div>
+<div className="h-3 bg-gray-300 rounded w-16 mb-1"></div>
+<div className="h-2 bg-gray-300 rounded w-20"></div>
+</div>
+</div>
+))}
+</div>
+</div>
+);
+
+// Contact button skeleton for mobile
+const ContactButtonSkeleton=()=> (
+<div className="flex justify-center mt-4 md:hidden">
+<div 
+className="animate-pulse bg-gray-200 rounded-lg shadow-md"
+style={{
+width: '160px',
+height: '120px'
+}}
+>
+<div className="p-4 flex flex-col items-center justify-center h-full">
+<div className="w-5 h-5 bg-gray-300 rounded-full mb-2"></div>
+<div className="h-3 bg-gray-300 rounded w-16 mb-1"></div>
+<div className="h-2 bg-gray-300 rounded w-20"></div>
+</div>
+</div>
+</div>
+);
+
 return (
 <div className="min-h-screen py-12" style={{backgroundColor: '#fcfaf2'}}>
 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -179,15 +268,14 @@ animate={{opacity: 1,y: 0}}
 transition={{duration: 0.8}}
 className="flex flex-col items-center justify-center"
 >
-
 {/* Desktop: Circle Logo,Title and Social Icons */}
 <div className="hidden md:flex md:items-center md:justify-center md:space-x-8 mb-4">
 {/* Circle Logo with URF */}
-<div
+<div 
 className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0"
 style={{backgroundColor: '#83A682'}}
 >
-<span
+<span 
 className="text-white text-sm font-bold"
 style={{fontFamily: 'Inter Tight,sans-serif'}}
 >
@@ -197,13 +285,13 @@ URF
 
 {/* Title and Subtitle Container */}
 <div className="flex flex-col items-start">
-<h1
+<h1 
 className="text-2xl md:text-3xl font-bold text-secondary text-left"
 style={{fontFamily: 'Inter Tight,sans-serif'}}
 >
 Upper Room Fellowship
 </h1>
-<p
+<p 
 className="text-sm text-secondary text-left mt-1"
 style={{fontFamily: 'Inter,sans-serif',fontWeight: '400'}}
 >
@@ -234,26 +322,25 @@ title={`Follow us on ${social.name}`}
 {/* Mobile: Circle Logo and Title */}
 <div className="md:hidden flex items-center justify-center space-x-4 mb-2">
 {/* Circle Logo with URF */}
-<div
+<div 
 className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
 style={{backgroundColor: '#83A682'}}
 >
-<span
+<span 
 className="text-white text-xs font-bold"
 style={{fontFamily: 'Inter Tight,sans-serif'}}
 >
 URF
 </span>
 </div>
-
 <div className="flex flex-col items-start">
-<h1
+<h1 
 className="text-2xl font-bold text-secondary text-left"
 style={{fontFamily: 'Inter Tight,sans-serif'}}
 >
 Upper Room Fellowship
 </h1>
-<p
+<p 
 className="text-sm text-secondary text-left mt-1"
 style={{fontFamily: 'Inter,sans-serif',fontWeight: '400'}}
 >
@@ -261,7 +348,6 @@ Your hub for church life
 </p>
 </div>
 </div>
-
 </motion.div>
 </div>
 
@@ -290,12 +376,10 @@ title={`Follow us on ${social.name}`}
 </motion.div>
 
 {/* FEATURED SECTION - Classes and Events with Loading */}
-<LoadingTransition
-isLoading={loading}
-skeleton={<SkeletonGrid items={2} columns={2} />}
-delay={0.5}
->
-{featuredButtons.length > 0 && (
+{loading ? (
+<FeaturedButtonsSkeleton />
+) : (
+featuredButtons.length > 0 && (
 <div className="mb-4 flex justify-center">
 {/* Center the featured buttons */}
 <div className="flex justify-center gap-4">
@@ -317,16 +401,18 @@ height: '120px'
 }}
 >
 {/* Blue overlay for hover effect */}
-<div
+<div 
 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-style={{background: 'linear-gradient(135deg,#2c4747 0%,#1a2a2a 100%)',}}
+style={{
+background: 'linear-gradient(135deg,#2c4747 0%,#1a2a2a 100%)',
+}}
 ></div>
 
 {/* Content */}
 <div className="relative z-10">
-<SafeIcon
-icon={button.icon}
-className="h-5 w-5 md:h-7 md:w-7 mx-auto mb-2 md:mb-3 text-white group-hover:text-yellow-400 group-hover:scale-110 transition-all duration-300"
+<SafeIcon 
+icon={button.icon} 
+className="h-5 w-5 md:h-7 md:w-7 mx-auto mb-2 md:mb-3 text-white group-hover:text-yellow-400 group-hover:scale-110 transition-all duration-300" 
 />
 <h3 className="text-xs md:text-sm font-bold mb-1 text-white font-inter leading-tight">
 {button.title}
@@ -340,15 +426,17 @@ className="h-5 w-5 md:h-7 md:w-7 mx-auto mb-2 md:mb-3 text-white group-hover:tex
 ))}
 </div>
 </div>
+)
 )}
-</LoadingTransition>
 
 {/* MAIN BUTTONS SECTION with Loading */}
-<LoadingTransition
-isLoading={loading}
-skeleton={<SkeletonGrid items={9} columns={3} />}
-delay={0.7}
->
+{loading ? (
+<>
+<MainButtonsSkeleton />
+<ContactButtonSkeleton />
+</>
+) : (
+<>
 <div className="mb-8 flex justify-center">
 {/* Desktop: 3x3 Grid with Contact included */}
 <div className="hidden md:grid md:grid-cols-3 gap-4">
@@ -369,16 +457,18 @@ height: '150px'
 }}
 >
 {/* Gradient overlay for hover effect */}
-<div
+<div 
 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-style={{background: 'linear-gradient(135deg,#E2BA49 0%,#F0C660 100%)',}}
+style={{
+background: 'linear-gradient(135deg,#E2BA49 0%,#F0C660 100%)',
+}}
 ></div>
 
 {/* Content */}
 <div className="relative z-10">
-<SafeIcon
-icon={button.icon}
-className="h-7 w-7 mx-auto mb-3 text-yellow-400 group-hover:text-white group-hover:scale-110 transition-all duration-300"
+<SafeIcon 
+icon={button.icon} 
+className="h-7 w-7 mx-auto mb-3 text-yellow-400 group-hover:text-white group-hover:scale-110 transition-all duration-300" 
 />
 <h3 className="text-sm font-bold mb-1 text-white font-inter leading-tight">
 {button.title}
@@ -411,16 +501,18 @@ height: '120px'
 }}
 >
 {/* Gradient overlay for hover effect */}
-<div
+<div 
 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-style={{background: 'linear-gradient(135deg,#E2BA49 0%,#F0C660 100%)',}}
+style={{
+background: 'linear-gradient(135deg,#E2BA49 0%,#F0C660 100%)',
+}}
 ></div>
 
 {/* Content */}
 <div className="relative z-10">
-<SafeIcon
-icon={button.icon}
-className="h-5 w-5 mx-auto mb-2 text-yellow-400 group-hover:text-white group-hover:scale-110 transition-all duration-300"
+<SafeIcon 
+icon={button.icon} 
+className="h-5 w-5 mx-auto mb-2 text-yellow-400 group-hover:text-white group-hover:scale-110 transition-all duration-300" 
 />
 <h3 className="text-xs font-bold mb-1 text-white font-inter leading-tight">
 {button.title}
@@ -453,16 +545,18 @@ height: '120px'
 }}
 >
 {/* Gradient overlay for hover effect */}
-<div
+<div 
 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-style={{background: 'linear-gradient(135deg,#E2BA49 0%,#F0C660 100%)',}}
+style={{
+background: 'linear-gradient(135deg,#E2BA49 0%,#F0C660 100%)',
+}}
 ></div>
 
 {/* Content */}
 <div className="relative z-10">
-<SafeIcon
-icon={contactButton.icon}
-className="h-5 w-5 mx-auto mb-2 text-yellow-400 group-hover:text-white group-hover:scale-110 transition-all duration-300"
+<SafeIcon 
+icon={contactButton.icon} 
+className="h-5 w-5 mx-auto mb-2 text-yellow-400 group-hover:text-white group-hover:scale-110 transition-all duration-300" 
 />
 <h3 className="text-xs font-bold mb-1 text-white font-inter leading-tight">
 {contactButton.title}
@@ -474,7 +568,8 @@ className="h-5 w-5 mx-auto mb-2 text-yellow-400 group-hover:text-white group-hov
 </Link>
 </motion.div>
 </div>
-</LoadingTransition>
+</>
+)}
 
 {/* Admin Link */}
 <motion.div
@@ -496,10 +591,24 @@ className="inline-flex items-center space-x-1 text-base text-secondary-light hov
 
 {/* CSS for responsive featured buttons */}
 <style jsx>{`
+/* Featured button responsive sizing */
 @media (min-width: 768px) {
 .featured-button {
 width: 225px !important;
 height: 150px !important;
+}
+.featured-skeleton {
+width: 225px !important;
+height: 150px !important;
+}
+}
+
+/* Ensure mobile sizing is consistent */
+@media (max-width: 767px) {
+.featured-button,
+.featured-skeleton {
+width: 160px !important;
+height: 120px !important;
 }
 }
 `}</style>
