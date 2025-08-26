@@ -1,4 +1,4 @@
-import {HashRouter as Router, Routes, Route} from 'react-router-dom'
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
 import Services from './pages/Services'
@@ -16,6 +16,8 @@ import ClassRegistration from './pages/ClassRegistration'
 import JoinRealm from './pages/JoinRealm'
 import Resources from './pages/Resources'
 import Admin from './pages/Admin'
+import Yellow from './pages/Yellow'
+import Green from './pages/Green'
 import NotFound from './pages/NotFound'
 import './App.css'
 
@@ -41,6 +43,8 @@ function App() {
           <Route path="/class-registration" element={<ClassRegistration />} />
           <Route path="/join-realm" element={<JoinRealm />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/yellow" element={<Yellow />} />
+          <Route path="/green" element={<Green />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
