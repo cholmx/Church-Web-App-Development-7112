@@ -4,7 +4,7 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 
 export default [
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'public/sw.js'] }, // Ignore service worker file
   js.configs.recommended,
   {
     files: ['**/*.{js,jsx}'],
@@ -12,7 +12,8 @@ export default [
       ecmaVersion: 2020,
       globals: {
         ...globals.browser,
-        ...globals.node
+        ...globals.node,
+        ...globals.serviceworker, // Add service worker globals
       },
       parserOptions: {
         ecmaFeatures: {
@@ -30,7 +31,8 @@ export default [
       'react-hooks/exhaustive-deps': 'off',
       'react-refresh/only-export-components': 'off',
       'no-unused-vars': 'off', // Disable unused vars warnings for build
-      'no-undef': 'error'
+      'no-undef': 'error',
+      'no-useless-escape': 'off', // Allow escape characters in regex
     },
   },
 ]

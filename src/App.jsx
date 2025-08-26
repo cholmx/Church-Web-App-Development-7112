@@ -6,6 +6,7 @@ import Events from './pages/Events'
 import Ministries from './pages/Ministries'
 import Give from './pages/Give'
 import Contact from './pages/Contact'
+import Settings from './pages/Settings'
 import Announcements from './pages/Announcements'
 import SermonBlog from './pages/SermonBlog'
 import ShinePodcast from './pages/ShinePodcast'
@@ -33,6 +34,7 @@ function App() {
           <Route path="/ministries" element={<Ministries />} />
           <Route path="/give" element={<Give />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/announcements" element={<Announcements />} />
           <Route path="/sermon-blog" element={<SermonBlog />} />
