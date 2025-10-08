@@ -4,7 +4,7 @@ import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import BookCard from '../components/BookCard';
-import { SkeletonBookCard, LoadingTransition } from '../components/LoadingSkeletons';
+import {SkeletonBookCard,LoadingTransition} from '../components/LoadingSkeletons';
 import supabase from '../lib/supabase';
 
 const {FiBookOpen,FiHome,FiExternalLink,FiTag,FiFilter,FiLink}=FiIcons;
@@ -37,7 +37,7 @@ console.error('❌ Error fetching resources:',error);
 setError('Failed to load resources: ' + error.message);
 } finally {
 // Add minimum delay to show skeleton
-setTimeout(() => setLoading(false), 800);
+setTimeout(()=> setLoading(false),800);
 }
 };
 
@@ -68,32 +68,59 @@ return category || {name: 'Uncategorized',description: '',is_link_group: false};
 };
 
 // Filter resources based on selected category
-const filteredResources=selectedCategory==='' ?
-resources :
-selectedCategory==='uncategorized' ?
-resources.filter(resource=> !resource.category_id) :
-resources.filter(resource=> resource.category_id===selectedCategory);
+const filteredResources=selectedCategory===''
+? resources
+: selectedCategory==='uncategorized'
+? resources.filter(resource=> !resource.category_id)
+: resources.filter(resource=> resource.category_id===selectedCategory);
 
-// Group resources by category for display
+// Group resources by category for display with UPPER ROOM BOOKS prioritized at top
 const groupedResources=()=> {
 if (selectedCategory !=='') {
-const categoryInfo=selectedCategory==='uncategorized' ?
-{name: 'Uncategorized',description: '',is_link_group: false} :
-getCategoryInfo(selectedCategory);
+const categoryInfo=selectedCategory==='uncategorized'
+? {name: 'Uncategorized',description: '',is_link_group: false}
+: getCategoryInfo(selectedCategory);
 return [{...categoryInfo,resources: filteredResources}];
 }
 
 const groups=[];
 
-// Add categorized resources
+// First, add UPPER ROOM BOOKS category if it exists and has resources
+const upperRoomCategory=categories.find(cat=> 
+cat.name.toUpperCase().includes('UPPER ROOM BOOKS') || 
+cat.name.toUpperCase().includes('UPPER ROOM') ||
+cat.name.toLowerCase().includes('upper room books') ||
+cat.name.toLowerCase().includes('upper room')
+);
+
+if (upperRoomCategory) {
+const upperRoomResources=resources.filter(r=> r.category_id===upperRoomCategory.id);
+if (upperRoomResources.length > 0) {
+groups.push({
+...upperRoomCategory,
+resources: upperRoomResources,
+isPriority: true // Mark as priority for special styling
+});
+}
+}
+
+// Then add all other categorized resources (excluding Upper Room Books since it's already added)
 categories.forEach(category=> {
+// Skip if this is the Upper Room Books category (already added above)
+if (upperRoomCategory && category.id===upperRoomCategory.id) {
+return;
+}
+
 const categoryResources=resources.filter(r=> r.category_id===category.id);
 if (categoryResources.length > 0) {
-groups.push({...category,resources: categoryResources});
+groups.push({
+...category,
+resources: categoryResources
+});
 }
 });
 
-// Add uncategorized resources
+// Finally, add uncategorized resources at the end
 const uncategorizedResources=resources.filter(r=> !r.category_id);
 if (uncategorizedResources.length > 0) {
 groups.push({
@@ -121,6 +148,7 @@ title="Back to Home"
 <SafeIcon icon={FiHome} className="h-5 w-5 text-white" />
 </Link>
 </div>
+
 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 <div className="bg-red-50 border border-red-200 rounded-lg p-8 text-center">
 <p className="text-red-700 font-inter">{error}</p>
@@ -170,7 +198,7 @@ animate={{opacity: 1,y: 0}}
 transition={{duration: 0.8,delay: 0.2}}
 className="text-lg text-secondary font-inter"
 >
-Helpful books, links, and materials for your faith journey
+Helpful books,links,and materials for your faith journey
 </motion.p>
 </div>
 
@@ -191,9 +219,9 @@ className="bg-white rounded-lg shadow-md p-6 mb-8"
 <button
 onClick={()=> setSelectedCategory('')}
 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${
-selectedCategory==='' ?
-'bg-primary text-white' :
-'bg-accent text-secondary hover:bg-accent-dark'
+selectedCategory===''
+? 'bg-primary text-white'
+: 'bg-accent text-secondary hover:bg-accent-dark'
 }`}
 >
 All Resources
@@ -203,9 +231,9 @@ All Resources
 key={category.id}
 onClick={()=> setSelectedCategory(category.id)}
 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter flex items-center space-x-1 ${
-selectedCategory===category.id ?
-'bg-primary text-white' :
-'bg-accent text-secondary hover:bg-accent-dark'
+selectedCategory===category.id
+? 'bg-primary text-white'
+: 'bg-accent text-secondary hover:bg-accent-dark'
 }`}
 >
 <SafeIcon icon={category.is_link_group ? FiLink : FiBookOpen} className="h-3 w-3" />
@@ -216,9 +244,9 @@ selectedCategory===category.id ?
 <button
 onClick={()=> setSelectedCategory('uncategorized')}
 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${
-selectedCategory==='uncategorized' ?
-'bg-primary text-white' :
-'bg-accent text-secondary hover:bg-accent-dark'
+selectedCategory==='uncategorized'
+? 'bg-primary text-white'
+: 'bg-accent text-secondary hover:bg-accent-dark'
 }`}
 >
 Uncategorized
@@ -233,7 +261,7 @@ Uncategorized
 <LoadingTransition
 isLoading={loading}
 skeleton={
-resources.length === 0 ? (
+resources.length===0 ? (
 <div className="bg-white rounded-lg shadow-md p-12 text-center">
 <SafeIcon icon={FiBookOpen} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
 <h2 className="text-2xl font-bold text-secondary mb-2 font-inter">
@@ -244,7 +272,7 @@ Loading Resources...
 <div className="space-y-12">
 <div>
 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-{Array.from({ length: 10 }).map((_, i) => (
+{Array.from({length: 10}).map((_,i)=> (
 <SkeletonBookCard key={i} />
 ))}
 </div>
@@ -253,7 +281,7 @@ Loading Resources...
 )
 }
 >
-{resources.length === 0 ? (
+{resources.length===0 ? (
 <motion.div
 initial={{opacity: 0,y: 30}}
 animate={{opacity: 1,y: 0}}
@@ -269,36 +297,46 @@ Check back soon for helpful books and materials!
 </motion.div>
 ) : (
 <div className="space-y-12">
-{groupedResources().map((group, groupIndex) => (
+{groupedResources().map((group,groupIndex)=> (
 <motion.div
 key={group.name}
 initial={{opacity: 0,y: 30}}
 animate={{opacity: 1,y: 0}}
 transition={{duration: 0.5,delay: groupIndex * 0.1}}
 >
-{/* Category Header */}
+{/* Category Header with special styling for Upper Room Books */}
 <div className="mb-6">
-<div className="flex items-center space-x-3 mb-2">
-<SafeIcon icon={group.is_link_group ? FiLink : FiBookOpen} className="h-6 w-6 text-primary" />
-<h2 className="text-2xl font-bold text-secondary font-inter">
+<div className={`flex items-center space-x-3 mb-2 ${group.isPriority ? 'p-4 rounded-lg' : ''}`} 
+style={group.isPriority ? {backgroundColor: '#E2BA49'} : {}}>
+<SafeIcon 
+icon={group.is_link_group ? FiLink : FiBookOpen} 
+className={`h-6 w-6 ${group.isPriority ? 'text-white' : 'text-primary'}`} 
+/>
+<h2 className={`text-2xl font-bold font-inter ${group.isPriority ? 'text-white' : 'text-secondary'}`}>
 {group.name}
 </h2>
-<span className={`inline-block px-3 py-1 text-sm font-medium rounded-full ${
-group.is_link_group ?
-'bg-blue-100 text-blue-800' :
-'bg-green-100 text-green-800'
-} font-inter`}>
+<span
+className={`inline-block px-3 py-1 text-sm font-medium rounded-full font-inter ${
+group.isPriority 
+? 'bg-white bg-opacity-20 text-white' 
+: group.is_link_group 
+? 'bg-blue-100 text-blue-800' 
+: 'bg-green-100 text-green-800'
+}`}
+>
 {group.is_link_group ? 'Link Collection' : 'Book Collection'}
 </span>
 </div>
 {group.description && (
-<p className="text-secondary-light font-inter">{group.description}</p>
+<p className={`font-inter ${group.isPriority ? 'text-white opacity-90 ml-4' : 'text-secondary-light'}`}>
+{group.description}
+</p>
 )}
 </div>
 
 {/* Resources Grid - 5 columns */}
 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-{group.resources.map((resource, index) => (
+{group.resources.map((resource,index)=> (
 <motion.div
 key={resource.id}
 initial={{opacity: 0,y: 30}}
