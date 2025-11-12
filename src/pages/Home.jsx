@@ -88,7 +88,10 @@ const Home=()=> {
         <main>
           {loading ? (
             <div className="flex flex-col items-center gap-8">
-              <div className="flex justify-center gap-4"> <SkeletonButton /> <SkeletonButton /> </div>
+              <div className="flex flex-col gap-4 w-full">
+                <div className="bg-accent-dark rounded-2xl animate-pulse w-full h-[70px]"></div>
+                <div className="bg-accent-dark rounded-2xl animate-pulse w-full h-[70px]"></div>
+              </div>
               <div className="hidden md:grid md:grid-cols-3 gap-4"> {Array(9).fill(0).map((_, i) => <SkeletonButton key={i} />)} </div>
               <div className="grid grid-cols-2 md:hidden gap-3"> {Array(8).fill(0).map((_, i) => <SkeletonButton key={i} />)} </div>
               <div className="flex justify-center md:hidden"> <SkeletonButton /> </div>
@@ -96,8 +99,8 @@ const Home=()=> {
           ) : (
             <>
               {featuredButtons.length > 0 && (
-                <section className="mb-4">
-                  <div className="flex justify-center gap-3 md:gap-4">
+                <section className="mb-8">
+                  <div className="flex flex-col gap-4 max-w-full">
                     {featuredButtons.map((button, i) => (
                       <HomeButton key={button.title} {...button} isFeatured delay={0.3 + i * 0.1} />
                     ))}
@@ -155,19 +158,29 @@ const Home=()=> {
 };
 
 const HomeButton = ({ title, description, icon, path, isFeatured = false, delay = 0 }) => {
-  const baseClasses = "relative overflow-hidden p-4 rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-[160px] h-[120px] md:w-[225px] md:h-[150px]";
-  const featuredClasses = "bg-brand-yellow text-white";
+  const baseClasses = isFeatured
+    ? "relative overflow-hidden p-6 rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block group flex items-center justify-center w-full h-[70px]"
+    : "relative overflow-hidden p-4 rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-[160px] h-[120px] md:w-[225px] md:h-[150px]";
+
+  const featuredClasses = "bg-brand-yellow text-text-primary";
   const mainClasses = "bg-brand-blue text-white";
 
   return (
     <motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay}}>
       <Link to={path} className={`${baseClasses} ${isFeatured ? featuredClasses : mainClasses}`}>
         <div className={`absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isFeatured ? 'from-white/30' : 'from-white/20'}`}></div>
-        <div className="relative z-10 flex flex-col items-center">
-          <SafeIcon icon={icon} className="h-6 w-6 md:h-8 md:w-8 mb-2 md:mb-3 transition-transform duration-300 group-hover:scale-110 text-white" />
-          <h3 className="text-sm md:text-base font-bold font-heading leading-tight text-white">{title}</h3>
-          <p className="text-xs opacity-80 leading-tight text-white">{description}</p>
-        </div>
+        {isFeatured ? (
+          <div className="relative z-10 flex flex-col items-center">
+            <h3 className="text-lg md:text-xl font-bold font-heading leading-tight text-text-primary">{title}</h3>
+            <p className="text-sm opacity-70 leading-tight text-text-primary">{description}</p>
+          </div>
+        ) : (
+          <div className="relative z-10 flex flex-col items-center">
+            <SafeIcon icon={icon} className="h-6 w-6 md:h-8 md:w-8 mb-2 md:mb-3 transition-transform duration-300 group-hover:scale-110" style={{color: '#E2BA49'}} />
+            <h3 className="text-sm md:text-base font-bold font-heading leading-tight text-white">{title}</h3>
+            <p className="text-xs opacity-80 leading-tight text-white">{description}</p>
+          </div>
+        )}
       </Link>
     </motion.div>
   );
