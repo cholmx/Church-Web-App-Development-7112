@@ -46,12 +46,7 @@ const EventRegistration=()=> {
     <div className="min-h-screen bg-accent py-12 relative">
       {/* Back to Home Button - Top Right */}
       <div className="fixed top-6 right-6 z-50">
-        <Link
-          to="/"
-          className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
-          style={{backgroundColor: '#83A682'}}
-          title="Back to Home"
-        >
+        <Link to="/" className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105" style={{backgroundColor: '#83A682'}} title="Back to Home">
           <SafeIcon icon={FiHome} className="h-5 w-5 text-white" />
         </Link>
       </div>
@@ -63,11 +58,11 @@ const EventRegistration=()=> {
             initial={{opacity: 0,y: 30}}
             animate={{opacity: 1,y: 0}}
             transition={{duration: 0.8}}
-            className="flex items-center justify-center space-x-4 mb-3"
+            className="flex items-center justify-center space-x-4 mb-1"
           >
             <SafeIcon icon={FiCalendar} className="h-8 w-8 text-primary" />
             <Link to="/" className="hover:text-primary transition-colors">
-              <h1 className="text-3xl md:text-4xl font-bold text-secondary font-inter">
+              <h1 className="text-3xl md:text-4xl">
                 Events
               </h1>
             </Link>
@@ -76,7 +71,7 @@ const EventRegistration=()=> {
             initial={{opacity: 0,y: 30}}
             animate={{opacity: 1,y: 0}}
             transition={{duration: 0.8,delay: 0.2}}
-            className="text-lg text-secondary font-inter"
+            className="text-base page-subtitle"
           >
             Upcoming church events and activities
           </motion.p>
@@ -90,10 +85,10 @@ const EventRegistration=()=> {
             className="bg-white rounded-lg shadow-md p-12 text-center"
           >
             <SafeIcon icon={FiCalendar} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-secondary mb-2 font-inter">
+            <h2 className="text-2xl mb-2">
               No Events Available
             </h2>
-            <p className="text-secondary-light font-inter">
+            <p className="text-secondary-light">
               Check back soon for upcoming events!
             </p>
           </motion.div>
@@ -107,22 +102,20 @@ const EventRegistration=()=> {
                 transition={{duration: 0.5,delay: index * 0.1}}
                 className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
               >
-                <h3 className="text-xl font-semibold text-secondary mb-4 font-inter">
+                <h3 className="text-xl font-semibold text-secondary mb-4">
                   {event.title}
                 </h3>
-
                 <div
                   className="text-secondary mb-6 prose prose-sm max-w-none rendered-content"
                   dangerouslySetInnerHTML={{__html: event.details}}
                 />
-
                 {event.link && (
                   <div className="flex justify-start">
                     <a
                       href={event.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition-colors inline-flex items-center space-x-2 font-inter"
+                      className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition-colors inline-flex items-center space-x-2"
                     >
                       <SafeIcon icon={FiExternalLink} className="h-4 w-4" />
                       <span>Register Here</span>

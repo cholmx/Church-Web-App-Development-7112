@@ -7,43 +7,41 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#2c4747',
-        secondary: '#304E4E',
-        accent: '#fcfaf2',
-        white: '#FFFFFF',
-        // Additional shades for better design flexibility
-        'primary-light': '#3e5d5d',
-        'primary-dark': '#1a2a2a',
-        'secondary-light': '#4A6B6B',
-        'secondary-dark': '#1F3333',
-        'accent-light': '#fefcf5',
-        'accent-dark': '#f9f6ed',
-        // Custom text color
-        'text-custom': '#5f5f5a',
-        // Discussion questions background
-        'discussion-bg': '#f9f9f4',
-        // Additional secondary color variations
-        'secondary-50': '#F0F4F4',
-        'secondary-100': '#DBE4E4',
-        'secondary-200': '#B8CACA',
-        'secondary-300': '#8FA9A9',
-        'secondary-400': '#6B8A8A',
-        'secondary-500': '#304E4E',
-        'secondary-600': '#2A4444',
-        'secondary-700': '#243B3B',
-        'secondary-800': '#1F3333',
-        'secondary-900': '#1A2C2C',
-        // Social media icon color
+        primary: '#83A682', // A softer, modern green
+        secondary: '#5F5F5A', // A warm gray for text and secondary elements
+        accent: '#FCFAF2', // A warm, off-white background
+        'accent-light': '#FFFFFF',
+        'accent-dark': '#F3F1E6',
+        
+        'text-primary': '#333333',
+        'text-secondary': '#5F5F5A',
+        'text-light': '#888888',
+
+        'brand-yellow': '#E2BA49',
+        'brand-blue': '#2c4747',
+        'brand-blue-dark': '#1a2a2a',
+
+        'white': '#FFFFFF',
         'social-green': '#83A682',
       },
       fontFamily: {
         'sans': ['Inter', 'sans-serif'],
-        'inter': ['Inter', 'sans-serif'],
-        'inter-tight': ['Inter Tight', 'sans-serif'],
+        'heading': ['Inter Tight', 'sans-serif'],
+        'display': ['Fraunces', 'serif'],
+      },
+      borderRadius: {
+        'xl': '1rem',
+        '2xl': '1.5rem',
+        '3xl': '2rem',
+        '4xl': '3rem',
+      },
+      boxShadow: {
+        'soft': '8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff',
+        'soft-inset': 'inset 8px 8px 16px #d1d9e6, inset -8px -8px 16px #ffffff',
+        'modern': '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        'modern-lg': '0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
       },
     },
   },
   plugins: [],
-  // Important: This ensures all Tailwind utilities get !important
-  important: true,
 }

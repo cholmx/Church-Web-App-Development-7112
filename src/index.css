@@ -2,281 +2,107 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import both Inter and Inter Tight fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700;800;900&family=Fraunces:wght@300..900&display=swap');
 
-/* Set the global background color */
-body,#root {
-  background-color: #fcfaf2 !important;
+@layer base {
+  body {
+    @apply bg-accent text-text-secondary font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-black text-text-primary;
+  }
+
+  h1 { @apply text-4xl md:text-5xl; }
+  h2 { @apply text-3xl md:text-4xl; }
+  h3 { @apply text-2xl md:text-3xl; }
+  h4 { @apply text-xl md:text-2xl; }
+  h5 { @apply text-lg md:text-xl; }
+  h6 { @apply text-base md:text-lg; }
+
+  p {
+    @apply leading-relaxed;
+  }
+
+  a {
+    @apply text-primary transition-colors hover:text-primary/80;
+  }
 }
 
-/* GLOBAL FONT OVERRIDE - Inter for main text */
-* {
-  font-family: "Inter", sans-serif !important;
-  font-size: 16px !important;
-  font-weight: 400 !important;
-  color: #5f5f5a !important;
-  letter-spacing: 0px !important;
+/* Prose styles for rendered HTML content */
+.prose {
+  @apply text-text-secondary;
+}
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  @apply text-text-primary;
+}
+.prose strong {
+  @apply font-bold text-text-primary;
+}
+.prose a {
+  @apply text-primary;
+}
+.prose ul > li::before {
+  @apply bg-primary;
+}
+.prose ol > li::before {
+  @apply text-text-secondary;
 }
 
-/* Remove all inline font styles from any element with style attribute */
-*[style] {
-  font-family: "Inter", sans-serif !important;
-  font-size: 16px !important;
-  font-weight: 400 !important;
-  color: #5f5f5a !important;
-  letter-spacing: 0px !important;
+/* Custom button component styles */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-2xl font-semibold font-heading tracking-wide transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-accent;
+  }
+  .btn-primary {
+    @apply bg-primary text-white shadow-modern hover:shadow-modern-lg hover:-translate-y-0.5;
+    background-image: linear-gradient(to right, theme('colors.primary'), theme('colors.primary/80'));
+  }
+  .btn-secondary {
+    @apply bg-brand-blue text-white shadow-modern hover:shadow-modern-lg hover:-translate-y-0.5;
+  }
+  .btn-outline {
+    @apply bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white;
+  }
+  .btn-ghost {
+    @apply bg-transparent text-secondary hover:bg-accent-dark;
+  }
 }
 
-/* Target spans specifically (common culprit) */
-span,
-span[style] {
-  font-family: "Inter", sans-serif !important;
-  font-size: 16px !important;
-  font-weight: 400 !important;
-  color: #5f5f5a !important;
-  letter-spacing: 0px !important;
+/* Reusable modern card */
+.modern-card {
+  @apply bg-accent-light rounded-2xl shadow-modern transition-all duration-300 hover:shadow-modern-lg hover:-translate-y-1;
 }
 
-/* Content areas */
+/* Specific overrides for rich text editor fields */
 .rendered-content *,
 .announcement-content * {
-  font-family: "Inter", sans-serif !important;
-  font-size: 16px !important;
-  font-weight: 400 !important;
-  color: #5f5f5a !important;
-  letter-spacing: 0px !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  color: inherit !important;
+  letter-spacing: inherit !important;
+}
+.rendered-content [style],
+.announcement-content [style] {
+  all: unset !important;
 }
 
-/* Headings should use Inter Tight Bold */
-h1, h2, h3, h4, h5, h6,
-.rendered-content h1, .rendered-content h2, .rendered-content h3, .rendered-content h4, .rendered-content h5, .rendered-content h6,
-.announcement-content h1, .announcement-content h2, .announcement-content h3, .announcement-content h4, .announcement-content h5, .announcement-content h6 {
-  font-family: "Inter Tight", sans-serif !important;
-  font-weight: 700 !important;
-  color: #5f5f5a !important;
-  letter-spacing: 0px !important;
+/* Fallback for old font classes and new subtitle style */
+.font-fraunces {
+  @apply font-heading;
 }
 
-/* All titles should use Inter Tight Bold */
-.text-xl, .text-2xl, .text-3xl, .text-4xl, .text-5xl, .text-6xl,
-[class*="text-xl"], [class*="text-2xl"], [class*="text-3xl"], [class*="text-4xl"], [class*="text-5xl"], [class*="text-6xl"] {
-  font-family: "Inter Tight", sans-serif !important;
-  font-weight: 700 !important;
+.page-subtitle {
+  @apply font-sans font-normal text-base -mt-2;
 }
 
-/* Card titles and section titles use Inter Tight Bold */
-.card-title, .section-title, [class*="card-title"], [class*="section-title"],
-.font-semibold, .font-bold, [class*="font-semibold"], [class*="font-bold"] {
-  font-family: "Inter Tight", sans-serif !important;
-  font-weight: 700 !important;
-}
 
-/* Bold elements in content use Inter Bold */
-strong, b,
-.rendered-content strong, .rendered-content b,
-.announcement-content strong, .announcement-content b {
-  font-family: "Inter", sans-serif !important;
-  font-size: 16px !important;
-  font-weight: 700 !important;
-  color: #5f5f5a !important;
-  letter-spacing: 0px !important;
-}
-
-/* Italic elements use Inter */
-em, i,
-.rendered-content em, .rendered-content i,
-.announcement-content em, .announcement-content i {
-  font-family: "Inter", sans-serif !important;
-  font-size: 16px !important;
-  font-weight: 400 !important;
-  font-style: italic !important;
-  color: #5f5f5a !important;
-  letter-spacing: 0px !important;
-}
-
-/* White text for colored backgrounds */
-.text-white, .text-white *,
-.bg-primary, .bg-primary *,
-.bg-secondary, .bg-secondary *,
-.bg-green-500, .bg-green-500 *,
-.bg-blue-500, .bg-blue-500 *,
-.bg-red-500, .bg-red-500 *,
-.bg-purple-500, .bg-purple-500 *,
-.bg-orange-500, .bg-orange-500 *,
-.bg-pink-500, .bg-pink-500 *,
-.bg-gray-500, .bg-gray-500 * {
-  color: white !important;
+.font-inter {
+  @apply font-sans;
 }
 
 /* Discussion questions background */
-.discussion-questions-section, .discussion-bg {
-  background-color: #F3F1E6 !important;
-}
-
-/* Preserve icon colors */
-svg {
-  color: inherit !important;
-}
-
-/* List styling */
-.rendered-content ul, .rendered-content ol,
-.announcement-content ul, .announcement-content ol {
-  margin: 1em 0;
-  padding-left: 1.5em;
-}
-
-.rendered-content li, .announcement-content li {
-  margin: 0.5em 0;
-}
-
-/* Paragraph spacing */
-.rendered-content p, .announcement-content p {
-  margin: 1em 0;
-}
-
-/* Line break handling */
-.rendered-content br, .announcement-content br {
-  line-height: 1.6;
-}
-
-/* Text truncation utilities for compact cards */
-.line-clamp-1 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-}
-
-.line-clamp-2 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.line-clamp-3 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-}
-
-/* Inter Tight font sizes for different heading levels */
-h1 {
-  font-size: 2.5rem !important;
-  font-weight: 700 !important;
-}
-
-h2 {
-  font-size: 2rem !important;
-  font-weight: 700 !important;
-}
-
-h3 {
-  font-size: 1.75rem !important;
-  font-weight: 700 !important;
-}
-
-h4 {
-  font-size: 1.5rem !important;
-  font-weight: 700 !important;
-}
-
-h5 {
-  font-size: 1.25rem !important;
-  font-weight: 700 !important;
-}
-
-h6 {
-  font-size: 1rem !important;
-  font-weight: 700 !important;
-}
-
-/* Font class overrides */
-.font-inter {
-  font-family: "Inter", sans-serif !important;
-  letter-spacing: 0px !important;
-}
-
-.font-fraunces {
-  font-family: "Inter Tight", sans-serif !important;
-  letter-spacing: 0px !important;
-  font-weight: 700 !important;
-}
-
-.font-sans {
-  font-family: "Inter", sans-serif !important;
-  letter-spacing: 0px !important;
-}
-
-/* Make all page titles and section headings use Inter Tight Bold */
-.page-subtitle, .section-heading, .card-heading, [class*="title"], [class*="heading"] {
-  font-family: "Inter Tight", sans-serif !important;
-  letter-spacing: 0px !important;
-  font-weight: 700 !important;
-}
-
-/* ==============================================
-   🎯 MAKE BUTTON TEXT BIGGER - SIMPLE & DIRECT
-   ============================================== */
-
-/* ALL BUTTON TEXT - MAKE IT BIGGER */
-button h3,
-button span,
-button p,
-button div,
-button * {
-  font-size: 18px !important; /* BIGGER FONT SIZE */
-  font-weight: 700 !important;
-  font-family: "Inter Tight", sans-serif !important;
-}
-
-/* FEATURED BUTTONS - EVEN BIGGER */
-.featured-button h3,
-.featured-button span,
-.featured-button p,
-.featured-button div,
-.featured-button * {
-  font-size: 20px !important; /* EVEN BIGGER FOR FEATURED */
-  font-weight: 700 !important;
-  font-family: "Inter Tight", sans-serif !important;
-}
-
-/* Desktop - Make them even bigger on desktop */
-@media (min-width: 768px) {
-  button h3,
-  button span,
-  button p,
-  button div,
-  button * {
-    font-size: 20px !important; /* DESKTOP SIZE */
-    font-weight: 700 !important;
-  }
-
-  .featured-button h3,
-  .featured-button span,
-  .featured-button p,
-  .featured-button div,
-  .featured-button * {
-    font-size: 22px !important; /* DESKTOP FEATURED SIZE */
-    font-weight: 700 !important;
-  }
-}
-
-/* Input and form elements use Inter */
-input, textarea, select, label {
-  font-family: "Inter", sans-serif !important;
-  font-weight: 400 !important;
-}
-
-/* Navigation items use Inter Tight Bold */
-nav a, .nav-link, [class*="nav"] {
-  font-family: "Inter Tight", sans-serif !important;
-  font-weight: 600 !important;
-}
-
-/* Fix any potential layout issues */
-.button-container, .flex, .grid {
-  gap: 0.75rem !important;
+.discussion-questions-section {
+  @apply bg-accent-dark;
 }

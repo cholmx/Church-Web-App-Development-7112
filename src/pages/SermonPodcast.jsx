@@ -89,12 +89,7 @@ const SermonPodcast=()=> {
     <div className="min-h-screen bg-accent py-12 relative">
       {/* Back to Home Button - Top Right */}
       <div className="fixed top-6 right-6 z-50">
-        <Link
-          to="/"
-          className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
-          style={{backgroundColor: '#2c4747'}}
-          title="Back to Home"
-        >
+        <Link to="/" className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105" style={{backgroundColor: '#2c4747'}} title="Back to Home">
           <SafeIcon icon={FiHome} className="h-5 w-5 text-white" />
         </Link>
       </div>
@@ -106,7 +101,7 @@ const SermonPodcast=()=> {
             initial={{opacity: 0,y: 30}}
             animate={{opacity: 1,y: 0}}
             transition={{duration: 0.8}}
-            className="flex items-center justify-center space-x-4 mb-3"
+            className="flex items-center justify-center space-x-4 mb-1"
           >
             <SafeIcon icon={FiMic} className="h-8 w-8 text-primary" />
             <h1 className="text-3xl md:text-4xl">Sermon Podcast</h1>
@@ -117,7 +112,9 @@ const SermonPodcast=()=> {
             transition={{duration: 0.8,delay: 0.2}}
             className="flex items-center justify-center space-x-4"
           >
-            <p className="text-lg page-subtitle">Listen to our latest sermon episodes</p>
+            <p className="text-base page-subtitle">
+              Listen to our latest sermon episodes
+            </p>
             <button
               onClick={fetchPodcastData}
               className="p-2 text-primary hover:text-primary-dark transition-colors"
@@ -160,19 +157,22 @@ const SermonPodcast=()=> {
             </div>
           )}
         </motion.div>
-
         <LoadingTransition
           isLoading={loading}
           skeleton={
             <div className="space-y-6">
               <h2 className="text-2xl">Episodes</h2>
-              {Array.from({length: 5}).map((_,i)=> (<SkeletonEpisode key={i} />))}
+              {Array.from({length: 5}).map((_,i)=> (
+                <SkeletonEpisode key={i} />
+              ))}
             </div>
           }
         >
           {podcastData.episodes && podcastData.episodes.length > 0 && (
             <div className="space-y-6">
-              <h2 className="text-2xl">Episodes ({podcastData.episodes.length})</h2>
+              <h2 className="text-2xl">
+                Episodes ({podcastData.episodes.length})
+              </h2>
               {displayedEpisodes.map((episode,index)=> (
                 <motion.div
                   key={episode.id}
@@ -234,9 +234,17 @@ const SermonPodcast=()=> {
                                 onClick={()=> toggleEpisodeExpansion(episode.id)}
                                 className="text-primary font-medium flex items-center space-x-1 mt-1"
                               >
-                                <span>{expandedEpisode===episode.id ? 'Show Less' : 'Show More'}</span>
+                                <span>
+                                  {expandedEpisode===episode.id
+                                    ? 'Show Less'
+                                    : 'Show More'}
+                                </span>
                                 <SafeIcon
-                                  icon={expandedEpisode===episode.id ? FiChevronUp : FiChevronDown}
+                                  icon={
+                                    expandedEpisode===episode.id
+                                      ? FiChevronUp
+                                      : FiChevronDown
+                                  }
                                   className="h-4 w-4"
                                 />
                               </button>
@@ -267,7 +275,10 @@ const SermonPodcast=()=> {
                               className="bg-white text-primary border-2 border-primary px-4 py-2 rounded-lg hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2"
                               style={{borderColor: '#2c4747',color: '#2c4747'}}
                             >
-                              <SafeIcon icon={FiExternalLink} className="h-4 w-4" />
+                              <SafeIcon
+                                icon={FiExternalLink}
+                                className="h-4 w-4"
+                              />
                               <span>View Online</span>
                             </a>
                           )}

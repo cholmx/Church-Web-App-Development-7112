@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React,{useState,useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
@@ -6,79 +6,86 @@ import SafeIcon from '../common/SafeIcon';
 import {useCleanContent} from '../hooks/useCleanContent';
 import supabase from '../lib/supabase';
 
-const {FiPlay, FiCalendar, FiUser, FiMessageCircle, FiHome, FiLayers, FiFilter} = FiIcons;
+const {FiPlay,FiCalendar,FiUser,FiMessageCircle,FiHome,FiLayers,FiFilter}=FiIcons;
 
-const SermonBlog = () => {
-  const [sermons, setSermons] = useState([]);
-  const [sermonSeries, setSermonSeries] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedSeries, setSelectedSeries] = useState('');
+const SermonBlog=()=> {
+  const [sermons,setSermons]=useState([]);
+  const [sermonSeries,setSermonSeries]=useState([]);
+  const [loading,setLoading]=useState(true);
+  const [selectedSeries,setSelectedSeries]=useState('');
 
   // Use the custom hook to clean inline styles
   useCleanContent();
 
-  useEffect(() => {
+  useEffect(()=> {
     fetchSermons();
     fetchSermonSeries();
-  }, []);
+  },[]);
 
-  const fetchSermons = async () => {
+  const fetchSermons=async ()=> {
     try {
-      const {data, error} = await supabase
+      const {data,error}=await supabase
         .from('sermons_portal123')
         .select('*')
-        .order('sermon_date', {ascending: false});
+        .order('sermon_date',{ascending: false});
+
       if (error) throw error;
       setSermons(data || []);
     } catch (error) {
-      console.error('Error fetching sermons:', error);
+      console.error('Error fetching sermons:',error);
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchSermonSeries = async () => {
+  const fetchSermonSeries=async ()=> {
     try {
-      const {data, error} = await supabase
+      const {data,error}=await supabase
         .from('sermon_series_portal123')
         .select('*')
-        .order('start_date', {ascending: false});
+        .order('start_date',{ascending: false});
+
       if (error) throw error;
       setSermonSeries(data || []);
     } catch (error) {
-      console.error('Error fetching sermon series:', error);
+      console.error('Error fetching sermon series:',error);
     }
   };
 
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+  const formatDate=(dateString)=> {
+    return new Date(dateString).toLocaleDateString('en-US',{
       year: 'numeric',
       month: 'long',
       day: 'numeric'
     });
   };
 
-  const getYouTubeEmbedUrl = (url) => {
+  const getYouTubeEmbedUrl=(url)=> {
     if (!url) return null;
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(regExp);
-    return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : url;
+    const regExp=/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match=url.match(regExp);
+    return match && match[2].length===11
+      ? `https://www.youtube.com/embed/${match[2]}`
+      : url;
   };
 
-  const getSeriesName = (seriesId) => {
-    const series = sermonSeries.find(s => s.id === seriesId);
+  const getSeriesName=(seriesId)=> {
+    const series=sermonSeries.find((s)=> s.id===seriesId);
     return series ? series.name : null;
   };
 
-  const getSeriesDescription = (seriesId) => {
-    const series = sermonSeries.find(s => s.id === seriesId);
+  const getSeriesDescription=(seriesId)=> {
+    const series=sermonSeries.find((s)=> s.id===seriesId);
     return series ? series.description : null;
   };
 
   // Filter sermons based on selected series
-  const filteredSermons = selectedSeries === '' ? sermons :
-    selectedSeries === 'standalone' ? sermons.filter(sermon => !sermon.sermon_series_id) :
-      sermons.filter(sermon => sermon.sermon_series_id === selectedSeries);
+  const filteredSermons=
+    selectedSeries===''
+      ? sermons
+      : selectedSeries==='standalone'
+        ? sermons.filter((sermon)=> !sermon.sermon_series_id)
+        : sermons.filter((sermon)=> sermon.sermon_series_id===selectedSeries);
 
   if (loading) {
     return (
@@ -104,61 +111,75 @@ const SermonBlog = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <motion.div
-            initial={{opacity: 0, y: 30}}
-            animate={{opacity: 1, y: 0}}
+            initial={{opacity: 0,y: 30}}
+            animate={{opacity: 1,y: 0}}
             transition={{duration: 0.8}}
-            className="flex items-center justify-center space-x-4 mb-3"
+            className="flex items-center justify-center space-x-4 mb-1"
           >
             <SafeIcon icon={FiPlay} className="h-8 w-8 text-primary" />
             <Link to="/" className="hover:text-primary transition-colors">
-              <h1 className="text-3xl md:text-4xl font-bold text-secondary font-inter">
+              <h1 className="text-3xl md:text-4xl">
                 Sermon Blog
               </h1>
             </Link>
           </motion.div>
           <motion.p
-            initial={{opacity: 0, y: 30}}
-            animate={{opacity: 1, y: 0}}
-            transition={{duration: 0.8, delay: 0.2}}
-            className="text-lg text-secondary page-subtitle"
+            initial={{opacity: 0,y: 30}}
+            animate={{opacity: 1,y: 0}}
+            transition={{duration: 0.8,delay: 0.2}}
+            className="text-base page-subtitle"
           >
             Weekly sermons and discussion questions for Table Groups
           </motion.p>
         </div>
 
         {/* Filter Section */}
-        {(sermonSeries.length > 0 || sermons.some(s => !s.sermon_series_id)) && (
+        {(sermonSeries.length > 0 || sermons.some((s)=> !s.sermon_series_id)) && (
           <motion.div
-            initial={{opacity: 0, y: 30}}
-            animate={{opacity: 1, y: 0}}
-            transition={{duration: 0.8, delay: 0.4}}
+            initial={{opacity: 0,y: 30}}
+            animate={{opacity: 1,y: 0}}
+            transition={{duration: 0.8,delay: 0.4}}
             className="bg-white rounded-lg shadow-md p-6 mb-8"
           >
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center space-x-2">
                 <SafeIcon icon={FiFilter} className="h-5 w-5 text-secondary" />
-                <span className="font-medium text-secondary font-inter">Filter by Series:</span>
+                <span className="font-medium text-secondary font-inter">
+                  Filter by Series:
+                </span>
               </div>
               <div className="flex flex-wrap gap-2">
                 <button
-                  onClick={() => setSelectedSeries('')}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${selectedSeries === '' ? 'bg-primary text-white' : 'bg-accent text-secondary hover:bg-accent-dark'}`}
+                  onClick={()=> setSelectedSeries('')}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${
+                    selectedSeries===''
+                      ? 'bg-primary text-white'
+                      : 'bg-accent text-secondary hover:bg-accent-dark'
+                  }`}
                 >
                   All Sermons
                 </button>
-                {sermons.some(s => !s.sermon_series_id) && (
+                {sermons.some((s)=> !s.sermon_series_id) && (
                   <button
-                    onClick={() => setSelectedSeries('standalone')}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${selectedSeries === 'standalone' ? 'bg-primary text-white' : 'bg-accent text-secondary hover:bg-accent-dark'}`}
+                    onClick={()=> setSelectedSeries('standalone')}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${
+                      selectedSeries==='standalone'
+                        ? 'bg-primary text-white'
+                        : 'bg-accent text-secondary hover:bg-accent-dark'
+                    }`}
                   >
                     Standalone Sermons
                   </button>
                 )}
-                {sermonSeries.map((series) => (
+                {sermonSeries.map((series)=> (
                   <button
                     key={series.id}
-                    onClick={() => setSelectedSeries(series.id)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${selectedSeries === series.id ? 'bg-primary text-white' : 'bg-accent text-secondary hover:bg-accent-dark'}`}
+                    onClick={()=> setSelectedSeries(series.id)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${
+                      selectedSeries===series.id
+                        ? 'bg-primary text-white'
+                        : 'bg-accent text-secondary hover:bg-accent-dark'
+                    }`}
                   >
                     {series.name}
                   </button>
@@ -169,40 +190,51 @@ const SermonBlog = () => {
         )}
 
         {/* Series Description */}
-        {selectedSeries && selectedSeries !== 'standalone' && selectedSeries !== '' && (
-          <motion.div
-            initial={{opacity: 0, y: 30}}
-            animate={{opacity: 1, y: 0}}
-            transition={{duration: 0.5}}
-            className="bg-primary text-white rounded-lg p-6 mb-8"
-          >
-            <div className="flex items-center space-x-3 mb-3">
-              <SafeIcon icon={FiLayers} className="h-6 w-6" />
-              <h2 className="text-2xl font-fraunces">{getSeriesName(selectedSeries)}</h2>
-            </div>
-            {getSeriesDescription(selectedSeries) && (
-              <p className="text-primary-light font-inter">{getSeriesDescription(selectedSeries)}</p>
-            )}
-          </motion.div>
-        )}
+        {selectedSeries &&
+          selectedSeries !=='standalone' &&
+          selectedSeries !=='' && (
+            <motion.div
+              initial={{opacity: 0,y: 30}}
+              animate={{opacity: 1,y: 0}}
+              transition={{duration: 0.5}}
+              className="bg-primary text-white rounded-lg p-6 mb-8"
+            >
+              <div className="flex items-center space-x-3 mb-3">
+                <SafeIcon icon={FiLayers} className="h-6 w-6" />
+                <h2 className="text-2xl">{getSeriesName(selectedSeries)}</h2>
+              </div>
+              {getSeriesDescription(selectedSeries) && (
+                <p className="text-primary-light font-inter">
+                  {getSeriesDescription(selectedSeries)}
+                </p>
+              )}
+            </motion.div>
+          )}
 
         {/* Sermons List */}
         <div className="space-y-12">
-          {filteredSermons.length === 0 ? (
+          {filteredSermons.length===0 ? (
             <div className="text-center py-12">
-              <SafeIcon icon={FiPlay} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+              <SafeIcon
+                icon={FiPlay}
+                className="h-16 w-16 text-gray-400 mx-auto mb-4"
+              />
               <h2 className="text-xl font-semibold text-secondary mb-2 font-inter">
-                {selectedSeries === '' ? 'No sermons yet' : 'No sermons in this series'}
+                {selectedSeries===''
+                  ? 'No sermons yet'
+                  : 'No sermons in this series'}
               </h2>
-              <p className="text-secondary-light font-inter">Check back soon for updates!</p>
+              <p className="text-secondary-light font-inter">
+                Check back soon for updates!
+              </p>
             </div>
           ) : (
-            filteredSermons.map((sermon, index) => (
+            filteredSermons.map((sermon,index)=> (
               <motion.div
                 key={sermon.id}
-                initial={{opacity: 0, y: 30}}
-                animate={{opacity: 1, y: 0}}
-                transition={{duration: 0.5, delay: index * 0.1}}
+                initial={{opacity: 0,y: 30}}
+                animate={{opacity: 1,y: 0}}
+                transition={{duration: 0.5,delay: index * 0.1}}
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
               >
                 <div className="p-8">
@@ -210,10 +242,10 @@ const SermonBlog = () => {
                   <div className="flex items-center justify-between mb-6">
                     <div>
                       <div className="flex items-center space-x-3 mb-2">
-                        <h2 className="text-3xl text-secondary font-fraunces">
+                        <h2 className="text-3xl text-secondary">
                           {sermon.title}
                         </h2>
-                        {sermon.sermon_series_id && selectedSeries === '' && (
+                        {sermon.sermon_series_id && selectedSeries==='' && (
                           <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary text-white font-inter">
                             <SafeIcon icon={FiLayers} className="h-3 w-3 mr-1" />
                             {getSeriesName(sermon.sermon_series_id)}
@@ -256,11 +288,14 @@ const SermonBlog = () => {
                   {/* Sermon Summary */}
                   {sermon.summary && (
                     <div className="mb-8">
-                      <h3 className="text-xl font-bold mb-4 text-secondary font-inter">
+                      <h3 className="text-xl font-bold mb-4 text-secondary">
                         Sermon Summary
                       </h3>
                       <div className="prose max-w-none">
-                        <div className="rendered-content text-secondary font-inter" dangerouslySetInnerHTML={{__html: sermon.summary}} />
+                        <div
+                          className="rendered-content text-secondary font-inter"
+                          dangerouslySetInnerHTML={{__html: sermon.summary}}
+                        />
                       </div>
                     </div>
                   )}
@@ -269,13 +304,21 @@ const SermonBlog = () => {
                   {sermon.discussion_questions && (
                     <div className="p-6 rounded-lg discussion-questions-section bg-gray-50">
                       <div className="flex items-center space-x-2 mb-4">
-                        <SafeIcon icon={FiMessageCircle} className="h-5 w-5 text-primary" />
-                        <h3 className="text-xl font-bold text-secondary font-inter">
+                        <SafeIcon
+                          icon={FiMessageCircle}
+                          className="h-5 w-5 text-primary"
+                        />
+                        <h3 className="text-xl font-bold text-secondary">
                           Table Group Discussion Questions
                         </h3>
                       </div>
                       <div className="prose max-w-none">
-                        <div className="rendered-content text-secondary font-inter" dangerouslySetInnerHTML={{__html: sermon.discussion_questions}} />
+                        <div
+                          className="rendered-content text-secondary font-inter"
+                          dangerouslySetInnerHTML={{
+                            __html: sermon.discussion_questions
+                          }}
+                        />
                       </div>
                     </div>
                   )}
