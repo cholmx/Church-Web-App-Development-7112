@@ -5,6 +5,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import AudioPlayer from '../components/AudioPlayer';
 import greenPodcastRSSService from '../lib/greenPodcastRSS';
+import StandardButton from '../components/StandardButton';
 
 const { FiMic, FiCalendar, FiHome, FiPlay, FiClock, FiRefreshCw, FiExternalLink, FiChevronDown, FiChevronUp, FiFilter } = FiIcons;
 
@@ -262,14 +263,12 @@ const Green = () => {
 
                       <div className="flex flex-wrap items-center gap-4">
                         {episode.audioUrl ? (
-                          <button
+                          <StandardButton
                             onClick={() => setSelectedEpisode(episode)}
-                            className="bg-white text-primary border-2 border-primary px-4 py-2 rounded-lg font-semibold hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2 font-inter"
-                            style={{ borderColor: '#83A682', color: '#83A682' }}
+                            icon={FiPlay}
                           >
-                            <SafeIcon icon={FiPlay} className="h-4 w-4" />
-                            <span>Play Episode</span>
-                          </button>
+                            Play Episode
+                          </StandardButton>
                         ) : (
                           <div className="bg-gray-100 text-text-light px-4 py-2 rounded-lg font-semibold inline-flex items-center space-x-2 font-inter">
                             <SafeIcon icon={FiPlay} className="h-4 w-4" />
@@ -278,16 +277,12 @@ const Green = () => {
                         )}
 
                         {episode.link && (
-                          <a
-                            href={episode.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-white text-primary border-2 border-primary px-4 py-2 rounded-lg font-semibold hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2 font-inter"
-                            style={{ borderColor: '#83A682', color: '#83A682' }}
+                          <StandardButton
+                            onClick={() => window.open(episode.link,'_blank','noopener,noreferrer')}
+                            icon={FiExternalLink}
                           >
-                            <SafeIcon icon={FiExternalLink} className="h-4 w-4" />
-                            <span>View Online</span>
-                          </a>
+                            View Online
+                          </StandardButton>
                         )}
                       </div>
                     </div>
@@ -299,14 +294,12 @@ const Green = () => {
             {/* Show More Button */}
             {hasMoreEpisodes && (
               <div className="text-center mt-8">
-                <button
+                <StandardButton
                   onClick={handleShowMore}
-                  className="bg-white text-primary border-2 border-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2 font-inter"
-                  style={{ borderColor: '#83A682', color: '#83A682' }}
+                  icon={FiChevronDown}
                 >
-                  <span>Show More Episodes</span>
-                  <SafeIcon icon={FiChevronDown} className="h-4 w-4" />
-                </button>
+                  Show More Episodes
+                </StandardButton>
               </div>
             )}
           </div>

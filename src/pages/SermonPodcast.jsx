@@ -6,6 +6,7 @@ import SafeIcon from '../common/SafeIcon';
 import AudioPlayer from '../components/AudioPlayer';
 import {SkeletonEpisode,LoadingTransition} from '../components/LoadingSkeletons';
 import sermonPodcastRSSService from '../lib/sermonPodcastRSS';
+import StandardButton from '../components/StandardButton';
 
 const {FiMic,FiCalendar,FiHome,FiPlay,FiClock,FiRefreshCw,FiExternalLink,FiChevronDown,FiChevronUp,FiFilter}=FiIcons;
 
@@ -89,7 +90,7 @@ const SermonPodcast=()=> {
     <div className="min-h-screen bg-accent py-12 relative">
       {/* Back to Home Button - Top Right */}
       <div className="fixed top-6 right-6 z-50">
-        <Link to="/" className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105" style={{backgroundColor: '#2c4747'}} title="Back to Home">
+        <Link to="/" className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105" style={{backgroundColor: '#83A682'}} title="Back to Home">
           <SafeIcon icon={FiHome} className="h-5 w-5 text-white" />
         </Link>
       </div>
@@ -253,14 +254,12 @@ const SermonPodcast=()=> {
                         )}
                         <div className="flex flex-wrap items-center gap-4">
                           {episode.audioUrl ? (
-                            <button
+                            <StandardButton
                               onClick={()=> setSelectedEpisode(episode)}
-                              className="bg-white text-primary border-2 border-primary px-4 py-2 rounded-lg hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2"
-                              style={{borderColor: '#2c4747',color: '#2c4747'}}
+                              icon={FiPlay}
                             >
-                              <SafeIcon icon={FiPlay} className="h-4 w-4" />
-                              <span>Play Episode</span>
-                            </button>
+                              Play Episode
+                            </StandardButton>
                           ) : (
                             <div className="bg-gray-100 text-text-light px-4 py-2 rounded-lg inline-flex items-center space-x-2">
                               <SafeIcon icon={FiPlay} className="h-4 w-4" />
@@ -268,19 +267,12 @@ const SermonPodcast=()=> {
                             </div>
                           )}
                           {episode.link && (
-                            <a
-                              href={episode.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="bg-white text-primary border-2 border-primary px-4 py-2 rounded-lg hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2"
-                              style={{borderColor: '#2c4747',color: '#2c4747'}}
+                            <StandardButton
+                              onClick={()=> window.open(episode.link,'_blank','noopener,noreferrer')}
+                              icon={FiExternalLink}
                             >
-                              <SafeIcon
-                                icon={FiExternalLink}
-                                className="h-4 w-4"
-                              />
-                              <span>View Online</span>
-                            </a>
+                              View Online
+                            </StandardButton>
                           )}
                         </div>
                       </div>
@@ -290,14 +282,12 @@ const SermonPodcast=()=> {
               ))}
               {hasMoreEpisodes && (
                 <div className="text-center mt-8">
-                  <button
+                  <StandardButton
                     onClick={handleShowMore}
-                    className="bg-white text-primary border-2 border-primary px-6 py-3 rounded-lg hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2"
-                    style={{borderColor: '#2c4747',color: '#2c4747'}}
+                    icon={FiChevronDown}
                   >
-                    <span>Show More Episodes</span>
-                    <SafeIcon icon={FiChevronDown} className="h-4 w-4" />
-                  </button>
+                    Show More Episodes
+                  </StandardButton>
                 </div>
               )}
             </div>
