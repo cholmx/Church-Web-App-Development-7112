@@ -1,4 +1,5 @@
-import { HashRouter as Router, Routes, Route } from 'react-router-dom'
+import {HashRouter as Router,Routes,Route} from 'react-router-dom'
+
 import Home from './pages/Home'
 import About from './pages/About'
 import Services from './pages/Services'
@@ -6,7 +7,6 @@ import Events from './pages/Events'
 import Ministries from './pages/Ministries'
 import Give from './pages/Give'
 import Contact from './pages/Contact'
-import Settings from './pages/Settings'
 import Announcements from './pages/Announcements'
 import SermonBlog from './pages/SermonBlog'
 import ShinePodcast from './pages/ShinePodcast'
@@ -20,6 +20,7 @@ import Admin from './pages/Admin'
 import Yellow from './pages/Yellow'
 import Green from './pages/Green'
 import NotFound from './pages/NotFound'
+
 import './App.css'
 
 function App() {
@@ -34,7 +35,6 @@ function App() {
           <Route path="/ministries" element={<Ministries />} />
           <Route path="/give" element={<Give />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/settings" element={<Settings />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/announcements" element={<Announcements />} />
           <Route path="/sermon-blog" element={<SermonBlog />} />

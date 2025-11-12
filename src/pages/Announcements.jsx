@@ -52,11 +52,11 @@ return (
 <div className="fixed top-6 right-6 z-50">
 <Link
 to="/"
-className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-medium hover:shadow-strong transition-all duration-300 hover:scale-110 group backdrop-blur"
+className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
 style={{backgroundColor: '#83A682'}}
 title="Back to Home"
 >
-<SafeIcon icon={FiHome} className="h-5 w-5 text-white group-hover:scale-110 transition-transform duration-300" />
+<SafeIcon icon={FiHome} className="h-5 w-5 text-white" />
 </Link>
 </div>
 
@@ -111,7 +111,7 @@ key={announcement.id}
 initial={{opacity: 0,y: 30}}
 animate={{opacity: 1,y: 0}}
 transition={{duration: 0.5,delay: index * 0.1}}
-className="modern-card overflow-hidden hover-scale"
+className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
 >
 <div className="p-8">
 <div className="flex items-center justify-between mb-6">

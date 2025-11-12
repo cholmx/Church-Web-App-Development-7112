@@ -56,11 +56,11 @@ const Contact=()=> {
           </Link>
         </div>
 
-        <motion.div
-          initial={{opacity: 0,scale: 0.9}}
-          animate={{opacity: 1,scale: 1}}
-          transition={{duration: 0.5}}
-          className="modern-card p-8 max-w-md mx-auto text-center"
+        <motion.div 
+          initial={{opacity: 0,scale: 0.9}} 
+          animate={{opacity: 1,scale: 1}} 
+          transition={{duration: 0.5}} 
+          className="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto text-center"
         >
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <SafeIcon icon={FiCheck} className="h-8 w-8 text-green-600" />
@@ -125,11 +125,11 @@ const Contact=()=> {
         </div>
 
         {/* Form */}
-        <motion.div
-          initial={{opacity: 0,y: 30}}
-          animate={{opacity: 1,y: 0}}
-          transition={{duration: 0.8,delay: 0.4}}
-          className="modern-card p-8"
+        <motion.div 
+          initial={{opacity: 0,y: 30}} 
+          animate={{opacity: 1,y: 0}} 
+          transition={{duration: 0.8,delay: 0.4}} 
+          className="bg-white rounded-lg shadow-md p-8"
         >
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Name */}
@@ -139,14 +139,14 @@ const Contact=()=> {
               </label>
               <div className="relative">
                 <SafeIcon icon={FiUser} className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                  className="modern-input pl-10 w-full"
-                  placeholder="Your full name"
+                <input 
+                  type="text" 
+                  name="name" 
+                  value={formData.name} 
+                  onChange={handleInputChange} 
+                  required 
+                  className="pl-10 w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" 
+                  placeholder="Your full name" 
                 />
               </div>
             </div>
@@ -164,7 +164,7 @@ const Contact=()=> {
                   value={formData.email} 
                   onChange={handleInputChange} 
                   required 
-                  className="modern-input pl-10 w-full" 
+                  className="pl-10 w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" 
                   placeholder="your.email@example.com" 
                 />
               </div>
@@ -182,7 +182,7 @@ const Contact=()=> {
                   name="phone" 
                   value={formData.phone} 
                   onChange={handleInputChange} 
-                  className="modern-input pl-10 w-full" 
+                  className="pl-10 w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" 
                   placeholder="(555) 123-4567" 
                 />
               </div>
@@ -198,7 +198,7 @@ const Contact=()=> {
                 value={formData.subject} 
                 onChange={handleInputChange} 
                 required 
-                className="modern-input w-full"
+                className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
               >
                 <option value="">Select a subject</option>
                 <option value="general">General Inquiry</option>
@@ -225,16 +225,16 @@ const Contact=()=> {
                   onChange={handleInputChange} 
                   required 
                   rows={6} 
-                  className="modern-input pl-10 w-full resize-none" 
+                  className="pl-10 w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none" 
                   placeholder="How can we help you?" 
                 />
               </div>
             </div>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="modern-button w-full bg-primary text-white disabled:opacity-50 disabled:cursor-not-allowed"
+            <button 
+              type="submit" 
+              disabled={isSubmitting} 
+              className="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             > 
               {isSubmitting ? 'Sending...' : 'Send Message'} 
             </button>
