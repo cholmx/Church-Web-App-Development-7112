@@ -99,8 +99,8 @@ const Home=()=> {
           ) : (
             <>
               {featuredButtons.length > 0 && (
-                <section className="mb-8">
-                  <div className="flex flex-col gap-4 max-w-full">
+                <section className="mb-8 flex justify-center">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
                     {featuredButtons.map((button, i) => (
                       <HomeButton key={button.title} {...button} isFeatured delay={0.3 + i * 0.1} />
                     ))}
@@ -158,9 +158,7 @@ const Home=()=> {
 };
 
 const HomeButton = ({ title, description, icon, path, isFeatured = false, delay = 0 }) => {
-  const baseClasses = isFeatured
-    ? "relative overflow-hidden p-6 rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block group flex items-center justify-center w-full h-[70px]"
-    : "relative overflow-hidden p-4 rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-[160px] h-[120px] md:w-[225px] md:h-[150px]";
+  const baseClasses = "relative overflow-hidden p-4 rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-[160px] h-[120px] md:w-[225px] md:h-[150px]";
 
   const featuredClasses = "bg-brand-yellow text-text-primary";
   const mainClasses = "bg-brand-blue text-white";
@@ -171,8 +169,9 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, delay 
         <div className={`absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isFeatured ? 'from-white/30' : 'from-white/20'}`}></div>
         {isFeatured ? (
           <div className="relative z-10 flex flex-col items-center">
-            <h3 className="text-lg md:text-xl font-bold font-heading leading-tight text-text-primary">{title}</h3>
-            <p className="text-sm opacity-70 leading-tight text-text-primary">{description}</p>
+            <SafeIcon icon={icon} className="h-6 w-6 md:h-8 md:w-8 mb-2 md:mb-3 transition-transform duration-300 group-hover:scale-110" style={{color: '#1B4965'}} />
+            <h3 className="text-sm md:text-base font-bold font-heading leading-tight text-text-primary">{title}</h3>
+            <p className="text-xs opacity-80 leading-tight text-text-primary">{description}</p>
           </div>
         ) : (
           <div className="relative z-10 flex flex-col items-center">
