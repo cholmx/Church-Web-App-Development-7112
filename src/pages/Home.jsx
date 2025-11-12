@@ -70,16 +70,16 @@ const Home=()=> {
   return (
     <div className="min-h-screen py-12 md:py-20 bg-accent">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <header className="text-center mb-12 md:mb-16">
-          <motion.h1 
+        <header className="text-center mb-6 md:mb-8">
+          <motion.h1
             initial={{opacity: 0,y: 20}} animate={{opacity: 1,y: 0}} transition={{duration: 0.7}}
             className="text-3xl md:text-4xl text-text-primary"
           >
             Upper Room Fellowship
           </motion.h1>
-          <motion.p 
+          <motion.p
             initial={{opacity: 0,y: 20}} animate={{opacity: 1,y: 0}} transition={{duration: 0.7,delay: 0.1}}
-            className="text-base md:text-lg text-text-primary mt-2"
+            className="text-base md:text-lg text-text-primary mt-1"
           >
             Your hub for church life
           </motion.p>
