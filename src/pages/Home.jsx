@@ -156,7 +156,7 @@ const Home=()=> {
 
 const HomeButton = ({ title, description, icon, path, isFeatured = false, delay = 0 }) => {
   const baseClasses = "relative overflow-hidden p-4 rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-[160px] h-[120px] md:w-[225px] md:h-[150px]";
-  const featuredClasses = "bg-brand-yellow text-brand-blue-dark";
+  const featuredClasses = "bg-brand-yellow text-white";
   const mainClasses = "bg-brand-blue text-white";
 
   return (
@@ -164,9 +164,9 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, delay 
       <Link to={path} className={`${baseClasses} ${isFeatured ? featuredClasses : mainClasses}`}>
         <div className={`absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isFeatured ? 'from-white/30' : 'from-white/20'}`}></div>
         <div className="relative z-10 flex flex-col items-center">
-          <SafeIcon icon={icon} className={`h-6 w-6 md:h-8 md:w-8 mb-2 md:mb-3 transition-transform duration-300 group-hover:scale-110 ${isFeatured ? 'text-brand-blue-dark' : 'text-brand-yellow'}`} />
-          <h3 className="text-sm md:text-base font-bold font-heading leading-tight">{title}</h3>
-          <p className={`text-xs opacity-80 leading-tight ${isFeatured ? 'text-brand-blue-dark/80' : 'text-white/80'}`}>{description}</p>
+          <SafeIcon icon={icon} className={`h-6 w-6 md:h-8 md:w-8 mb-2 md:mb-3 transition-transform duration-300 group-hover:scale-110 ${isFeatured ? 'text-white' : 'text-brand-yellow'}`} />
+          <h3 className="text-sm md:text-base font-bold font-heading leading-tight text-white">{title}</h3>
+          <p className="text-xs opacity-80 leading-tight text-white">{description}</p>
         </div>
       </Link>
     </motion.div>

@@ -57,9 +57,11 @@
   .btn-primary {
     @apply bg-primary text-white shadow-modern hover:shadow-modern-lg hover:-translate-y-0.5;
     background-image: linear-gradient(to right, theme('colors.primary'), theme('colors.primary/80'));
+    color: white;
   }
   .btn-secondary {
     @apply bg-brand-blue text-white shadow-modern hover:shadow-modern-lg hover:-translate-y-0.5;
+    color: white;
   }
   .btn-outline {
     @apply bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white;

@@ -13,8 +13,8 @@ export default {
         'accent-light': '#FFFFFF',
         'accent-dark': '#F3F1E6',
         
-        'text-primary': '#333333',
-        'text-secondary': '#5F5F5A',
+        'text-primary': '#1E1E21',
+        'text-secondary': '#1E1E21',
         'text-light': '#888888',
 
         'brand-yellow': '#E2BA49',
