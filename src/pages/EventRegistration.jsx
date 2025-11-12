@@ -4,6 +4,7 @@ import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
+import StandardButton from '../components/StandardButton';
 
 const {FiCalendar,FiHome,FiExternalLink}=FiIcons;
 
@@ -111,15 +112,12 @@ const EventRegistration=()=> {
                 />
                 {event.link && (
                   <div className="flex justify-start">
-                    <a
-                      href={event.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition-colors inline-flex items-center space-x-2"
+                    <StandardButton
+                      onClick={() => window.open(event.link, '_blank', 'noopener,noreferrer')}
+                      icon={FiExternalLink}
                     >
-                      <SafeIcon icon={FiExternalLink} className="h-4 w-4" />
-                      <span>Register Here</span>
-                    </a>
+                      Register Here
+                    </StandardButton>
                   </div>
                 )}
               </motion.div>

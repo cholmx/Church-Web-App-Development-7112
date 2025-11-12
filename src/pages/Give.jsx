@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
+import StandardButton from '../components/StandardButton';
 
 const {FiCreditCard,FiExternalLink,FiShield,FiHome}=FiIcons;
 
@@ -63,13 +64,13 @@ const Give=()=> {
                 ministries. Click below to access our secure online giving
                 platform.
               </p>
-              <button
+              <StandardButton
                 onClick={handleGiveClick}
-                className="bg-primary text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary-dark transition-colors inline-flex items-center space-x-3"
+                icon={FiExternalLink}
+                className="text-lg px-8 py-4"
               >
-                <SafeIcon icon={FiExternalLink} className="h-5 w-5" />
-                <span>Give Online Now</span>
-              </button>
+                Give Online Now
+              </StandardButton>
             </div>
 
             {/* Security Notice */}

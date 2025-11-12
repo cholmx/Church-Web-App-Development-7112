@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom'
+import StandardButton from '../components/StandardButton'
+import { FiHome } from 'react-icons/fi'
 
 const NotFound = () => {
   return (
@@ -9,11 +11,10 @@ const NotFound = () => {
         <p className="text-lg text-text-custom mb-8">
           Sorry, the page you're looking for doesn't exist.
         </p>
-        <Link 
-          to="/" 
-          className="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
-        >
-          Return Home
+        <Link to="/">
+          <StandardButton icon={FiHome}>
+            Return Home
+          </StandardButton>
         </Link>
       </div>
     </div>

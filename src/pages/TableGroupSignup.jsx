@@ -4,6 +4,7 @@ import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import {submitTableGroupSignup} from '../lib/contactStorage';
+import StandardButton from '../components/StandardButton';
 
 const {FiUsers,FiCheck,FiUser,FiMail,FiHash,FiHome}=FiIcons;
 
@@ -82,17 +83,20 @@ const TableGroupSignup=()=> {
             in touch soon to help you find the perfect group!
           </p>
           <div className="space-y-3">
-            <button
+            <StandardButton
               onClick={()=> setIsSubmitted(false)}
-              className="w-full bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-dark transition-colors"
+              icon={FiUsers}
+              fullWidth
             >
               Submit Another
-            </button>
-            <Link
-              to="/"
-              className="block w-full bg-gray-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-600 transition-colors text-center"
-            >
-              Back to Home
+            </StandardButton>
+            <Link to="/">
+              <StandardButton
+                icon={FiHome}
+                fullWidth
+              >
+                Back to Home
+              </StandardButton>
             </Link>
           </div>
         </motion.div>
@@ -253,13 +257,14 @@ const TableGroupSignup=()=> {
               </div>
             </div>
 
-            <button
+            <StandardButton
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              icon={FiUsers}
+              fullWidth
             >
               {isSubmitting ? 'Submitting...' : 'Submit Sign-Up'}
-            </button>
+            </StandardButton>
           </form>
         </motion.div>
       </div>

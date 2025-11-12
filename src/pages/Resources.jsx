@@ -6,6 +6,7 @@ import SafeIcon from '../common/SafeIcon';
 import BookCard from '../components/BookCard';
 import {SkeletonBookCard,LoadingTransition} from '../components/LoadingSkeletons';
 import supabase from '../lib/supabase';
+import StandardButton from '../components/StandardButton';
 
 const {FiBookOpen,FiHome,FiExternalLink,FiTag,FiFilter,FiLink}=FiIcons;
 
@@ -146,12 +147,14 @@ const Resources=()=> {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-red-50 border border-red-200 rounded-lg p-8 text-center">
             <p className="text-red-700 font-inter">{error}</p>
-            <button
-              onClick={()=> window.location.reload()}
-              className="mt-4 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors"
-            >
-              Try Again
-            </button>
+            <div className="mt-4">
+              <StandardButton
+                onClick={()=> window.location.reload()}
+                icon={FiIcons.FiRefreshCw}
+              >
+                Try Again
+              </StandardButton>
+            </div>
           </div>
         </div>
       </div>

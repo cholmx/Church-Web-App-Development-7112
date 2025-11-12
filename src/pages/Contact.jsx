@@ -4,6 +4,7 @@ import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import {submitContactForm} from '../lib/contactStorage';
+import StandardButton from '../components/StandardButton';
 
 const {FiMail,FiCheck,FiUser,FiMessageSquare,FiPhone,FiHome}=FiIcons;
 
@@ -65,12 +66,13 @@ const Contact=()=> {
             possible.
           </p>
           <div className="space-y-3">
-            <button
+            <StandardButton
               onClick={()=> setIsSubmitted(false)}
-              className="w-full bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-dark transition-colors"
+              icon={FiMail}
+              fullWidth
             >
               Send Another Message
-            </button>
+            </StandardButton>
           </div>
         </motion.div>
       </div>
@@ -231,13 +233,14 @@ const Contact=()=> {
               </div>
             </div>
 
-            <button
+            <StandardButton
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              icon={FiMail}
+              fullWidth
             >
               {isSubmitting ? 'Sending...' : 'Send Message'}
-            </button>
+            </StandardButton>
           </form>
         </motion.div>
       </div>
