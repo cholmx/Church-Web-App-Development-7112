@@ -141,7 +141,7 @@ const Events = () => {
       <section className="py-8 bg-white border-b border-accent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <div className="flex items-center space-x-2 text-secondary">
+            <div className="flex items-center space-x-2 text-text-primary">
               <SafeIcon icon={FiFilter} className="h-5 w-5" />
               <span className="font-medium font-inter">Filter by:</span>
             </div>
@@ -149,7 +149,7 @@ const Events = () => {
               <button
                 key={category.key}
                 onClick={() => setFilter(category.key)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${filter === category.key ? 'bg-primary text-white' : 'bg-accent text-secondary hover:bg-accent-dark'}`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${filter === category.key ? 'bg-primary text-white' : 'bg-accent text-text-primary hover:bg-accent-dark'}`}
               >
                 {category.label}
               </button>
@@ -172,9 +172,9 @@ const Events = () => {
               >
                 <img src={event.image} alt={event.title} className="w-full h-48 object-cover" />
                 <div className="p-6">
-                  <h3 className="text-xl mb-3 text-secondary font-fraunces">{event.title}</h3>
-                  <p className="text-secondary mb-4 font-inter">{event.description}</p>
-                  <div className="space-y-2 text-sm text-secondary-light">
+                  <h3 className="text-xl mb-3 text-text-primary font-fraunces">{event.title}</h3>
+                  <p className="text-text-primary mb-4 font-inter">{event.description}</p>
+                  <div className="space-y-2 text-sm text-text-light">
                     <div className="flex items-center space-x-2">
                       <SafeIcon icon={FiCalendar} className="h-4 w-4 text-primary" />
                       <span className="font-inter">{formatDate(event.date)}</span>
@@ -199,7 +199,7 @@ const Events = () => {
           </div>
           {filteredEvents.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-secondary text-lg font-inter">No events found for the selected category.</p>
+              <p className="text-text-primary text-lg font-inter">No events found for the selected category.</p>
             </div>
           )}
         </div>
@@ -213,10 +213,10 @@ const Events = () => {
             Don't miss out on upcoming events and opportunities to grow in faith and community.
           </p>
           <div className="space-x-4">
-            <button className="bg-white text-secondary px-8 py-3 rounded-full font-semibold hover:bg-accent transition-colors font-inter">
+            <button className="bg-white text-text-primary px-8 py-3 rounded-full font-semibold hover:bg-accent transition-colors font-inter">
               Subscribe to Updates
             </button>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-secondary transition-colors font-inter">
+            <button className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-text-primary transition-colors font-inter">
               Contact Us
             </button>
           </div>

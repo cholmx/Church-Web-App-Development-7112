@@ -107,7 +107,7 @@ const RichTextEditor = ({ value, onChange, placeholder, rows = 12, className = '
 
   return (
     <div className={`border border-accent-dark rounded-lg overflow-hidden bg-white ${className}`}>
-      <div className="bg-gray-50 border-b border-accent-dark p-3 text-sm text-gray-600">
+      <div className="bg-gray-50 border-b border-accent-dark p-3 text-sm text-text-light">
         💡 <strong>Tip:</strong> Paste formatted text directly! Bold, italics, lists, and paragraphs will be preserved. 
         Press <kbd>Enter</kbd> for new paragraph, <kbd>Shift+Enter</kbd> for line break.
       </div>

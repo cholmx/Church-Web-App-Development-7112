@@ -116,7 +116,7 @@ const AdminAnnouncements=()=> {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl text-secondary">Manage Announcements</h2>
+        <h2 className="text-2xl text-text-primary">Manage Announcements</h2>
         <button
           onClick={()=> setShowForm(true)}
           className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors inline-flex items-center space-x-2"
@@ -137,7 +137,7 @@ const AdminAnnouncements=()=> {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-secondary mb-2">Title *</label>
+                  <label className="block text-sm font-medium text-text-primary mb-2">Title *</label>
                   <input
                     type="text"
                     value={formData.title}
@@ -148,7 +148,7 @@ const AdminAnnouncements=()=> {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-secondary mb-2">Date *</label>
+                  <label className="block text-sm font-medium text-text-primary mb-2">Date *</label>
                   <input
                     type="date"
                     value={formData.announcement_date}
@@ -159,7 +159,7 @@ const AdminAnnouncements=()=> {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2">Content *</label>
+                <label className="block text-sm font-medium text-text-primary mb-2">Content *</label>
                 <RichTextEditor
                   value={formData.content}
                   onChange={handleContentChange}
@@ -168,7 +168,7 @@ const AdminAnnouncements=()=> {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2">Author</label>
+                <label className="block text-sm font-medium text-text-primary mb-2">Author</label>
                 <input
                   type="text"
                   value={formData.author}
@@ -205,7 +205,7 @@ const AdminAnnouncements=()=> {
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           {announcements.length===0 ? (
             <div className="p-8 text-center">
-              <p className="text-secondary">No announcements yet.</p>
+              <p className="text-text-primary">No announcements yet.</p>
             </div>
           ) : (
             <div className="divide-y divide-accent">
@@ -218,14 +218,14 @@ const AdminAnnouncements=()=> {
                 >
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
-                      <h3 className="text-2xl text-secondary mb-2">
+                      <h3 className="text-2xl text-text-primary mb-2">
                         {announcement.title}
                       </h3>
                       <div
                         className="announcement-content text-sm mb-2 prose prose-sm max-w-none"
                         dangerouslySetInnerHTML={{__html: announcement.content}}
                       />
-                      <div className="text-sm text-secondary-light">
+                      <div className="text-sm text-text-light">
                         {announcement.author && `By ${announcement.author} • `}
                         {announcement.announcement_date
                           ? formatDate(announcement.announcement_date)

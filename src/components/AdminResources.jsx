@@ -571,7 +571,7 @@ className="bg-red-50 border border-red-200 rounded-lg p-4"
 
 {/* Header */}
 <div className="flex justify-between items-center">
-<h2 className="text-2xl font-bold text-secondary font-inter">
+<h2 className="text-2xl font-bold text-text-primary font-inter">
 Manage Resources
 </h2>
 <div className="space-x-2">
@@ -623,7 +623,7 @@ initial={{opacity: 0,y: 20}}
 animate={{opacity: 1,y: 0}}
 className="bg-white rounded-lg shadow-md p-6"
 >
-<h3 className="text-lg font-semibold text-secondary mb-4 font-inter">
+<h3 className="text-lg font-semibold text-text-primary mb-4 font-inter">
 Bulk Import Book Recommendations
 </h3>
 
@@ -654,7 +654,7 @@ https://www.amazon.com/Mere-Christianity-C-S-Lewis/dp/0060652926`}
 
 <div className="space-y-4">
 <div>
-<label className="block text-sm font-medium text-secondary mb-2 font-inter">
+<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
 Upload Text File (.txt)
 </label>
 <input
@@ -667,7 +667,7 @@ className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ri
 </div>
 
 <div>
-<label className="block text-sm font-medium text-secondary mb-2 font-inter">
+<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
 Or Paste Text Here
 </label>
 <textarea
@@ -722,7 +722,7 @@ Resource Categories
 {/* Categories Management */}
 {categories.length > 0 && (
 <div className="bg-white rounded-lg shadow-md p-6">
-<h3 className="text-lg font-semibold text-secondary mb-4 font-inter">
+<h3 className="text-lg font-semibold text-text-primary mb-4 font-inter">
 Categories ({categories.length})
 </h3>
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -734,7 +734,7 @@ className="border border-accent-dark rounded-lg p-4"
 <div className="flex justify-between items-start mb-2">
 <div className="flex-1">
 <div className="flex items-center space-x-2 mb-1">
-<h4 className="font-semibold text-secondary font-inter">{category.name}</h4>
+<h4 className="font-semibold text-text-primary font-inter">{category.name}</h4>
 <SafeIcon
 icon={category.is_link_group ? FiLink : FiBookOpen}
 className="h-4 w-4 text-primary"
@@ -758,7 +758,7 @@ className="text-red-500 hover:text-red-700 ml-2"
 </button>
 </div>
 {category.description && (
-<p className="text-sm text-secondary-light font-inter mt-2">{category.description}</p>
+<p className="text-sm text-text-light font-inter mt-2">{category.description}</p>
 )}
 </div>
 ))}
@@ -773,12 +773,12 @@ initial={{opacity: 0,y: 20}}
 animate={{opacity: 1,y: 0}}
 className="bg-white rounded-lg shadow-md p-6"
 >
-<h3 className="text-lg font-semibold text-secondary mb-4 font-inter">
+<h3 className="text-lg font-semibold text-text-primary mb-4 font-inter">
 Create New Category
 </h3>
 <form onSubmit={handleCategorySubmit} className="space-y-4">
 <div>
-<label className="block text-sm font-medium text-secondary mb-2 font-inter">
+<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
 Category Name *
 </label>
 <input
@@ -792,7 +792,7 @@ placeholder="e.g., Biblical Studies, Useful Links"
 </div>
 
 <div>
-<label className="block text-sm font-medium text-secondary mb-2 font-inter">
+<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
 Category Type *
 </label>
 <div className="space-y-2">
@@ -806,7 +806,7 @@ className="w-4 h-4 text-primary focus:ring-primary"
 />
 <div className="flex items-center space-x-2">
 <SafeIcon icon={FiBookOpen} className="h-4 w-4 text-green-600" />
-<span className="text-sm text-secondary font-inter">Book Category (for individual books)</span>
+<span className="text-sm text-text-primary font-inter">Book Category (for individual books)</span>
 </div>
 </label>
 <label className="flex items-center space-x-3 cursor-pointer">
@@ -819,14 +819,14 @@ className="w-4 h-4 text-primary focus:ring-primary"
 />
 <div className="flex items-center space-x-2">
 <SafeIcon icon={FiLink} className="h-4 w-4 text-blue-600" />
-<span className="text-sm text-secondary font-inter">Link Group (for website collections)</span>
+<span className="text-sm text-text-primary font-inter">Link Group (for website collections)</span>
 </div>
 </label>
 </div>
 </div>
 
 <div>
-<label className="block text-sm font-medium text-secondary mb-2 font-inter">
+<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
 Description
 </label>
 <textarea
@@ -870,7 +870,7 @@ className="bg-white rounded-lg shadow-md p-6"
 <form onSubmit={handleSubmit} className="space-y-4">
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 <div>
-<label className="block text-sm font-medium text-secondary mb-2 font-inter">
+<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
 Title *
 </label>
 <input
@@ -883,7 +883,7 @@ placeholder="Book title or link name"
 />
 </div>
 <div>
-<label className="block text-sm font-medium text-secondary mb-2 font-inter">
+<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
 Author
 </label>
 <input
@@ -897,7 +897,7 @@ placeholder="Author name (for books)"
 </div>
 
 <div>
-<label className="block text-sm font-medium text-secondary mb-2 font-inter">
+<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
 Category
 </label>
 <select
@@ -915,7 +915,7 @@ className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ri
 </div>
 
 <div>
-<label className="block text-sm font-medium text-secondary mb-2 font-inter">
+<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
 Description
 </label>
 <textarea
@@ -928,8 +928,8 @@ placeholder="Brief description (optional)"
 </div>
 
 <div>
-<label className="block text-sm font-medium text-secondary mb-2 font-inter">
-Links * <span className="text-sm text-gray-500">(one per line for multiple links)</span>
+<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+Links * <span className="text-sm text-text-light">(one per line for multiple links)</span>
 </label>
 <textarea
 value={formData.amazon_link}
@@ -944,7 +944,7 @@ https://www.christianbook.com/...`}
 </div>
 
 <div>
-<label className="block text-sm font-medium text-secondary mb-2 font-inter">
+<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
 Image URL
 </label>
 <input
@@ -983,12 +983,12 @@ className="bg-gray-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gr
 {loading ? (
 <div className="p-8 text-center">
 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-<p className="text-secondary font-inter">Loading...</p>
+<p className="text-text-primary font-inter">Loading...</p>
 </div>
 ) : resources.length===0 ? (
 <div className="p-8 text-center">
-<SafeIcon icon={FiBookOpen} className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-<p className="text-secondary font-inter">No resources yet. Create your first resource above!</p>
+<SafeIcon icon={FiBookOpen} className="h-12 w-12 text-text-light mx-auto mb-4" />
+<p className="text-text-primary font-inter">No resources yet. Create your first resource above!</p>
 </div>
 ) : (
 <div className="divide-y divide-accent">
@@ -1002,7 +1002,7 @@ return (
 <div className="flex justify-between items-start">
 <div className="flex-1">
 <div className="flex items-center space-x-3 mb-2">
-<h3 className="text-lg font-semibold text-secondary font-inter">
+<h3 className="text-lg font-semibold text-text-primary font-inter">
 {resource.title}
 </h3>
 {resource.category_id && (
@@ -1023,13 +1023,13 @@ categories.find(c=> c.id===resource.category_id)?.is_link_group
 </div>
 
 {resource.author && (
-<p className="text-sm text-secondary-light font-inter mb-2">
+<p className="text-sm text-text-light font-inter mb-2">
 by {resource.author}
 </p>
 )}
 
 {cleanDescription && (
-<p className="text-secondary font-inter text-sm mb-3">
+<p className="text-text-primary font-inter text-sm mb-3">
 {cleanDescription}
 </p>
 )}

@@ -73,7 +73,7 @@ const Ministries = () => {
   const getIconColor = (color) => {
     const colors = {
       primary: 'text-primary',
-      secondary: 'text-secondary',
+      secondary: 'text-text-primary',
       pink: 'text-pink-500',
       orange: 'text-orange-500',
       purple: 'text-purple-500',
@@ -144,13 +144,13 @@ const Ministries = () => {
                       {ministry.ageGroup}
                     </span>
                   </div>
-                  <h3 className="text-xl mb-3 text-secondary font-fraunces">{ministry.title}</h3>
-                  <p className="text-secondary mb-4 font-inter">{ministry.description}</p>
+                  <h3 className="text-xl mb-3 text-text-primary font-fraunces">{ministry.title}</h3>
+                  <p className="text-text-primary mb-4 font-inter">{ministry.description}</p>
                   <div>
-                    <h4 className="text-secondary mb-2 font-fraunces">What We Offer:</h4>
+                    <h4 className="text-text-primary mb-2 font-fraunces">What We Offer:</h4>
                     <ul className="space-y-1">
                       {ministry.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center space-x-2 text-secondary">
+                        <li key={featureIndex} className="flex items-center space-x-2 text-text-primary">
                           <div className={`w-2 h-2 rounded-full ${getIconColor(ministry.color).replace('text-', 'bg-')}`}></div>
                           <span className="text-sm font-inter">{feature}</span>
                         </li>
@@ -172,8 +172,8 @@ const Ministries = () => {
       {/* Get Involved Section */}
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-6 font-fraunces">Ready to Get Involved?</h2>
-          <p className="text-xl text-secondary mb-8 page-subtitle">
+          <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-6 font-fraunces">Ready to Get Involved?</h2>
+          <p className="text-xl text-text-primary mb-8 page-subtitle">
             Whether you're new to faith or have been walking with Jesus for years, there's a place for you to serve and grow.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
@@ -182,21 +182,21 @@ const Ministries = () => {
                 <SafeIcon icon={FiUsers} className="h-8 w-8 text-primary" />
               </div>
               <h3 className="text-lg mb-2 font-fraunces">Connect</h3>
-              <p className="text-secondary font-inter">Find your community and build meaningful relationships</p>
+              <p className="text-text-primary font-inter">Find your community and build meaningful relationships</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
                 <SafeIcon icon={FiBookOpen} className="h-8 w-8 text-primary" />
               </div>
               <h3 className="text-lg mb-2 font-fraunces">Grow</h3>
-              <p className="text-secondary font-inter">Deepen your faith through study and discipleship</p>
+              <p className="text-text-primary font-inter">Deepen your faith through study and discipleship</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
                 <SafeIcon icon={FiHeart} className="h-8 w-8 text-primary" />
               </div>
               <h3 className="text-lg mb-2 font-fraunces">Serve</h3>
-              <p className="text-secondary font-inter">Use your gifts to make a difference in others' lives</p>
+              <p className="text-text-primary font-inter">Use your gifts to make a difference in others' lives</p>
             </div>
           </div>
           <button className="bg-primary text-white px-8 py-3 rounded-full font-semibold hover:bg-primary-dark transition-colors font-inter">
@@ -209,8 +209,8 @@ const Ministries = () => {
       <section className="py-16 bg-accent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4 font-fraunces">Ministry Leadership</h2>
-            <p className="text-xl text-secondary page-subtitle">Meet some of the dedicated leaders serving our church family</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4 font-fraunces">Ministry Leadership</h2>
+            <p className="text-xl text-text-primary page-subtitle">Meet some of the dedicated leaders serving our church family</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
@@ -239,7 +239,7 @@ const Ministries = () => {
               >
                 <img src={leader.image} alt={leader.name} className="w-full h-64 object-cover" />
                 <div className="p-6">
-                  <h3 className="text-xl mb-1 text-secondary font-fraunces">{leader.name}</h3>
+                  <h3 className="text-xl mb-1 text-text-primary font-fraunces">{leader.name}</h3>
                   <p className="text-primary font-medium font-inter">{leader.role}</p>
                 </div>
               </motion.div>

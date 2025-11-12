@@ -101,7 +101,7 @@ const AdminClasses=()=> {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl text-secondary">Manage Classes</h2>
+        <h2 className="text-2xl text-text-primary">Manage Classes</h2>
         <button
           onClick={()=> setShowForm(true)}
           className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors inline-flex items-center space-x-2"
@@ -121,7 +121,7 @@ const AdminClasses=()=> {
           >
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2">Class Title *</label>
+                <label className="block text-sm font-medium text-text-primary mb-2">Class Title *</label>
                 <input
                   type="text"
                   value={formData.title}
@@ -132,7 +132,7 @@ const AdminClasses=()=> {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2">Class Details *</label>
+                <label className="block text-sm font-medium text-text-primary mb-2">Class Details *</label>
                 <RichTextEditor
                   value={formData.details}
                   onChange={(e)=> setFormData({...formData,details: e.target.value})}
@@ -141,7 +141,7 @@ const AdminClasses=()=> {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2">Registration Link</label>
+                <label className="block text-sm font-medium text-text-primary mb-2">Registration Link</label>
                 <input
                   type="url"
                   value={formData.link}
@@ -149,7 +149,7 @@ const AdminClasses=()=> {
                   className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                   placeholder="https://example.com/register"
                 />
-                <p className="text-sm text-secondary-light mt-1">
+                <p className="text-sm text-text-light mt-1">
                   Optional: Add a link to external registration or more information
                 </p>
               </div>
@@ -181,7 +181,7 @@ const AdminClasses=()=> {
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           {classes.length===0 ? (
             <div className="p-8 text-center">
-              <p className="text-secondary">No classes yet.</p>
+              <p className="text-text-primary">No classes yet.</p>
             </div>
           ) : (
             <div className="divide-y divide-accent">
@@ -189,9 +189,9 @@ const AdminClasses=()=> {
                 <div key={classItem.id} className="p-6">
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
-                      <h3 className="text-lg text-secondary mb-2">{classItem.title}</h3>
+                      <h3 className="text-lg text-text-primary mb-2">{classItem.title}</h3>
                       <div
-                        className="text-secondary text-sm mb-2 prose prose-sm max-w-none rendered-content"
+                        className="text-text-primary text-sm mb-2 prose prose-sm max-w-none rendered-content"
                         dangerouslySetInnerHTML={{__html: classItem.details}}
                       />
                       {classItem.link && (

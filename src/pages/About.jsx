@@ -57,13 +57,13 @@ const About=()=> {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl mb-6">Our Story</h2>
-              <p className="text-lg text-secondary mb-4">
+              <p className="text-lg text-text-primary mb-4">
                 Upper Room Fellowship was founded in 1985 with a simple vision: to create a place where people from all walks of life could come together to worship,grow,and serve God.
               </p>
-              <p className="text-lg text-secondary mb-4">
+              <p className="text-lg text-text-primary mb-4">
                 Over the years,we've grown from a small gathering of families to a vibrant community of believers who are passionate about making a difference in our city and beyond.
               </p>
-              <p className="text-lg text-secondary">
+              <p className="text-lg text-text-primary">
                 Our church is built on the foundation of God's love,grace,and truth. We believe that every person has value and purpose,and we're committed to helping each individual discover their unique calling in God's kingdom.
               </p>
             </div>
@@ -89,7 +89,7 @@ const About=()=> {
               className="bg-white p-8 rounded-lg shadow-md"
             >
               <h3 className="text-2xl mb-4">Our Mission</h3>
-              <p className="text-secondary text-lg">
+              <p className="text-text-primary text-lg">
                 To make disciples of Jesus Christ who love God,love people,and serve the world with passion and purpose. We exist to help people find and follow Jesus.
               </p>
             </motion.div>
@@ -100,7 +100,7 @@ const About=()=> {
               className="bg-white p-8 rounded-lg shadow-md"
             >
               <h3 className="text-2xl mb-4">Our Vision</h3>
-              <p className="text-secondary text-lg">
+              <p className="text-text-primary text-lg">
                 To be a church that transforms lives and communities through the power of God's love,creating a lasting impact for generations to come.
               </p>
             </motion.div>
@@ -113,7 +113,7 @@ const About=()=> {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl mb-2">Our Core Values</h2>
-            <p className="text-lg text-secondary page-subtitle">The principles that guide everything we do</p>
+            <p className="text-lg text-text-primary page-subtitle">The principles that guide everything we do</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value,index)=> (
@@ -125,9 +125,9 @@ const About=()=> {
                 className="text-center p-6 rounded-lg hover:shadow-md transition-shadow"
                 style={{backgroundColor: '#fcfaf2'}}
               >
-                <SafeIcon icon={value.icon} className="h-12 w-12 text-secondary mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-3 text-secondary">{value.title}</h3>
-                <p className="text-secondary">{value.description}</p>
+                <SafeIcon icon={value.icon} className="h-12 w-12 text-text-primary mx-auto mb-4" />
+                <h3 className="text-xl font-semibold mb-3 text-text-primary">{value.title}</h3>
+                <p className="text-text-primary">{value.description}</p>
               </motion.div>
             ))}
           </div>
@@ -139,7 +139,7 @@ const About=()=> {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl mb-2">Meet Our Team</h2>
-            <p className="text-lg text-secondary page-subtitle">The dedicated leaders serving our church family</p>
+            <p className="text-lg text-text-primary page-subtitle">The dedicated leaders serving our church family</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {staff.map((member,index)=> (
@@ -152,9 +152,9 @@ const About=()=> {
               >
                 <img src={member.image} alt={member.name} className="w-full h-64 object-cover" />
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-1 text-secondary">{member.name}</h3>
+                  <h3 className="text-xl font-semibold mb-1 text-text-primary">{member.name}</h3>
                   <p className="text-primary font-medium mb-3">{member.role}</p>
-                  <p className="text-secondary">{member.bio}</p>
+                  <p className="text-text-primary">{member.bio}</p>
                 </div>
               </motion.div>
             ))}

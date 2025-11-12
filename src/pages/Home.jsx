@@ -79,7 +79,7 @@ const Home=()=> {
           </motion.h1>
           <motion.p 
             initial={{opacity: 0,y: 20}} animate={{opacity: 1,y: 0}} transition={{duration: 0.7,delay: 0.1}}
-            className="text-base md:text-lg text-text-secondary mt-2"
+            className="text-base md:text-lg text-text-primary mt-2"
           >
             Your hub for church life
           </motion.p>
@@ -129,20 +129,20 @@ const Home=()=> {
             initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.8, delay: 1.2}}
             className="mt-16 text-center"
           >
-            <h3 className="text-lg text-text-secondary mb-4">Follow Us</h3>
+            <h3 className="text-lg text-text-primary mb-4">Follow Us</h3>
             <div className="flex justify-center space-x-6">
               {socialLinks.map((social, i) => (
                 <motion.a
                   key={social.name} href={social.url} target="_blank" rel="noopener noreferrer"
                   initial={{opacity: 0, scale: 0.8}} animate={{opacity: 1, scale: 1}} transition={{duration: 0.5, delay: 1.3 + i * 0.1}}
-                  className="text-social-green hover:text-secondary transition-colors transform hover:scale-110"
+                  className="text-social-green hover:text-text-primary transition-colors transform hover:scale-110"
                 >
                   <SafeIcon icon={social.icon} className="h-8 w-8" />
                 </motion.a>
               ))}
             </div>
             <div className="mt-12">
-              <Link to="/admin" className="inline-flex items-center space-x-2 text-text-light hover:text-text-secondary transition-colors">
+              <Link to="/admin" className="inline-flex items-center space-x-2 text-text-light hover:text-text-primary transition-colors">
                 <SafeIcon icon={FiSettings} className="h-4 w-4" />
                 <span>Admin</span>
               </Link>

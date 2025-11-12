@@ -194,13 +194,13 @@ const DailyDevotional = () => {
         ) : currentDevotional ? (
           <div className="space-y-4">
             {/* Date */}
-            <div className="flex items-center space-x-2 text-sm text-secondary-light">
+            <div className="flex items-center space-x-2 text-sm text-text-light">
               <SafeIcon icon={FiCalendar} className="h-4 w-4" />
               <span className="font-inter">{formatDateDisplay(selectedDate)}</span>
             </div>
 
             {/* Title */}
-            <h4 className="text-xl font-bold text-secondary font-inter">
+            <h4 className="text-xl font-bold text-text-primary font-inter">
               {currentDevotional.title}
             </h4>
 
@@ -213,14 +213,14 @@ const DailyDevotional = () => {
 
             {/* Scripture Reference */}
             {currentDevotional.scripture_reference && (
-              <p className="text-sm font-medium text-secondary italic font-inter">
+              <p className="text-sm font-medium text-text-primary italic font-inter">
                 {currentDevotional.scripture_reference}
               </p>
             )}
 
             {/* Content */}
             {currentDevotional.content && (
-              <div className="text-secondary leading-relaxed font-inter">
+              <div className="text-text-primary leading-relaxed font-inter">
                 {currentDevotional.content.split('\n\n').map((paragraph, index) => (
                   <p key={index} className="mb-3">
                     {paragraph}
@@ -232,26 +232,26 @@ const DailyDevotional = () => {
             {/* Response */}
             {currentDevotional.response && (
               <div className="bg-accent p-4 rounded-lg">
-                <h6 className="font-semibold text-secondary mb-2 font-inter">Response:</h6>
-                <p className="text-secondary font-inter">{currentDevotional.response}</p>
+                <h6 className="font-semibold text-text-primary mb-2 font-inter">Response:</h6>
+                <p className="text-text-primary font-inter">{currentDevotional.response}</p>
               </div>
             )}
 
             {/* Prayer */}
             {currentDevotional.prayer && (
               <div className="bg-primary bg-opacity-10 p-4 rounded-lg">
-                <h6 className="font-semibold text-secondary mb-2 font-inter">Prayer:</h6>
-                <p className="text-secondary italic font-inter">{currentDevotional.prayer}</p>
+                <h6 className="font-semibold text-text-primary mb-2 font-inter">Prayer:</h6>
+                <p className="text-text-primary italic font-inter">{currentDevotional.prayer}</p>
               </div>
             )}
           </div>
         ) : (
           <div className="text-center py-8">
-            <SafeIcon icon={FiBookOpen} className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h4 className="text-lg font-semibold text-secondary mb-2 font-inter">
+            <SafeIcon icon={FiBookOpen} className="h-12 w-12 text-text-light mx-auto mb-4" />
+            <h4 className="text-lg font-semibold text-text-primary mb-2 font-inter">
               No Devotional for This Date
             </h4>
-            <p className="text-secondary-light font-inter">
+            <p className="text-text-light font-inter">
               Select a different date using the navigation arrows.
             </p>
           </div>

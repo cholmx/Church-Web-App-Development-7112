@@ -260,7 +260,7 @@ const AdminSermons = () => {
 
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-secondary font-inter">
+        <h2 className="text-2xl font-bold text-text-primary font-inter">
           Manage Sermons
         </h2>
         <div className="space-x-2">
@@ -284,14 +284,14 @@ const AdminSermons = () => {
       {/* Series Management */}
       {sermonSeries.length > 0 && (
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold text-secondary mb-4 font-inter">
+          <h3 className="text-lg font-semibold text-text-primary mb-4 font-inter">
             Sermon Series
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {sermonSeries.map((series) => (
               <div key={series.id} className="border border-accent-dark rounded-lg p-4">
                 <div className="flex justify-between items-start mb-2">
-                  <h4 className="font-semibold text-secondary font-inter">{series.name}</h4>
+                  <h4 className="font-semibold text-text-primary font-inter">{series.name}</h4>
                   <button
                     onClick={() => handleDeleteSeries(series.id)}
                     className="text-red-500 hover:text-red-700"
@@ -299,8 +299,8 @@ const AdminSermons = () => {
                     <SafeIcon icon={FiTrash2} className="h-4 w-4" />
                   </button>
                 </div>
-                <p className="text-sm text-secondary-light mb-2 font-inter">{series.description}</p>
-                <div className="text-xs text-secondary-light font-inter">
+                <p className="text-sm text-text-light mb-2 font-inter">{series.description}</p>
+                <div className="text-xs text-text-light font-inter">
                   {new Date(series.start_date).toLocaleDateString()} - {
                     series.end_date ? new Date(series.end_date).toLocaleDateString() : 'Ongoing'
                   }
@@ -318,13 +318,13 @@ const AdminSermons = () => {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-lg shadow-md p-6"
         >
-          <h3 className="text-lg font-semibold text-secondary mb-4 font-inter">
+          <h3 className="text-lg font-semibold text-text-primary mb-4 font-inter">
             Create New Sermon Series
           </h3>
           <form onSubmit={handleSeriesSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                   Series Name *
                 </label>
                 <input
@@ -337,7 +337,7 @@ const AdminSermons = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                   Start Date *
                 </label>
                 <input
@@ -352,7 +352,7 @@ const AdminSermons = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                   Description
                 </label>
                 <textarea
@@ -364,7 +364,7 @@ const AdminSermons = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                   End Date (Optional)
                 </label>
                 <input
@@ -408,7 +408,7 @@ const AdminSermons = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                   Title *
                 </label>
                 <input
@@ -421,7 +421,7 @@ const AdminSermons = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                   Speaker
                 </label>
                 <input
@@ -436,7 +436,7 @@ const AdminSermons = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                   Sermon Date *
                 </label>
                 <input
@@ -448,7 +448,7 @@ const AdminSermons = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                   Sermon Series
                 </label>
                 <select
@@ -467,7 +467,7 @@ const AdminSermons = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 YouTube URL
               </label>
               <input
@@ -480,7 +480,7 @@ const AdminSermons = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Sermon Summary
               </label>
               <RichTextEditor
@@ -492,7 +492,7 @@ const AdminSermons = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Discussion Questions
               </label>
               <RichTextEditor
@@ -530,11 +530,11 @@ const AdminSermons = () => {
         {loading ? (
           <div className="p-8 text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-secondary font-inter">Loading...</p>
+            <p className="text-text-primary font-inter">Loading...</p>
           </div>
         ) : sermons.length === 0 ? (
           <div className="p-8 text-center">
-            <p className="text-secondary font-inter">No sermons yet.</p>
+            <p className="text-text-primary font-inter">No sermons yet.</p>
           </div>
         ) : (
           <div className="divide-y divide-accent">
@@ -542,7 +542,7 @@ const AdminSermons = () => {
               <div key={sermon.id} className="p-6">
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-secondary font-inter mb-2">
+                    <h3 className="text-lg font-semibold text-text-primary font-inter mb-2">
                       {sermon.title}
                     </h3>
                     {sermon.sermon_series_id && (
@@ -553,7 +553,7 @@ const AdminSermons = () => {
                         </span>
                       </div>
                     )}
-                    <div className="text-sm text-secondary-light font-inter mb-2">
+                    <div className="text-sm text-text-light font-inter mb-2">
                       {sermon.speaker && `${sermon.speaker} • `}
                       {new Date(sermon.sermon_date).toLocaleDateString()}
                     </div>
@@ -563,7 +563,7 @@ const AdminSermons = () => {
                       </div>
                     )}
                     {sermon.summary && (
-                      <div className="text-sm text-secondary font-inter mb-2">
+                      <div className="text-sm text-text-primary font-inter mb-2">
                         Summary: {sermon.summary.replace(/<[^>]*>/g, '').substring(0, 100)}...
                       </div>
                     )}

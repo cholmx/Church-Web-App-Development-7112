@@ -104,7 +104,7 @@ const JoinRealm=()=> {
           <h2 className="text-2xl mb-4">
             Welcome to Realm!
           </h2>
-          <p className="text-secondary mb-6">
+          <p className="text-text-primary mb-6">
             Your registration has been submitted successfully. We'll process
             your information and send you access details soon.
           </p>
@@ -167,13 +167,13 @@ const JoinRealm=()=> {
             {/* Name Fields */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   First Name *
                 </label>
                 <div className="relative">
                   <SafeIcon
                     icon={FiUser}
-                    className="absolute left-3 top-3 h-5 w-5 text-gray-400"
+                    className="absolute left-3 top-3 h-5 w-5 text-text-light"
                   />
                   <input
                     type="text"
@@ -187,13 +187,13 @@ const JoinRealm=()=> {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   Last Name *
                 </label>
                 <div className="relative">
                   <SafeIcon
                     icon={FiUser}
-                    className="absolute left-3 top-3 h-5 w-5 text-gray-400"
+                    className="absolute left-3 top-3 h-5 w-5 text-text-light"
                   />
                   <input
                     type="text"
@@ -210,13 +210,13 @@ const JoinRealm=()=> {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2">
+              <label className="block text-sm font-medium text-text-primary mb-2">
                 Email *
               </label>
               <div className="relative">
                 <SafeIcon
                   icon={FiMail}
-                  className="absolute left-3 top-3 h-5 w-5 text-gray-400"
+                  className="absolute left-3 top-3 h-5 w-5 text-text-light"
                 />
                 <input
                   type="email"
@@ -232,13 +232,13 @@ const JoinRealm=()=> {
 
             {/* Phone */}
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2">
+              <label className="block text-sm font-medium text-text-primary mb-2">
                 Phone Number *
               </label>
               <div className="relative">
                 <SafeIcon
                   icon={FiPhone}
-                  className="absolute left-3 top-3 h-5 w-5 text-gray-400"
+                  className="absolute left-3 top-3 h-5 w-5 text-text-light"
                 />
                 <input
                   type="tel"
@@ -254,14 +254,14 @@ const JoinRealm=()=> {
 
             {/* Address */}
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2">
+              <label className="block text-sm font-medium text-text-primary mb-2">
                 Address *
               </label>
               <div className="space-y-3">
                 <div className="relative">
                   <SafeIcon
                     icon={FiMapPin}
-                    className="absolute left-3 top-3 h-5 w-5 text-gray-400"
+                    className="absolute left-3 top-3 h-5 w-5 text-text-light"
                   />
                   <input
                     type="text"
@@ -326,13 +326,13 @@ const JoinRealm=()=> {
 
             {/* Birthday */}
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2">
+              <label className="block text-sm font-medium text-text-primary mb-2">
                 Birthday
               </label>
               <div className="relative">
                 <SafeIcon
                   icon={FiCalendar}
-                  className="absolute left-3 top-3 h-5 w-5 text-gray-400"
+                  className="absolute left-3 top-3 h-5 w-5 text-text-light"
                 />
                 <input
                   type="date"
@@ -346,7 +346,7 @@ const JoinRealm=()=> {
 
             {/* Marital Status */}
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2">
+              <label className="block text-sm font-medium text-text-primary mb-2">
                 Marital Status
               </label>
               <select
@@ -366,13 +366,13 @@ const JoinRealm=()=> {
             {/* Anniversary */}
             {formData.maritalStatus==='married' && (
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   Anniversary
                 </label>
                 <div className="relative">
                   <SafeIcon
                     icon={FiHeart}
-                    className="absolute left-3 top-3 h-5 w-5 text-gray-400"
+                    className="absolute left-3 top-3 h-5 w-5 text-text-light"
                   />
                   <input
                     type="date"

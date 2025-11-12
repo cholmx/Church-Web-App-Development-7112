@@ -89,16 +89,16 @@ const Admin=()=> {
               <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <SafeIcon icon={FiLock} className="h-8 w-8 text-white" />
               </div>
-              <h1 className="text-2xl font-bold text-secondary mb-2 font-fraunces">
+              <h1 className="text-2xl font-bold text-text-primary mb-2 font-fraunces">
                 Admin Access
               </h1>
-              <p className="text-secondary-light font-inter">
+              <p className="text-text-light font-inter">
                 Please enter the admin password to continue
               </p>
             </div>
             <form onSubmit={handlePasswordSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                   Password
                 </label>
                 <input
@@ -155,7 +155,7 @@ const Admin=()=> {
             className="flex items-center justify-center space-x-4 mb-6"
           >
             <SafeIcon icon={FiSettings} className="h-12 w-12 text-primary" />
-            <h1 className="text-4xl md:text-5xl font-bold text-secondary">
+            <h1 className="text-4xl md:text-5xl font-bold text-text-primary">
               Admin Dashboard
             </h1>
           </motion.div>
@@ -163,7 +163,7 @@ const Admin=()=> {
             initial={{opacity: 0,y: 30}}
             animate={{opacity: 1,y: 0}}
             transition={{duration: 0.8,delay: 0.2}}
-            className="text-xl text-secondary"
+            className="text-xl text-text-primary"
           >
             Manage your church portal content and notifications
           </motion.p>
@@ -176,7 +176,7 @@ const Admin=()=> {
           transition={{duration: 0.8,delay: 0.3}}
           className="bg-white rounded-lg shadow-md p-6 mb-8"
         >
-          <h3 className="text-lg font-semibold text-secondary mb-4 font-inter flex items-center space-x-2">
+          <h3 className="text-lg font-semibold text-text-primary mb-4 font-inter flex items-center space-x-2">
             <SafeIcon icon={FiMic} className="h-5 w-5 text-primary" />
             <span>Hidden Podcast Pages</span>
           </h3>
@@ -193,11 +193,11 @@ const Admin=()=> {
                   <SafeIcon icon={FiMic} className="h-5 w-5 text-white" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-secondary font-inter">Yellow Podcast</h4>
-                  <p className="text-sm text-secondary-light font-inter">Hidden podcast page</p>
+                  <h4 className="font-semibold text-text-primary font-inter">Yellow Podcast</h4>
+                  <p className="text-sm text-text-light font-inter">Hidden podcast page</p>
                 </div>
               </div>
-              <SafeIcon icon={FiExternalLink} className="h-4 w-4 text-secondary-light group-hover:text-secondary transition-colors" />
+              <SafeIcon icon={FiExternalLink} className="h-4 w-4 text-text-light group-hover:text-text-primary transition-colors" />
             </Link>
             <Link
               to="/green"
@@ -211,11 +211,11 @@ const Admin=()=> {
                   <SafeIcon icon={FiMic} className="h-5 w-5 text-white" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-secondary font-inter">Green Podcast</h4>
-                  <p className="text-sm text-secondary-light font-inter">Hidden podcast page</p>
+                  <h4 className="font-semibold text-text-primary font-inter">Green Podcast</h4>
+                  <p className="text-sm text-text-light font-inter">Hidden podcast page</p>
                 </div>
               </div>
-              <SafeIcon icon={FiExternalLink} className="h-4 w-4 text-secondary-light group-hover:text-secondary transition-colors" />
+              <SafeIcon icon={FiExternalLink} className="h-4 w-4 text-text-light group-hover:text-text-primary transition-colors" />
             </Link>
           </div>
           <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
@@ -241,7 +241,7 @@ const Admin=()=> {
                   className={`py-4 px-2 border-b-2 font-medium text-sm transition-colors duration-200 whitespace-nowrap ${
                     activeTab===tab.id
                       ? 'border-primary text-primary'
-                      : 'border-transparent text-secondary hover:text-primary'
+                      : 'border-transparent text-text-primary hover:text-primary'
                   }`}
                 >
                   <div className="flex items-center space-x-2">

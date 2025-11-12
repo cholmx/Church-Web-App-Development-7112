@@ -42,7 +42,7 @@ const Navbar = () => {
               <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
                 <span className="text-white font-bold text-sm font-inter">UR</span>
               </div>
-              <span className="text-xl font-bold text-secondary font-inter">Upper Room Fellowship</span>
+              <span className="text-xl font-bold text-text-primary font-inter">Upper Room Fellowship</span>
             </div>
           </Link>
 
@@ -55,7 +55,7 @@ const Navbar = () => {
                 className={`px-3 py-2 text-sm font-medium font-inter transition-colors duration-200 ${
                   isActive(item.path)
                     ? 'text-primary border-b-2 border-primary'
-                    : 'text-secondary hover:text-primary'
+                    : 'text-text-primary hover:text-primary'
                 }`}
               >
                 {item.name}
@@ -67,7 +67,7 @@ const Navbar = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-secondary hover:text-primary transition-colors duration-200"
+              className="text-text-primary hover:text-primary transition-colors duration-200"
             >
               <SafeIcon icon={isOpen ? FiX : FiMenu} className="h-6 w-6" />
             </button>
@@ -93,7 +93,7 @@ const Navbar = () => {
                   className={`block px-3 py-2 text-base font-medium font-inter transition-colors duration-200 ${
                     isActive(item.path)
                       ? 'text-primary bg-accent'
-                      : 'text-secondary hover:text-primary hover:bg-accent-light'
+                      : 'text-text-primary hover:text-primary hover:bg-accent-light'
                   }`}
                 >
                   {item.name}

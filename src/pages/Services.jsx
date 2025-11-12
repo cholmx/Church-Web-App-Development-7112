@@ -89,8 +89,8 @@ const Services = () => {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4 font-fraunces">Service Times</h2>
-            <p className="text-xl text-secondary page-subtitle">Multiple opportunities to worship and grow together</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4 font-fraunces">Service Times</h2>
+            <p className="text-xl text-text-primary page-subtitle">Multiple opportunities to worship and grow together</p>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
@@ -115,12 +115,12 @@ const Services = () => {
                   </div>
                 </div>
                 <div className="p-6">
-                  <p className="text-secondary mb-4 font-inter">{service.description}</p>
+                  <p className="text-text-primary mb-4 font-inter">{service.description}</p>
                   <div>
-                    <h4 className="font-semibold text-secondary mb-2 font-fraunces">What's Included:</h4>
+                    <h4 className="font-semibold text-text-primary mb-2 font-fraunces">What's Included:</h4>
                     <ul className="space-y-1">
                       {service.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center space-x-2 text-secondary">
+                        <li key={featureIndex} className="flex items-center space-x-2 text-text-primary">
                           <div className="w-2 h-2 bg-primary rounded-full"></div>
                           <span className="font-inter">{feature}</span>
                         </li>
@@ -138,8 +138,8 @@ const Services = () => {
       <section className="py-16 bg-accent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4 font-fraunces">What to Expect</h2>
-            <p className="text-xl text-secondary page-subtitle">Your first visit should feel welcoming and comfortable</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4 font-fraunces">What to Expect</h2>
+            <p className="text-xl text-text-primary page-subtitle">Your first visit should feel welcoming and comfortable</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {whatToExpect.map((item, index) => (
@@ -151,8 +151,8 @@ const Services = () => {
                 className="text-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
               >
                 <SafeIcon icon={item.icon} className="h-12 w-12 text-primary mx-auto mb-4" />
-                <h3 className="text-xl mb-3 text-secondary font-fraunces">{item.title}</h3>
-                <p className="text-secondary font-inter">{item.description}</p>
+                <h3 className="text-xl mb-3 text-text-primary font-fraunces">{item.title}</h3>
+                <p className="text-text-primary font-inter">{item.description}</p>
               </motion.div>
             ))}
           </div>

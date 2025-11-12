@@ -36,7 +36,7 @@ const ClassRegistration=()=> {
       <div className="min-h-screen bg-accent py-12 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-secondary font-inter">Loading...</p>
+          <p className="text-text-primary font-inter">Loading...</p>
         </div>
       </div>
     );
@@ -84,11 +84,11 @@ const ClassRegistration=()=> {
             animate={{opacity: 1,y: 0}}
             className="bg-white rounded-lg shadow-md p-12 text-center"
           >
-            <SafeIcon icon={FiBookOpen} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <SafeIcon icon={FiBookOpen} className="h-16 w-16 text-text-light mx-auto mb-4" />
             <h2 className="text-2xl mb-2">
               No Classes Available
             </h2>
-            <p className="text-secondary-light">
+            <p className="text-text-light">
               Check back soon for upcoming classes!
             </p>
           </motion.div>
@@ -102,11 +102,11 @@ const ClassRegistration=()=> {
                 transition={{duration: 0.5,delay: index * 0.1}}
                 className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
               >
-                <h3 className="text-xl font-semibold text-secondary mb-4">
+                <h3 className="text-xl font-semibold text-text-primary mb-4">
                   {classItem.title}
                 </h3>
                 <div
-                  className="text-secondary mb-6 prose prose-sm max-w-none rendered-content"
+                  className="text-text-primary mb-6 prose prose-sm max-w-none rendered-content"
                   dangerouslySetInnerHTML={{__html: classItem.details}}
                 />
                 {classItem.link && (

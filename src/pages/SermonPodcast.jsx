@@ -152,7 +152,7 @@ const SermonPodcast=()=> {
             </div>
           </div>
           {isFiltering && (
-            <div className="mt-2 text-sm text-secondary-light">
+            <div className="mt-2 text-sm text-text-light">
               Found {filteredEpisodes.length} matching episodes
             </div>
           )}
@@ -206,7 +206,7 @@ const SermonPodcast=()=> {
                             </button>
                           )}
                         </div>
-                        <div className="flex items-center space-x-4 text-sm text-secondary-light mb-3">
+                        <div className="flex items-center space-x-4 text-sm text-text-light mb-3">
                           {episode.pubDate && (
                             <div className="flex items-center space-x-1">
                               <SafeIcon icon={FiCalendar} className="h-3 w-3" />
@@ -225,7 +225,7 @@ const SermonPodcast=()=> {
                             {expandedEpisode===episode.id ? (
                               <p>{stripHtml(episode.summary)}</p>
                             ) : (
-                              <p className="text-secondary mb-2">
+                              <p className="text-text-primary mb-2">
                                 {truncateText(stripHtml(episode.summary))}
                               </p>
                             )}
@@ -262,7 +262,7 @@ const SermonPodcast=()=> {
                               <span>Play Episode</span>
                             </button>
                           ) : (
-                            <div className="bg-gray-100 text-gray-500 px-4 py-2 rounded-lg inline-flex items-center space-x-2">
+                            <div className="bg-gray-100 text-text-light px-4 py-2 rounded-lg inline-flex items-center space-x-2">
                               <SafeIcon icon={FiPlay} className="h-4 w-4" />
                               <span>Audio Coming Soon</span>
                             </div>
@@ -308,11 +308,11 @@ const SermonPodcast=()=> {
               animate={{opacity: 1,y: 0}}
               className="bg-white rounded-lg shadow-md p-12 text-center"
             >
-              <SafeIcon icon={FiMic} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+              <SafeIcon icon={FiMic} className="h-16 w-16 text-text-light mx-auto mb-4" />
               <h2 className="text-2xl mb-2">
                 {searchTerm ? 'No Matching Episodes' : 'No Episodes Available'}
               </h2>
-              <p className="text-secondary-light">
+              <p className="text-text-light">
                 {searchTerm
                   ? 'Try a different search term'
                   : 'Check back soon for new sermon episodes!'}

@@ -100,7 +100,7 @@ const NotificationSettings = () => {
   };
 
   const getStatusColor = () => {
-    if (!isSupported) return 'text-gray-500';
+    if (!isSupported) return 'text-text-light';
     if (permission === 'granted' && isSubscribed) return 'text-green-600';
     if (permission === 'denied') return 'text-red-600';
     return 'text-yellow-600';
@@ -146,7 +146,7 @@ const NotificationSettings = () => {
       {/* Header */}
       <div className="flex items-center space-x-3">
         <SafeIcon icon={FiBell} className="h-6 w-6 text-primary" />
-        <h3 className="text-xl font-semibold text-secondary font-inter">
+        <h3 className="text-xl font-semibold text-text-primary font-inter">
           Push Notifications
         </h3>
         <span className={`px-2 py-1 text-xs font-medium rounded-full ${
@@ -156,7 +156,7 @@ const NotificationSettings = () => {
               : permission === 'denied'
               ? 'bg-red-100 text-red-800'
               : 'bg-yellow-100 text-yellow-800'
-            : 'bg-gray-100 text-gray-800'
+            : 'bg-gray-100 text-text-light'
         } font-inter`}>
           {getStatusText()}
         </span>
@@ -197,10 +197,10 @@ const NotificationSettings = () => {
                 className={`h-8 w-8 ${getStatusColor()}`} 
               />
               <div>
-                <h4 className="font-semibold text-secondary font-inter">
+                <h4 className="font-semibold text-text-primary font-inter">
                   Push Notifications
                 </h4>
-                <p className="text-sm text-secondary-light font-inter">
+                <p className="text-sm text-text-light font-inter">
                   Stay updated with important church news and reminders
                 </p>
               </div>
@@ -272,17 +272,17 @@ const NotificationSettings = () => {
           transition={{ delay: 0.2 }}
           className="bg-white border border-accent-dark rounded-lg p-6"
         >
-          <h4 className="font-semibold text-secondary mb-4 font-inter">
+          <h4 className="font-semibold text-text-primary mb-4 font-inter">
             Notification Preferences
           </h4>
           <div className="space-y-4">
             {notificationTypes.map((type) => (
               <div key={type.key} className="flex items-start justify-between">
                 <div className="flex-1">
-                  <h5 className="font-medium text-secondary font-inter">
+                  <h5 className="font-medium text-text-primary font-inter">
                     {type.title}
                   </h5>
-                  <p className="text-sm text-secondary-light font-inter">
+                  <p className="text-sm text-text-light font-inter">
                     {type.description}
                   </p>
                 </div>

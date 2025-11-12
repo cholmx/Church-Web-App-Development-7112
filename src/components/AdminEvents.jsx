@@ -101,7 +101,7 @@ const AdminEvents=()=> {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl text-secondary">Manage Events</h2>
+        <h2 className="text-2xl text-text-primary">Manage Events</h2>
         <button
           onClick={()=> setShowForm(true)}
           className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors inline-flex items-center space-x-2"
@@ -121,7 +121,7 @@ const AdminEvents=()=> {
           >
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2">Event Title *</label>
+                <label className="block text-sm font-medium text-text-primary mb-2">Event Title *</label>
                 <input
                   type="text"
                   value={formData.title}
@@ -132,7 +132,7 @@ const AdminEvents=()=> {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2">Event Details *</label>
+                <label className="block text-sm font-medium text-text-primary mb-2">Event Details *</label>
                 <RichTextEditor
                   value={formData.details}
                   onChange={(e)=> setFormData({...formData,details: e.target.value})}
@@ -141,7 +141,7 @@ const AdminEvents=()=> {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2">External Link</label>
+                <label className="block text-sm font-medium text-text-primary mb-2">External Link</label>
                 <input
                   type="url"
                   value={formData.link}
@@ -149,7 +149,7 @@ const AdminEvents=()=> {
                   className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                   placeholder="https://example.com/event-details"
                 />
-                <p className="text-sm text-secondary-light mt-1">
+                <p className="text-sm text-text-light mt-1">
                   Optional: Add a link to external registration,more info,or related content
                 </p>
               </div>
@@ -181,7 +181,7 @@ const AdminEvents=()=> {
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           {events.length===0 ? (
             <div className="p-8 text-center">
-              <p className="text-secondary">No events yet.</p>
+              <p className="text-text-primary">No events yet.</p>
             </div>
           ) : (
             <div className="divide-y divide-accent">
@@ -189,9 +189,9 @@ const AdminEvents=()=> {
                 <div key={event.id} className="p-6">
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
-                      <h3 className="text-lg text-secondary mb-2">{event.title}</h3>
+                      <h3 className="text-lg text-text-primary mb-2">{event.title}</h3>
                       <div
-                        className="text-secondary text-sm mb-3 prose prose-sm max-w-none rendered-content"
+                        className="text-text-primary text-sm mb-3 prose prose-sm max-w-none rendered-content"
                         dangerouslySetInnerHTML={{__html: event.details}}
                       />
                       {event.link && (

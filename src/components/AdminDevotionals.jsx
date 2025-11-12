@@ -406,7 +406,7 @@ const AdminDevotionals=()=> {
 
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-secondary font-inter">
+        <h2 className="text-2xl font-bold text-text-primary font-inter">
           Manage Daily Devotionals
         </h2>
         <div className="space-x-2">
@@ -459,13 +459,13 @@ const AdminDevotionals=()=> {
           animate={{opacity: 1,y: 0}}
           className="bg-white rounded-lg shadow-md p-6"
         >
-          <h3 className="text-lg font-semibold text-secondary mb-4 font-inter">
+          <h3 className="text-lg font-semibold text-text-primary mb-4 font-inter">
             {editingId ? 'Edit Devotional' : 'New Devotional'}
           </h3>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                   Date *
                 </label>
                 <input
@@ -477,7 +477,7 @@ const AdminDevotionals=()=> {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                   Title *
                 </label>
                 <input
@@ -492,7 +492,7 @@ const AdminDevotionals=()=> {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Subtitle
               </label>
               <input
@@ -505,7 +505,7 @@ const AdminDevotionals=()=> {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Scripture Reference
               </label>
               <input
@@ -518,7 +518,7 @@ const AdminDevotionals=()=> {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Content *
               </label>
               <RichTextEditor
@@ -530,7 +530,7 @@ const AdminDevotionals=()=> {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Response
               </label>
               <RichTextEditor
@@ -542,7 +542,7 @@ const AdminDevotionals=()=> {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Prayer
               </label>
               <RichTextEditor
@@ -582,7 +582,7 @@ const AdminDevotionals=()=> {
           animate={{opacity: 1,y: 0}}
           className="bg-white rounded-lg shadow-md p-6"
         >
-          <h3 className="text-lg font-semibold text-secondary mb-4 font-inter">
+          <h3 className="text-lg font-semibold text-text-primary mb-4 font-inter">
             Bulk Import Devotionals
           </h3>
           <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
@@ -607,7 +607,7 @@ Prayer: Jesus, give me Your heart to speak truth...`}
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Upload Text File (.txt)
               </label>
               <input
@@ -620,7 +620,7 @@ Prayer: Jesus, give me Your heart to speak truth...`}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Or Paste Text Here
               </label>
               <textarea
@@ -656,25 +656,25 @@ Prayer: Jesus, give me Your heart to speak truth...`}
       {/* Statistics */}
       {devotionals.length > 0 && (
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold text-secondary mb-4 font-inter">
+          <h3 className="text-lg font-semibold text-text-primary mb-4 font-inter">
             Devotionals Overview
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
               <div className="text-3xl font-bold text-primary font-inter">{devotionals.length}</div>
-              <div className="text-sm text-secondary-light font-inter">Total Devotionals</div>
+              <div className="text-sm text-text-light font-inter">Total Devotionals</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-secondary font-inter">
+              <div className="text-3xl font-bold text-text-primary font-inter">
                 {Object.keys(getDevotionalsByMonth()).length}
               </div>
-              <div className="text-sm text-secondary-light font-inter">Months Covered</div>
+              <div className="text-sm text-text-light font-inter">Months Covered</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-green-600 font-inter">
                 {Math.round((devotionals.length / 365) * 100)}%
               </div>
-              <div className="text-sm text-secondary-light font-inter">Year Coverage</div>
+              <div className="text-sm text-text-light font-inter">Year Coverage</div>
             </div>
           </div>
         </div>
@@ -685,13 +685,13 @@ Prayer: Jesus, give me Your heart to speak truth...`}
         {loading ? (
           <div className="p-8 text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-secondary font-inter">Loading devotionals...</p>
+            <p className="text-text-primary font-inter">Loading devotionals...</p>
           </div>
         ) : devotionals.length===0 ? (
           <div className="p-8 text-center">
-            <SafeIcon icon={FiBookOpen} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-secondary mb-2 font-inter">No Devotionals Yet</h3>
-            <p className="text-secondary-light font-inter">
+            <SafeIcon icon={FiBookOpen} className="h-16 w-16 text-text-light mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-text-primary mb-2 font-inter">No Devotionals Yet</h3>
+            <p className="text-text-light font-inter">
               Create your first devotional or upload a file to get started!
             </p>
           </div>
@@ -702,7 +702,7 @@ Prayer: Jesus, give me Your heart to speak truth...`}
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-2">
-                      <h3 className="text-lg font-semibold text-secondary font-inter">
+                      <h3 className="text-lg font-semibold text-text-primary font-inter">
                         {devotional.title}
                       </h3>
                       <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary text-white font-inter">
@@ -717,16 +717,16 @@ Prayer: Jesus, give me Your heart to speak truth...`}
                     )}
                     
                     {devotional.scripture_reference && (
-                      <p className="text-sm text-secondary-light mb-2 font-inter italic">
+                      <p className="text-sm text-text-light mb-2 font-inter italic">
                         {devotional.scripture_reference}
                       </p>
                     )}
                     
-                    <div className="text-secondary text-sm mb-2 font-inter">
+                    <div className="text-text-primary text-sm mb-2 font-inter">
                       {devotional.content.substring(0,150)}...
                     </div>
                     
-                    <div className="flex items-center space-x-4 text-xs text-secondary-light">
+                    <div className="flex items-center space-x-4 text-xs text-text-light">
                       {devotional.response && <span>✓ Response</span>}
                       {devotional.prayer && <span>✓ Prayer</span>}
                     </div>

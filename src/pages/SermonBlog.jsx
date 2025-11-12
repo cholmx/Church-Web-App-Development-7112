@@ -13,6 +13,8 @@ const SermonBlog=()=> {
   const [sermonSeries,setSermonSeries]=useState([]);
   const [loading,setLoading]=useState(true);
   const [selectedSeries,setSelectedSeries]=useState('');
+  const [currentPage,setCurrentPage]=useState(1);
+  const sermonsPerPage=4;
 
   // Use the custom hook to clean inline styles
   useCleanContent();
@@ -87,12 +89,29 @@ const SermonBlog=()=> {
         ? sermons.filter((sermon)=> !sermon.sermon_series_id)
         : sermons.filter((sermon)=> sermon.sermon_series_id===selectedSeries);
 
+  // Pagination calculations
+  const totalPages=Math.ceil(filteredSermons.length / sermonsPerPage);
+  const indexOfLastSermon=currentPage * sermonsPerPage;
+  const indexOfFirstSermon=indexOfLastSermon - sermonsPerPage;
+  const currentSermons=filteredSermons.slice(indexOfFirstSermon,indexOfLastSermon);
+
+  // Reset to page 1 when series filter changes
+  useEffect(()=> {
+    setCurrentPage(1);
+  },[selectedSeries]);
+
+  // Scroll to top when page changes
+  const handlePageChange=(pageNumber)=> {
+    setCurrentPage(pageNumber);
+    window.scrollTo({top: 0,behavior: 'smooth'});
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-accent py-12 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-secondary font-inter">Loading sermons...</p>
+          <p className="text-text-primary font-inter">Loading sermons...</p>
         </div>
       </div>
     );
@@ -143,8 +162,8 @@ const SermonBlog=()=> {
           >
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center space-x-2">
-                <SafeIcon icon={FiFilter} className="h-5 w-5 text-secondary" />
-                <span className="font-medium text-secondary font-inter">
+                <SafeIcon icon={FiFilter} className="h-5 w-5 text-text-primary" />
+                <span className="font-medium text-text-primary font-inter">
                   Filter by Series:
                 </span>
               </div>
@@ -154,7 +173,7 @@ const SermonBlog=()=> {
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${
                     selectedSeries===''
                       ? 'bg-primary text-white'
-                      : 'bg-accent text-secondary hover:bg-accent-dark'
+                      : 'bg-accent text-text-primary hover:bg-accent-dark'
                   }`}
                 >
                   All Sermons
@@ -165,7 +184,7 @@ const SermonBlog=()=> {
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${
                       selectedSeries==='standalone'
                         ? 'bg-primary text-white'
-                        : 'bg-accent text-secondary hover:bg-accent-dark'
+                        : 'bg-accent text-text-primary hover:bg-accent-dark'
                     }`}
                   >
                     Standalone Sermons
@@ -178,7 +197,7 @@ const SermonBlog=()=> {
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${
                       selectedSeries===series.id
                         ? 'bg-primary text-white'
-                        : 'bg-accent text-secondary hover:bg-accent-dark'
+                        : 'bg-accent text-text-primary hover:bg-accent-dark'
                     }`}
                   >
                     {series.name}
@@ -213,23 +232,23 @@ const SermonBlog=()=> {
 
         {/* Sermons List */}
         <div className="space-y-12">
-          {filteredSermons.length===0 ? (
+          {currentSermons.length===0 ? (
             <div className="text-center py-12">
               <SafeIcon
                 icon={FiPlay}
-                className="h-16 w-16 text-gray-400 mx-auto mb-4"
+                className="h-16 w-16 text-text-light mx-auto mb-4"
               />
-              <h2 className="text-xl font-semibold text-secondary mb-2 font-inter">
+              <h2 className="text-xl font-semibold text-text-primary mb-2 font-inter">
                 {selectedSeries===''
                   ? 'No sermons yet'
                   : 'No sermons in this series'}
               </h2>
-              <p className="text-secondary-light font-inter">
+              <p className="text-text-light font-inter">
                 Check back soon for updates!
               </p>
             </div>
           ) : (
-            filteredSermons.map((sermon,index)=> (
+            currentSermons.map((sermon,index)=> (
               <motion.div
                 key={sermon.id}
                 initial={{opacity: 0,y: 30}}
@@ -242,7 +261,7 @@ const SermonBlog=()=> {
                   <div className="flex items-center justify-between mb-6">
                     <div>
                       <div className="flex items-center space-x-3 mb-2">
-                        <h2 className="text-3xl text-secondary">
+                        <h2 className="text-3xl text-text-primary">
                           {sermon.title}
                         </h2>
                         {sermon.sermon_series_id && selectedSeries==='' && (
@@ -252,7 +271,7 @@ const SermonBlog=()=> {
                           </span>
                         )}
                       </div>
-                      <div className="flex items-center space-x-4 text-gray-500">
+                      <div className="flex items-center space-x-4 text-text-light">
                         <div className="flex items-center space-x-2">
                           <SafeIcon icon={FiCalendar} className="h-4 w-4" />
                           <span className="text-sm font-inter">
@@ -288,12 +307,12 @@ const SermonBlog=()=> {
                   {/* Sermon Summary */}
                   {sermon.summary && (
                     <div className="mb-8">
-                      <h3 className="text-xl font-bold mb-4 text-secondary">
+                      <h3 className="text-xl font-bold mb-4 text-text-primary">
                         Sermon Summary
                       </h3>
                       <div className="prose max-w-none">
                         <div
-                          className="rendered-content text-secondary font-inter"
+                          className="rendered-content text-text-primary font-inter"
                           dangerouslySetInnerHTML={{__html: sermon.summary}}
                         />
                       </div>
@@ -308,13 +327,13 @@ const SermonBlog=()=> {
                           icon={FiMessageCircle}
                           className="h-5 w-5 text-primary"
                         />
-                        <h3 className="text-xl font-bold text-secondary">
+                        <h3 className="text-xl font-bold text-text-primary">
                           Table Group Discussion Questions
                         </h3>
                       </div>
                       <div className="prose max-w-none">
                         <div
-                          className="rendered-content text-secondary font-inter"
+                          className="rendered-content text-text-primary font-inter"
                           dangerouslySetInnerHTML={{
                             __html: sermon.discussion_questions
                           }}
@@ -327,6 +346,54 @@ const SermonBlog=()=> {
             ))
           )}
         </div>
+
+        {/* Pagination Controls */}
+        {filteredSermons.length > sermonsPerPage && (
+          <motion.div
+            initial={{opacity: 0,y: 30}}
+            animate={{opacity: 1,y: 0}}
+            transition={{duration: 0.5}}
+            className="mt-12 flex flex-col items-center space-y-4"
+          >
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={()=> handlePageChange(currentPage - 1)}
+                disabled={currentPage===1}
+                className="px-4 py-2 rounded-lg bg-white text-text-primary font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary hover:text-white font-inter"
+              >
+                Previous
+              </button>
+
+              <div className="flex space-x-2">
+                {Array.from({length: totalPages},(_, i)=> i + 1).map((pageNum)=> (
+                  <button
+                    key={pageNum}
+                    onClick={()=> handlePageChange(pageNum)}
+                    className={`w-10 h-10 rounded-lg font-medium transition-colors font-inter ${
+                      currentPage===pageNum
+                        ? 'bg-primary text-white'
+                        : 'bg-white text-text-primary hover:bg-primary hover:text-white'
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={()=> handlePageChange(currentPage + 1)}
+                disabled={currentPage===totalPages}
+                className="px-4 py-2 rounded-lg bg-white text-text-primary font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary hover:text-white font-inter"
+              >
+                Next
+              </button>
+            </div>
+
+            <p className="text-sm text-text-light font-inter">
+              Showing {indexOfFirstSermon + 1}-{Math.min(indexOfLastSermon,filteredSermons.length)} of {filteredSermons.length} sermons
+            </p>
+          </motion.div>
+        )}
       </div>
     </div>
   );

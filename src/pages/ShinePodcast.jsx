@@ -105,7 +105,7 @@ const ShinePodcast=()=> {
           isLoading={loading}
           skeleton={
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-secondary font-inter">
+              <h2 className="text-2xl font-bold text-text-primary font-inter">
                 Episodes
               </h2>
               {Array.from({length: 5}).map((_,i)=> (
@@ -116,7 +116,7 @@ const ShinePodcast=()=> {
         >
           {podcastData.episodes && podcastData.episodes.length > 0 && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-secondary font-inter">
+              <h2 className="text-2xl font-bold text-text-primary font-inter">
                 Episodes ({podcastData.episodes.length})
               </h2>
               {podcastData.episodes.map((episode,index)=> (
@@ -141,7 +141,7 @@ const ShinePodcast=()=> {
                       )}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between mb-2">
-                          <h3 className="text-lg font-semibold text-secondary font-inter">
+                          <h3 className="text-lg font-semibold text-text-primary font-inter">
                             {episode.title}
                           </h3>
                           {episode.audioUrl && (
@@ -154,7 +154,7 @@ const ShinePodcast=()=> {
                             </button>
                           )}
                         </div>
-                        <div className="flex items-center space-x-4 text-sm text-secondary-light mb-3">
+                        <div className="flex items-center space-x-4 text-sm text-text-light mb-3">
                           {episode.pubDate && (
                             <div className="flex items-center space-x-1">
                               <SafeIcon
@@ -176,7 +176,7 @@ const ShinePodcast=()=> {
                           )}
                         </div>
                         {episode.summary && (
-                          <p className="text-secondary mb-4 font-inter">
+                          <p className="text-text-primary mb-4 font-inter">
                             {truncateText(stripHtml(episode.summary))}
                           </p>
                         )}
@@ -190,7 +190,7 @@ const ShinePodcast=()=> {
                               <span>Play Episode</span>
                             </button>
                           ) : (
-                            <div className="bg-gray-100 text-gray-500 px-4 py-2 rounded-lg font-semibold inline-flex items-center space-x-2 font-inter">
+                            <div className="bg-gray-100 text-text-light px-4 py-2 rounded-lg font-semibold inline-flex items-center space-x-2 font-inter">
                               <SafeIcon icon={FiPlay} className="h-4 w-4" />
                               <span>Audio Coming Soon</span>
                             </div>
@@ -224,11 +224,11 @@ const ShinePodcast=()=> {
               animate={{opacity: 1,y: 0}}
               className="bg-white rounded-lg shadow-md p-12 text-center"
             >
-              <SafeIcon icon={FiMic} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-secondary mb-2 font-inter">
+              <SafeIcon icon={FiMic} className="h-16 w-16 text-text-light mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-text-primary mb-2 font-inter">
                 No Episodes Available
               </h2>
-              <p className="text-secondary-light font-inter">
+              <p className="text-text-light font-inter">
                 Check back soon for new podcast episodes!
               </p>
             </motion.div>

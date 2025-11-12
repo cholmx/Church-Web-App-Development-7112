@@ -30,21 +30,21 @@ const Footer = () => {
                 <span className="text-xl font-bold font-inter">Upper Room Fellowship</span>
               </div>
             </div>
-            <p className="text-gray-300 mb-4 font-inter">
+            <p className="text-text-light mb-4 font-inter">
               A place where faith grows, community thrives, and lives are transformed through God's love.
             </p>
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
                 <SafeIcon icon={FiMapPin} className="h-4 w-4 text-primary" />
-                <span className="text-gray-300 font-inter">123 Faith Street, Hope City, HC 12345</span>
+                <span className="text-text-light font-inter">123 Faith Street, Hope City, HC 12345</span>
               </div>
               <div className="flex items-center space-x-2">
                 <SafeIcon icon={FiPhone} className="h-4 w-4 text-primary" />
-                <span className="text-gray-300 font-inter">(555) 123-4567</span>
+                <span className="text-text-light font-inter">(555) 123-4567</span>
               </div>
               <div className="flex items-center space-x-2">
                 <SafeIcon icon={FiMail} className="h-4 w-4 text-primary" />
-                <span className="text-gray-300 font-inter">info@upperroomfellowship.org</span>
+                <span className="text-text-light font-inter">info@upperroomfellowship.org</span>
               </div>
             </div>
           </div>
@@ -53,10 +53,10 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4 font-inter">Quick Links</h3>
             <ul className="space-y-2 font-inter">
-              <li><Link to="/about" className="text-gray-300 hover:text-primary transition-colors">About Us</Link></li>
-              <li><Link to="/services" className="text-gray-300 hover:text-primary transition-colors">Services</Link></li>
-              <li><Link to="/events" className="text-gray-300 hover:text-primary transition-colors">Events</Link></li>
-              <li><Link to="/ministries" className="text-gray-300 hover:text-primary transition-colors">Ministries</Link></li>
+              <li><Link to="/about" className="text-text-light hover:text-primary transition-colors">About Us</Link></li>
+              <li><Link to="/services" className="text-text-light hover:text-primary transition-colors">Services</Link></li>
+              <li><Link to="/events" className="text-text-light hover:text-primary transition-colors">Events</Link></li>
+              <li><Link to="/ministries" className="text-text-light hover:text-primary transition-colors">Ministries</Link></li>
             </ul>
           </div>
 
@@ -64,13 +64,13 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4 font-inter">Connect</h3>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-300 hover:text-primary transition-colors">
+              <a href="#" className="text-text-light hover:text-primary transition-colors">
                 <SafeIcon icon={FiFacebook} className="h-6 w-6" />
               </a>
-              <a href="#" className="text-gray-300 hover:text-primary transition-colors">
+              <a href="#" className="text-text-light hover:text-primary transition-colors">
                 <SafeIcon icon={FiInstagram} className="h-6 w-6" />
               </a>
-              <a href="#" className="text-gray-300 hover:text-primary transition-colors">
+              <a href="#" className="text-text-light hover:text-primary transition-colors">
                 <SafeIcon icon={FiYoutube} className="h-6 w-6" />
               </a>
             </div>
@@ -78,7 +78,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-secondary-400 mt-8 pt-8 text-center">
-          <p className="text-gray-300 font-inter">
+          <p className="text-text-light font-inter">
             © 2024 Upper Room Fellowship. All rights reserved.
           </p>
         </div>

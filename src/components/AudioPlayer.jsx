@@ -129,10 +129,10 @@ const AudioPlayer = ({ episode, onClose }) => {
               <img src={episode.image} alt={episode.title} className="w-12 h-12 rounded-lg object-cover" />
             )}
             <div className="min-w-0 flex-1">
-              <h4 className="font-semibold text-secondary font-fraunces truncate">
+              <h4 className="font-semibold text-text-primary font-fraunces truncate">
                 {episode.title}
               </h4>
-              <p className="text-sm text-secondary-light font-inter">
+              <p className="text-sm text-text-light font-inter">
                 Sermon Podcast
               </p>
             </div>
@@ -142,7 +142,7 @@ const AudioPlayer = ({ episode, onClose }) => {
           <div className="flex items-center space-x-3">
             <button
               onClick={() => skipTime(-15)}
-              className="p-2 text-secondary hover:text-primary transition-colors"
+              className="p-2 text-text-primary hover:text-primary transition-colors"
               title="Rewind 15s"
             >
               <SafeIcon icon={FiSkipBack} className="h-5 w-5" />
@@ -161,7 +161,7 @@ const AudioPlayer = ({ episode, onClose }) => {
             </button>
             <button
               onClick={() => skipTime(30)}
-              className="p-2 text-secondary hover:text-primary transition-colors"
+              className="p-2 text-text-primary hover:text-primary transition-colors"
               title="Forward 30s"
             >
               <SafeIcon icon={FiSkipForward} className="h-5 w-5" />
@@ -170,7 +170,7 @@ const AudioPlayer = ({ episode, onClose }) => {
 
           {/* Progress */}
           <div className="flex-1 max-w-md">
-            <div className="flex items-center space-x-2 text-sm text-secondary-light font-inter">
+            <div className="flex items-center space-x-2 text-sm text-text-light font-inter">
               <span>{formatTime(currentTime)}</span>
               <div
                 className="flex-1 h-2 bg-accent rounded-full cursor-pointer"
@@ -189,7 +189,7 @@ const AudioPlayer = ({ episode, onClose }) => {
           <div className="flex items-center space-x-2">
             <button
               onClick={toggleMute}
-              className="p-2 text-secondary hover:text-primary transition-colors"
+              className="p-2 text-text-primary hover:text-primary transition-colors"
             >
               <SafeIcon icon={isMuted ? FiVolumeX : FiVolume2} className="h-5 w-5" />
             </button>
@@ -205,7 +205,7 @@ const AudioPlayer = ({ episode, onClose }) => {
           </div>
 
           {/* Close */}
-          <button onClick={onClose} className="p-2 text-secondary hover:text-primary transition-colors">
+          <button onClick={onClose} className="p-2 text-text-primary hover:text-primary transition-colors">
             <SafeIcon icon={FiIcons.FiX} className="h-5 w-5" />
           </button>
         </div>

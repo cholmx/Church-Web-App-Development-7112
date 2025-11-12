@@ -58,7 +58,7 @@ const Give=()=> {
               <h3 className="text-2xl mb-4">
                 Secure Online Giving
               </h3>
-              <p className="text-secondary mb-6">
+              <p className="text-text-primary mb-6">
                 Your generous giving helps support our church's mission and
                 ministries. Click below to access our secure online giving
                 platform.
@@ -92,19 +92,19 @@ const Give=()=> {
             {/* Additional Info */}
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-accent p-6 rounded-lg">
-                <h4 className="font-semibold text-secondary mb-2">
+                <h4 className="font-semibold text-text-primary mb-2">
                   Tax Deductible
                 </h4>
-                <p className="text-secondary text-sm">
+                <p className="text-text-primary text-sm">
                   All donations are tax-deductible. You will receive a receipt
                   for your records.
                 </p>
               </div>
               <div className="bg-accent p-6 rounded-lg">
-                <h4 className="font-semibold text-secondary mb-2">
+                <h4 className="font-semibold text-text-primary mb-2">
                   Multiple Options
                 </h4>
-                <p className="text-secondary text-sm">
+                <p className="text-text-primary text-sm">
                   Set up one-time gifts or recurring donations to support our
                   ongoing ministry.
                 </p>
@@ -120,7 +120,7 @@ const Give=()=> {
           transition={{duration: 0.8,delay: 0.6}}
           className="mt-8 text-center"
         >
-          <p className="text-secondary">
+          <p className="text-text-primary">
             Questions about giving? Contact our church office for assistance.
           </p>
         </motion.div>

@@ -145,12 +145,12 @@ WebkitImageRendering: 'crisp-edges'
 href={amazonUrl}
 target="_blank"
 rel="noopener noreferrer"
-className="text-sm font-semibold text-secondary mb-1 font-inter line-clamp-2 leading-tight hover:text-primary transition-colors cursor-pointer"
+className="text-sm font-semibold text-text-primary mb-1 font-inter line-clamp-2 leading-tight hover:text-primary transition-colors cursor-pointer"
 >
 {resource.title}
 </a>
 ) : (
-<h3 className="text-sm font-semibold text-secondary mb-1 font-inter line-clamp-2 leading-tight">
+<h3 className="text-sm font-semibold text-text-primary mb-1 font-inter line-clamp-2 leading-tight">
 {resource.title}
 </h3>
 )}
@@ -163,7 +163,7 @@ by {resource.author}
 
 {/* Only show description if it's not empty after cleaning */}
 {cleanDescription && (
-<p className="text-xs text-secondary mb-3 font-inter line-clamp-2 leading-relaxed flex-1">
+<p className="text-xs text-text-primary mb-3 font-inter line-clamp-2 leading-relaxed flex-1">
 {cleanDescription}
 </p>
 )}

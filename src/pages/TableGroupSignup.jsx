@@ -74,10 +74,10 @@ const TableGroupSignup=()=> {
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <SafeIcon icon={FiCheck} className="h-8 w-8 text-green-600" />
           </div>
-          <h2 className="text-2xl font-bold text-secondary mb-4">
+          <h2 className="text-2xl font-bold text-text-primary mb-4">
             Thank You!
           </h2>
-          <p className="text-secondary mb-6">
+          <p className="text-text-primary mb-6">
             Your Table Group sign-up has been submitted successfully. We'll be
             in touch soon to help you find the perfect group!
           </p>
@@ -146,13 +146,13 @@ const TableGroupSignup=()=> {
             {/* Name Fields */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   First Name *
                 </label>
                 <div className="relative">
                   <SafeIcon
                     icon={FiUser}
-                    className="absolute left-3 top-3 h-5 w-5 text-gray-400"
+                    className="absolute left-3 top-3 h-5 w-5 text-text-light"
                   />
                   <input
                     type="text"
@@ -166,13 +166,13 @@ const TableGroupSignup=()=> {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   Last Name *
                 </label>
                 <div className="relative">
                   <SafeIcon
                     icon={FiUser}
-                    className="absolute left-3 top-3 h-5 w-5 text-gray-400"
+                    className="absolute left-3 top-3 h-5 w-5 text-text-light"
                   />
                   <input
                     type="text"
@@ -189,13 +189,13 @@ const TableGroupSignup=()=> {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2">
+              <label className="block text-sm font-medium text-text-primary mb-2">
                 Email *
               </label>
               <div className="relative">
                 <SafeIcon
                   icon={FiMail}
-                  className="absolute left-3 top-3 h-5 w-5 text-gray-400"
+                  className="absolute left-3 top-3 h-5 w-5 text-text-light"
                 />
                 <input
                   type="email"
@@ -211,13 +211,13 @@ const TableGroupSignup=()=> {
 
             {/* Party Size */}
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2">
+              <label className="block text-sm font-medium text-text-primary mb-2">
                 Number in party *
               </label>
               <div className="relative">
                 <SafeIcon
                   icon={FiHash}
-                  className="absolute left-3 top-3 h-5 w-5 text-gray-400"
+                  className="absolute left-3 top-3 h-5 w-5 text-text-light"
                 />
                 <input
                   type="number"
@@ -235,7 +235,7 @@ const TableGroupSignup=()=> {
 
             {/* Unavailable Days */}
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2">
+              <label className="block text-sm font-medium text-text-primary mb-2">
                 Days you are unable to meet for a Table Group *
               </label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -247,7 +247,7 @@ const TableGroupSignup=()=> {
                       onChange={()=> handleDayToggle(day)}
                       className="w-4 h-4 text-primary focus:ring-primary border-accent-dark rounded"
                     />
-                    <span className="text-sm text-secondary">{day}</span>
+                    <span className="text-sm text-text-primary">{day}</span>
                   </label>
                 ))}
               </div>

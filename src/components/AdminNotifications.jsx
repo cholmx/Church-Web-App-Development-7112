@@ -169,10 +169,10 @@ const AdminNotifications = () => {
 
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-secondary font-inter">
+        <h2 className="text-2xl font-bold text-text-primary font-inter">
           Send Push Notifications
         </h2>
-        <div className="flex items-center space-x-2 text-secondary-light">
+        <div className="flex items-center space-x-2 text-text-light">
           <SafeIcon icon={FiUsers} className="h-5 w-5" />
           <span className="font-inter">{subscribers.length} Subscribers</span>
         </div>
@@ -180,7 +180,7 @@ const AdminNotifications = () => {
 
       {/* Quick Actions */}
       <div className="bg-white rounded-lg shadow-md p-6">
-        <h3 className="text-lg font-semibold text-secondary mb-4 font-inter">
+        <h3 className="text-lg font-semibold text-text-primary mb-4 font-inter">
           Quick Messages
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -190,10 +190,10 @@ const AdminNotifications = () => {
               onClick={() => setFormData(prev => ({ ...prev, ...message }))}
               className="p-4 border-2 border-accent-dark rounded-lg hover:border-primary transition-colors text-left"
             >
-              <h4 className="font-semibold text-secondary mb-2 font-inter">
+              <h4 className="font-semibold text-text-primary mb-2 font-inter">
                 {message.title}
               </h4>
-              <p className="text-sm text-secondary-light font-inter">
+              <p className="text-sm text-text-light font-inter">
                 {message.body}
               </p>
             </button>
@@ -206,7 +206,7 @@ const AdminNotifications = () => {
         <form onSubmit={handleSendNotification} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Notification Title *
               </label>
               <input
@@ -220,7 +220,7 @@ const AdminNotifications = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Notification Type
               </label>
               <select
@@ -239,7 +239,7 @@ const AdminNotifications = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+            <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
               Message *
             </label>
             <textarea
@@ -255,7 +255,7 @@ const AdminNotifications = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Destination URL
               </label>
               <input
@@ -268,7 +268,7 @@ const AdminNotifications = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Send Time
               </label>
               <select
@@ -296,25 +296,25 @@ const AdminNotifications = () => {
 
       {/* Subscriber Info */}
       <div className="bg-white rounded-lg shadow-md p-6">
-        <h3 className="text-lg font-semibold text-secondary mb-4 font-inter">
+        <h3 className="text-lg font-semibold text-text-primary mb-4 font-inter">
           Subscription Statistics
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center">
             <div className="text-3xl font-bold text-primary font-inter">{subscribers.length}</div>
-            <div className="text-sm text-secondary-light font-inter">Total Subscribers</div>
+            <div className="text-sm text-text-light font-inter">Total Subscribers</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-green-600 font-inter">
               {subscribers.filter(s => new Date(s.created_at) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)).length}
             </div>
-            <div className="text-sm text-secondary-light font-inter">New This Week</div>
+            <div className="text-sm text-text-light font-inter">New This Week</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-secondary font-inter">
+            <div className="text-3xl font-bold text-text-primary font-inter">
               {JSON.parse(localStorage.getItem('sent_notifications_portal123') || '[]').length}
             </div>
-            <div className="text-sm text-secondary-light font-inter">Total Sent</div>
+            <div className="text-sm text-text-light font-inter">Total Sent</div>
           </div>
         </div>
       </div>

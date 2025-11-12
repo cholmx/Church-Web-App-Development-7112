@@ -1,12 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700;800;900&family=Fraunces:wght@300..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700;800;900&family=Fraunces:wght@300..900&display=swap');
-
 @layer base {
   body {
-    @apply bg-accent text-text-secondary font-sans antialiased;
+    @apply bg-accent text-text-primary font-sans antialiased;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -31,7 +31,7 @@
 
 /* Prose styles for rendered HTML content */
 .prose {
-  @apply text-text-secondary;
+  @apply text-text-primary;
 }
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
   @apply text-text-primary;
@@ -46,7 +46,7 @@
   @apply bg-primary;
 }
 .prose ol > li::before {
-  @apply text-text-secondary;
+  @apply text-text-primary;
 }
 
 /* Custom button component styles */
@@ -67,7 +67,7 @@
     @apply bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white;
   }
   .btn-ghost {
-    @apply bg-transparent text-secondary hover:bg-accent-dark;
+    @apply bg-transparent text-text-primary hover:bg-accent-dark;
   }
 }
 

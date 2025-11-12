@@ -270,7 +270,7 @@ const AdminScriptures = () => {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-secondary font-inter">
+        <h2 className="text-2xl font-bold text-text-primary font-inter">
           Daily Scripture Verses
         </h2>
         <div className="space-x-2">
@@ -322,7 +322,7 @@ const AdminScriptures = () => {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-lg shadow-md p-6"
         >
-          <h3 className="text-lg font-semibold text-secondary mb-4 font-inter">
+          <h3 className="text-lg font-semibold text-text-primary mb-4 font-inter">
             Bulk Import Scriptures
           </h3>
           
@@ -347,7 +347,7 @@ And we know that in all things God works for the good of those who love him, who
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Upload Text File
               </label>
               <input
@@ -359,7 +359,7 @@ And we know that in all things God works for the good of those who love him, who
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Or Paste Text Here
               </label>
               <textarea
@@ -404,7 +404,7 @@ And we know that in all things God works for the good of those who love him, who
         >
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Scripture Verse *
               </label>
               <RichTextEditor
@@ -416,7 +416,7 @@ And we know that in all things God works for the good of those who love him, who
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Scripture Reference *
               </label>
               <input
@@ -430,7 +430,7 @@ And we know that in all things God works for the good of those who love him, who
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2 font-inter">
+              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                 Notes (Optional)
               </label>
               <RichTextEditor
@@ -468,11 +468,11 @@ And we know that in all things God works for the good of those who love him, who
         {loading ? (
           <div className="p-8 text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-secondary font-inter">Loading...</p>
+            <p className="text-text-primary font-inter">Loading...</p>
           </div>
         ) : scriptures.length === 0 ? (
           <div className="p-8 text-center">
-            <p className="text-secondary font-inter">No scripture verses yet.</p>
+            <p className="text-text-primary font-inter">No scripture verses yet.</p>
           </div>
         ) : (
           <div className="divide-y divide-accent">
@@ -484,15 +484,15 @@ And we know that in all things God works for the good of those who love him, who
                       <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary text-white font-inter">
                         Day {index + 1}
                       </span>
-                      <h3 className="text-lg font-semibold text-secondary font-inter">
+                      <h3 className="text-lg font-semibold text-text-primary font-inter">
                         {scripture.reference}
                       </h3>
                     </div>
-                    <div className="text-secondary font-inter mb-3 prose prose-sm max-w-none rendered-content">
+                    <div className="text-text-primary font-inter mb-3 prose prose-sm max-w-none rendered-content">
                       <div dangerouslySetInnerHTML={{ __html: scripture.verse_text }} />
                     </div>
                     {scripture.notes && (
-                      <div className="text-sm text-secondary-light">
+                      <div className="text-sm text-text-light">
                         <strong>Notes:</strong>
                         <div className="mt-1 prose prose-sm max-w-none rendered-content">
                           <div dangerouslySetInnerHTML={{ __html: scripture.notes }} />
@@ -523,7 +523,7 @@ And we know that in all things God works for the good of those who love him, who
 
       {scriptures.length > 0 && (
         <div className="bg-accent p-4 rounded-lg">
-          <p className="text-secondary text-sm font-inter">
+          <p className="text-text-primary text-sm font-inter">
             <strong>Total verses:</strong> {scriptures.length} |{' '}
             <strong>Cycle length:</strong> {scriptures.length} days |{' '}
             <strong>Current verse:</strong> Day{' '}
