@@ -172,9 +172,9 @@ const FeaturedButtonsSkeleton=()=> (
 <div className="mb-4 flex justify-center">
 <div className="flex justify-center gap-4">
 {Array.from({length: featuredButtons.length || 2}).map((_,i)=> (
-<div 
+<div
 key={i}
-className="animate-pulse bg-gray-200 rounded-lg shadow-md featured-skeleton"
+className="animate-shimmer bg-gray-200 rounded-2xl shadow-soft featured-skeleton"
 style={{
 // Mobile: 160px x 120px, Desktop: 225px x 150px (matches actual buttons)
 width: '160px',
@@ -198,9 +198,9 @@ const MainButtonsSkeleton=()=> (
 {/* Desktop: 3x3 Grid */}
 <div className="hidden md:grid md:grid-cols-3 gap-4">
 {Array.from({length: 9}).map((_,i)=> (
-<div 
+<div
 key={i}
-className="animate-pulse bg-gray-200 rounded-lg shadow-md"
+className="animate-shimmer bg-gray-200 rounded-2xl shadow-soft"
 style={{
 width: '225px',
 height: '150px'
@@ -218,9 +218,9 @@ height: '150px'
 {/* Mobile: 2 columns */}
 <div className="grid grid-cols-2 md:hidden gap-3">
 {Array.from({length: 8}).map((_,i)=> (
-<div 
+<div
 key={i}
-className="animate-pulse bg-gray-200 rounded-lg shadow-md"
+className="animate-shimmer bg-gray-200 rounded-2xl shadow-soft"
 style={{
 width: '160px',
 height: '120px'
@@ -240,8 +240,8 @@ height: '120px'
 // Contact button skeleton for mobile
 const ContactButtonSkeleton=()=> (
 <div className="flex justify-center mt-4 md:hidden">
-<div 
-className="animate-pulse bg-gray-200 rounded-lg shadow-md"
+<div
+className="animate-shimmer bg-gray-200 rounded-2xl shadow-soft"
 style={{
 width: '160px',
 height: '120px'
@@ -271,11 +271,11 @@ className="flex flex-col items-center justify-center"
 {/* Desktop: Circle Logo,Title and Social Icons */}
 <div className="hidden md:flex md:items-center md:justify-center md:space-x-8 mb-4">
 {/* Circle Logo with URF */}
-<div 
-className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0"
+<div
+className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 shadow-soft"
 style={{backgroundColor: '#83A682'}}
 >
-<span 
+<span
 className="text-white text-sm font-bold"
 style={{fontFamily: 'Inter Tight,sans-serif'}}
 >
@@ -285,13 +285,13 @@ URF
 
 {/* Title and Subtitle Container */}
 <div className="flex flex-col items-start">
-<h1 
+<h1
 className="text-2xl md:text-3xl font-bold text-secondary text-left"
 style={{fontFamily: 'Inter Tight,sans-serif'}}
 >
 Upper Room Fellowship
 </h1>
-<p 
+<p
 className="text-sm text-secondary text-left mt-1"
 style={{fontFamily: 'Inter,sans-serif',fontWeight: '400'}}
 >
@@ -310,7 +310,7 @@ rel="noopener noreferrer"
 initial={{opacity: 0,scale: 0.8}}
 animate={{opacity: 1,scale: 1}}
 transition={{duration: 0.5,delay: 0.4 + index * 0.1}}
-className="text-social-green hover:text-secondary transition-colors duration-300 transform hover:scale-110"
+className="text-social-green hover:text-secondary transition-all duration-300 hover:scale-110"
 title={`Follow us on ${social.name}`}
 >
 <SafeIcon icon={social.icon} className="h-7 w-7" />
@@ -322,11 +322,11 @@ title={`Follow us on ${social.name}`}
 {/* Mobile: Circle Logo and Title */}
 <div className="md:hidden flex items-center justify-center space-x-4 mb-2">
 {/* Circle Logo with URF */}
-<div 
-className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+<div
+className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 shadow-soft"
 style={{backgroundColor: '#83A682'}}
 >
-<span 
+<span
 className="text-white text-xs font-bold"
 style={{fontFamily: 'Inter Tight,sans-serif'}}
 >
@@ -334,13 +334,13 @@ URF
 </span>
 </div>
 <div className="flex flex-col items-start">
-<h1 
+<h1
 className="text-2xl font-bold text-secondary text-left"
 style={{fontFamily: 'Inter Tight,sans-serif'}}
 >
 Upper Room Fellowship
 </h1>
-<p 
+<p
 className="text-sm text-secondary text-left mt-1"
 style={{fontFamily: 'Inter,sans-serif',fontWeight: '400'}}
 >
@@ -367,7 +367,7 @@ rel="noopener noreferrer"
 initial={{opacity: 0,scale: 0.8}}
 animate={{opacity: 1,scale: 1}}
 transition={{duration: 0.5,delay: 0.4 + index * 0.1}}
-className="text-social-green hover:text-secondary transition-colors duration-300 transform hover:scale-110"
+className="text-social-green hover:text-secondary transition-all duration-300 hover:scale-110"
 title={`Follow us on ${social.name}`}
 >
 <SafeIcon icon={social.icon} className="h-9 w-9" />
@@ -392,17 +392,16 @@ transition={{duration: 0.6,delay: 0.5 + index * 0.1}}
 >
 <Link
 to={button.path}
-className="relative overflow-hidden text-white p-4 md:p-7 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 block text-center group border border-gray-200 flex flex-col justify-center items-center featured-button"
+className="relative overflow-hidden text-white p-4 md:p-7 rounded-2xl shadow-soft hover:shadow-strong transition-all duration-500 hover:scale-105 block text-center group border border-transparent flex flex-col justify-center items-center featured-button hover-scale"
 style={{
 background: 'linear-gradient(135deg,#E2BA49 0%,#F0C660 100%)',
-// Mobile: 160px x 120px (same as mobile main buttons)
 width: '160px',
 height: '120px'
 }}
 >
 {/* Blue overlay for hover effect */}
-<div 
-className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+<div
+className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500"
 style={{
 background: 'linear-gradient(135deg,#2c4747 0%,#1a2a2a 100%)',
 }}
@@ -410,9 +409,9 @@ background: 'linear-gradient(135deg,#2c4747 0%,#1a2a2a 100%)',
 
 {/* Content */}
 <div className="relative z-10">
-<SafeIcon 
-icon={button.icon} 
-className="h-5 w-5 md:h-7 md:w-7 mx-auto mb-2 md:mb-3 text-white group-hover:text-yellow-400 group-hover:scale-110 transition-all duration-300" 
+<SafeIcon
+icon={button.icon}
+className="h-5 w-5 md:h-7 md:w-7 mx-auto mb-2 md:mb-3 text-white group-hover:text-yellow-400 group-hover:scale-125 transition-all duration-500"
 />
 <h3 className="text-xs md:text-sm font-bold mb-1 text-white font-inter leading-tight">
 {button.title}
@@ -449,7 +448,7 @@ transition={{duration: 0.5,delay: 0.7 + index * 0.05}}
 >
 <Link
 to={button.path}
-className="relative overflow-hidden text-white p-7 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 block text-center group border border-gray-200 flex flex-col justify-center items-center"
+className="relative overflow-hidden text-white p-7 rounded-2xl shadow-soft hover:shadow-strong transition-all duration-500 hover:scale-105 block text-center group border border-transparent flex flex-col justify-center items-center hover-scale ripple"
 style={{
 background: 'linear-gradient(135deg,#2c4747 0%,#1a2a2a 100%)',
 width: '225px',
@@ -457,8 +456,8 @@ height: '150px'
 }}
 >
 {/* Gradient overlay for hover effect */}
-<div 
-className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+<div
+className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500"
 style={{
 background: 'linear-gradient(135deg,#E2BA49 0%,#F0C660 100%)',
 }}
@@ -466,9 +465,9 @@ background: 'linear-gradient(135deg,#E2BA49 0%,#F0C660 100%)',
 
 {/* Content */}
 <div className="relative z-10">
-<SafeIcon 
-icon={button.icon} 
-className="h-7 w-7 mx-auto mb-3 text-yellow-400 group-hover:text-white group-hover:scale-110 transition-all duration-300" 
+<SafeIcon
+icon={button.icon}
+className="h-7 w-7 mx-auto mb-3 text-yellow-400 group-hover:text-white group-hover:scale-125 transition-all duration-500"
 />
 <h3 className="text-sm font-bold mb-1 text-white font-inter leading-tight">
 {button.title}
@@ -493,7 +492,7 @@ transition={{duration: 0.5,delay: 0.7 + index * 0.05}}
 >
 <Link
 to={button.path}
-className="relative overflow-hidden text-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 block text-center group border border-gray-200 flex flex-col justify-center items-center"
+className="relative overflow-hidden text-white p-4 rounded-2xl shadow-soft hover:shadow-strong transition-all duration-500 hover:scale-105 block text-center group border border-transparent flex flex-col justify-center items-center hover-scale ripple"
 style={{
 background: 'linear-gradient(135deg,#2c4747 0%,#1a2a2a 100%)',
 width: '160px',
@@ -501,8 +500,8 @@ height: '120px'
 }}
 >
 {/* Gradient overlay for hover effect */}
-<div 
-className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+<div
+className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500"
 style={{
 background: 'linear-gradient(135deg,#E2BA49 0%,#F0C660 100%)',
 }}
@@ -510,9 +509,9 @@ background: 'linear-gradient(135deg,#E2BA49 0%,#F0C660 100%)',
 
 {/* Content */}
 <div className="relative z-10">
-<SafeIcon 
-icon={button.icon} 
-className="h-5 w-5 mx-auto mb-2 text-yellow-400 group-hover:text-white group-hover:scale-110 transition-all duration-300" 
+<SafeIcon
+icon={button.icon}
+className="h-5 w-5 mx-auto mb-2 text-yellow-400 group-hover:text-white group-hover:scale-125 transition-all duration-500"
 />
 <h3 className="text-xs font-bold mb-1 text-white font-inter leading-tight">
 {button.title}
@@ -537,7 +536,7 @@ transition={{duration: 0.5,delay: 0.7 + mobileMainButtons.length * 0.05}}
 >
 <Link
 to={contactButton.path}
-className="relative overflow-hidden text-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 block text-center group border border-gray-200 flex flex-col justify-center items-center"
+className="relative overflow-hidden text-white p-4 rounded-2xl shadow-soft hover:shadow-strong transition-all duration-500 hover:scale-105 block text-center group border border-transparent flex flex-col justify-center items-center hover-scale ripple"
 style={{
 background: 'linear-gradient(135deg,#2c4747 0%,#1a2a2a 100%)',
 width: '160px',
@@ -545,8 +544,8 @@ height: '120px'
 }}
 >
 {/* Gradient overlay for hover effect */}
-<div 
-className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+<div
+className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500"
 style={{
 background: 'linear-gradient(135deg,#E2BA49 0%,#F0C660 100%)',
 }}
@@ -554,9 +553,9 @@ background: 'linear-gradient(135deg,#E2BA49 0%,#F0C660 100%)',
 
 {/* Content */}
 <div className="relative z-10">
-<SafeIcon 
-icon={contactButton.icon} 
-className="h-5 w-5 mx-auto mb-2 text-yellow-400 group-hover:text-white group-hover:scale-110 transition-all duration-300" 
+<SafeIcon
+icon={contactButton.icon}
+className="h-5 w-5 mx-auto mb-2 text-yellow-400 group-hover:text-white group-hover:scale-125 transition-all duration-500"
 />
 <h3 className="text-xs font-bold mb-1 text-white font-inter leading-tight">
 {contactButton.title}
@@ -580,9 +579,9 @@ className="mt-16 text-center"
 >
 <Link
 to="/admin"
-className="inline-flex items-center space-x-1 text-base text-secondary-light hover:text-secondary transition-colors"
+className="inline-flex items-center space-x-2 text-base text-secondary-light hover:text-secondary transition-all duration-300 hover:scale-105 group"
 >
-<SafeIcon icon={FiSettings} className="h-4 w-4" />
+<SafeIcon icon={FiSettings} className="h-4 w-4 group-hover:rotate-90 transition-transform duration-500" />
 <span>Admin</span>
 </Link>
 </motion.div>

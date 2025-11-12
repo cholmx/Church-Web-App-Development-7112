@@ -95,8 +95,8 @@ const SermonBlog = () => {
     <div className="min-h-screen bg-accent py-12 relative">
       {/* Back to Home Button - Top Right */}
       <div className="fixed top-6 right-6 z-50">
-        <Link to="/" className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105" style={{backgroundColor: '#83A682'}} title="Back to Home">
-          <SafeIcon icon={FiHome} className="h-5 w-5 text-white" />
+        <Link to="/" className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-medium hover:shadow-strong transition-all duration-300 hover:scale-110 group backdrop-blur" style={{backgroundColor: '#83A682'}} title="Back to Home">
+          <SafeIcon icon={FiHome} className="h-5 w-5 text-white group-hover:scale-110 transition-transform duration-300" />
         </Link>
       </div>
 
@@ -132,7 +132,7 @@ const SermonBlog = () => {
             initial={{opacity: 0, y: 30}}
             animate={{opacity: 1, y: 0}}
             transition={{duration: 0.8, delay: 0.4}}
-            className="bg-white rounded-lg shadow-md p-6 mb-8"
+            className="modern-card p-6 mb-8"
           >
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center space-x-2">
@@ -203,7 +203,7 @@ const SermonBlog = () => {
                 initial={{opacity: 0, y: 30}}
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.5, delay: index * 0.1}}
-                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                className="modern-card overflow-hidden hover-scale"
               >
                 <div className="p-8">
                   {/* Sermon Header */}
@@ -240,7 +240,7 @@ const SermonBlog = () => {
                   {/* YouTube Video */}
                   {sermon.youtube_url && (
                     <div className="mb-8">
-                      <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden">
+                      <div className="aspect-video bg-gray-200 rounded-2xl overflow-hidden shadow-soft">
                         <iframe
                           src={getYouTubeEmbedUrl(sermon.youtube_url)}
                           title={sermon.title}

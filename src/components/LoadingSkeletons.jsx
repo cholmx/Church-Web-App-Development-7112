@@ -1,26 +1,21 @@
 import React from 'react';
 import {motion} from 'framer-motion';
 
-// Base skeleton animation
+// Modern shimmer animation - using CSS instead for better performance
 const shimmer = {
   animate: {
     x: ['-100%', '100%'],
   },
   transition: {
     repeat: Infinity,
-    duration: 1.5,
+    duration: 2,
     ease: 'linear',
   },
 };
 
-// Generic skeleton component
-export const SkeletonBox = ({ width = 'w-full', height = 'h-4', className = '', rounded = 'rounded' }) => (
-  <div className={`${width} ${height} ${rounded} ${className} bg-gray-200 relative overflow-hidden`}>
-    <motion.div
-      className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-50"
-      {...shimmer}
-    />
-  </div>
+// Generic skeleton component with modern shimmer
+export const SkeletonBox = ({ width = 'w-full', height = 'h-4', className = '', rounded = 'rounded-lg' }) => (
+  <div className={`${width} ${height} ${rounded} ${className} animate-shimmer`} />
 );
 
 // Button skeleton
@@ -47,7 +42,7 @@ export const SkeletonCard = ({ showImage = false, showMeta = true }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
-    className="bg-white rounded-lg shadow-md p-6 space-y-4"
+    className="modern-card p-6 space-y-4"
   >
     {/* Header */}
     <div className="flex items-start justify-between">
@@ -88,7 +83,7 @@ export const SkeletonEpisode = () => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
-    className="bg-white rounded-lg shadow-md p-6"
+    className="modern-card p-6"
   >
     <div className="flex items-start space-x-4">
       {/* Episode image */}
@@ -128,7 +123,7 @@ export const SkeletonBookCard = () => (
   <motion.div
     initial={{ opacity: 0, scale: 0.9 }}
     animate={{ opacity: 1, scale: 1 }}
-    className="bg-white rounded-lg shadow-md overflow-hidden h-full"
+    className="modern-card overflow-hidden h-full"
   >
     {/* Book cover */}
     <div className="relative w-full h-48 p-2" style={{ backgroundColor: '#fcfbf7' }}>
@@ -146,7 +141,7 @@ export const SkeletonBookCard = () => (
 
 // Admin table skeleton
 export const SkeletonTable = ({ rows = 5, columns = 4 }) => (
-  <div className="bg-white rounded-lg shadow-md overflow-hidden">
+  <div className="modern-card overflow-hidden">
     {/* Header */}
     <div className="border-b border-gray-200 p-4">
       <div className="grid grid-cols-4 gap-4">
@@ -186,7 +181,7 @@ export const SkeletonForm = () => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
-    className="bg-white rounded-lg shadow-md p-6 space-y-6"
+    className="modern-card p-6 space-y-6"
   >
     {/* Form title */}
     <SkeletonBox width="w-1/3" height="h-6" className="bg-gray-300" />
@@ -251,7 +246,7 @@ export const SkeletonStats = () => (
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: i * 0.1 }}
-        className="bg-white rounded-lg shadow-md p-6 text-center space-y-3"
+        className="modern-card p-6 text-center space-y-3"
       >
         <SkeletonBox width="w-16" height="h-16" rounded="rounded-full" className="mx-auto bg-gray-300" />
         <SkeletonBox width="w-12" height="h-8" className="mx-auto bg-gray-300" />
@@ -270,7 +265,7 @@ export const SkeletonGrid = ({ items = 6, columns = 3 }) => (
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: i * 0.05 }}
-        className="bg-white rounded-lg shadow-md p-6 text-center space-y-3"
+        className="modern-card p-6 text-center space-y-3"
         style={{ width: '160px', height: '120px' }}
       >
         <SkeletonBox width="w-8" height="h-8" rounded="rounded-full" className="mx-auto bg-gray-300" />
@@ -320,12 +315,12 @@ export const LoadingOverlay = ({ message = "Loading..." }) => (
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
-    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm"
   >
     <motion.div
       initial={{ scale: 0.9, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      className="bg-white rounded-lg p-6 shadow-xl text-center space-y-4"
+      className="modern-card p-6 shadow-strong text-center space-y-4"
     >
       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
       <p className="text-secondary font-inter">{message}</p>
