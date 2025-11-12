@@ -61,7 +61,8 @@ const AdminAnnouncements=()=> {
       fetchAnnouncements();
     } catch (error) {
       console.error('Error saving announcement:',error);
-      alert('Error saving announcement. Please try again.');
+      const errorMessage = error?.message || 'Unknown error occurred';
+      alert(`Error saving announcement: ${errorMessage}\n\nPlease check the console for more details.`);
     } finally {
       setLoading(false);
     }
