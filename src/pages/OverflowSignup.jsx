@@ -6,13 +6,14 @@ import SafeIcon from '../common/SafeIcon';
 import {sendEmail} from '../lib/emailService';
 import StandardButton from '../components/StandardButton';
 
-const {FiCalendar,FiCheck,FiUser,FiMail,FiPhone,FiHome}=FiIcons;
+const {FiCalendar,FiCheck,FiUser,FiMail,FiPhone,FiHome,FiUsers}=FiIcons;
 
 const OverflowSignup=()=> {
   const [formData,setFormData]=useState({
     name: '',
     phone: '',
     email: '',
+    partySize: '1',
     selectedSundays: []
   });
   const [isSubmitting,setIsSubmitting]=useState(false);
@@ -54,13 +55,14 @@ const OverflowSignup=()=> {
         name: formData.name,
         phone: formData.phone,
         email: formData.email,
+        party_size: formData.partySize,
         selected_sundays: formData.selectedSundays
       },'overflow');
 
       if (!success) throw new Error(error);
 
       setIsSubmitted(true);
-      setFormData({name: '',phone: '',email: '',selectedSundays: []});
+      setFormData({name: '',phone: '',email: '',partySize: '1',selectedSundays: []});
     } catch (error) {
       console.error('Error submitting form:',error);
       alert('There was an error submitting your form. Please try again.');
@@ -213,6 +215,29 @@ const OverflowSignup=()=> {
                   required
                   className="pl-10 w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                   placeholder="your.email@example.com"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-text-primary mb-2">
+                Number in party *
+              </label>
+              <div className="relative">
+                <SafeIcon
+                  icon={FiUsers}
+                  className="absolute left-3 top-3 h-5 w-5 text-text-light"
+                />
+                <input
+                  type="number"
+                  name="partySize"
+                  value={formData.partySize}
+                  onChange={handleInputChange}
+                  required
+                  min="1"
+                  max="20"
+                  className="pl-10 w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  placeholder="1"
                 />
               </div>
             </div>
