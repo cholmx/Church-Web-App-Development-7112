@@ -57,17 +57,17 @@ const Home=()=> {
     {title: 'Shine Podcast',description: 'Latest episodes',icon: FiMic,path: '/shine-podcast',isInternal: true},
     {title: 'Sermon Podcast',description: 'Listen to recordings',icon: FiPlay,path: '/sermon-podcast',isInternal: true},
     {title: 'Table Group Sign-Up',description: 'Join a small group',icon: FiUsers,path: '/table-group-signup',isInternal: true},
-    {title: 'Give',description: 'Online giving portal',icon: FiCreditCard,path: '/give',isInternal: true},
     ...(hasResources ? [{title: 'Resources',description: 'Helpful materials',icon: FiBookOpen,path: '/resources',isInternal: true}] : []),
     {title: 'Join Realm',description: 'Become a member',icon: FiUserPlus,path: '/join-realm',isInternal: true},
-    {title: 'Realm Login',description: 'Access your account',icon: FiLogIn,path: 'https://onrealm.org/urfellowship/',isInternal: false},
-    {title: 'Church Website',description: 'Visit our main site',icon: FiExternalLink,path: 'https://urfellowship.com',isInternal: false},
     {title: 'Ministries',description: 'Explore our ministries',icon: FiHeart,path: '/ministries',isInternal: true},
     {title: 'Contact',description: 'Get in touch with us',icon: FiMail,path: '/contact',isInternal: true}
   ];
-  
-  const mobileMainButtons=mainButtons;
-  const contactButton=null;
+
+  const quickLinks=[
+    {title: 'Give',icon: FiCreditCard,path: 'https://onrealm.org/urfellowship/-/form/give/now'},
+    {title: 'Realm Login',icon: FiLogIn,path: 'https://onrealm.org/urfellowship/'},
+    {title: 'Church Website',icon: FiGlobe,path: 'https://urfellowship.com'}
+  ];
 
   const socialLinks=[
     {name: 'Facebook',icon: FiFacebook,url: 'https://www.facebook.com/urfellowship/'},
@@ -80,6 +80,11 @@ const Home=()=> {
       <div className="w-8 h-8 bg-accent rounded-full mb-3"></div>
       <div className="h-4 bg-accent rounded w-20 mb-2"></div>
       <div className="h-3 bg-accent rounded w-24"></div>
+    </div>
+  );
+
+  const SkeletonQuickLink=()=> (
+    <div className="bg-accent-dark rounded-xl animate-pulse w-[120px] h-[60px] md:w-[140px] md:h-[70px]">
     </div>
   );
 
@@ -108,8 +113,11 @@ const Home=()=> {
                 <div className="bg-accent-dark rounded-2xl animate-pulse w-full h-[70px]"></div>
                 <div className="bg-accent-dark rounded-2xl animate-pulse w-full h-[70px]"></div>
               </div>
-              <div className="hidden lg:grid lg:grid-cols-4 md:grid md:grid-cols-3 gap-4"> {Array(12).fill(0).map((_, i) => <SkeletonButton key={i} />)} </div>
-              <div className="grid grid-cols-2 lg:hidden gap-3"> {Array(12).fill(0).map((_, i) => <SkeletonButton key={i} />)} </div>
+              <div className="hidden md:grid md:grid-cols-3 gap-4"> {Array(9).fill(0).map((_, i) => <SkeletonButton key={i} />)} </div>
+              <div className="grid grid-cols-2 md:hidden gap-3"> {Array(9).fill(0).map((_, i) => <SkeletonButton key={i} />)} </div>
+              <div className="flex justify-center gap-3 mt-8">
+                {Array(3).fill(0).map((_, i) => <SkeletonQuickLink key={i} />)}
+              </div>
             </div>
           ) : (
             <>
@@ -124,19 +132,30 @@ const Home=()=> {
               )}
 
               <section className="flex flex-col items-center">
-                <div className="hidden lg:grid lg:grid-cols-4 gap-4">
-                  {mainButtons.map((button, i) => (
-                    <HomeButton key={button.title} {...button} delay={0.5 + i * 0.05} />
-                  ))}
-                </div>
-                <div className="hidden md:grid md:grid-cols-3 lg:hidden gap-4">
+                <div className="hidden md:grid md:grid-cols-3 gap-4">
                   {mainButtons.map((button, i) => (
                     <HomeButton key={button.title} {...button} delay={0.5 + i * 0.05} />
                   ))}
                 </div>
                 <div className="grid grid-cols-2 md:hidden gap-3">
-                  {mobileMainButtons.map((button, i) => (
+                  {mainButtons.map((button, i) => (
                     <HomeButton key={button.title} {...button} delay={0.5 + i * 0.05} />
+                  ))}
+                </div>
+              </section>
+
+              <section className="mt-12 flex flex-col items-center">
+                <motion.h3
+                  initial={{opacity: 0, y: 20}}
+                  animate={{opacity: 1, y: 0}}
+                  transition={{duration: 0.6, delay: 0.9}}
+                  className="text-lg text-text-primary mb-4 font-heading"
+                >
+                  Quick Links
+                </motion.h3>
+                <div className="flex flex-wrap justify-center gap-3">
+                  {quickLinks.map((link, i) => (
+                    <QuickLinkButton key={link.title} {...link} delay={1.0 + i * 0.1} />
                   ))}
                 </div>
               </section>
@@ -210,6 +229,23 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, isInte
         </a>
       )}
     </motion.div>
+  );
+};
+
+const QuickLinkButton = ({ title, icon, path, delay = 0 }) => {
+  return (
+    <motion.a
+      href={path}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{opacity: 0, y: 20}}
+      animate={{opacity: 1, y: 0}}
+      transition={{duration: 0.5, delay}}
+      className="relative overflow-hidden px-4 py-3 rounded-xl bg-accent-dark hover:bg-brand-blue shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 group flex items-center gap-2 w-[120px] md:w-[140px] justify-center"
+    >
+      <SafeIcon icon={icon} className="h-4 w-4 md:h-5 md:w-5 text-brand-yellow transition-transform duration-300 group-hover:scale-110" />
+      <span className="text-xs md:text-sm font-semibold text-text-primary group-hover:text-white transition-colors duration-300">{title}</span>
+    </motion.a>
   );
 };
 
