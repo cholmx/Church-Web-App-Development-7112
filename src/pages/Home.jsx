@@ -123,7 +123,7 @@ const Home=()=> {
             <>
               {featuredButtons.length > 0 && (
                 <section className="mb-8 flex justify-center w-full">
-                  <div className="flex flex-col gap-3 md:gap-4 w-full max-w-[344px] md:max-w-[708px] lg:max-w-[944px]">
+                  <div className="flex flex-col gap-3 md:gap-4 w-full max-w-[344px] md:max-w-[711px]">
                     {featuredButtons.map((button, i) => (
                       <HomeButton key={button.title} {...button} isFeatured delay={0.3 + i * 0.1} />
                     ))}
