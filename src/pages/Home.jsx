@@ -5,7 +5,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
 
-const {FiBell,FiPlay,FiMic,FiUsers,FiCreditCard,FiUserPlus,FiMail,FiCalendar,FiBookOpen,FiSettings,FiFacebook,FiInstagram,FiYoutube}=FiIcons;
+const {FiBell,FiPlay,FiMic,FiUsers,FiCreditCard,FiUserPlus,FiMail,FiCalendar,FiBookOpen,FiSettings,FiFacebook,FiInstagram,FiYoutube,FiGlobe,FiHeart}=FiIcons;
 
 const Home=()=> {
   const [hasEvents,setHasEvents]=useState(false);
@@ -52,19 +52,22 @@ const Home=()=> {
   ];
 
   const mainButtons=[
-    {title: 'Announcements',description: 'Latest church news',icon: FiBell,path: '/announcements'},
-    {title: 'Sermon Blog',description: 'Weekly sermons',icon: FiPlay,path: '/sermon-blog'},
-    {title: 'Shine Podcast',description: 'Latest episodes',icon: FiMic,path: '/shine-podcast'},
-    {title: 'Sermon Podcast',description: 'Listen to recordings',icon: FiPlay,path: '/sermon-podcast'},
-    {title: 'Table Group Sign-Up',description: 'Join a small group',icon: FiUsers,path: '/table-group-signup'},
-    {title: 'Give',description: 'Online giving portal',icon: FiCreditCard,path: '/give'},
-    ...(hasResources ? [{title: 'Resources',description: 'Helpful materials',icon: FiBookOpen,path: '/resources'}] : []),
-    {title: 'Join Realm',description: 'Become a member',icon: FiUserPlus,path: '/join-realm'},
-    {title: 'Contact',description: 'Get in touch with us',icon: FiMail,path: '/contact'}
+    {title: 'Announcements',description: 'Latest church news',icon: FiBell,path: '/announcements',isInternal: true},
+    {title: 'Sermon Blog',description: 'Weekly sermons',icon: FiPlay,path: '/sermon-blog',isInternal: true},
+    {title: 'Shine Podcast',description: 'Latest episodes',icon: FiMic,path: '/shine-podcast',isInternal: true},
+    {title: 'Sermon Podcast',description: 'Listen to recordings',icon: FiPlay,path: '/sermon-podcast',isInternal: true},
+    {title: 'Table Group Sign-Up',description: 'Join a small group',icon: FiUsers,path: '/table-group-signup',isInternal: true},
+    {title: 'Give',description: 'Online giving portal',icon: FiCreditCard,path: '/give',isInternal: true},
+    ...(hasResources ? [{title: 'Resources',description: 'Helpful materials',icon: FiBookOpen,path: '/resources',isInternal: true}] : []),
+    {title: 'Join Realm',description: 'Become a member',icon: FiUserPlus,path: '/join-realm',isInternal: true},
+    {title: 'Realm Login',description: 'Access your account',icon: FiGlobe,path: 'https://onrealm.org/urfellowship/',isInternal: false},
+    {title: 'Church Website',description: 'Visit our main site',icon: FiGlobe,path: 'https://urfellowship.com',isInternal: false},
+    {title: 'Ministries',description: 'Explore our ministries',icon: FiHeart,path: '/ministries',isInternal: true},
+    {title: 'Contact',description: 'Get in touch with us',icon: FiMail,path: '/contact',isInternal: true}
   ];
   
-  const mobileMainButtons=mainButtons.filter(b=> b.title !=='Contact');
-  const contactButton=mainButtons.find(b=> b.title==='Contact');
+  const mobileMainButtons=mainButtons;
+  const contactButton=null;
 
   const socialLinks=[
     {name: 'Facebook',icon: FiFacebook,url: 'https://www.facebook.com/urfellowship/'},
@@ -105,15 +108,14 @@ const Home=()=> {
                 <div className="bg-accent-dark rounded-2xl animate-pulse w-full h-[70px]"></div>
                 <div className="bg-accent-dark rounded-2xl animate-pulse w-full h-[70px]"></div>
               </div>
-              <div className="hidden md:grid md:grid-cols-3 gap-4"> {Array(9).fill(0).map((_, i) => <SkeletonButton key={i} />)} </div>
-              <div className="grid grid-cols-2 md:hidden gap-3"> {Array(8).fill(0).map((_, i) => <SkeletonButton key={i} />)} </div>
-              <div className="flex justify-center md:hidden"> <SkeletonButton /> </div>
+              <div className="hidden lg:grid lg:grid-cols-4 md:grid md:grid-cols-3 gap-4"> {Array(12).fill(0).map((_, i) => <SkeletonButton key={i} />)} </div>
+              <div className="grid grid-cols-2 lg:hidden gap-3"> {Array(12).fill(0).map((_, i) => <SkeletonButton key={i} />)} </div>
             </div>
           ) : (
             <>
               {featuredButtons.length > 0 && (
                 <section className="mb-8 flex justify-center w-full">
-                  <div className="flex flex-col gap-3 md:gap-4 w-full max-w-[344px] md:max-w-[708px]">
+                  <div className="flex flex-col gap-3 md:gap-4 w-full max-w-[344px] md:max-w-[708px] lg:max-w-[944px]">
                     {featuredButtons.map((button, i) => (
                       <HomeButton key={button.title} {...button} isFeatured delay={0.3 + i * 0.1} />
                     ))}
@@ -122,7 +124,12 @@ const Home=()=> {
               )}
 
               <section className="flex flex-col items-center">
-                <div className="hidden md:grid md:grid-cols-3 gap-4">
+                <div className="hidden lg:grid lg:grid-cols-4 gap-4">
+                  {mainButtons.map((button, i) => (
+                    <HomeButton key={button.title} {...button} delay={0.5 + i * 0.05} />
+                  ))}
+                </div>
+                <div className="hidden md:grid md:grid-cols-3 lg:hidden gap-4">
                   {mainButtons.map((button, i) => (
                     <HomeButton key={button.title} {...button} delay={0.5 + i * 0.05} />
                   ))}
@@ -132,11 +139,6 @@ const Home=()=> {
                     <HomeButton key={button.title} {...button} delay={0.5 + i * 0.05} />
                   ))}
                 </div>
-                {contactButton && (
-                  <div className="mt-3 md:hidden">
-                     <HomeButton {...contactButton} delay={0.5 + mobileMainButtons.length * 0.05} />
-                  </div>
-                )}
               </section>
             </>
           )}
@@ -170,7 +172,7 @@ const Home=()=> {
   );
 };
 
-const HomeButton = ({ title, description, icon, path, isFeatured = false, delay = 0 }) => {
+const HomeButton = ({ title, description, icon, path, isFeatured = false, isInternal = true, delay = 0 }) => {
   const baseClasses = isFeatured
     ? "relative overflow-hidden p-4 rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-full h-[60px] md:h-[70px]"
     : "relative overflow-hidden p-4 rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-[160px] h-[120px] md:w-[225px] md:h-[150px]";
@@ -178,23 +180,35 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, delay 
   const featuredClasses = "bg-brand-yellow text-text-primary";
   const mainClasses = "bg-brand-blue text-white";
 
+  const content = (
+    <>
+      <div className={`absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isFeatured ? 'from-white/30' : 'from-white/20'}`}></div>
+      {isFeatured ? (
+        <div className="relative z-10 flex flex-col items-center">
+          <h3 className="text-sm md:text-base font-bold font-heading leading-tight text-text-primary">{title}</h3>
+          <p className="text-xs opacity-80 leading-tight text-text-primary">{description}</p>
+        </div>
+      ) : (
+        <div className="relative z-10 flex flex-col items-center">
+          <SafeIcon icon={icon} className="h-6 w-6 md:h-8 md:w-8 mb-2 md:mb-3 transition-transform duration-300 group-hover:scale-110" style={{color: '#E2BA49'}} />
+          <h3 className="text-sm md:text-base font-bold font-heading leading-tight text-white">{title}</h3>
+          <p className="text-xs opacity-80 leading-tight text-white">{description}</p>
+        </div>
+      )}
+    </>
+  );
+
   return (
     <motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay}}>
-      <Link to={path} className={`${baseClasses} ${isFeatured ? featuredClasses : mainClasses}`}>
-        <div className={`absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isFeatured ? 'from-white/30' : 'from-white/20'}`}></div>
-        {isFeatured ? (
-          <div className="relative z-10 flex flex-col items-center">
-            <h3 className="text-sm md:text-base font-bold font-heading leading-tight text-text-primary">{title}</h3>
-            <p className="text-xs opacity-80 leading-tight text-text-primary">{description}</p>
-          </div>
-        ) : (
-          <div className="relative z-10 flex flex-col items-center">
-            <SafeIcon icon={icon} className="h-6 w-6 md:h-8 md:w-8 mb-2 md:mb-3 transition-transform duration-300 group-hover:scale-110" style={{color: '#E2BA49'}} />
-            <h3 className="text-sm md:text-base font-bold font-heading leading-tight text-white">{title}</h3>
-            <p className="text-xs opacity-80 leading-tight text-white">{description}</p>
-          </div>
-        )}
-      </Link>
+      {isInternal ? (
+        <Link to={path} className={`${baseClasses} ${isFeatured ? featuredClasses : mainClasses}`}>
+          {content}
+        </Link>
+      ) : (
+        <a href={path} target="_blank" rel="noopener noreferrer" className={`${baseClasses} ${isFeatured ? featuredClasses : mainClasses}`}>
+          {content}
+        </a>
+      )}
     </motion.div>
   );
 };

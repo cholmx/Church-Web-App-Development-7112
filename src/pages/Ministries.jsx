@@ -1,97 +1,63 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
+import supabase from '../lib/supabase';
 
 const {FiUsers, FiHeart, FiBookOpen, FiMusic, FiTarget, FiGift, FiHome} = FiIcons;
 
 const Ministries = () => {
-  const ministries = [
-    {
-      icon: FiUsers,
-      title: 'Children\'s Ministry',
-      description: 'Nurturing young hearts to know and love Jesus through age-appropriate teaching, activities, and care.',
-      features: ['Sunday School', 'Vacation Bible School', 'Children\'s Choir', 'Family Events'],
-      ageGroup: 'Ages 0-12',
-      color: 'primary'
-    },
-    {
-      icon: FiTarget,
-      title: 'Youth Ministry',
-      description: 'Empowering teenagers to grow in faith, build friendships, and discover their purpose in God.',
-      features: ['Youth Group', 'Summer Camps', 'Mission Trips', 'Leadership Training'],
-      ageGroup: 'Ages 13-18',
-      color: 'secondary'
-    },
-    {
-      icon: FiHeart,
-      title: 'Women\'s Ministry',
-      description: 'Creating opportunities for women to connect, grow spiritually, and support one another.',
-      features: ['Bible Studies', 'Retreats', 'Mentorship', 'Service Projects'],
-      ageGroup: 'All Ages',
-      color: 'pink'
-    },
-    {
-      icon: FiBookOpen,
-      title: 'Men\'s Ministry',
-      description: 'Challenging men to be godly leaders in their homes, workplaces, and communities.',
-      features: ['Men\'s Groups', 'Accountability', 'Service Projects', 'Leadership Development'],
-      ageGroup: 'All Ages',
-      color: 'orange'
-    },
-    {
-      icon: FiMusic,
-      title: 'Worship Ministry',
-      description: 'Leading our congregation in meaningful worship through music, arts, and creative expression.',
-      features: ['Worship Team', 'Choir', 'Sound & Media', 'Creative Arts'],
-      ageGroup: 'All Ages',
-      color: 'purple'
-    },
-    {
-      icon: FiGift,
-      title: 'Outreach Ministry',
-      description: 'Serving our community and spreading God\'s love through practical acts of service and evangelism.',
-      features: ['Food Pantry', 'Community Events', 'Mission Support', 'Evangelism Training'],
-      ageGroup: 'All Ages',
-      color: 'green'
+  const [ministries,setMinistries]=useState([]);
+  const [loading,setLoading]=useState(true);
+
+  useEffect(()=> {
+    fetchMinistries();
+  },[]);
+
+  const fetchMinistries=async ()=> {
+    try {
+      const {data: ministriesData,error: ministriesError}=await supabase
+        .from('ministries_portal123')
+        .select('*')
+        .eq('is_active',true)
+        .order('display_order',{ascending: true});
+
+      if (ministriesError) throw ministriesError;
+
+      const ministriesWithFeatures=await Promise.all(
+        ministriesData.map(async (ministry)=> {
+          const {data: features}=await supabase
+            .from('ministry_features_portal123')
+            .select('*')
+            .eq('ministry_id',ministry.id)
+            .order('display_order',{ascending: true});
+
+          return {
+            ...ministry,
+            features: features || []
+          };
+        })
+      );
+
+      setMinistries(ministriesWithFeatures);
+    } catch (error) {
+      console.error('Error fetching ministries:',error);
+    } finally {
+      setLoading(false);
     }
-  ];
-
-  const getColorClasses = (color) => {
-    const colors = {
-      primary: 'bg-primary text-white',
-      secondary: 'bg-secondary text-white',
-      pink: 'bg-pink-500 text-white',
-      orange: 'bg-orange-500 text-white',
-      purple: 'bg-purple-500 text-white',
-      green: 'bg-green-500 text-white'
-    };
-    return colors[color] || colors.primary;
   };
 
-  const getIconColor = (color) => {
-    const colors = {
-      primary: 'text-primary',
-      secondary: 'text-text-primary',
-      pink: 'text-pink-500',
-      orange: 'text-orange-500',
-      purple: 'text-purple-500',
-      green: 'text-green-500'
-    };
-    return colors[color] || colors.primary;
+  const getColorClasses = () => {
+    return 'bg-primary text-white';
   };
 
-  const getBadgeColor = (color) => {
-    const colors = {
-      primary: 'bg-primary text-white',
-      secondary: 'bg-secondary text-white',
-      pink: 'bg-pink-100 text-pink-800',
-      orange: 'bg-orange-100 text-orange-800',
-      purple: 'bg-purple-100 text-purple-800',
-      green: 'bg-green-100 text-green-800'
-    };
-    return colors[color] || colors.primary;
+  const getIconColor = () => {
+    return 'text-primary';
+  };
+
+  const getBadgeColor = () => {
+    return 'bg-primary/10 text-primary';
   };
 
   return (
@@ -128,44 +94,80 @@ const Ministries = () => {
       {/* Ministries Grid */}
       <section className="py-16 bg-accent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {ministries.map((ministry, index) => (
-              <motion.div
-                key={index}
-                initial={{opacity: 0, y: 30}}
-                animate={{opacity: 1, y: 0}}
-                transition={{duration: 0.5, delay: index * 0.1}}
-                className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden"
-              >
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <SafeIcon icon={ministry.icon} className={`h-12 w-12 ${getIconColor(ministry.color)}`} />
-                    <span className={`px-3 py-1 text-xs font-medium rounded-full ${getBadgeColor(ministry.color)} font-inter`}>
-                      {ministry.ageGroup}
-                    </span>
-                  </div>
-                  <h3 className="text-xl mb-3 text-text-primary font-fraunces">{ministry.title}</h3>
-                  <p className="text-text-primary mb-4 font-inter">{ministry.description}</p>
-                  <div>
-                    <h4 className="text-text-primary mb-2 font-fraunces">What We Offer:</h4>
-                    <ul className="space-y-1">
-                      {ministry.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center space-x-2 text-text-primary">
-                          <div className={`w-2 h-2 rounded-full ${getIconColor(ministry.color).replace('text-', 'bg-')}`}></div>
-                          <span className="text-sm font-inter">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="mt-6 pt-4 border-t border-accent">
-                    <button className={`w-full py-2 px-4 rounded-md font-medium transition-colors ${getColorClasses(ministry.color)} hover:opacity-90 font-inter`}>
-                      Learn More
-                    </button>
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {Array(6).fill(0).map((_,i)=> (
+                <div key={i} className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="h-12 w-12 bg-accent rounded-full"></div>
+                      <div className="h-6 w-20 bg-accent rounded-full"></div>
+                    </div>
+                    <div className="h-6 bg-accent rounded w-3/4 mb-3"></div>
+                    <div className="h-4 bg-accent rounded w-full mb-2"></div>
+                    <div className="h-4 bg-accent rounded w-5/6 mb-4"></div>
+                    <div className="space-y-2">
+                      <div className="h-3 bg-accent rounded w-full"></div>
+                      <div className="h-3 bg-accent rounded w-4/5"></div>
+                      <div className="h-3 bg-accent rounded w-5/6"></div>
+                    </div>
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : ministries.length === 0 ? (
+            <div className="text-center py-12">
+              <SafeIcon icon={FiHeart} className="h-16 w-16 text-text-light mx-auto mb-4" />
+              <h3 className="text-xl text-text-primary mb-2">No Ministries Available</h3>
+              <p className="text-text-primary">Check back soon for information about our ministries.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {ministries.map((ministry, index) => (
+                <motion.div
+                  key={ministry.id}
+                  initial={{opacity: 0, y: 30}}
+                  animate={{opacity: 1, y: 0}}
+                  transition={{duration: 0.5, delay: index * 0.1}}
+                  className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden"
+                >
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <SafeIcon icon={FiHeart} className={`h-12 w-12 ${getIconColor()}`} />
+                      <span className={`px-3 py-1 text-xs font-medium rounded-full ${getBadgeColor()}`}>
+                        {ministry.age_group}
+                      </span>
+                    </div>
+                    <h3 className="text-xl mb-3 text-text-primary font-bold">{ministry.title}</h3>
+                    <p className="text-text-primary mb-4">{ministry.description}</p>
+                    {ministry.features.length > 0 && (
+                      <div className="mb-4">
+                        <h4 className="text-text-primary mb-2 font-semibold">What We Offer:</h4>
+                        <ul className="space-y-1">
+                          {ministry.features.map((feature) => (
+                            <li key={feature.id} className="flex items-center space-x-2 text-text-primary">
+                              <div className="w-2 h-2 rounded-full bg-primary"></div>
+                              <span className="text-sm">{feature.feature_text}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {(ministry.leader_name || ministry.leader_role) && (
+                      <div className="mt-4 pt-4 border-t border-accent">
+                        <p className="text-sm text-text-primary">
+                          <span className="font-semibold">Leader:</span> {ministry.leader_name}
+                          {ministry.leader_role && (
+                            <span className="block text-text-light">{ministry.leader_role}</span>
+                          )}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -205,48 +207,6 @@ const Ministries = () => {
         </div>
       </section>
 
-      {/* Ministry Leadership */}
-      <section className="py-16 bg-accent">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4 font-fraunces">Ministry Leadership</h2>
-            <p className="text-xl text-text-primary page-subtitle">Meet some of the dedicated leaders serving our church family</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                name: 'Jennifer Adams',
-                role: 'Children\'s Ministry Director',
-                image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face'
-              },
-              {
-                name: 'Michael Davis',
-                role: 'Youth Pastor',
-                image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face'
-              },
-              {
-                name: 'Sarah Johnson',
-                role: 'Worship Director',
-                image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop&crop=face'
-              }
-            ].map((leader, index) => (
-              <motion.div
-                key={index}
-                initial={{opacity: 0, y: 30}}
-                animate={{opacity: 1, y: 0}}
-                transition={{duration: 0.5, delay: index * 0.1}}
-                className="bg-white rounded-lg shadow-md overflow-hidden text-center"
-              >
-                <img src={leader.image} alt={leader.name} className="w-full h-64 object-cover" />
-                <div className="p-6">
-                  <h3 className="text-xl mb-1 text-text-primary font-fraunces">{leader.name}</h3>
-                  <p className="text-primary font-medium font-inter">{leader.role}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
