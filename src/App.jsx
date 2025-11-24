@@ -19,6 +19,7 @@ import Resources from './pages/Resources'
 import Admin from './pages/Admin'
 import Yellow from './pages/Yellow'
 import Green from './pages/Green'
+import OverflowSignup from './pages/OverflowSignup'
 import NotFound from './pages/NotFound'
 
 import './App.css'
@@ -47,6 +48,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/yellow" element={<Yellow />} />
           <Route path="/green" element={<Green />} />
+          <Route path="/overflow-signup" element={<OverflowSignup />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

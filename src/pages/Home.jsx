@@ -11,6 +11,7 @@ const Home=()=> {
   const [hasEvents,setHasEvents]=useState(false);
   const [hasClasses,setHasClasses]=useState(false);
   const [hasResources,setHasResources]=useState(false);
+  const [featuredDbButtons,setFeaturedDbButtons]=useState([]);
   const [loading,setLoading]=useState(true);
 
   useEffect(()=> {
@@ -22,10 +23,16 @@ const Home=()=> {
       const {data: events}=await supabase.from('events_portal123').select('id').limit(1);
       const {data: classes}=await supabase.from('classes_portal123').select('id').limit(1);
       const {data: resources}=await supabase.from('resources_portal123').select('id').limit(1);
+      const {data: featuredButtons}=await supabase
+        .from('featured_buttons_portal123')
+        .select('*')
+        .eq('is_active',true)
+        .order('display_order',{ascending: true});
 
       setHasEvents(events && events.length > 0);
       setHasClasses(classes && classes.length > 0);
       setHasResources(resources && resources.length > 0);
+      setFeaturedDbButtons(featuredButtons || []);
     } catch (error) {
       console.error('Error checking availability:',error);
     } finally {
@@ -34,6 +41,12 @@ const Home=()=> {
   };
 
   const featuredButtons=[
+    ...featuredDbButtons.map(btn=> ({
+      title: btn.title,
+      description: btn.description,
+      icon: FiCalendar,
+      path: btn.path
+    })),
     ...(hasClasses ? [{title: 'Classes',description: 'Available church classes',icon: FiBookOpen,path: '/class-registration'}] : []),
     ...(hasEvents ? [{title: 'Events',description: 'Upcoming church events',icon: FiCalendar,path: '/event-registration'}] : [])
   ];
