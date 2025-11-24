@@ -11,8 +11,9 @@ import AdminClasses from '../components/AdminClasses';
 import AdminResources from '../components/AdminResources';
 import AdminFeaturedButtons from '../components/AdminFeaturedButtons';
 import AdminMinistries from '../components/AdminMinistries';
+import AdminStaffContacts from '../components/AdminStaffContacts';
 
-const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart}=FiIcons;
+const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers}=FiIcons;
 
 const Admin=()=> {
   const [isAuthenticated,setIsAuthenticated]=useState(false);
@@ -46,6 +47,7 @@ const Admin=()=> {
     {id: 'classes',label: 'Classes',icon: FiBookOpen},
     {id: 'resources',label: 'Resources',icon: FiBookOpen},
     {id: 'ministries',label: 'Ministries',icon: FiHeart},
+    {id: 'staff',label: 'Staff Contacts',icon: FiUsers},
     {id: 'featured',label: 'Featured Buttons',icon: FiStar},
   ];
 
@@ -63,6 +65,8 @@ const Admin=()=> {
         return <AdminResources />;
       case 'ministries':
         return <AdminMinistries />;
+      case 'staff':
+        return <AdminStaffContacts />;
       case 'featured':
         return <AdminFeaturedButtons />;
       default:
