@@ -5,7 +5,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
 
-const {FiBell,FiPlay,FiMic,FiUsers,FiCreditCard,FiUserPlus,FiMail,FiCalendar,FiBookOpen,FiSettings,FiFacebook,FiInstagram,FiYoutube,FiGlobe,FiHeart}=FiIcons;
+const {FiBell,FiPlay,FiMic,FiUsers,FiCreditCard,FiUserPlus,FiMail,FiCalendar,FiBookOpen,FiSettings,FiFacebook,FiInstagram,FiYoutube,FiGlobe,FiHeart,FiLogIn,FiExternalLink}=FiIcons;
 
 const Home=()=> {
   const [hasEvents,setHasEvents]=useState(false);
@@ -60,8 +60,8 @@ const Home=()=> {
     {title: 'Give',description: 'Online giving portal',icon: FiCreditCard,path: '/give',isInternal: true},
     ...(hasResources ? [{title: 'Resources',description: 'Helpful materials',icon: FiBookOpen,path: '/resources',isInternal: true}] : []),
     {title: 'Join Realm',description: 'Become a member',icon: FiUserPlus,path: '/join-realm',isInternal: true},
-    {title: 'Realm Login',description: 'Access your account',icon: FiGlobe,path: 'https://onrealm.org/urfellowship/',isInternal: false},
-    {title: 'Church Website',description: 'Visit our main site',icon: FiGlobe,path: 'https://urfellowship.com',isInternal: false},
+    {title: 'Realm Login',description: 'Access your account',icon: FiLogIn,path: 'https://onrealm.org/urfellowship/',isInternal: false},
+    {title: 'Church Website',description: 'Visit our main site',icon: FiExternalLink,path: 'https://urfellowship.com',isInternal: false},
     {title: 'Ministries',description: 'Explore our ministries',icon: FiHeart,path: '/ministries',isInternal: true},
     {title: 'Contact',description: 'Get in touch with us',icon: FiMail,path: '/contact',isInternal: true}
   ];

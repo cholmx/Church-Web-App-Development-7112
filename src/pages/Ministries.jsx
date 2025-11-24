@@ -5,9 +5,9 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
 
-const {FiUsers, FiHeart, FiBookOpen, FiMusic, FiTarget, FiGift, FiHome} = FiIcons;
+const {FiHeart,FiHome}=FiIcons;
 
-const Ministries = () => {
+const Ministries=()=> {
   const [ministries,setMinistries]=useState([]);
   const [loading,setLoading]=useState(true);
 
@@ -48,20 +48,19 @@ const Ministries = () => {
     }
   };
 
-  const getColorClasses = () => {
-    return 'bg-primary text-white';
-  };
-
-  const getIconColor = () => {
-    return 'text-primary';
-  };
-
-  const getBadgeColor = () => {
-    return 'bg-primary/10 text-primary';
-  };
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-accent py-12 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-text-primary">Loading ministries...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-accent relative">
+    <div className="min-h-screen bg-accent py-12 relative">
       {/* Back to Home Button - Top Right */}
       <div className="fixed top-6 right-6 z-50">
         <Link to="/" className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105" style={{backgroundColor: '#83A682'}} title="Back to Home">
@@ -69,144 +68,150 @@ const Ministries = () => {
         </Link>
       </div>
 
-      {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-r from-primary to-secondary text-white">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <motion.h1
-            initial={{opacity: 0, y: 30}}
-            animate={{opacity: 1, y: 0}}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <motion.div
+            initial={{opacity: 0,y: 30}}
+            animate={{opacity: 1,y: 0}}
             transition={{duration: 0.8}}
-            className="text-4xl md:text-6xl font-bold mb-6 font-inter"
+            className="flex items-center justify-center space-x-4 mb-1"
           >
-            Our Ministries
-          </motion.h1>
+            <SafeIcon icon={FiHeart} className="h-8 w-8 text-primary" />
+            <Link to="/" className="hover:text-primary transition-colors">
+              <h1 className="text-3xl md:text-4xl">
+                Our Ministries
+              </h1>
+            </Link>
+          </motion.div>
           <motion.p
-            initial={{opacity: 0, y: 30}}
-            animate={{opacity: 1, y: 0}}
-            transition={{duration: 0.8, delay: 0.2}}
-            className="text-xl text-primary-light page-subtitle"
+            initial={{opacity: 0,y: 30}}
+            animate={{opacity: 1,y: 0}}
+            transition={{duration: 0.8,delay: 0.2}}
+            className="text-base page-subtitle"
           >
-            Discover ways to grow, serve, and connect through our various ministry opportunities
+            Discover ways to grow, serve, and connect
           </motion.p>
         </div>
-      </section>
 
-      {/* Ministries Grid */}
-      <section className="py-16 bg-accent">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {Array(6).fill(0).map((_,i)=> (
-                <div key={i} className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="h-12 w-12 bg-accent rounded-full"></div>
-                      <div className="h-6 w-20 bg-accent rounded-full"></div>
-                    </div>
-                    <div className="h-6 bg-accent rounded w-3/4 mb-3"></div>
-                    <div className="h-4 bg-accent rounded w-full mb-2"></div>
-                    <div className="h-4 bg-accent rounded w-5/6 mb-4"></div>
-                    <div className="space-y-2">
-                      <div className="h-3 bg-accent rounded w-full"></div>
-                      <div className="h-3 bg-accent rounded w-4/5"></div>
-                      <div className="h-3 bg-accent rounded w-5/6"></div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : ministries.length === 0 ? (
-            <div className="text-center py-12">
+        {/* Ministries List */}
+        <div className="space-y-8">
+          {ministries.length===0 ? (
+            <motion.div
+              initial={{opacity: 0,y: 30}}
+              animate={{opacity: 1,y: 0}}
+              transition={{duration: 0.5}}
+              className="text-center py-12"
+            >
               <SafeIcon icon={FiHeart} className="h-16 w-16 text-text-light mx-auto mb-4" />
-              <h3 className="text-xl text-text-primary mb-2">No Ministries Available</h3>
-              <p className="text-text-primary">Check back soon for information about our ministries.</p>
-            </div>
+              <h2 className="text-xl font-semibold text-text-primary mb-2">
+                No ministries yet
+              </h2>
+              <p className="text-text-light">
+                Check back soon for information about our ministries.
+              </p>
+            </motion.div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {ministries.map((ministry, index) => (
-                <motion.div
-                  key={ministry.id}
-                  initial={{opacity: 0, y: 30}}
-                  animate={{opacity: 1, y: 0}}
-                  transition={{duration: 0.5, delay: index * 0.1}}
-                  className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden"
-                >
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <SafeIcon icon={FiHeart} className={`h-12 w-12 ${getIconColor()}`} />
-                      <span className={`px-3 py-1 text-xs font-medium rounded-full ${getBadgeColor()}`}>
-                        {ministry.age_group}
-                      </span>
+            ministries.map((ministry,index)=> (
+              <motion.article
+                key={ministry.id}
+                initial={{opacity: 0,y: 30}}
+                animate={{opacity: 1,y: 0}}
+                transition={{duration: 0.5,delay: index * 0.1}}
+                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+              >
+                <div className="p-6 md:p-8">
+                  {/* Ministry Header */}
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-3">
+                    <div className="flex items-center space-x-3">
+                      <SafeIcon icon={FiHeart} className="h-8 w-8 text-primary flex-shrink-0" />
+                      <h2 className="text-2xl md:text-3xl text-text-primary">
+                        {ministry.title}
+                      </h2>
                     </div>
-                    <h3 className="text-xl mb-3 text-text-primary font-bold">{ministry.title}</h3>
-                    <p className="text-text-primary mb-4">{ministry.description}</p>
-                    {ministry.features.length > 0 && (
-                      <div className="mb-4">
-                        <h4 className="text-text-primary mb-2 font-semibold">What We Offer:</h4>
-                        <ul className="space-y-1">
-                          {ministry.features.map((feature) => (
-                            <li key={feature.id} className="flex items-center space-x-2 text-text-primary">
-                              <div className="w-2 h-2 rounded-full bg-primary"></div>
-                              <span className="text-sm">{feature.feature_text}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                    {(ministry.leader_name || ministry.leader_role) && (
-                      <div className="mt-4 pt-4 border-t border-accent">
-                        <p className="text-sm text-text-primary">
-                          <span className="font-semibold">Leader:</span> {ministry.leader_name}
-                          {ministry.leader_role && (
-                            <span className="block text-text-light">{ministry.leader_role}</span>
-                          )}
-                        </p>
-                      </div>
-                    )}
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary self-start md:self-auto">
+                      {ministry.age_group}
+                    </span>
                   </div>
-                </motion.div>
-              ))}
-            </div>
+
+                  {/* Ministry Description */}
+                  <div className="mb-6">
+                    <p className="text-text-primary leading-relaxed">
+                      {ministry.description}
+                    </p>
+                  </div>
+
+                  {/* Ministry Features */}
+                  {ministry.features.length > 0 && (
+                    <div className="mb-6">
+                      <h3 className="text-lg font-semibold text-text-primary mb-3">
+                        What We Offer:
+                      </h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {ministry.features.map((feature)=> (
+                          <div
+                            key={feature.id}
+                            className="flex items-start space-x-2 bg-accent/50 p-3 rounded-lg"
+                          >
+                            <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                            <span className="text-sm text-text-primary">
+                              {feature.feature_text}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Ministry Leader */}
+                  {(ministry.leader_name || ministry.leader_role) && (
+                    <div className="pt-6 border-t border-accent">
+                      <div className="flex items-start space-x-3">
+                        <div className="flex-1">
+                          <p className="text-sm text-text-light mb-1">Ministry Leader</p>
+                          {ministry.leader_name && (
+                            <p className="text-base font-semibold text-text-primary">
+                              {ministry.leader_name}
+                            </p>
+                          )}
+                          {ministry.leader_role && (
+                            <p className="text-sm text-text-light">
+                              {ministry.leader_role}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </motion.article>
+            ))
           )}
         </div>
-      </section>
 
-      {/* Get Involved Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-6 font-fraunces">Ready to Get Involved?</h2>
-          <p className="text-xl text-text-primary mb-8 page-subtitle">
-            Whether you're new to faith or have been walking with Jesus for years, there's a place for you to serve and grow.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
-                <SafeIcon icon={FiUsers} className="h-8 w-8 text-primary" />
-              </div>
-              <h3 className="text-lg mb-2 font-fraunces">Connect</h3>
-              <p className="text-text-primary font-inter">Find your community and build meaningful relationships</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
-                <SafeIcon icon={FiBookOpen} className="h-8 w-8 text-primary" />
-              </div>
-              <h3 className="text-lg mb-2 font-fraunces">Grow</h3>
-              <p className="text-text-primary font-inter">Deepen your faith through study and discipleship</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
-                <SafeIcon icon={FiHeart} className="h-8 w-8 text-primary" />
-              </div>
-              <h3 className="text-lg mb-2 font-fraunces">Serve</h3>
-              <p className="text-text-primary font-inter">Use your gifts to make a difference in others' lives</p>
-            </div>
-          </div>
-          <button className="bg-primary text-white px-8 py-3 rounded-full font-semibold hover:bg-primary-dark transition-colors font-inter">
-            Contact Us to Get Started
-          </button>
-        </div>
-      </section>
-
+        {/* Get Involved Section */}
+        {ministries.length > 0 && (
+          <motion.div
+            initial={{opacity: 0,y: 30}}
+            animate={{opacity: 1,y: 0}}
+            transition={{duration: 0.8,delay: 0.5}}
+            className="mt-16 bg-white rounded-lg shadow-md p-8 text-center"
+          >
+            <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
+              Ready to Get Involved?
+            </h2>
+            <p className="text-lg text-text-primary mb-6 max-w-2xl mx-auto">
+              Whether you're new to faith or have been walking with Jesus for years, there's a place for you to serve and grow.
+            </p>
+            <Link
+              to="/contact"
+              className="inline-block bg-primary text-white px-8 py-3 rounded-full font-semibold hover:bg-primary-dark transition-colors"
+            >
+              Contact Us to Get Started
+            </Link>
+          </motion.div>
+        )}
+      </div>
     </div>
   );
 };
