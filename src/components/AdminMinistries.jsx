@@ -3,6 +3,7 @@ import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
+import RichTextEditor from './RichTextEditor';
 import supabase from '../lib/supabase';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiChevronUp,FiChevronDown,FiHeart}=FiIcons;
@@ -239,13 +240,11 @@ const AdminMinistries=()=> {
 
               <div>
                 <label className="block text-sm font-medium text-text-primary mb-2">Opportunities *</label>
-                <textarea
+                <RichTextEditor
                   value={formData.description}
                   onChange={(e)=> setFormData({...formData,description: e.target.value})}
-                  required
-                  rows={8}
-                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                   placeholder="Enter opportunities details..."
+                  rows={8}
                 />
               </div>
 
