@@ -225,116 +225,28 @@ const AdminMinistries=()=> {
             className="bg-white rounded-lg shadow-md p-6"
           >
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">Title *</label>
-                  <input
-                    type="text"
-                    value={formData.title}
-                    onChange={(e)=> setFormData({...formData,title: e.target.value})}
-                    required
-                    className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Opportunity name"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">Age Group</label>
-                  <input
-                    type="text"
-                    value={formData.age_group}
-                    onChange={(e)=> setFormData({...formData,age_group: e.target.value})}
-                    className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="e.g., All Ages, Ages 13-18"
-                  />
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-text-primary mb-2">Title *</label>
+                <input
+                  type="text"
+                  value={formData.title}
+                  onChange={(e)=> setFormData({...formData,title: e.target.value})}
+                  required
+                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  placeholder="Opportunity name"
+                />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2">Description *</label>
+                <label className="block text-sm font-medium text-text-primary mb-2">Opportunities *</label>
                 <textarea
                   value={formData.description}
                   onChange={(e)=> setFormData({...formData,description: e.target.value})}
                   required
-                  rows={4}
+                  rows={8}
                   className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                  placeholder="Brief description of the opportunity"
+                  placeholder="Enter opportunities details..."
                 />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">Leader Name</label>
-                  <input
-                    type="text"
-                    value={formData.leader_name}
-                    onChange={(e)=> setFormData({...formData,leader_name: e.target.value})}
-                    className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Opportunity leader name"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">Leader Role</label>
-                  <input
-                    type="text"
-                    value={formData.leader_role}
-                    onChange={(e)=> setFormData({...formData,leader_role: e.target.value})}
-                    className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="e.g., Opportunity Leader, Pastor"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-text-primary mb-2">Opportunity Features</label>
-                <div className="space-y-2 mb-3">
-                  {features.map((feature,index)=> (
-                    <div key={index} className="flex items-center space-x-2 bg-accent p-2 rounded">
-                      <span className="flex-1 text-sm text-text-primary">{feature.feature_text || feature}</span>
-                      <div className="flex space-x-1">
-                        <button
-                          type="button"
-                          onClick={()=> handleMoveFeature(index,'up')}
-                          disabled={index===0}
-                          className="p-1 text-text-light hover:text-text-primary disabled:opacity-30"
-                        >
-                          <SafeIcon icon={FiChevronUp} className="h-4 w-4" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={()=> handleMoveFeature(index,'down')}
-                          disabled={index===features.length - 1}
-                          className="p-1 text-text-light hover:text-text-primary disabled:opacity-30"
-                        >
-                          <SafeIcon icon={FiChevronDown} className="h-4 w-4" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={()=> handleRemoveFeature(index)}
-                          className="p-1 text-red-500 hover:text-red-700"
-                        >
-                          <SafeIcon icon={FiTrash2} className="h-4 w-4" />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex space-x-2">
-                  <input
-                    type="text"
-                    value={newFeature}
-                    onChange={(e)=> setNewFeature(e.target.value)}
-                    onKeyPress={(e)=> e.key==='Enter' && (e.preventDefault(),handleAddFeature())}
-                    className="flex-1 p-2 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Add a feature..."
-                  />
-                  <button
-                    type="button"
-                    onClick={handleAddFeature}
-                    className="px-4 py-2 bg-secondary text-white rounded-lg hover:bg-secondary/90"
-                  >
-                    Add
-                  </button>
-                </div>
               </div>
 
               <div className="flex items-center space-x-2">
