@@ -46,25 +46,26 @@ const RichTextEditor = ({ value, onChange, placeholder, rows = 12, className = '
 
   const handlePaste = (e) => {
     e.preventDefault()
-    const paste = (e.clipboardData || window.clipboardData).getData('text/html') || 
+    const paste = (e.clipboardData || window.clipboardData).getData('text/html') ||
                   (e.clipboardData || window.clipboardData).getData('text/plain')
-    
+
     if (paste) {
       const selection = window.getSelection()
       if (selection.rangeCount > 0) {
         const range = selection.getRangeAt(0)
         range.deleteContents()
-        
+
         // Create a temporary div to clean the pasted content
         const tempDiv = document.createElement('div')
         tempDiv.innerHTML = paste
-        
-        // Remove all inline styles from pasted content
+
+        // Remove all inline styles and classes from pasted content
         const elements = tempDiv.querySelectorAll('*')
         elements.forEach(element => {
           element.removeAttribute('style')
+          element.removeAttribute('class')
         })
-        
+
         const fragment = document.createRange().createContextualFragment(tempDiv.innerHTML)
         range.insertNode(fragment)
         range.collapse(false)

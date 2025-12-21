@@ -136,9 +136,10 @@ const Ministries=()=> {
 
                   {/* Ministry Description */}
                   <div className="mb-6">
-                    <p className="text-text-primary leading-relaxed">
-                      {ministry.description}
-                    </p>
+                    <div
+                      className="text-text-primary leading-relaxed prose prose-sm max-w-none"
+                      dangerouslySetInnerHTML={{__html: ministry.description}}
+                    />
                   </div>
 
                   {/* Ministry Features */}

@@ -34,13 +34,45 @@
   @apply text-text-primary;
 }
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-  @apply text-text-primary;
+  @apply text-text-primary font-heading mt-6 mb-3;
+}
+.prose h1 {
+  @apply text-2xl font-bold;
+}
+.prose h2 {
+  @apply text-xl font-bold;
+}
+.prose h3 {
+  @apply text-lg font-bold;
+}
+.prose p {
+  @apply mb-4;
 }
 .prose strong {
   @apply font-bold text-text-primary;
 }
+.prose em {
+  @apply italic;
+}
 .prose a {
-  @apply text-primary;
+  @apply text-primary underline;
+}
+.prose ul {
+  @apply list-disc pl-6 mb-4;
+}
+.prose ol {
+  @apply list-decimal pl-6 mb-4;
+}
+.prose li {
+  @apply mb-1;
+}
+.prose hr {
+  @apply border-t border-accent-dark my-4;
+}
+.prose br {
+  display: block;
+  content: "";
+  margin-top: 0.5rem;
 }
 .prose ul > li::before {
   @apply bg-primary;
