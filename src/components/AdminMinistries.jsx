@@ -207,13 +207,13 @@ const AdminMinistries=()=> {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl text-text-primary">Manage Ministries</h2>
+        <h2 className="text-2xl text-text-primary">Manage Opportunities</h2>
         <button
           onClick={()=> setShowForm(true)}
           className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors inline-flex items-center space-x-2"
         >
           <SafeIcon icon={FiPlus} className="h-4 w-4" />
-          <span>New Ministry</span>
+          <span>New Opportunity</span>
         </button>
       </div>
 
@@ -234,7 +234,7 @@ const AdminMinistries=()=> {
                     onChange={(e)=> setFormData({...formData,title: e.target.value})}
                     required
                     className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Ministry name"
+                    placeholder="Opportunity name"
                   />
                 </div>
                 <div>
@@ -257,7 +257,7 @@ const AdminMinistries=()=> {
                   required
                   rows={4}
                   className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                  placeholder="Brief description of the ministry"
+                  placeholder="Brief description of the opportunity"
                 />
               </div>
 
@@ -269,7 +269,7 @@ const AdminMinistries=()=> {
                     value={formData.leader_name}
                     onChange={(e)=> setFormData({...formData,leader_name: e.target.value})}
                     className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Ministry leader name"
+                    placeholder="Opportunity leader name"
                   />
                 </div>
                 <div>
@@ -279,13 +279,13 @@ const AdminMinistries=()=> {
                     value={formData.leader_role}
                     onChange={(e)=> setFormData({...formData,leader_role: e.target.value})}
                     className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="e.g., Ministry Director, Pastor"
+                    placeholder="e.g., Opportunity Leader, Pastor"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2">Ministry Features</label>
+                <label className="block text-sm font-medium text-text-primary mb-2">Opportunity Features</label>
                 <div className="space-y-2 mb-3">
                   {features.map((feature,index)=> (
                     <div key={index} className="flex items-center space-x-2 bg-accent p-2 rounded">
@@ -363,7 +363,7 @@ const AdminMinistries=()=> {
                   className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors inline-flex items-center space-x-2 disabled:opacity-50"
                 >
                   <SafeIcon icon={FiSave} className="h-4 w-4" />
-                  <span>{editingId ? 'Update' : 'Create'} Ministry</span>
+                  <span>{editingId ? 'Update' : 'Create'} Opportunity</span>
                 </button>
               </div>
             </form>
@@ -376,7 +376,7 @@ const AdminMinistries=()=> {
           {ministries.length===0 ? (
             <div className="p-12 text-center">
               <SafeIcon icon={FiHeart} className="h-12 w-12 text-text-light mx-auto mb-3" />
-              <p className="text-text-light">No ministries yet. Create your first one!</p>
+              <p className="text-text-light">No opportunities yet. Create your first one!</p>
             </div>
           ) : (
             <div className="overflow-x-auto">

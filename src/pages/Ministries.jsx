@@ -53,7 +53,7 @@ const Ministries=()=> {
       <div className="min-h-screen bg-accent py-12 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-text-primary">Loading ministries...</p>
+          <p className="text-text-primary">Loading opportunities...</p>
         </div>
       </div>
     );
@@ -80,7 +80,7 @@ const Ministries=()=> {
             <SafeIcon icon={FiHeart} className="h-8 w-8 text-primary" />
             <Link to="/" className="hover:text-primary transition-colors">
               <h1 className="text-3xl md:text-4xl">
-                Our Ministries
+                Our Opportunities
               </h1>
             </Link>
           </motion.div>
@@ -105,10 +105,10 @@ const Ministries=()=> {
             >
               <SafeIcon icon={FiHeart} className="h-16 w-16 text-text-light mx-auto mb-4" />
               <h2 className="text-xl font-semibold text-text-primary mb-2">
-                No ministries yet
+                No opportunities yet
               </h2>
               <p className="text-text-light">
-                Check back soon for information about our ministries.
+                Check back soon for information about our opportunities.
               </p>
             </motion.div>
           ) : (
@@ -168,7 +168,7 @@ const Ministries=()=> {
                     <div className="pt-6 border-t border-accent">
                       <div className="flex items-start space-x-3">
                         <div className="flex-1">
-                          <p className="text-sm text-text-light mb-1">Ministry Leader</p>
+                          <p className="text-sm text-text-light mb-1">Opportunity Leader</p>
                           {ministry.leader_name && (
                             <p className="text-base font-semibold text-text-primary">
                               {ministry.leader_name}
