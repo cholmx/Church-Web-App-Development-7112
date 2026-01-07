@@ -122,11 +122,16 @@ const Ministries=()=> {
               >
                 <div className="p-6 md:p-8">
                   {/* Ministry Header */}
-                  <div className="flex items-center space-x-3 mb-4">
-                    <SafeIcon icon={FiHeart} className="h-8 w-8 text-primary flex-shrink-0" />
-                    <h2 className="text-2xl md:text-3xl text-text-primary">
-                      {ministry.title}
-                    </h2>
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-3">
+                    <div className="flex items-center space-x-3">
+                      <SafeIcon icon={FiHeart} className="h-8 w-8 text-primary flex-shrink-0" />
+                      <h2 className="text-2xl md:text-3xl text-text-primary">
+                        {ministry.title}
+                      </h2>
+                    </div>
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary self-start md:self-auto">
+                      {ministry.age_group}
+                    </span>
                   </div>
 
                   {/* Ministry Description */}
