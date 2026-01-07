@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import {Link} from 'react-router-dom';
 import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
@@ -12,72 +12,32 @@ import AdminResources from '../components/AdminResources';
 import AdminFeaturedButtons from '../components/AdminFeaturedButtons';
 import AdminMinistries from '../components/AdminMinistries';
 import AdminStaffContacts from '../components/AdminStaffContacts';
-import supabase from '../lib/supabase';
 
-const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers,FiLogOut}=FiIcons;
+const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers}=FiIcons;
 
 const Admin=()=> {
   const [isAuthenticated,setIsAuthenticated]=useState(false);
-  const [email,setEmail]=useState('');
   const [password,setPassword]=useState('');
   const [error,setError]=useState('');
   const [activeTab,setActiveTab]=useState('announcements');
-  const [loading,setLoading]=useState(true);
-  const [isSigningIn,setIsSigningIn]=useState(false);
+  const [loading,setLoading]=useState(false);
 
-  useEffect(()=> {
-    checkUser();
-  },[]);
+  const ADMIN_PASSWORD='urf500admin';
 
-  const checkUser=async()=> {
-    try {
-      const {data: {session}}=await supabase.auth.getSession();
-      if (session) {
-        setIsAuthenticated(true);
-      }
-    } catch (error) {
-      console.error('Error checking session:',error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handlePasswordSubmit=async(e)=> {
+  const handlePasswordSubmit=(e)=> {
     e.preventDefault();
-    setIsSigningIn(true);
-    setError('');
-
-    try {
-      const {data,error}=await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
-      });
-
-      if (error) throw error;
-
-      if (data.session) {
-        console.log('Session established:',data.session.user.id);
+    setLoading(true);
+    // Simulate authentication delay
+    setTimeout(()=> {
+      if (password===ADMIN_PASSWORD) {
         setIsAuthenticated(true);
         setError('');
+      } else {
+        setError('Invalid password. Please try again.');
+        setPassword('');
       }
-    } catch (error) {
-      console.error('Authentication error:',error);
-      setError(error.message || 'Invalid credentials. Please try again.');
-      setPassword('');
-    } finally {
-      setIsSigningIn(false);
-    }
-  };
-
-  const handleLogout=async()=> {
-    try {
-      await supabase.auth.signOut();
-      setIsAuthenticated(false);
-      setEmail('');
-      setPassword('');
-    } catch (error) {
-      console.error('Error signing out:',error);
-    }
+      setLoading(false);
+    },800);
   };
 
   const tabs=[
@@ -114,17 +74,11 @@ const Admin=()=> {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen py-12 flex items-center justify-center" style={{backgroundColor: '#fcfaf2'}}>
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    );
-  }
-
+  // Password protection screen
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen py-12 flex items-center justify-center relative" style={{backgroundColor: '#fcfaf2'}}>
+        {/* Back to Home Button - Top Right */}
         <div className="fixed top-6 right-6 z-50">
           <Link
             to="/"
@@ -136,7 +90,7 @@ const Admin=()=> {
           </Link>
         </div>
 
-        <LoadingTransition isLoading={isSigningIn} skeleton={<SkeletonForm />}>
+        <LoadingTransition isLoading={loading} skeleton={<SkeletonForm />}>
           <motion.div
             initial={{opacity: 0,scale: 0.9}}
             animate={{opacity: 1,scale: 1}}
@@ -151,24 +105,10 @@ const Admin=()=> {
                 Admin Access
               </h1>
               <p className="text-text-light font-inter">
-                Please sign in to access the admin dashboard
+                Please enter the admin password to continue
               </p>
             </div>
             <form onSubmit={handlePasswordSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e)=> setEmail(e.target.value)}
-                  required
-                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
-                  placeholder="admin@example.com"
-                  autoFocus
-                />
-              </div>
               <div>
                 <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
                   Password
@@ -179,7 +119,8 @@ const Admin=()=> {
                   onChange={(e)=> setPassword(e.target.value)}
                   required
                   className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
-                  placeholder="Enter password"
+                  placeholder="Enter admin password"
+                  autoFocus
                 />
               </div>
               {error && (
@@ -189,10 +130,10 @@ const Admin=()=> {
               )}
               <button
                 type="submit"
-                disabled={isSigningIn}
+                disabled={loading}
                 className="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-primary-dark transition-colors font-inter disabled:opacity-50"
               >
-                {isSigningIn ? 'Signing in...' : 'Sign In'}
+                {loading ? 'Authenticating...' : 'Access Admin Dashboard'}
               </button>
             </form>
           </motion.div>
@@ -201,16 +142,11 @@ const Admin=()=> {
     );
   }
 
+  // Main admin dashboard (shown after authentication)
   return (
     <div className="min-h-screen py-12 relative" style={{backgroundColor: '#fcfaf2'}}>
-      <div className="fixed top-6 right-6 z-50 flex space-x-2">
-        <button
-          onClick={handleLogout}
-          className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 bg-red-500 hover:bg-red-600"
-          title="Sign Out"
-        >
-          <SafeIcon icon={FiLogOut} className="h-5 w-5 text-white" />
-        </button>
+      {/* Back to Home Button - Top Right */}
+      <div className="fixed top-6 right-6 z-50">
         <Link
           to="/"
           className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
@@ -222,6 +158,7 @@ const Admin=()=> {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <div className="text-center mb-12">
           <motion.div
             initial={{opacity: 0,y: 30}}
@@ -244,6 +181,7 @@ const Admin=()=> {
           </motion.p>
         </div>
 
+        {/* Hidden Pages Quick Access */}
         <motion.div
           initial={{opacity: 0,y: 30}}
           animate={{opacity: 1,y: 0}}
@@ -299,6 +237,7 @@ const Admin=()=> {
           </div>
         </motion.div>
 
+        {/* Tabs */}
         <motion.div
           initial={{opacity: 0,y: 30}}
           animate={{opacity: 1,y: 0}}
@@ -327,6 +266,7 @@ const Admin=()=> {
           </div>
         </motion.div>
 
+        {/* Content */}
         <motion.div
           initial={{opacity: 0,y: 30}}
           animate={{opacity: 1,y: 0}}

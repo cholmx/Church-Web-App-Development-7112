@@ -81,7 +81,7 @@ const AdminSermons = () => {
       const sermonData = {
         title: formData.title,
         speaker: formData.speaker,
-        sermon_date: formData.sermon_date || null,
+        sermon_date: formData.sermon_date,
         youtube_url: formData.youtube_url,
         summary: formData.summary,
         discussion_questions: formData.discussion_questions,
@@ -132,16 +132,9 @@ const AdminSermons = () => {
     setSuccess('');
 
     try {
-      const seriesData = {
-        name: seriesFormData.name,
-        description: seriesFormData.description,
-        start_date: seriesFormData.start_date || null,
-        end_date: seriesFormData.end_date || null
-      };
-
       const { error } = await supabase
         .from('sermon_series_portal123')
-        .insert([seriesData]);
+        .insert([seriesFormData]);
 
       if (error) throw error;
       
