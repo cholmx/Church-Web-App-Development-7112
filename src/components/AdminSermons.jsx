@@ -132,12 +132,19 @@ const AdminSermons = () => {
     setSuccess('');
 
     try {
+      const seriesData = {
+        name: seriesFormData.name,
+        description: seriesFormData.description || null,
+        start_date: seriesFormData.start_date,
+        end_date: seriesFormData.end_date || null
+      };
+
       const { error } = await supabase
         .from('sermon_series_portal123')
-        .insert([seriesFormData]);
+        .insert([seriesData]);
 
       if (error) throw error;
-      
+
       setSuccess('Sermon series created successfully!');
       setSeriesFormData({
         name: '',
