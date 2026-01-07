@@ -11,7 +11,10 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
     persistSession: true,
-    autoRefreshToken: true
+    autoRefreshToken: true,
+    storage: window.localStorage,
+    storageKey: 'supabase.auth.token',
+    detectSessionInUrl: true
   },
   realtime: {
     params: {
