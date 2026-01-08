@@ -5,7 +5,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
 
-const {FiBell,FiPlay,FiMic,FiUsers,FiCreditCard,FiUserPlus,FiMail,FiCalendar,FiBookOpen,FiSettings,FiFacebook,FiInstagram,FiYoutube,FiGlobe,FiHeart,FiLogIn,FiExternalLink}=FiIcons;
+const {FiBell,FiPlay,FiMic,FiUsers,FiCreditCard,FiUserPlus,FiMail,FiCalendar,FiBookOpen,FiSettings,FiFacebook,FiInstagram,FiYoutube,FiGlobe,FiHeart,FiLogIn,FiExternalLink,FiFileText,FiHeadphones}=FiIcons;
 
 const Home=()=> {
   const [hasEvents,setHasEvents]=useState(false);
@@ -53,9 +53,9 @@ const Home=()=> {
 
   const mainButtons=[
     {title: 'Announcements',description: 'Latest church news',icon: FiBell,path: '/announcements',isInternal: true},
-    {title: 'Sermon Blog',description: 'Weekly sermons',icon: FiPlay,path: '/sermon-blog',isInternal: true},
+    {title: 'Sermon Blog',description: 'Weekly sermons',icon: FiFileText,path: '/sermon-blog',isInternal: true},
     {title: 'Shine Podcast',description: 'Latest episodes',icon: FiMic,path: '/shine-podcast',isInternal: true},
-    {title: 'Sermon Podcast',description: 'Listen to recordings',icon: FiPlay,path: '/sermon-podcast',isInternal: true},
+    {title: 'Sermon Podcast',description: 'Listen to recordings',icon: FiHeadphones,path: '/sermon-podcast',isInternal: true},
     {title: 'Table Group Sign-Up',description: 'Join a small group',icon: FiUsers,path: '/table-group-signup',isInternal: true},
     ...(hasResources ? [{title: 'Resources',description: 'Helpful materials',icon: FiBookOpen,path: '/resources',isInternal: true}] : []),
     {title: 'Join Realm',description: 'Become a member',icon: FiUserPlus,path: '/join-realm',isInternal: true},
