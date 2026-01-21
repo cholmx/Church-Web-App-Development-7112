@@ -41,6 +41,7 @@ const Home=()=> {
   };
 
   const featuredButtons=[
+    {title: 'Capital Campaign',description: 'Transforming Together - Updates, vision, and Q&A',icon: FiTrendingUp,path: '/capital-campaign',gradient: true},
     ...featuredDbButtons.map(btn=> ({
       title: btn.title,
       description: btn.description,
@@ -124,37 +125,6 @@ const Home=()=> {
             </div>
           ) : (
             <>
-              <motion.section
-                initial={{opacity: 0, y: 20}}
-                animate={{opacity: 1, y: 0}}
-                transition={{duration: 0.7, delay: 0.2}}
-                className="mb-8 flex justify-center w-full"
-              >
-                <div className="w-full max-w-[344px] md:max-w-[711px]">
-                  <Link
-                    to="/capital-campaign"
-                    className="block w-full rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-                    style={{background: 'linear-gradient(135deg, #83A682 0%, #6B8E6A 100%)'}}
-                  >
-                    <div className="p-6 md:p-8 flex flex-col md:flex-row items-center justify-between text-white">
-                      <div className="flex items-center space-x-4 mb-4 md:mb-0">
-                        <div className="bg-white bg-opacity-20 p-3 rounded-full">
-                          <SafeIcon icon={FiTrendingUp} className="h-8 w-8 md:h-10 md:w-10" />
-                        </div>
-                        <div className="text-left">
-                          <h2 className="text-2xl md:text-3xl font-bold mb-1">Capital Campaign</h2>
-                          <p className="text-white text-opacity-90 text-sm md:text-base">Transforming Together - Updates, vision, and Q&A</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-2 text-white text-opacity-90 group-hover:text-opacity-100">
-                        <span className="text-sm font-medium">Learn More</span>
-                        <SafeIcon icon={FiExternalLink} className="h-5 w-5" />
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              </motion.section>
-
               {featuredButtons.length > 0 && (
                 <section className="mb-8 flex justify-center w-full">
                   <div className="flex flex-col gap-3 md:gap-4 w-full max-w-[344px] md:max-w-[711px]">
@@ -225,21 +195,32 @@ const Home=()=> {
   );
 };
 
-const HomeButton = ({ title, description, icon, path, isFeatured = false, isInternal = true, delay = 0 }) => {
+const HomeButton = ({ title, description, icon, path, isFeatured = false, isInternal = true, delay = 0, gradient = false }) => {
   const baseClasses = isFeatured
-    ? "relative overflow-hidden p-4 rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-full h-[60px] md:h-[70px]"
+    ? "relative overflow-hidden p-4 md:p-5 rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block group w-full"
     : "relative overflow-hidden p-4 rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-[160px] h-[120px] md:w-[225px] md:h-[150px]";
 
-  const featuredClasses = "bg-brand-yellow text-text-primary";
+  const featuredClasses = gradient ? "" : "bg-brand-yellow text-text-primary";
   const mainClasses = "bg-brand-blue text-white";
 
   const content = (
     <>
       <div className={`absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isFeatured ? 'from-white/30' : 'from-white/20'}`}></div>
       {isFeatured ? (
-        <div className="relative z-10 flex flex-col items-center">
-          <h3 className="text-sm md:text-base font-bold font-heading leading-tight text-text-primary">{title}</h3>
-          <p className="text-xs opacity-80 leading-tight text-text-primary">{description}</p>
+        <div className="relative z-10 flex items-center justify-between">
+          <div className="flex items-center space-x-3 md:space-x-4 flex-1">
+            <div className={`${gradient ? 'bg-white bg-opacity-20' : 'bg-brand-blue bg-opacity-20'} p-2 md:p-3 rounded-full flex-shrink-0`}>
+              <SafeIcon icon={icon} className={`h-5 w-5 md:h-6 md:w-6 ${gradient ? 'text-white' : 'text-brand-blue'}`} />
+            </div>
+            <div className="text-left flex-1 min-w-0">
+              <h3 className={`text-sm md:text-base font-bold font-heading leading-tight ${gradient ? 'text-white' : 'text-text-primary'}`}>{title}</h3>
+              <p className={`text-xs leading-tight mt-0.5 ${gradient ? 'text-white text-opacity-90' : 'text-text-primary opacity-80'}`}>{description}</p>
+            </div>
+          </div>
+          <div className={`flex items-center space-x-1 md:space-x-2 flex-shrink-0 ml-2 ${gradient ? 'text-white text-opacity-90' : 'text-text-primary'}`}>
+            <span className="text-xs font-medium hidden md:inline">Learn More</span>
+            <SafeIcon icon={FiExternalLink} className="h-4 w-4 md:h-5 md:w-5" />
+          </div>
         </div>
       ) : (
         <div className="relative z-10 flex flex-col items-center">
@@ -251,14 +232,16 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, isInte
     </>
   );
 
+  const gradientStyle = gradient ? {background: 'linear-gradient(135deg, #83A682 0%, #6B8E6A 100%)'} : {};
+
   return (
     <motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay}}>
       {isInternal ? (
-        <Link to={path} className={`${baseClasses} ${isFeatured ? featuredClasses : mainClasses}`}>
+        <Link to={path} className={`${baseClasses} ${isFeatured ? featuredClasses : mainClasses}`} style={gradientStyle}>
           {content}
         </Link>
       ) : (
-        <a href={path} target="_blank" rel="noopener noreferrer" className={`${baseClasses} ${isFeatured ? featuredClasses : mainClasses}`}>
+        <a href={path} target="_blank" rel="noopener noreferrer" className={`${baseClasses} ${isFeatured ? featuredClasses : mainClasses}`} style={gradientStyle}>
           {content}
         </a>
       )}
