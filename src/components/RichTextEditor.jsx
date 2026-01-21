@@ -59,57 +59,68 @@ const RichTextEditor = ({ value, onChange, placeholder, rows = 12, className = '
         const tempDiv = document.createElement('div')
         tempDiv.innerHTML = paste
 
-        // Convert inline styles to semantic tags
-        const convertStylesToTags = (element) => {
-          const children = Array.from(element.childNodes)
+        // First pass: Find all elements with inline styling and mark them
+        const styledElements = []
+        tempDiv.querySelectorAll('*').forEach(element => {
+          const style = element.style
+          if (style) {
+            const isBold = style.fontWeight === 'bold' || parseInt(style.fontWeight) >= 600
+            const isItalic = style.fontStyle === 'italic'
+            const isUnderline = style.textDecoration?.includes('underline')
 
-          children.forEach(child => {
-            if (child.nodeType === Node.ELEMENT_NODE) {
-              const style = child.style
-              const tagName = child.tagName.toLowerCase()
-
-              // Skip if already a semantic tag
-              const isSemanticTag = ['strong', 'b', 'em', 'i', 'u', 'ul', 'ol', 'li', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(tagName)
-
-              if (!isSemanticTag && style) {
-                const isBold = style.fontWeight === 'bold' || parseInt(style.fontWeight) >= 600
-                const isItalic = style.fontStyle === 'italic'
-                const isUnderline = style.textDecoration?.includes('underline')
-
-                if (isBold || isItalic || isUnderline) {
-                  // Build nested semantic tags
-                  let content = child.innerHTML
-
-                  // Wrap in reverse order so outermost is applied last
-                  if (isUnderline) content = `<u>${content}</u>`
-                  if (isItalic) content = `<em>${content}</em>`
-                  if (isBold) content = `<strong>${content}</strong>`
-
-                  // Create temporary container to parse the HTML
-                  const temp = document.createElement('div')
-                  temp.innerHTML = content
-
-                  // Replace the original element with the new semantic structure
-                  if (temp.firstChild) {
-                    child.parentNode.replaceChild(temp.firstChild, child)
-                    // Continue processing on the new element
-                    convertStylesToTags(temp.firstChild)
-                    return
-                  }
-                }
-              }
-
-              // Recursively process children
-              convertStylesToTags(child)
+            if (isBold || isItalic || isUnderline) {
+              styledElements.push({
+                element,
+                isBold,
+                isItalic,
+                isUnderline
+              })
             }
-          })
-        }
+          }
+        })
 
-        convertStylesToTags(tempDiv)
+        // Second pass: Convert styled elements to semantic tags
+        styledElements.forEach(({ element, isBold, isItalic, isUnderline }) => {
+          const tagName = element.tagName.toLowerCase()
 
-        // Remove inline styles and classes from pasted content
-        const elements = tempDiv.querySelectorAll('*')
-        elements.forEach(element => {
+          // Don't wrap if already a semantic tag
+          if (['strong', 'b', 'em', 'i', 'u'].includes(tagName)) {
+            return
+          }
+
+          // Get all child nodes
+          const childNodes = Array.from(element.childNodes)
+
+          // Clear the element
+          element.innerHTML = ''
+
+          // Build wrapper chain
+          let wrapper = element
+
+          if (isBold) {
+            const strong = document.createElement('strong')
+            wrapper.appendChild(strong)
+            wrapper = strong
+          }
+
+          if (isItalic) {
+            const em = document.createElement('em')
+            wrapper.appendChild(em)
+            wrapper = em
+          }
+
+          if (isUnderline) {
+            const u = document.createElement('u')
+            wrapper.appendChild(u)
+            wrapper = u
+          }
+
+          // Add original children back to innermost wrapper
+          childNodes.forEach(node => wrapper.appendChild(node))
+        })
+
+        // Third pass: Remove all inline styles and classes
+        tempDiv.querySelectorAll('*').forEach(element => {
           element.removeAttribute('style')
           element.removeAttribute('class')
         })
