@@ -59,7 +59,36 @@ const RichTextEditor = ({ value, onChange, placeholder, rows = 12, className = '
         const tempDiv = document.createElement('div')
         tempDiv.innerHTML = paste
 
-        // Remove all inline styles and classes from pasted content
+        // Convert styled spans to semantic tags before cleaning
+        const styledElements = tempDiv.querySelectorAll('[style]')
+        styledElements.forEach(element => {
+          const style = element.style
+          const isBold = style.fontWeight === 'bold' || parseInt(style.fontWeight) >= 600
+          const isItalic = style.fontStyle === 'italic'
+          const isUnderline = style.textDecoration?.includes('underline')
+
+          if (isBold || isItalic || isUnderline) {
+            let newElement = element
+            if (isBold) {
+              const strong = document.createElement('strong')
+              strong.innerHTML = newElement.innerHTML
+              newElement = strong
+            }
+            if (isItalic) {
+              const em = document.createElement('em')
+              em.innerHTML = newElement.innerHTML
+              newElement = em
+            }
+            if (isUnderline) {
+              const u = document.createElement('u')
+              u.innerHTML = newElement.innerHTML
+              newElement = u
+            }
+            element.replaceWith(newElement)
+          }
+        })
+
+        // Remove inline styles and classes from pasted content
         const elements = tempDiv.querySelectorAll('*')
         elements.forEach(element => {
           element.removeAttribute('style')
