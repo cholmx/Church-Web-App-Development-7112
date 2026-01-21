@@ -206,7 +206,7 @@ const CapitalCampaign = () => {
             </div>
             <div className="ml-9 prose max-w-none">
               <div
-                className="announcement-content text-text-light"
+                className="announcement-content"
                 dangerouslySetInnerHTML={{ __html: faq.answer }}
               />
             </div>
