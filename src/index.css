@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply bg-accent text-text-primary font-sans antialiased;
+    @apply bg-accent text-text-primary font-sans antialiased text-sm;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -21,7 +21,7 @@
   h6 { @apply text-base md:text-lg; }
 
   p {
-    @apply leading-relaxed;
+    @apply leading-normal;
   }
 
   a {
@@ -31,10 +31,10 @@
 
 /* Prose styles for rendered HTML content */
 .prose {
-  @apply text-text-primary;
+  @apply text-text-primary text-sm leading-normal;
 }
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-  @apply text-text-primary font-heading mt-6 mb-3;
+  @apply text-text-primary font-heading mt-4 mb-2;
 }
 .prose h1 {
   @apply text-2xl font-bold;
@@ -46,7 +46,7 @@
   @apply text-lg font-bold;
 }
 .prose p {
-  @apply mb-2;
+  @apply mb-2 leading-normal;
 }
 .prose strong {
   @apply font-bold text-text-primary;
@@ -58,21 +58,21 @@
   @apply text-primary underline;
 }
 .prose ul {
-  @apply list-disc pl-6 mb-4;
+  @apply list-disc pl-6 mb-3;
 }
 .prose ol {
-  @apply list-decimal pl-6 mb-4;
+  @apply list-decimal pl-6 mb-3;
 }
 .prose li {
-  @apply mb-1;
+  @apply mb-0.5 leading-normal;
 }
 .prose hr {
-  @apply border-t border-accent-dark my-4;
+  @apply border-t border-accent-dark my-3;
 }
 .prose br {
   display: block;
   content: "";
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
 }
 .prose ul > li::before {
   @apply bg-primary;
