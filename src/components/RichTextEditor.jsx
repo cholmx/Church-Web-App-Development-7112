@@ -59,34 +59,53 @@ const RichTextEditor = ({ value, onChange, placeholder, rows = 12, className = '
         const tempDiv = document.createElement('div')
         tempDiv.innerHTML = paste
 
-        // Convert styled spans to semantic tags before cleaning
-        const styledElements = tempDiv.querySelectorAll('[style]')
-        styledElements.forEach(element => {
-          const style = element.style
-          const isBold = style.fontWeight === 'bold' || parseInt(style.fontWeight) >= 600
-          const isItalic = style.fontStyle === 'italic'
-          const isUnderline = style.textDecoration?.includes('underline')
+        // Convert inline styles to semantic tags
+        const convertStylesToTags = (element) => {
+          const children = Array.from(element.childNodes)
 
-          if (isBold || isItalic || isUnderline) {
-            let newElement = element
-            if (isBold) {
-              const strong = document.createElement('strong')
-              strong.innerHTML = newElement.innerHTML
-              newElement = strong
+          children.forEach(child => {
+            if (child.nodeType === Node.ELEMENT_NODE) {
+              const style = child.style
+              const tagName = child.tagName.toLowerCase()
+
+              // Skip if already a semantic tag
+              const isSemanticTag = ['strong', 'b', 'em', 'i', 'u', 'ul', 'ol', 'li', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(tagName)
+
+              if (!isSemanticTag && style) {
+                const isBold = style.fontWeight === 'bold' || parseInt(style.fontWeight) >= 600
+                const isItalic = style.fontStyle === 'italic'
+                const isUnderline = style.textDecoration?.includes('underline')
+
+                if (isBold || isItalic || isUnderline) {
+                  // Build nested semantic tags
+                  let content = child.innerHTML
+
+                  // Wrap in reverse order so outermost is applied last
+                  if (isUnderline) content = `<u>${content}</u>`
+                  if (isItalic) content = `<em>${content}</em>`
+                  if (isBold) content = `<strong>${content}</strong>`
+
+                  // Create temporary container to parse the HTML
+                  const temp = document.createElement('div')
+                  temp.innerHTML = content
+
+                  // Replace the original element with the new semantic structure
+                  if (temp.firstChild) {
+                    child.parentNode.replaceChild(temp.firstChild, child)
+                    // Continue processing on the new element
+                    convertStylesToTags(temp.firstChild)
+                    return
+                  }
+                }
+              }
+
+              // Recursively process children
+              convertStylesToTags(child)
             }
-            if (isItalic) {
-              const em = document.createElement('em')
-              em.innerHTML = newElement.innerHTML
-              newElement = em
-            }
-            if (isUnderline) {
-              const u = document.createElement('u')
-              u.innerHTML = newElement.innerHTML
-              newElement = u
-            }
-            element.replaceWith(newElement)
-          }
-        })
+          })
+        }
+
+        convertStylesToTags(tempDiv)
 
         // Remove inline styles and classes from pasted content
         const elements = tempDiv.querySelectorAll('*')
