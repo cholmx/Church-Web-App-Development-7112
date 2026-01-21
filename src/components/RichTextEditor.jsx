@@ -49,68 +49,58 @@ const RichTextEditor = ({ value, onChange, placeholder, rows = 12, className = '
     const paste = (e.clipboardData || window.clipboardData).getData('text/html') ||
                   (e.clipboardData || window.clipboardData).getData('text/plain')
 
-    console.log('PASTE DATA:', paste)
-
     if (paste) {
       const selection = window.getSelection()
       if (selection.rangeCount > 0) {
         const range = selection.getRangeAt(0)
         range.deleteContents()
 
-        // Create a temporary div to clean the pasted content
         const tempDiv = document.createElement('div')
         tempDiv.innerHTML = paste
 
-        console.log('BEFORE PROCESSING:', tempDiv.innerHTML)
+        // Step 1: Convert <b> to <strong> and <i> to <em>
+        tempDiv.querySelectorAll('b').forEach(b => {
+          const strong = document.createElement('strong')
+          strong.innerHTML = b.innerHTML
+          b.replaceWith(strong)
+        })
+        tempDiv.querySelectorAll('i').forEach(i => {
+          const em = document.createElement('em')
+          em.innerHTML = i.innerHTML
+          i.replaceWith(em)
+        })
 
-        // Convert inline styles to semantic tags
-        const processNode = (node) => {
-          if (node.nodeType === Node.ELEMENT_NODE) {
-            const tagName = node.tagName.toLowerCase()
-            const style = node.style
+        // Step 2: Find elements with inline styling and wrap content
+        tempDiv.querySelectorAll('*').forEach(element => {
+          const style = element.style
+          if (!style) return
 
-            // Check if this element has bold/italic/underline styling
-            const isBold = style && (style.fontWeight === 'bold' || parseInt(style.fontWeight) >= 600)
-            const isItalic = style && style.fontStyle === 'italic'
-            const isUnderline = style && style.textDecoration?.includes('underline')
+          const fontWeight = style.fontWeight
+          const fontStyle = style.fontStyle
+          const textDecoration = style.textDecoration
 
-            console.log(`Element ${tagName}:`, {
-              isBold,
-              isItalic,
-              isUnderline,
-              fontWeight: style?.fontWeight,
-              currentHTML: node.outerHTML
-            })
+          const isBold = fontWeight === 'bold' || fontWeight === '700' || parseInt(fontWeight) >= 600
+          const isItalic = fontStyle === 'italic'
+          const isUnderline = textDecoration?.includes('underline')
 
-            // Process children first
-            Array.from(node.childNodes).forEach(child => processNode(child))
+          // Only process if not already a semantic tag
+          const tagName = element.tagName.toLowerCase()
+          if (!['strong', 'em', 'u', 'b', 'i'].includes(tagName) && (isBold || isItalic || isUnderline)) {
+            let html = element.innerHTML
 
-            // Wrap content in semantic tags if needed
-            if ((isBold || isItalic || isUnderline) && !['strong', 'b', 'em', 'i', 'u'].includes(tagName)) {
-              const content = node.innerHTML
-              let wrapped = content
+            if (isBold) html = `<strong>${html}</strong>`
+            if (isItalic) html = `<em>${html}</em>`
+            if (isUnderline) html = `<u>${html}</u>`
 
-              if (isBold) wrapped = `<strong>${wrapped}</strong>`
-              if (isItalic) wrapped = `<em>${wrapped}</em>`
-              if (isUnderline) wrapped = `<u>${wrapped}</u>`
-
-              node.innerHTML = wrapped
-              console.log('WRAPPED:', node.innerHTML)
-            }
+            element.innerHTML = html
           }
-        }
+        })
 
-        processNode(tempDiv)
-
-        console.log('AFTER WRAPPING:', tempDiv.innerHTML)
-
-        // Remove all inline styles and classes
+        // Step 3: Remove all inline styles and classes
         tempDiv.querySelectorAll('*').forEach(element => {
           element.removeAttribute('style')
           element.removeAttribute('class')
         })
-
-        console.log('FINAL HTML:', tempDiv.innerHTML)
 
         const fragment = document.createRange().createContextualFragment(tempDiv.innerHTML)
         range.insertNode(fragment)

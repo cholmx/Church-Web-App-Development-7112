@@ -113,9 +113,20 @@
 .announcement-content * {
   font-family: inherit !important;
   font-size: inherit !important;
-  font-weight: inherit !important;
   color: inherit !important;
   letter-spacing: inherit !important;
+}
+.rendered-content strong,
+.announcement-content strong {
+  font-weight: bold !important;
+}
+.rendered-content em,
+.announcement-content em {
+  font-style: italic !important;
+}
+.rendered-content u,
+.announcement-content u {
+  text-decoration: underline !important;
 }
 .rendered-content [style],
 .announcement-content [style] {
@@ -139,4 +150,15 @@
 /* Discussion questions background */
 .discussion-questions-section {
   @apply bg-accent-dark;
+}
+
+/* Rich text editor formatting */
+.rich-text-editor strong {
+  font-weight: bold !important;
+}
+.rich-text-editor em {
+  font-style: italic !important;
+}
+.rich-text-editor u {
+  text-decoration: underline !important;
 }
