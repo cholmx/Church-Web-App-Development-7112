@@ -109,8 +109,10 @@ const Home=()=> {
         <main>
           {loading ? (
             <div className="flex flex-col items-center gap-8">
-              <div className="bg-accent-dark rounded-2xl animate-pulse w-full h-[100px] mb-4"></div>
-              <div className="flex flex-col gap-4 w-full">
+              <div className="w-full max-w-[344px] md:max-w-[711px]">
+                <div className="bg-accent-dark rounded-2xl animate-pulse w-full h-[100px] mb-4"></div>
+              </div>
+              <div className="flex flex-col gap-4 w-full max-w-[344px] md:max-w-[711px]">
                 <div className="bg-accent-dark rounded-2xl animate-pulse w-full h-[70px]"></div>
                 <div className="bg-accent-dark rounded-2xl animate-pulse w-full h-[70px]"></div>
               </div>
@@ -126,29 +128,31 @@ const Home=()=> {
                 initial={{opacity: 0, y: 20}}
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.7, delay: 0.2}}
-                className="mb-8"
+                className="mb-8 flex justify-center w-full"
               >
-                <Link
-                  to="/capital-campaign"
-                  className="block w-full rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-                  style={{background: 'linear-gradient(135deg, #83A682 0%, #6B8E6A 100%)'}}
-                >
-                  <div className="p-6 md:p-8 flex flex-col md:flex-row items-center justify-between text-white">
-                    <div className="flex items-center space-x-4 mb-4 md:mb-0">
-                      <div className="bg-white bg-opacity-20 p-3 rounded-full">
-                        <SafeIcon icon={FiTrendingUp} className="h-8 w-8 md:h-10 md:w-10" />
+                <div className="w-full max-w-[344px] md:max-w-[711px]">
+                  <Link
+                    to="/capital-campaign"
+                    className="block w-full rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+                    style={{background: 'linear-gradient(135deg, #83A682 0%, #6B8E6A 100%)'}}
+                  >
+                    <div className="p-6 md:p-8 flex flex-col md:flex-row items-center justify-between text-white">
+                      <div className="flex items-center space-x-4 mb-4 md:mb-0">
+                        <div className="bg-white bg-opacity-20 p-3 rounded-full">
+                          <SafeIcon icon={FiTrendingUp} className="h-8 w-8 md:h-10 md:w-10" />
+                        </div>
+                        <div className="text-left">
+                          <h2 className="text-2xl md:text-3xl font-bold mb-1">Capital Campaign</h2>
+                          <p className="text-white text-opacity-90 text-sm md:text-base">Updates, vision, and Q&A for our church building project</p>
+                        </div>
                       </div>
-                      <div className="text-left">
-                        <h2 className="text-2xl md:text-3xl font-bold mb-1">Capital Campaign</h2>
-                        <p className="text-white text-opacity-90 text-sm md:text-base">Updates, vision, and Q&A for our church building project</p>
+                      <div className="flex items-center space-x-2 text-white text-opacity-90 group-hover:text-opacity-100">
+                        <span className="text-sm font-medium">Learn More</span>
+                        <SafeIcon icon={FiExternalLink} className="h-5 w-5" />
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2 text-white text-opacity-90 group-hover:text-opacity-100">
-                      <span className="text-sm font-medium">Learn More</span>
-                      <SafeIcon icon={FiExternalLink} className="h-5 w-5" />
-                    </div>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               </motion.section>
 
               {featuredButtons.length > 0 && (
