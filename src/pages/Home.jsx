@@ -58,7 +58,7 @@ const Home=()=> {
     {title: 'Sermon Podcast',description: 'Listen to recordings',icon: FiHeadphones,path: '/sermon-podcast',isInternal: true},
     {title: 'Table Group Sign-Up',description: 'Join a small group',icon: FiUsers,path: '/table-group-signup',isInternal: true},
     ...(hasResources ? [{title: 'Resources',description: 'Helpful materials',icon: FiBookOpen,path: '/resources',isInternal: true}] : []),
-    {title: 'Join Realm',description: 'Become a member',icon: FiUserPlus,path: '/join-realm',isInternal: true},
+    {title: 'Join Realm',description: 'Our online community',icon: FiUserPlus,path: '/join-realm',isInternal: true},
     {title: 'Opportunities',description: 'Explore our opportunities',icon: FiHeart,path: '/ministries',isInternal: true},
     {title: 'Contact',description: 'Get in touch with us',icon: FiMail,path: '/contact',isInternal: true}
   ];
