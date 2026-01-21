@@ -143,7 +143,7 @@ const Home=()=> {
                         </div>
                         <div className="text-left">
                           <h2 className="text-2xl md:text-3xl font-bold mb-1">Capital Campaign</h2>
-                          <p className="text-white text-opacity-90 text-sm md:text-base">Updates, vision, and Q&A for our church building project</p>
+                          <p className="text-white text-opacity-90 text-sm md:text-base">Transforming Together - Updates, vision, and Q&A</p>
                         </div>
                       </div>
                       <div className="flex items-center space-x-2 text-white text-opacity-90 group-hover:text-opacity-100">

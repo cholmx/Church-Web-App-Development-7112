@@ -250,7 +250,7 @@ const CapitalCampaign = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-base page-subtitle"
           >
-            Building together for our future
+            Transforming Together
           </motion.p>
         </div>
 
