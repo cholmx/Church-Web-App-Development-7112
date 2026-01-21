@@ -49,6 +49,8 @@ const RichTextEditor = ({ value, onChange, placeholder, rows = 12, className = '
     const paste = (e.clipboardData || window.clipboardData).getData('text/html') ||
                   (e.clipboardData || window.clipboardData).getData('text/plain')
 
+    console.log('PASTE DATA:', paste)
+
     if (paste) {
       const selection = window.getSelection()
       if (selection.rangeCount > 0) {
@@ -59,71 +61,56 @@ const RichTextEditor = ({ value, onChange, placeholder, rows = 12, className = '
         const tempDiv = document.createElement('div')
         tempDiv.innerHTML = paste
 
-        // First pass: Find all elements with inline styling and mark them
-        const styledElements = []
-        tempDiv.querySelectorAll('*').forEach(element => {
-          const style = element.style
-          if (style) {
-            const isBold = style.fontWeight === 'bold' || parseInt(style.fontWeight) >= 600
-            const isItalic = style.fontStyle === 'italic'
-            const isUnderline = style.textDecoration?.includes('underline')
+        console.log('BEFORE PROCESSING:', tempDiv.innerHTML)
 
-            if (isBold || isItalic || isUnderline) {
-              styledElements.push({
-                element,
-                isBold,
-                isItalic,
-                isUnderline
-              })
+        // Convert inline styles to semantic tags
+        const processNode = (node) => {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            const tagName = node.tagName.toLowerCase()
+            const style = node.style
+
+            // Check if this element has bold/italic/underline styling
+            const isBold = style && (style.fontWeight === 'bold' || parseInt(style.fontWeight) >= 600)
+            const isItalic = style && style.fontStyle === 'italic'
+            const isUnderline = style && style.textDecoration?.includes('underline')
+
+            console.log(`Element ${tagName}:`, {
+              isBold,
+              isItalic,
+              isUnderline,
+              fontWeight: style?.fontWeight,
+              currentHTML: node.outerHTML
+            })
+
+            // Process children first
+            Array.from(node.childNodes).forEach(child => processNode(child))
+
+            // Wrap content in semantic tags if needed
+            if ((isBold || isItalic || isUnderline) && !['strong', 'b', 'em', 'i', 'u'].includes(tagName)) {
+              const content = node.innerHTML
+              let wrapped = content
+
+              if (isBold) wrapped = `<strong>${wrapped}</strong>`
+              if (isItalic) wrapped = `<em>${wrapped}</em>`
+              if (isUnderline) wrapped = `<u>${wrapped}</u>`
+
+              node.innerHTML = wrapped
+              console.log('WRAPPED:', node.innerHTML)
             }
           }
-        })
+        }
 
-        // Second pass: Convert styled elements to semantic tags
-        styledElements.forEach(({ element, isBold, isItalic, isUnderline }) => {
-          const tagName = element.tagName.toLowerCase()
+        processNode(tempDiv)
 
-          // Don't wrap if already a semantic tag
-          if (['strong', 'b', 'em', 'i', 'u'].includes(tagName)) {
-            return
-          }
+        console.log('AFTER WRAPPING:', tempDiv.innerHTML)
 
-          // Get all child nodes
-          const childNodes = Array.from(element.childNodes)
-
-          // Clear the element
-          element.innerHTML = ''
-
-          // Build wrapper chain
-          let wrapper = element
-
-          if (isBold) {
-            const strong = document.createElement('strong')
-            wrapper.appendChild(strong)
-            wrapper = strong
-          }
-
-          if (isItalic) {
-            const em = document.createElement('em')
-            wrapper.appendChild(em)
-            wrapper = em
-          }
-
-          if (isUnderline) {
-            const u = document.createElement('u')
-            wrapper.appendChild(u)
-            wrapper = u
-          }
-
-          // Add original children back to innermost wrapper
-          childNodes.forEach(node => wrapper.appendChild(node))
-        })
-
-        // Third pass: Remove all inline styles and classes
+        // Remove all inline styles and classes
         tempDiv.querySelectorAll('*').forEach(element => {
           element.removeAttribute('style')
           element.removeAttribute('class')
         })
+
+        console.log('FINAL HTML:', tempDiv.innerHTML)
 
         const fragment = document.createRange().createContextualFragment(tempDiv.innerHTML)
         range.insertNode(fragment)
