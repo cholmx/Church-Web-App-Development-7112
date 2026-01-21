@@ -23,7 +23,7 @@ const Admin=()=> {
   const [activeTab,setActiveTab]=useState('announcements');
   const [loading,setLoading]=useState(false);
 
-  const ADMIN_PASSWORD='urf500admin';
+  const ADMIN_PASSWORD='upperroom500';
 
   const handlePasswordSubmit=(e)=> {
     e.preventDefault();
