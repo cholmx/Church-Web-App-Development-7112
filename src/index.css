@@ -46,7 +46,7 @@
   @apply text-lg font-bold;
 }
 .prose p {
-  @apply mb-2 leading-normal;
+  @apply mb-0.5 leading-normal;
 }
 .prose strong {
   @apply font-bold text-text-primary;
