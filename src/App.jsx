@@ -20,6 +20,7 @@ import Admin from './pages/Admin'
 import Yellow from './pages/Yellow'
 import Green from './pages/Green'
 import OverflowSignup from './pages/OverflowSignup'
+import CapitalCampaign from './pages/CapitalCampaign'
 import NotFound from './pages/NotFound'
 
 import './App.css'
@@ -49,6 +50,7 @@ function App() {
           <Route path="/yellow" element={<Yellow />} />
           <Route path="/green" element={<Green />} />
           <Route path="/overflow-signup" element={<OverflowSignup />} />
+          <Route path="/capital-campaign" element={<CapitalCampaign />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
