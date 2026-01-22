@@ -75,7 +75,7 @@ const AdminCapitalCampaign = () => {
       setVisionItems(visionRes.data || []);
       setFaqs(faqsRes.data || []);
     } catch (error) {
-      console.error('Error fetching capital campaign content:', error);
+      console.error('Error fetching growth campaign content:', error);
     } finally {
       setTimeout(() => setLoading(false), 600);
     }
@@ -715,7 +715,7 @@ const AdminCapitalCampaign = () => {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl text-text-primary">Manage Capital Campaign</h2>
+      <h2 className="text-2xl text-text-primary">Manage Growth Campaign</h2>
 
       <div className="flex space-x-4 border-b border-accent">
         <button

@@ -50,7 +50,7 @@ const Admin=()=> {
     {id: 'ministries',label: 'Ministries',icon: FiHeart},
     {id: 'staff',label: 'Staff Contacts',icon: FiUsers},
     {id: 'featured',label: 'Featured Buttons',icon: FiStar},
-    {id: 'campaign',label: 'Capital Campaign',icon: FiTrendingUp},
+    {id: 'campaign',label: 'Growth Campaign',icon: FiTrendingUp},
   ];
 
   const renderContent=()=> {

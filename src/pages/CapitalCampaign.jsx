@@ -53,7 +53,7 @@ const CapitalCampaign = () => {
       setVisionItems(visionRes.data || []);
       setFaqs(faqsRes.data || []);
     } catch (error) {
-      console.error('Error fetching capital campaign content:', error);
+      console.error('Error fetching growth campaign content:', error);
     } finally {
       setTimeout(() => setLoading(false), 600);
     }
@@ -74,7 +74,7 @@ const CapitalCampaign = () => {
         <div className="text-center py-12">
           <SafeIcon icon={FiFileText} className="h-16 w-16 text-text-light mx-auto mb-4" />
           <p className="text-xl">No updates yet</p>
-          <p className="text-text-light">Check back soon for campaign updates!</p>
+          <p className="text-text-light">Check back soon for updates!</p>
         </div>
       ) : (
         updates.map((update, index) => (
@@ -241,7 +241,7 @@ const CapitalCampaign = () => {
           >
             <SafeIcon icon={FiTrendingUp} className="h-8 w-8 text-primary" />
             <Link to="/" className="hover:text-primary transition-colors">
-              <h1 className="text-3xl md:text-4xl">Capital Campaign</h1>
+              <h1 className="text-3xl md:text-4xl">Growth Campaign</h1>
             </Link>
           </motion.div>
           <motion.p
