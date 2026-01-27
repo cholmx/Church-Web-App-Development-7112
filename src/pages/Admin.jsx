@@ -201,46 +201,60 @@ const Admin=()=> {
             <span>Hidden Podcast Pages</span>
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Link
-              to="/yellow"
-              className="flex items-center justify-between p-4 border-2 border-yellow-400 rounded-lg hover:bg-yellow-50 transition-colors group"
+            <a
+              href="https://urf.life/#/yellow"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col p-4 border-2 border-yellow-400 rounded-lg hover:bg-yellow-50 transition-colors group"
             >
-              <div className="flex items-center space-x-3">
-                <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center"
-                  style={{backgroundColor: '#E2BA49'}}
-                >
-                  <SafeIcon icon={FiMic} className="h-5 w-5 text-white" />
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center space-x-3">
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center"
+                    style={{backgroundColor: '#E2BA49'}}
+                  >
+                    <SafeIcon icon={FiMic} className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-text-primary font-inter">Yellow Podcast</h4>
+                    <p className="text-sm text-text-light font-inter">Hidden podcast page</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-text-primary font-inter">Yellow Podcast</h4>
-                  <p className="text-sm text-text-light font-inter">Hidden podcast page</p>
-                </div>
+                <SafeIcon icon={FiExternalLink} className="h-4 w-4 text-text-light group-hover:text-text-primary transition-colors" />
               </div>
-              <SafeIcon icon={FiExternalLink} className="h-4 w-4 text-text-light group-hover:text-text-primary transition-colors" />
-            </Link>
-            <Link
-              to="/green"
-              className="flex items-center justify-between p-4 border-2 border-green-400 rounded-lg hover:bg-green-50 transition-colors group"
+              <div className="mt-2 p-2 bg-yellow-50 rounded text-xs text-yellow-800 font-mono break-all">
+                https://urf.life/#/yellow
+              </div>
+            </a>
+            <a
+              href="https://urf.life/#/green"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col p-4 border-2 border-green-400 rounded-lg hover:bg-green-50 transition-colors group"
             >
-              <div className="flex items-center space-x-3">
-                <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center"
-                  style={{backgroundColor: '#83A682'}}
-                >
-                  <SafeIcon icon={FiMic} className="h-5 w-5 text-white" />
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center space-x-3">
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center"
+                    style={{backgroundColor: '#83A682'}}
+                  >
+                    <SafeIcon icon={FiMic} className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-text-primary font-inter">Green Podcast</h4>
+                    <p className="text-sm text-text-light font-inter">Hidden podcast page</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-text-primary font-inter">Green Podcast</h4>
-                  <p className="text-sm text-text-light font-inter">Hidden podcast page</p>
-                </div>
+                <SafeIcon icon={FiExternalLink} className="h-4 w-4 text-text-light group-hover:text-text-primary transition-colors" />
               </div>
-              <SafeIcon icon={FiExternalLink} className="h-4 w-4 text-text-light group-hover:text-text-primary transition-colors" />
-            </Link>
+              <div className="mt-2 p-2 bg-green-50 rounded text-xs text-green-800 font-mono break-all">
+                https://urf.life/#/green
+              </div>
+            </a>
           </div>
           <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
             <p className="text-sm text-blue-700 font-inter">
-              <strong>Note:</strong> These pages are hidden from the main navigation and can only be accessed via direct links or through this admin panel.
+              <strong>Note:</strong> These pages are hidden from the main navigation and can only be accessed via direct links. Click the links above to open them in a new tab, or copy the URLs to share with others.
             </p>
           </div>
         </motion.div>
