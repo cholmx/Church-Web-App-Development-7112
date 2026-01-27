@@ -7,7 +7,7 @@ import { SkeletonCard, LoadingTransition } from '../components/LoadingSkeletons'
 import { useCleanContent } from '../hooks/useCleanContent';
 import supabase from '../lib/supabase';
 
-const { FiTrendingUp, FiHome, FiPlayCircle, FiFileText, FiHelpCircle, FiEye, FiMessageSquare, FiSend } = FiIcons;
+const { FiTrendingUp, FiHome, FiPlayCircle, FiFileText, FiHelpCircle, FiEye, FiMessageSquare, FiSend, FiChevronDown, FiChevronUp } = FiIcons;
 
 const CapitalCampaign = () => {
   const [updates, setUpdates] = useState([]);
@@ -23,6 +23,7 @@ const CapitalCampaign = () => {
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [isFormExpanded, setIsFormExpanded] = useState(false);
 
   useCleanContent();
 
@@ -92,7 +93,10 @@ const CapitalCampaign = () => {
         comment_text: ''
       });
       setSubmitSuccess(true);
-      setTimeout(() => setSubmitSuccess(false), 5000);
+      setTimeout(() => {
+        setSubmitSuccess(false);
+        setIsFormExpanded(false);
+      }, 3000);
     } catch (error) {
       console.error('Error submitting comment:', error);
       alert('Failed to submit comment. Please try again.');
@@ -264,77 +268,96 @@ const CapitalCampaign = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="bg-white rounded-lg shadow-md p-6 md:p-8"
+        className="bg-white rounded-lg shadow-md overflow-hidden"
       >
-        <h3 className="text-2xl font-semibold mb-6 flex items-center space-x-3">
-          <SafeIcon icon={FiMessageSquare} className="h-6 w-6 text-primary" />
-          <span>Ask a Question or Leave a Comment</span>
-        </h3>
-
-        {submitSuccess && (
-          <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-            <p className="text-green-800">
-              Thank you! Your comment has been submitted and is awaiting approval.
-            </p>
+        <button
+          onClick={() => setIsFormExpanded(!isFormExpanded)}
+          className="w-full px-6 py-4 md:px-8 md:py-5 flex items-center justify-between hover:bg-gray-50 transition-colors"
+        >
+          <div className="flex items-center space-x-3">
+            <SafeIcon icon={FiMessageSquare} className="h-6 w-6 text-primary" />
+            <span className="text-xl md:text-2xl font-semibold">Ask a Question or Leave a Comment</span>
           </div>
-        )}
+          <SafeIcon
+            icon={isFormExpanded ? FiChevronUp : FiChevronDown}
+            className="h-6 w-6 text-primary"
+          />
+        </button>
 
-        <form onSubmit={handleCommentSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="author_name" className="block text-sm font-medium mb-2">
-              Your Name
-            </label>
-            <input
-              type="text"
-              id="author_name"
-              required
-              value={commentForm.author_name}
-              onChange={(e) => setCommentForm({ ...commentForm, author_name: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-              placeholder="Enter your name"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="author_email" className="block text-sm font-medium mb-2">
-              Your Email
-            </label>
-            <input
-              type="email"
-              id="author_email"
-              required
-              value={commentForm.author_email}
-              onChange={(e) => setCommentForm({ ...commentForm, author_email: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-              placeholder="Enter your email"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="comment_text" className="block text-sm font-medium mb-2">
-              Your Question or Comment
-            </label>
-            <textarea
-              id="comment_text"
-              required
-              rows="4"
-              value={commentForm.comment_text}
-              onChange={(e) => setCommentForm({ ...commentForm, comment_text: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
-              placeholder="What would you like to know?"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={submitting}
-            className="inline-flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-white"
-            style={{ backgroundColor: '#83A682' }}
+        {isFormExpanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="px-6 pb-6 md:px-8 md:pb-8 border-t border-gray-200"
           >
-            <SafeIcon icon={FiSend} className="h-5 w-5" />
-            <span>{submitting ? 'Submitting...' : 'Submit'}</span>
-          </button>
-        </form>
+            {submitSuccess && (
+              <div className="mt-6 mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <p className="text-green-800">
+                  Thank you! Your comment has been submitted and is awaiting approval.
+                </p>
+              </div>
+            )}
+
+            <form onSubmit={handleCommentSubmit} className="space-y-4 mt-6">
+              <div>
+                <label htmlFor="author_name" className="block text-sm font-medium mb-2">
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  id="author_name"
+                  required
+                  value={commentForm.author_name}
+                  onChange={(e) => setCommentForm({ ...commentForm, author_name: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  placeholder="Enter your name"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="author_email" className="block text-sm font-medium mb-2">
+                  Your Email
+                </label>
+                <input
+                  type="email"
+                  id="author_email"
+                  required
+                  value={commentForm.author_email}
+                  onChange={(e) => setCommentForm({ ...commentForm, author_email: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  placeholder="Enter your email"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="comment_text" className="block text-sm font-medium mb-2">
+                  Your Question or Comment
+                </label>
+                <textarea
+                  id="comment_text"
+                  required
+                  rows="4"
+                  value={commentForm.comment_text}
+                  onChange={(e) => setCommentForm({ ...commentForm, comment_text: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                  placeholder="What would you like to know?"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className="inline-flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-white"
+                style={{ backgroundColor: '#83A682' }}
+              >
+                <SafeIcon icon={FiSend} className="h-5 w-5" />
+                <span>{submitting ? 'Submitting...' : 'Submit'}</span>
+              </button>
+            </form>
+          </motion.div>
+        )}
       </motion.div>
 
       <div className="space-y-6">
