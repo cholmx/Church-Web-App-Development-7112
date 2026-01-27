@@ -13,8 +13,9 @@ import AdminFeaturedButtons from '../components/AdminFeaturedButtons';
 import AdminMinistries from '../components/AdminMinistries';
 import AdminStaffContacts from '../components/AdminStaffContacts';
 import AdminCapitalCampaign from '../components/AdminCapitalCampaign';
+import AdminComments from '../components/AdminComments';
 
-const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers,FiTrendingUp}=FiIcons;
+const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare}=FiIcons;
 
 const Admin=()=> {
   const [isAuthenticated,setIsAuthenticated]=useState(false);
@@ -51,6 +52,7 @@ const Admin=()=> {
     {id: 'staff',label: 'Staff Contacts',icon: FiUsers},
     {id: 'featured',label: 'Featured Buttons',icon: FiStar},
     {id: 'campaign',label: 'Growth Campaign',icon: FiTrendingUp},
+    {id: 'comments',label: 'Comments',icon: FiMessageSquare},
   ];
 
   const renderContent=()=> {
@@ -73,6 +75,8 @@ const Admin=()=> {
         return <AdminFeaturedButtons />;
       case 'campaign':
         return <AdminCapitalCampaign />;
+      case 'comments':
+        return <AdminComments />;
       default:
         return <AdminAnnouncements />;
     }
