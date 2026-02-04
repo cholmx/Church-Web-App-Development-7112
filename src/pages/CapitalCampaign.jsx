@@ -7,7 +7,7 @@ import { SkeletonCard, LoadingTransition } from '../components/LoadingSkeletons'
 import { useCleanContent } from '../hooks/useCleanContent';
 import supabase from '../lib/supabase';
 
-const { FiTrendingUp, FiHome, FiPlayCircle, FiFileText, FiHelpCircle, FiEye, FiMessageSquare, FiSend, FiChevronDown, FiChevronUp } = FiIcons;
+const { FiTrendingUp, FiHome, FiPlayCircle, FiFileText, FiHelpCircle, FiEye, FiMessageSquare, FiSend, FiChevronDown, FiChevronUp, FiCalendar } = FiIcons;
 
 const CapitalCampaign = () => {
   const [updates, setUpdates] = useState([]);
@@ -438,6 +438,23 @@ const CapitalCampaign = () => {
             Transforming Together
           </motion.p>
         </div>
+
+        {/* Call to Action Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
+          className="flex justify-center mb-8"
+        >
+          <Link
+            to="/transforming-together-signup"
+            className="inline-flex items-center space-x-3 px-8 py-4 rounded-lg font-semibold text-lg text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+            style={{ backgroundColor: '#83A682' }}
+          >
+            <SafeIcon icon={FiCalendar} className="h-6 w-6" />
+            <span>Register for Information Meeting</span>
+          </Link>
+        </motion.div>
 
         {/* Tab Navigation */}
         <motion.div

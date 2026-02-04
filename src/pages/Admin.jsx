@@ -14,6 +14,7 @@ import AdminMinistries from '../components/AdminMinistries';
 import AdminStaffContacts from '../components/AdminStaffContacts';
 import AdminCapitalCampaign from '../components/AdminCapitalCampaign';
 import AdminComments from '../components/AdminComments';
+import AdminTransformingTogether from '../components/AdminTransformingTogether';
 
 const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare}=FiIcons;
 
@@ -53,6 +54,7 @@ const Admin=()=> {
     {id: 'featured',label: 'Featured Buttons',icon: FiStar},
     {id: 'campaign',label: 'Growth Campaign',icon: FiTrendingUp},
     {id: 'comments',label: 'Comments',icon: FiMessageSquare},
+    {id: 'meetings',label: 'TT Meetings',icon: FiCalendar},
   ];
 
   const renderContent=()=> {
@@ -77,6 +79,8 @@ const Admin=()=> {
         return <AdminCapitalCampaign />;
       case 'comments':
         return <AdminComments />;
+      case 'meetings':
+        return <AdminTransformingTogether />;
       default:
         return <AdminAnnouncements />;
     }

@@ -21,6 +21,7 @@ import Yellow from './pages/Yellow'
 import Green from './pages/Green'
 import OverflowSignup from './pages/OverflowSignup'
 import CapitalCampaign from './pages/CapitalCampaign'
+import TransformingTogetherSignup from './pages/TransformingTogetherSignup'
 import NotFound from './pages/NotFound'
 
 import './App.css'
@@ -51,6 +52,8 @@ function App() {
           <Route path="/green" element={<Green />} />
           <Route path="/overflow-signup" element={<OverflowSignup />} />
           <Route path="/capital-campaign" element={<CapitalCampaign />} />
+          <Route path="/growth-campaign" element={<CapitalCampaign />} />
+          <Route path="/transforming-together-signup" element={<TransformingTogetherSignup />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
