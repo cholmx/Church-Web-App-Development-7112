@@ -16,8 +16,8 @@ const TransformingTogetherSignup = () => {
   const [meetingCapacity, setMeetingCapacity] = useState({});
 
   const meetings = [
-    { date: 'Friday, March 6', times: ['4pm', '5pm', '6pm', '7pm'] },
-    { date: 'Saturday, March 7', times: ['4pm', '5pm', '6pm'] }
+    { date: 'Friday, March 6', times: ['4pm', '6pm', '7pm'] },
+    { date: 'Saturday, March 7', times: ['4pm', '5pm'] }
   ];
 
   useEffect(() => {
