@@ -13,12 +13,9 @@ const AdminFeaturedButtons=()=> {
   const [editingId,setEditingId]=useState(null);
   const [showForm,setShowForm]=useState(false);
   const [formData,setFormData]=useState({
-    button_type: '',
     title: '',
     description: '',
     path: '',
-    icon_name: 'FiCalendar',
-    display_order: 0,
     is_active: false
   });
 
@@ -45,23 +42,31 @@ const AdminFeaturedButtons=()=> {
     e.preventDefault();
     setLoading(true);
     try {
-      const buttonData={
-        button_type: formData.button_type,
-        title: formData.title,
-        description: formData.description,
-        path: formData.path,
-        icon_name: formData.icon_name,
-        display_order: parseInt(formData.display_order),
-        is_active: formData.is_active
-      };
-
       if (editingId) {
+        const buttonData={
+          title: formData.title,
+          description: formData.description,
+          path: formData.path,
+          icon_name: 'FiCheck',
+          is_active: formData.is_active
+        };
         const {error}=await supabase
           .from('featured_buttons_portal123')
           .update(buttonData)
           .eq('id',editingId);
         if (error) throw error;
       } else {
+        const autoType=formData.title.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+        const nextOrder=buttons.length + 1;
+        const buttonData={
+          button_type: autoType,
+          title: formData.title,
+          description: formData.description,
+          path: formData.path,
+          icon_name: 'FiCheck',
+          display_order: nextOrder,
+          is_active: formData.is_active
+        };
         const {error}=await supabase
           .from('featured_buttons_portal123')
           .insert([buttonData]);
@@ -79,12 +84,9 @@ const AdminFeaturedButtons=()=> {
 
   const handleEdit=(button)=> {
     setFormData({
-      button_type: button.button_type,
       title: button.title,
-      description: button.description,
+      description: button.description || '',
       path: button.path,
-      icon_name: button.icon_name || 'FiCalendar',
-      display_order: button.display_order,
       is_active: button.is_active
     });
     setEditingId(button.id);
@@ -122,12 +124,9 @@ const AdminFeaturedButtons=()=> {
 
   const handleCancel=()=> {
     setFormData({
-      button_type: '',
       title: '',
       description: '',
       path: '',
-      icon_name: 'FiCalendar',
-      display_order: 0,
       is_active: false
     });
     setEditingId(null);
@@ -155,81 +154,38 @@ const AdminFeaturedButtons=()=> {
             className="bg-white rounded-lg shadow-md p-6"
           >
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">Button Type (ID) *</label>
-                  <input
-                    type="text"
-                    value={formData.button_type}
-                    onChange={(e)=> setFormData({...formData,button_type: e.target.value})}
-                    required
-                    disabled={editingId}
-                    className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent disabled:bg-gray-100"
-                    placeholder="overflow_signup"
-                  />
-                  <p className="text-xs text-text-light mt-1">Unique identifier (cannot be changed after creation)</p>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">Display Order *</label>
-                  <input
-                    type="number"
-                    value={formData.display_order}
-                    onChange={(e)=> setFormData({...formData,display_order: e.target.value})}
-                    required
-                    min="0"
-                    className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="0"
-                  />
-                  <p className="text-xs text-text-light mt-1">Lower numbers appear first</p>
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-text-primary mb-2">Title *</label>
+                <input
+                  type="text"
+                  value={formData.title}
+                  onChange={(e)=> setFormData({...formData,title: e.target.value})}
+                  required
+                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  placeholder="Overflow Signup"
+                />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">Title *</label>
-                  <input
-                    type="text"
-                    value={formData.title}
-                    onChange={(e)=> setFormData({...formData,title: e.target.value})}
-                    required
-                    className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Overflow Signup"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">Description *</label>
-                  <input
-                    type="text"
-                    value={formData.description}
-                    onChange={(e)=> setFormData({...formData,description: e.target.value})}
-                    required
-                    className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Monthly service commitment"
-                  />
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-text-primary mb-2">Description <span className="text-text-light font-normal">(optional)</span></label>
+                <input
+                  type="text"
+                  value={formData.description}
+                  onChange={(e)=> setFormData({...formData,description: e.target.value})}
+                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  placeholder="Monthly service commitment"
+                />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">Path (URL) *</label>
-                  <input
-                    type="text"
-                    value={formData.path}
-                    onChange={(e)=> setFormData({...formData,path: e.target.value})}
-                    required
-                    className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="/overflow-signup"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">Icon Name</label>
-                  <input
-                    type="text"
-                    value={formData.icon_name}
-                    onChange={(e)=> setFormData({...formData,icon_name: e.target.value})}
-                    className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="FiCalendar"
-                  />
-                  <p className="text-xs text-text-light mt-1">Icon from react-icons/fi</p>
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-text-primary mb-2">Link *</label>
+                <input
+                  type="text"
+                  value={formData.path}
+                  onChange={(e)=> setFormData({...formData,path: e.target.value})}
+                  required
+                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  placeholder="/overflow-signup or https://example.com"
+                />
+                <p className="text-xs text-text-light mt-1">Use a path like /page-name for internal pages, or a full URL for external links</p>
               </div>
               <div>
                 <label className="flex items-center space-x-2 cursor-pointer">
@@ -283,11 +239,9 @@ const AdminFeaturedButtons=()=> {
                           {button.is_active ? 'Active' : 'Inactive'}
                         </span>
                       </div>
-                      <p className="text-sm text-text-light mb-2">{button.description}</p>
-                      <div className="text-xs text-text-light space-y-1">
-                        <div><strong>Type:</strong> {button.button_type}</div>
-                        <div><strong>Path:</strong> {button.path}</div>
-                        <div><strong>Order:</strong> {button.display_order}</div>
+                      {button.description && <p className="text-sm text-text-light mb-2">{button.description}</p>}
+                      <div className="text-xs text-text-light">
+                        <div><strong>Link:</strong> {button.path}</div>
                       </div>
                     </div>
                     <div className="flex space-x-2 ml-4">

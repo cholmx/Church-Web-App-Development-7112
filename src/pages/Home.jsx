@@ -5,7 +5,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
 
-const {FiBell,FiPlay,FiMic,FiUsers,FiCreditCard,FiUserPlus,FiMail,FiCalendar,FiBookOpen,FiSettings,FiFacebook,FiInstagram,FiYoutube,FiGlobe,FiHeart,FiLogIn,FiExternalLink,FiFileText,FiHeadphones,FiTrendingUp}=FiIcons;
+const {FiBell,FiPlay,FiMic,FiUsers,FiCreditCard,FiUserPlus,FiMail,FiCalendar,FiBookOpen,FiSettings,FiFacebook,FiInstagram,FiYoutube,FiGlobe,FiHeart,FiLogIn,FiExternalLink,FiFileText,FiHeadphones,FiTrendingUp,FiCheck}=FiIcons;
 
 const Home=()=> {
   const [hasEvents,setHasEvents]=useState(false);
@@ -44,9 +44,10 @@ const Home=()=> {
     {title: 'Growth Campaign',description: 'Transforming Together - Updates, vision, and Q&A',icon: FiTrendingUp,path: '/capital-campaign',gradient: true},
     ...featuredDbButtons.map(btn=> ({
       title: btn.title,
-      description: btn.description,
-      icon: FiCalendar,
-      path: btn.path
+      description: btn.description || '',
+      icon: FiCheck,
+      path: btn.path,
+      isInternal: !btn.path.startsWith('http')
     })),
     ...(hasClasses ? [{title: 'Classes',description: 'Available church classes',icon: FiBookOpen,path: '/class-registration'}] : []),
     ...(hasEvents ? [{title: 'Events',description: 'Upcoming church events',icon: FiCalendar,path: '/event-registration'}] : [])
