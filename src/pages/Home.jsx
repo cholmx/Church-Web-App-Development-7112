@@ -49,8 +49,8 @@ const Home=()=> {
       path: btn.path,
       isInternal: !btn.path.startsWith('http')
     })),
-    ...(hasClasses ? [{title: 'Classes',description: 'Available church classes',icon: FiBookOpen,path: '/class-registration'}] : []),
-    ...(hasEvents ? [{title: 'Events',description: 'Upcoming church events',icon: FiCalendar,path: '/event-registration'}] : [])
+    ...(hasClasses ? [{title: 'Classes',description: 'Available church classes',icon: FiBookOpen,path: '/class-registration',isYellow: true}] : []),
+    ...(hasEvents ? [{title: 'Events',description: 'Upcoming church events',icon: FiCalendar,path: '/event-registration',isYellow: true}] : [])
   ];
 
   const mainButtons=[
@@ -196,7 +196,7 @@ const Home=()=> {
   );
 };
 
-const HomeButton = ({ title, description, icon, path, isFeatured = false, isInternal = true, delay = 0, gradient = false }) => {
+const HomeButton = ({ title, description, icon, path, isFeatured = false, isInternal = true, delay = 0, gradient = false, isYellow = false }) => {
   const baseClasses = isFeatured
     ? "relative overflow-hidden p-4 md:p-5 rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block group w-full"
     : "relative overflow-hidden p-4 rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-[160px] h-[120px] md:w-[225px] md:h-[150px]";
@@ -204,21 +204,26 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, isInte
   const featuredClasses = gradient ? "" : "text-white";
   const mainClasses = "bg-brand-blue text-white";
 
+  const iconColor = isYellow ? 'text-text-primary' : 'text-white';
+  const textColor = isYellow ? 'text-text-primary' : 'text-white';
+  const subTextColor = isYellow ? 'text-text-primary opacity-80' : 'text-white opacity-90';
+  const iconBgClass = isYellow ? 'bg-text-primary bg-opacity-10' : 'bg-white bg-opacity-20';
+
   const content = (
     <>
       <div className={`absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isFeatured ? 'from-white/30' : 'from-white/20'}`}></div>
       {isFeatured ? (
         <div className="relative z-10 flex items-center justify-between">
           <div className="flex items-center space-x-3 md:space-x-4 flex-1">
-            <div className="bg-white bg-opacity-20 p-2 md:p-3 rounded-full flex-shrink-0">
-              <SafeIcon icon={icon} className="h-5 w-5 md:h-6 md:w-6 text-white" />
+            <div className={`${iconBgClass} p-2 md:p-3 rounded-full flex-shrink-0`}>
+              <SafeIcon icon={icon} className={`h-5 w-5 md:h-6 md:w-6 ${iconColor}`} />
             </div>
             <div className="text-left flex-1 min-w-0">
-              <h3 className="text-sm md:text-base font-bold font-heading leading-tight text-white">{title}</h3>
-              <p className="text-xs leading-tight mt-0.5 text-white opacity-90">{description}</p>
+              <h3 className={`text-sm md:text-base font-bold font-heading leading-tight ${textColor}`}>{title}</h3>
+              <p className={`text-xs leading-tight mt-0.5 ${subTextColor}`}>{description}</p>
             </div>
           </div>
-          <div className="flex items-center space-x-1 md:space-x-2 flex-shrink-0 ml-2 text-white text-opacity-90">
+          <div className={`flex items-center space-x-1 md:space-x-2 flex-shrink-0 ml-2 ${textColor}`}>
             <span className="text-xs font-medium hidden md:inline">Learn More</span>
             <SafeIcon icon={FiExternalLink} className="h-4 w-4 md:h-5 md:w-5" />
           </div>
@@ -235,9 +240,11 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, isInte
 
   const gradientStyle = gradient
     ? {background: 'linear-gradient(135deg, #83A682 0%, #6B8E6A 100%)'}
-    : isFeatured
-      ? {backgroundColor: '#D77B29'}
-      : {};
+    : isYellow
+      ? {backgroundColor: '#E2BA49'}
+      : isFeatured
+        ? {backgroundColor: '#D77B29'}
+        : {};
 
   return (
     <motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay}}>
