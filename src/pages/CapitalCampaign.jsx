@@ -408,7 +408,7 @@ const CapitalCampaign = () => {
             href="https://onrealm.org/urfellowship/give/growthcampaign"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center space-x-3 px-8 py-4 rounded-lg font-semibold text-lg text-white transition-all duration-300 shadow-lg"
+            className="inline-flex items-center justify-center space-x-3 px-8 py-4 rounded-lg font-semibold text-lg text-white hover:text-white transition-all duration-300 shadow-lg"
             style={{ backgroundColor: '#E2BA49' }}
           >
             <SafeIcon icon={FiTrendingUp} className="h-6 w-6" />
@@ -418,7 +418,7 @@ const CapitalCampaign = () => {
             href="https://onrealm.org/urfellowship/AddPledge/goalcard"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center space-x-3 px-8 py-4 rounded-lg font-semibold text-lg text-white transition-all duration-300 shadow-lg"
+            className="inline-flex items-center justify-center space-x-3 px-8 py-4 rounded-lg font-semibold text-lg text-white hover:text-white transition-all duration-300 shadow-lg"
             style={{ backgroundColor: '#E2BA49' }}
           >
             <SafeIcon icon={FiFileText} className="h-6 w-6" />
