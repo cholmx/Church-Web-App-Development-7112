@@ -7,22 +7,15 @@ import { SkeletonCard, LoadingTransition } from '../components/LoadingSkeletons'
 import { useCleanContent } from '../hooks/useCleanContent';
 import supabase from '../lib/supabase';
 
-const { FiTrendingUp, FiHome, FiPlayCircle, FiFileText, FiEye, FiMessageSquare, FiSend, FiChevronDown, FiChevronUp, FiCalendar } = FiIcons;
+const { FiTrendingUp, FiHome, FiPlayCircle, FiFileText, FiEye, FiHelpCircle, FiChevronDown, FiChevronUp } = FiIcons;
 
 const CapitalCampaign = () => {
   const [updates, setUpdates] = useState([]);
   const [visionItems, setVisionItems] = useState([]);
-  const [comments, setComments] = useState([]);
+  const [faqs, setFaqs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('updates');
-  const [commentForm, setCommentForm] = useState({
-    author_name: '',
-    author_email: '',
-    comment_text: ''
-  });
-  const [submitting, setSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [isFormExpanded, setIsFormExpanded] = useState(false);
+  const [openFaqId, setOpenFaqId] = useState(null);
 
   useCleanContent();
 
@@ -32,7 +25,7 @@ const CapitalCampaign = () => {
 
   const fetchAllContent = async () => {
     try {
-      const [updatesRes, visionRes, commentsRes] = await Promise.all([
+      const [updatesRes, visionRes, faqsRes] = await Promise.all([
         supabase
           .from('campaign_updates')
           .select('*')
@@ -46,53 +39,23 @@ const CapitalCampaign = () => {
           .order('display_order', { ascending: true })
           .order('created_at', { ascending: false }),
         supabase
-          .from('campaign_comments')
+          .from('campaign_faqs')
           .select('*')
-          .eq('is_approved', true)
-          .order('created_at', { ascending: false })
+          .eq('published', true)
+          .order('display_order', { ascending: true })
       ]);
 
       if (updatesRes.error) throw updatesRes.error;
       if (visionRes.error) throw visionRes.error;
-      if (commentsRes.error) throw commentsRes.error;
+      if (faqsRes.error) throw faqsRes.error;
 
       setUpdates(updatesRes.data || []);
       setVisionItems(visionRes.data || []);
-      setComments(commentsRes.data || []);
+      setFaqs(faqsRes.data || []);
     } catch (error) {
       console.error('Error fetching growth campaign content:', error);
     } finally {
       setTimeout(() => setLoading(false), 600);
-    }
-  };
-
-  const handleCommentSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setSubmitSuccess(false);
-
-    try {
-      const { error } = await supabase
-        .from('campaign_comments')
-        .insert([commentForm]);
-
-      if (error) throw error;
-
-      setCommentForm({
-        author_name: '',
-        author_email: '',
-        comment_text: ''
-      });
-      setSubmitSuccess(true);
-      setTimeout(() => {
-        setSubmitSuccess(false);
-        setIsFormExpanded(false);
-      }, 3000);
-    } catch (error) {
-      console.error('Error submitting comment:', error);
-      alert('Failed to submit comment. Please try again.');
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -220,142 +183,54 @@ const CapitalCampaign = () => {
     </div>
   );
 
-  const renderComments = () => (
-    <div className="space-y-8">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="bg-white rounded-lg shadow-md overflow-hidden"
-      >
-        <button
-          onClick={() => setIsFormExpanded(!isFormExpanded)}
-          className="w-full px-6 py-4 md:px-8 md:py-5 flex items-center justify-between hover:bg-gray-50 transition-colors"
-        >
-          <div className="flex items-center space-x-3">
-            <SafeIcon icon={FiMessageSquare} className="h-6 w-6 text-primary" />
-            <span className="text-xl md:text-2xl font-semibold">Ask a Question or Leave a Comment</span>
-          </div>
-          <SafeIcon
-            icon={isFormExpanded ? FiChevronUp : FiChevronDown}
-            className="h-6 w-6 text-primary"
-          />
-        </button>
-
-        {isFormExpanded && (
+  const renderFaqs = () => (
+    <div className="space-y-4">
+      {faqs.length === 0 ? (
+        <div className="text-center py-12">
+          <SafeIcon icon={FiHelpCircle} className="h-16 w-16 text-text-light mx-auto mb-4" />
+          <p className="text-xl">No Q&A entries yet</p>
+          <p className="text-text-light">Check back soon!</p>
+        </div>
+      ) : (
+        faqs.map((faq, index) => (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="px-6 pb-6 md:px-8 md:pb-8 border-t border-gray-200"
+            key={faq.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: index * 0.05 }}
+            className="bg-white rounded-lg shadow-md overflow-hidden"
           >
-            {submitSuccess && (
-              <div className="mt-6 mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-green-800">
-                  Thank you! Your comment has been submitted and is awaiting approval.
-                </p>
-              </div>
-            )}
-
-            <form onSubmit={handleCommentSubmit} className="space-y-4 mt-6">
-              <div>
-                <label htmlFor="author_name" className="block text-sm font-medium mb-2">
-                  Your Name
-                </label>
-                <input
-                  type="text"
-                  id="author_name"
-                  required
-                  value={commentForm.author_name}
-                  onChange={(e) => setCommentForm({ ...commentForm, author_name: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                  placeholder="Enter your name"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="author_email" className="block text-sm font-medium mb-2">
-                  Your Email
-                </label>
-                <input
-                  type="email"
-                  id="author_email"
-                  required
-                  value={commentForm.author_email}
-                  onChange={(e) => setCommentForm({ ...commentForm, author_email: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                  placeholder="Enter your email"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="comment_text" className="block text-sm font-medium mb-2">
-                  Your Question or Comment
-                </label>
-                <textarea
-                  id="comment_text"
-                  required
-                  rows="4"
-                  value={commentForm.comment_text}
-                  onChange={(e) => setCommentForm({ ...commentForm, comment_text: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
-                  placeholder="What would you like to know?"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={submitting}
-                className="inline-flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-white"
-                style={{ backgroundColor: '#83A682' }}
-              >
-                <SafeIcon icon={FiSend} className="h-5 w-5" />
-                <span>{submitting ? 'Submitting...' : 'Submit'}</span>
-              </button>
-            </form>
-          </motion.div>
-        )}
-      </motion.div>
-
-      <div className="space-y-6">
-        <h3 className="text-2xl font-semibold">Questions & Comments</h3>
-        {comments.length === 0 ? (
-          <div className="text-center py-12 bg-white rounded-lg shadow-md">
-            <SafeIcon icon={FiMessageSquare} className="h-16 w-16 text-text-light mx-auto mb-4" />
-            <p className="text-xl">No comments yet</p>
-            <p className="text-text-light">Be the first to ask a question!</p>
-          </div>
-        ) : (
-          comments.map((comment, index) => (
-            <motion.div
-              key={comment.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white rounded-lg shadow-md p-6"
+            <button
+              onClick={() => setOpenFaqId(openFaqId === faq.id ? null : faq.id)}
+              className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
             >
-              <div className="flex items-start space-x-3 mb-3">
-                <SafeIcon icon={FiMessageSquare} className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-semibold text-lg">{comment.author_name}</h4>
-                    <span className="text-sm text-text-light">{formatDate(comment.created_at)}</span>
-                  </div>
-                  <p className="text-text-primary mb-4">{comment.comment_text}</p>
-
-                  {comment.admin_reply && (
-                    <div className="mt-4 pl-4 border-l-4 border-primary bg-gray-50 p-4 rounded">
-                      <p className="text-sm font-semibold mb-2">Response:</p>
-                      <p className="text-text-primary">{comment.admin_reply}</p>
-                    </div>
-                  )}
-                </div>
+              <div className="flex items-center space-x-3 flex-1 pr-4">
+                <SafeIcon icon={FiHelpCircle} className="h-5 w-5 text-primary flex-shrink-0" />
+                <span className="font-semibold text-lg">{faq.question}</span>
               </div>
-            </motion.div>
-          ))
-        )}
-      </div>
+              <SafeIcon
+                icon={openFaqId === faq.id ? FiChevronUp : FiChevronDown}
+                className="h-5 w-5 text-primary flex-shrink-0"
+              />
+            </button>
+
+            {openFaqId === faq.id && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="px-6 pb-6 border-t border-gray-100"
+              >
+                <div
+                  className="announcement-content pt-4 text-text-primary leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: faq.answer }}
+                />
+              </motion.div>
+            )}
+          </motion.div>
+        ))
+      )}
     </div>
   );
 
@@ -464,17 +339,17 @@ const CapitalCampaign = () => {
           </button>
 
           <button
-            onClick={() => setActiveTab('comments')}
+            onClick={() => setActiveTab('faqs')}
             className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
-              activeTab === 'comments'
+              activeTab === 'faqs'
                 ? 'shadow-lg text-white'
                 : 'bg-white shadow-md hover:shadow-lg'
             }`}
-            style={activeTab === 'comments' ? { backgroundColor: '#83A682' } : {}}
+            style={activeTab === 'faqs' ? { backgroundColor: '#83A682' } : {}}
           >
             <div className="flex items-center space-x-2">
-              <SafeIcon icon={FiMessageSquare} className="h-5 w-5" />
-              <span>Comments</span>
+              <SafeIcon icon={FiHelpCircle} className="h-5 w-5" />
+              <span>Q&A</span>
             </div>
           </button>
         </motion.div>
@@ -492,7 +367,7 @@ const CapitalCampaign = () => {
         >
           {activeTab === 'updates' && renderUpdates()}
           {activeTab === 'vision' && renderVision()}
-          {activeTab === 'comments' && renderComments()}
+          {activeTab === 'faqs' && renderFaqs()}
         </LoadingTransition>
       </div>
     </div>
