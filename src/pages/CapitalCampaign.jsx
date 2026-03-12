@@ -7,12 +7,11 @@ import { SkeletonCard, LoadingTransition } from '../components/LoadingSkeletons'
 import { useCleanContent } from '../hooks/useCleanContent';
 import supabase from '../lib/supabase';
 
-const { FiTrendingUp, FiHome, FiPlayCircle, FiFileText, FiHelpCircle, FiEye, FiMessageSquare, FiSend, FiChevronDown, FiChevronUp, FiCalendar } = FiIcons;
+const { FiTrendingUp, FiHome, FiPlayCircle, FiFileText, FiEye, FiMessageSquare, FiSend, FiChevronDown, FiChevronUp, FiCalendar } = FiIcons;
 
 const CapitalCampaign = () => {
   const [updates, setUpdates] = useState([]);
   const [visionItems, setVisionItems] = useState([]);
-  const [faqs, setFaqs] = useState([]);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('updates');
@@ -33,7 +32,7 @@ const CapitalCampaign = () => {
 
   const fetchAllContent = async () => {
     try {
-      const [updatesRes, visionRes, faqsRes, commentsRes] = await Promise.all([
+      const [updatesRes, visionRes, commentsRes] = await Promise.all([
         supabase
           .from('campaign_updates')
           .select('*')
@@ -47,12 +46,6 @@ const CapitalCampaign = () => {
           .order('display_order', { ascending: true })
           .order('created_at', { ascending: false }),
         supabase
-          .from('campaign_faqs')
-          .select('*')
-          .eq('published', true)
-          .order('display_order', { ascending: true })
-          .order('created_at', { ascending: false }),
-        supabase
           .from('campaign_comments')
           .select('*')
           .eq('is_approved', true)
@@ -61,12 +54,10 @@ const CapitalCampaign = () => {
 
       if (updatesRes.error) throw updatesRes.error;
       if (visionRes.error) throw visionRes.error;
-      if (faqsRes.error) throw faqsRes.error;
       if (commentsRes.error) throw commentsRes.error;
 
       setUpdates(updatesRes.data || []);
       setVisionItems(visionRes.data || []);
-      setFaqs(faqsRes.data || []);
       setComments(commentsRes.data || []);
     } catch (error) {
       console.error('Error fetching growth campaign content:', error);
@@ -222,39 +213,6 @@ const CapitalCampaign = () => {
                   dangerouslySetInnerHTML={{ __html: item.content }}
                 />
               </div>
-            </div>
-          </motion.div>
-        ))
-      )}
-    </div>
-  );
-
-  const renderFAQs = () => (
-    <div className="space-y-6">
-      {faqs.length === 0 ? (
-        <div className="text-center py-12">
-          <SafeIcon icon={FiHelpCircle} className="h-16 w-16 text-text-light mx-auto mb-4" />
-          <p className="text-xl">No FAQs yet</p>
-          <p className="text-text-light">Check back soon for answers to common questions!</p>
-        </div>
-      ) : (
-        faqs.map((faq, index) => (
-          <motion.div
-            key={faq.id}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow p-6"
-          >
-            <div className="flex items-start space-x-3 mb-3">
-              <SafeIcon icon={FiHelpCircle} className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
-              <h3 className="text-xl md:text-2xl font-semibold">{faq.question}</h3>
-            </div>
-            <div className="ml-9 prose max-w-none">
-              <div
-                className="announcement-content"
-                dangerouslySetInnerHTML={{ __html: faq.answer }}
-              />
             </div>
           </motion.div>
         ))
@@ -439,6 +397,35 @@ const CapitalCampaign = () => {
           </motion.p>
         </div>
 
+        {/* Action Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
+          className="flex flex-col sm:flex-row justify-center gap-4 mb-10"
+        >
+          <a
+            href="https://onrealm.org/urfellowship/give/growthcampaign"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center space-x-3 px-8 py-4 rounded-lg font-semibold text-lg text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+            style={{ backgroundColor: '#83A682' }}
+          >
+            <SafeIcon icon={FiTrendingUp} className="h-6 w-6" />
+            <span>Give to the Growth Campaign</span>
+          </a>
+          <a
+            href="https://onrealm.org/urfellowship/AddPledge/goalcard"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center space-x-3 px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 bg-white"
+            style={{ color: '#83A682', border: '2px solid #83A682' }}
+          >
+            <SafeIcon icon={FiFileText} className="h-6 w-6" />
+            <span>Submit Your Commitment Card</span>
+          </a>
+        </motion.div>
+
         {/* Tab Navigation */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -477,21 +464,6 @@ const CapitalCampaign = () => {
           </button>
 
           <button
-            onClick={() => setActiveTab('faqs')}
-            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
-              activeTab === 'faqs'
-                ? 'shadow-lg text-white'
-                : 'bg-white shadow-md hover:shadow-lg'
-            }`}
-            style={activeTab === 'faqs' ? { backgroundColor: '#83A682' } : {}}
-          >
-            <div className="flex items-center space-x-2">
-              <SafeIcon icon={FiHelpCircle} className="h-5 w-5" />
-              <span>Q&A</span>
-            </div>
-          </button>
-
-          <button
             onClick={() => setActiveTab('comments')}
             className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
               activeTab === 'comments'
@@ -520,7 +492,6 @@ const CapitalCampaign = () => {
         >
           {activeTab === 'updates' && renderUpdates()}
           {activeTab === 'vision' && renderVision()}
-          {activeTab === 'faqs' && renderFAQs()}
           {activeTab === 'comments' && renderComments()}
         </LoadingTransition>
       </div>
