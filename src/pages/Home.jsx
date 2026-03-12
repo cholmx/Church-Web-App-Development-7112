@@ -41,7 +41,7 @@ const Home=()=> {
   };
 
   const featuredButtons=[
-    {title: 'Growth Campaign',description: 'Transforming Together - Updates, vision, and Q&A',icon: FiTrendingUp,path: '/capital-campaign',gradient: true},
+    {title: 'Growth Campaign',description: 'Give and commit to the campaign',icon: FiTrendingUp,path: '/capital-campaign',gradient: true},
     ...featuredDbButtons.map(btn=> ({
       title: btn.title,
       description: btn.description || '',
