@@ -25,7 +25,7 @@ export default {
         'social-green': '#83A682',
       },
       fontFamily: {
-        'sans': ['Manrope', 'sans-serif'],
+        'sans': ['Roboto', 'sans-serif'],
         'heading': ['League Spartan', 'sans-serif'],
         'display': ['League Spartan', 'sans-serif'],
       },
