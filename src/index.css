@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700;800;900&family=Fraunces:wght@300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,19 +6,45 @@
 
 @layer base {
   body {
-    @apply bg-accent text-text-primary font-sans antialiased text-sm;
+    @apply bg-accent text-text-primary font-sans antialiased;
+    font-size: 17px;
+    font-weight: 400;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-black text-text-primary;
+    @apply font-heading text-text-primary;
   }
 
-  h1 { @apply text-4xl md:text-5xl; }
-  h2 { @apply text-3xl md:text-4xl; }
-  h3 { @apply text-2xl md:text-3xl; }
-  h4 { @apply text-xl md:text-2xl; }
-  h5 { @apply text-lg md:text-xl; }
-  h6 { @apply text-base md:text-lg; }
+  h1 {
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  h3 {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  h4 {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  h5 {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  h6 {
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
 
   p {
     @apply leading-normal;
@@ -133,15 +159,13 @@
   all: unset !important;
 }
 
-/* Fallback for old font classes and new subtitle style */
 .font-fraunces {
-  @apply font-heading;
+  @apply font-sans;
 }
 
 .page-subtitle {
   @apply font-sans font-normal text-base -mt-2;
 }
-
 
 .font-inter {
   @apply font-sans;

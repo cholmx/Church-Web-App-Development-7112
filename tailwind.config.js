@@ -25,9 +25,14 @@ export default {
         'social-green': '#83A682',
       },
       fontFamily: {
-        'sans': ['Inter', 'sans-serif'],
-        'heading': ['Inter Tight', 'sans-serif'],
-        'display': ['Fraunces', 'serif'],
+        'sans': ['Outfit', 'sans-serif'],
+        'heading': ['Outfit', 'sans-serif'],
+        'display': ['Outfit', 'sans-serif'],
+      },
+      fontSize: {
+        'h1': ['28px', { lineHeight: '1.2', fontWeight: '900' }],
+        'h2': ['22px', { lineHeight: '1.2', fontWeight: '700' }],
+        'body': ['17px', { lineHeight: '1.5', fontWeight: '400' }],
       },
       borderRadius: {
         'xl': '1rem',
