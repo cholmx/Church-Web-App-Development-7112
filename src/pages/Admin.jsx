@@ -196,27 +196,23 @@ const Admin=()=> {
           initial={{opacity: 0,y: 30}}
           animate={{opacity: 1,y: 0}}
           transition={{duration: 0.8,delay: 0.4}}
-          className="bg-white rounded-2xl shadow-modern mb-8 overflow-hidden"
+          className="bg-white rounded-2xl shadow-modern mb-8 p-4"
         >
-          <div className="border-b border-accent">
-            <nav className="flex space-x-6 px-6 overflow-x-auto scrollbar-hide">
-              {tabs.map((tab)=> (
-                <button
-                  key={tab.id}
-                  onClick={()=> setActiveTab(tab.id)}
-                  className={`py-4 px-1 border-b-2 font-semibold text-sm transition-all duration-200 whitespace-nowrap ${
-                    activeTab===tab.id
-                      ? 'border-primary text-primary'
-                      : 'border-transparent text-text-light hover:text-text-primary'
-                  }`}
-                >
-                  <div className="flex items-center space-x-2">
-                    <SafeIcon icon={tab.icon} className="h-4 w-4" />
-                    <span>{tab.label}</span>
-                  </div>
-                </button>
-              ))}
-            </nav>
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+            {tabs.map((tab)=> (
+              <button
+                key={tab.id}
+                onClick={()=> setActiveTab(tab.id)}
+                className={`flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl font-semibold text-xs transition-all duration-200 ${
+                  activeTab===tab.id
+                    ? 'bg-primary text-white shadow-sm'
+                    : 'text-text-light hover:text-text-primary hover:bg-accent'
+                }`}
+              >
+                <SafeIcon icon={tab.icon} className="h-5 w-5 flex-shrink-0" />
+                <span className="text-center leading-tight">{tab.label}</span>
+              </button>
+            ))}
           </div>
         </motion.div>
 
