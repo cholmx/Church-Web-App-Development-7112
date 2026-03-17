@@ -12,7 +12,8 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-bold text-text-primary;
+    @apply font-heading text-text-primary;
+    font-weight: 800;
   }
 
   p {
@@ -79,7 +80,7 @@
 /* Custom button component styles */
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-2xl font-bold font-heading tracking-wide transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-accent;
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-2xl font-extrabold font-heading tracking-wide transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-accent;
   }
   .btn-primary {
     @apply bg-primary text-white shadow-modern hover:shadow-modern-lg hover:-translate-y-0.5;
