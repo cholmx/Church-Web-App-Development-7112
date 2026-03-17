@@ -136,16 +136,18 @@ const Home=()=> {
                 </section>
               )}
 
-              <section className="flex flex-col items-center">
-                <div className="hidden md:grid md:grid-cols-3 gap-4">
-                  {mainButtons.map((button, i) => (
-                    <HomeButton key={button.title} {...button} delay={0.5 + i * 0.05} />
-                  ))}
-                </div>
-                <div className="grid grid-cols-2 md:hidden gap-3">
-                  {mainButtons.map((button, i) => (
-                    <HomeButton key={button.title} {...button} delay={0.5 + i * 0.05} />
-                  ))}
+              <section className="flex justify-center w-full">
+                <div className="w-full max-w-[344px] md:max-w-[711px]">
+                  <div className="hidden md:grid md:grid-cols-3 gap-4 w-full">
+                    {mainButtons.map((button, i) => (
+                      <HomeButton key={button.title} {...button} delay={0.5 + i * 0.05} />
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-2 md:hidden gap-3 w-full">
+                    {mainButtons.map((button, i) => (
+                      <HomeButton key={button.title} {...button} delay={0.5 + i * 0.05} />
+                    ))}
+                  </div>
                 </div>
               </section>
 
