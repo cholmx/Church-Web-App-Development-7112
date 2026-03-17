@@ -40,9 +40,9 @@ const Navbar = () => {
             />
             <div className="hidden items-center space-x-2">
               <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-sm font-inter">UR</span>
+                <span className="text-white font-bold text-sm font-heading">UR</span>
               </div>
-              <span className="text-xl font-bold text-text-primary font-inter">Upper Room Fellowship</span>
+              <span className="app-title text-text-primary">Upper Room Fellowship</span>
             </div>
           </Link>
 
@@ -52,7 +52,7 @@ const Navbar = () => {
               <Link
                 key={item.name}
                 to={item.path}
-                className={`px-3 py-2 text-sm font-medium font-inter transition-colors duration-200 ${
+                className={`px-3 py-2 text-sm font-medium font-heading transition-colors duration-200 ${
                   isActive(item.path)
                     ? 'text-primary border-b-2 border-primary'
                     : 'text-text-primary hover:text-primary'
@@ -90,7 +90,7 @@ const Navbar = () => {
                   key={item.name}
                   to={item.path}
                   onClick={() => setIsOpen(false)}
-                  className={`block px-3 py-2 text-base font-medium font-inter transition-colors duration-200 ${
+                  className={`block px-3 py-2 text-base font-medium font-heading transition-colors duration-200 ${
                     isActive(item.path)
                       ? 'text-primary bg-accent'
                       : 'text-text-primary hover:text-primary hover:bg-accent-light'
