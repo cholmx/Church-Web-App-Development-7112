@@ -145,7 +145,7 @@ const Home=()=> {
                   </div>
                   <div className="grid grid-cols-2 md:hidden gap-3 w-full">
                     {mainButtons.map((button, i) => (
-                      <HomeButton key={button.title} {...button} delay={0.5 + i * 0.05} />
+                      <HomeButton key={button.title} {...button} delay={0.5 + i * 0.05} isLastOdd={mainButtons.length % 2 !== 0 && i === mainButtons.length - 1} />
                     ))}
                   </div>
                 </div>
@@ -204,7 +204,7 @@ const Home=()=> {
   );
 };
 
-const HomeButton = ({ title, description, icon, path, isFeatured = false, isInternal = true, delay = 0, gradient = false, isYellow = false }) => {
+const HomeButton = ({ title, description, icon, path, isFeatured = false, isInternal = true, delay = 0, gradient = false, isYellow = false, isLastOdd = false }) => {
   const baseClasses = isFeatured
     ? "relative overflow-hidden p-4 md:p-5 rounded-2xl border border-white/10 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block group w-full"
     : "relative overflow-hidden p-4 rounded-2xl border border-white/10 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-full min-h-[110px] md:min-h-[140px]";
@@ -256,7 +256,7 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, isInte
         : {};
 
   return (
-    <motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay}}>
+    <motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay}} className={isLastOdd ? 'col-span-2' : ''}>
       {isInternal ? (
         <Link to={path} className={`${baseClasses} ${isFeatured ? featuredClasses : mainClasses}`} style={gradientStyle}>
           {content}
