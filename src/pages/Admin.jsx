@@ -14,14 +14,15 @@ import AdminMinistries from '../components/AdminMinistries';
 import AdminStaffContacts from '../components/AdminStaffContacts';
 import AdminCapitalCampaign from '../components/AdminCapitalCampaign';
 import AdminComments from '../components/AdminComments';
+import AdminDashboard from '../components/AdminDashboard';
 
-const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare}=FiIcons;
+const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid}=FiIcons;
 
 const Admin=()=> {
   const [isAuthenticated,setIsAuthenticated]=useState(false);
   const [password,setPassword]=useState('');
   const [error,setError]=useState('');
-  const [activeTab,setActiveTab]=useState('announcements');
+  const [activeTab,setActiveTab]=useState('overview');
   const [loading,setLoading]=useState(false);
 
   const ADMIN_PASSWORD='upperroom500';
@@ -43,6 +44,7 @@ const Admin=()=> {
   };
 
   const tabs=[
+    {id: 'overview',label: 'Overview',icon: FiGrid},
     {id: 'announcements',label: 'Announcements',icon: FiBell},
     {id: 'sermons',label: 'Sermons',icon: FiPlay},
     {id: 'events',label: 'Events',icon: FiCalendar},
@@ -57,6 +59,8 @@ const Admin=()=> {
 
   const renderContent=()=> {
     switch (activeTab) {
+      case 'overview':
+        return <AdminDashboard onNavigate={(tab)=> setActiveTab(tab)} />;
       case 'announcements':
         return <AdminAnnouncements />;
       case 'sermons':
@@ -78,7 +82,7 @@ const Admin=()=> {
       case 'comments':
         return <AdminComments />;
       default:
-        return <AdminAnnouncements />;
+        return <AdminDashboard onNavigate={(tab)=> setActiveTab(tab)} />;
     }
   };
 
@@ -103,7 +107,7 @@ const Admin=()=> {
             initial={{opacity: 0,scale: 0.9}}
             animate={{opacity: 1,scale: 1}}
             transition={{duration: 0.5}}
-            className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full mx-4"
+            className="bg-white rounded-3xl shadow-modern-lg p-8 max-w-md w-full mx-4"
           >
             <div className="text-center mb-6">
               <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
@@ -118,15 +122,13 @@ const Admin=()=> {
             </div>
             <form onSubmit={handlePasswordSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
-                  Password
-                </label>
+                <label className="admin-label">Password</label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e)=> setPassword(e.target.value)}
                   required
-                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+                  className="admin-input"
                   placeholder="Enter admin password"
                   autoFocus
                 />
@@ -139,7 +141,7 @@ const Admin=()=> {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-primary-dark transition-colors font-inter disabled:opacity-50"
+                className="w-full bg-primary text-white py-3 px-6 rounded-xl font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50 active:scale-[0.98]"
               >
                 {loading ? 'Authenticating...' : 'Access Admin Dashboard'}
               </button>
@@ -189,93 +191,23 @@ const Admin=()=> {
           </motion.p>
         </div>
 
-        {/* Hidden Pages Quick Access */}
-        <motion.div
-          initial={{opacity: 0,y: 30}}
-          animate={{opacity: 1,y: 0}}
-          transition={{duration: 0.8,delay: 0.3}}
-          className="bg-white rounded-lg shadow-md p-6 mb-8"
-        >
-          <h3 className="text-lg font-semibold text-text-primary mb-4 font-inter flex items-center space-x-2">
-            <SafeIcon icon={FiMic} className="h-5 w-5 text-primary" />
-            <span>Hidden Podcast Pages</span>
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <a
-              href="https://urf.life/#/yellow"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col p-4 border-2 border-yellow-400 rounded-lg hover:bg-yellow-50 transition-colors group"
-            >
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center space-x-3">
-                  <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center"
-                    style={{backgroundColor: '#E2BA49'}}
-                  >
-                    <SafeIcon icon={FiMic} className="h-5 w-5 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-text-primary font-inter">Yellow Podcast</h4>
-                    <p className="text-sm text-text-light font-inter">Hidden podcast page</p>
-                  </div>
-                </div>
-                <SafeIcon icon={FiExternalLink} className="h-4 w-4 text-text-light group-hover:text-text-primary transition-colors" />
-              </div>
-              <div className="mt-2 p-2 bg-yellow-50 rounded text-xs text-yellow-800 font-mono break-all">
-                https://urf.life/#/yellow
-              </div>
-            </a>
-            <a
-              href="https://urf.life/#/green"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col p-4 border-2 border-green-400 rounded-lg hover:bg-green-50 transition-colors group"
-            >
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center space-x-3">
-                  <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center"
-                    style={{backgroundColor: '#83A682'}}
-                  >
-                    <SafeIcon icon={FiMic} className="h-5 w-5 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-text-primary font-inter">Green Podcast</h4>
-                    <p className="text-sm text-text-light font-inter">Hidden podcast page</p>
-                  </div>
-                </div>
-                <SafeIcon icon={FiExternalLink} className="h-4 w-4 text-text-light group-hover:text-text-primary transition-colors" />
-              </div>
-              <div className="mt-2 p-2 bg-green-50 rounded text-xs text-green-800 font-mono break-all">
-                https://urf.life/#/green
-              </div>
-            </a>
-          </div>
-          <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-sm text-blue-700 font-inter">
-              <strong>Note:</strong> These pages are hidden from the main navigation and can only be accessed via direct links. Click the links above to open them in a new tab, or copy the URLs to share with others.
-            </p>
-          </div>
-        </motion.div>
-
         {/* Tabs */}
         <motion.div
           initial={{opacity: 0,y: 30}}
           animate={{opacity: 1,y: 0}}
           transition={{duration: 0.8,delay: 0.4}}
-          className="bg-white rounded-lg shadow-md mb-8"
+          className="bg-white rounded-2xl shadow-modern mb-8 overflow-hidden"
         >
           <div className="border-b border-accent">
-            <nav className="flex space-x-8 px-8 overflow-x-auto">
+            <nav className="flex space-x-6 px-6 overflow-x-auto scrollbar-hide">
               {tabs.map((tab)=> (
                 <button
                   key={tab.id}
                   onClick={()=> setActiveTab(tab.id)}
-                  className={`py-4 px-2 border-b-2 font-medium text-sm transition-colors duration-200 whitespace-nowrap ${
+                  className={`py-4 px-1 border-b-2 font-semibold text-sm transition-all duration-200 whitespace-nowrap ${
                     activeTab===tab.id
                       ? 'border-primary text-primary'
-                      : 'border-transparent text-text-primary hover:text-primary'
+                      : 'border-transparent text-text-light hover:text-text-primary'
                   }`}
                 >
                   <div className="flex items-center space-x-2">

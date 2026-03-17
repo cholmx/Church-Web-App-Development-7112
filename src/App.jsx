@@ -1,4 +1,5 @@
-import {HashRouter as Router,Routes,Route} from 'react-router-dom'
+import {HashRouter as Router,Routes,Route,useLocation} from 'react-router-dom'
+import {AnimatePresence,motion} from 'framer-motion'
 
 import Home from './pages/Home'
 import About from './pages/About'
@@ -25,11 +26,28 @@ import NotFound from './pages/NotFound'
 
 import './App.css'
 
-function App() {
+const pageVariants = {
+  initial: {opacity: 0, y: 16},
+  animate: {opacity: 1, y: 0},
+  exit: {opacity: 0, y: -8},
+}
+
+const pageTransition = {duration: 0.28, ease: [0.4, 0, 0.2, 1]}
+
+const AnimatedRoutes = () => {
+  const location = useLocation()
   return (
-    <Router>
-      <div className="min-h-screen bg-accent">
-        <Routes>
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={location.pathname}
+        variants={pageVariants}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        transition={pageTransition}
+        style={{minHeight: '100vh'}}
+      >
+        <Routes location={location}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
@@ -54,6 +72,16 @@ function App() {
           <Route path="/growth-campaign" element={<CapitalCampaign />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+      </motion.div>
+    </AnimatePresence>
+  )
+}
+
+function App() {
+  return (
+    <Router>
+      <div className="min-h-screen bg-accent">
+        <AnimatedRoutes />
       </div>
     </Router>
   )

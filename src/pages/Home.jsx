@@ -78,7 +78,7 @@ const Home=()=> {
   ];
 
   const SkeletonButton=()=> (
-    <div className="bg-accent-dark rounded-2xl animate-pulse w-[160px] h-[120px] md:w-[225px] md:h-[150px] p-4 flex flex-col items-center justify-center">
+    <div className="bg-accent-dark rounded-2xl animate-pulse w-full min-h-[110px] md:min-h-[140px] p-4 flex flex-col items-center justify-center">
       <div className="w-8 h-8 bg-accent rounded-full mb-3"></div>
       <div className="h-4 bg-accent rounded w-20 mb-2"></div>
       <div className="h-3 bg-accent rounded w-24"></div>
@@ -86,7 +86,7 @@ const Home=()=> {
   );
 
   const SkeletonQuickLink=()=> (
-    <div className="bg-accent-dark rounded-xl animate-pulse w-[120px] h-[60px] md:w-[140px] md:h-[70px]">
+    <div className="bg-accent-dark rounded-xl animate-pulse w-[130px] h-[48px] md:w-[150px]">
     </div>
   );
 
@@ -205,7 +205,7 @@ const Home=()=> {
 const HomeButton = ({ title, description, icon, path, isFeatured = false, isInternal = true, delay = 0, gradient = false, isYellow = false }) => {
   const baseClasses = isFeatured
     ? "relative overflow-hidden p-4 md:p-5 rounded-2xl border border-white/10 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block group w-full"
-    : "relative overflow-hidden p-4 rounded-2xl border border-white/10 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-[160px] h-[120px] md:w-[225px] md:h-[150px]";
+    : "relative overflow-hidden p-4 rounded-2xl border border-white/10 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-full min-h-[110px] md:min-h-[140px]";
 
   const featuredClasses = gradient ? "" : "text-white";
   const mainClasses = "bg-brand-blue text-white";

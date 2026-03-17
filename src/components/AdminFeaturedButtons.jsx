@@ -139,7 +139,7 @@ const AdminFeaturedButtons=()=> {
         <h2 className="text-2xl text-text-primary">Manage Featured Buttons</h2>
         <button
           onClick={()=> setShowForm(true)}
-          className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors inline-flex items-center space-x-2"
+          className="admin-btn-primary"
         >
           <SafeIcon icon={FiPlus} className="h-4 w-4" />
           <span>New Button</span>
@@ -151,38 +151,38 @@ const AdminFeaturedButtons=()=> {
           <motion.div
             initial={{opacity: 0,y: 20}}
             animate={{opacity: 1,y: 0}}
-            className="bg-white rounded-lg shadow-md p-6"
+            className="admin-card"
           >
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2">Title *</label>
+                <label className="admin-label">Title *</label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e)=> setFormData({...formData,title: e.target.value})}
                   required
-                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="admin-input"
                   placeholder="Overflow Signup"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2">Description <span className="text-text-light font-normal">(optional)</span></label>
+                <label className="admin-label">Description <span className="text-text-light font-normal">(optional)</span></label>
                 <input
                   type="text"
                   value={formData.description}
                   onChange={(e)=> setFormData({...formData,description: e.target.value})}
-                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="admin-input"
                   placeholder="Monthly service commitment"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2">Link *</label>
+                <label className="admin-label">Link *</label>
                 <input
                   type="text"
                   value={formData.path}
                   onChange={(e)=> setFormData({...formData,path: e.target.value})}
                   required
-                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="admin-input"
                   placeholder="/overflow-signup or https://example.com"
                 />
                 <p className="text-xs text-text-light mt-1">Use a path like /page-name for internal pages, or a full URL for external links</p>
@@ -202,7 +202,7 @@ const AdminFeaturedButtons=()=> {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50 inline-flex items-center space-x-2"
+                  className="admin-btn-primary"
                 >
                   <SafeIcon icon={FiSave} className="h-4 w-4" />
                   <span>{editingId ? 'Update' : 'Create'}</span>
@@ -210,7 +210,7 @@ const AdminFeaturedButtons=()=> {
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors inline-flex items-center space-x-2"
+                  className="admin-btn-secondary"
                 >
                   <SafeIcon icon={FiX} className="h-4 w-4" />
                   <span>Cancel</span>
@@ -222,7 +222,7 @@ const AdminFeaturedButtons=()=> {
       )}
 
       <LoadingTransition isLoading={loading && !showForm} skeleton={<SkeletonTable rows={3} columns={3} />}>
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-modern overflow-hidden">
           {buttons.length===0 ? (
             <div className="p-8 text-center">
               <p className="text-text-primary">No featured buttons yet.</p>
@@ -254,13 +254,13 @@ const AdminFeaturedButtons=()=> {
                       </button>
                       <button
                         onClick={()=> handleEdit(button)}
-                        className="p-2 text-primary hover:bg-primary hover:text-white rounded-lg transition-colors"
+                        className="admin-btn-edit"
                       >
                         <SafeIcon icon={FiEdit} className="h-4 w-4" />
                       </button>
                       <button
                         onClick={()=> handleDelete(button.id)}
-                        className="p-2 text-red-500 hover:bg-red-500 hover:text-white rounded-lg transition-colors"
+                        className="admin-btn-danger"
                       >
                         <SafeIcon icon={FiTrash2} className="h-4 w-4" />
                       </button>

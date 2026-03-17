@@ -4,7 +4,7 @@ import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 
-const {FiCalendar, FiClock, FiMapPin, FiUsers, FiFilter, FiHome} = FiIcons;
+const {FiCalendar, FiClock, FiMapPin, FiUsers, FiFilter, FiHome, FiSearch} = FiIcons;
 
 const Events = () => {
   const [filter, setFilter] = useState('all');
@@ -168,9 +168,11 @@ const Events = () => {
                 initial={{opacity: 0, y: 30}}
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.5, delay: index * 0.1}}
-                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                className="bg-white rounded-2xl shadow-modern overflow-hidden hover:shadow-modern-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
               >
-                <img src={event.image} alt={event.title} className="w-full h-48 object-cover" />
+                <div className="overflow-hidden">
+                  <img src={event.image} alt={event.title} className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105" />
+                </div>
                 <div className="p-6">
                   <h3 className="text-xl mb-3 text-text-primary font-fraunces">{event.title}</h3>
                   <p className="text-text-primary mb-4 font-inter">{event.description}</p>
@@ -198,9 +200,17 @@ const Events = () => {
             ))}
           </div>
           {filteredEvents.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-text-primary text-lg font-inter">No events found for the selected category.</p>
-            </div>
+            <motion.div
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              className="col-span-3 text-center py-20"
+            >
+              <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5">
+                <SafeIcon icon={FiSearch} className="h-9 w-9 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold text-text-primary mb-2">No events found</h3>
+              <p className="text-text-light">Try selecting a different category, or check back soon for upcoming events.</p>
+            </motion.div>
           )}
         </div>
       </section>

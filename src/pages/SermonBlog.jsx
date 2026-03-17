@@ -158,7 +158,7 @@ const SermonBlog=()=> {
             initial={{opacity: 0,y: 30}}
             animate={{opacity: 1,y: 0}}
             transition={{duration: 0.8,delay: 0.4}}
-            className="bg-white rounded-lg shadow-md p-6 mb-8"
+            className="bg-white rounded-2xl shadow-modern p-6 mb-8"
           >
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center space-x-2">
@@ -233,20 +233,19 @@ const SermonBlog=()=> {
         {/* Sermons List */}
         <div className="space-y-12">
           {currentSermons.length===0 ? (
-            <div className="text-center py-12">
-              <SafeIcon
-                icon={FiPlay}
-                className="h-16 w-16 text-text-light mx-auto mb-4"
-              />
-              <h2 className="text-xl font-semibold text-text-primary mb-2 font-inter">
-                {selectedSeries===''
-                  ? 'No sermons yet'
-                  : 'No sermons in this series'}
+            <motion.div
+              initial={{opacity: 0,y: 20}}
+              animate={{opacity: 1,y: 0}}
+              className="bg-white rounded-2xl shadow-modern p-16 text-center"
+            >
+              <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5">
+                <SafeIcon icon={FiPlay} className="h-9 w-9 text-primary" />
+              </div>
+              <h2 className="text-xl font-bold text-text-primary mb-2">
+                {selectedSeries==='' ? 'No sermons yet' : 'No sermons in this series'}
               </h2>
-              <p className="text-text-light font-inter">
-                Check back soon for updates!
-              </p>
-            </div>
+              <p className="text-text-light max-w-xs mx-auto">Check back soon — new sermons will appear here after each service.</p>
+            </motion.div>
           ) : (
             currentSermons.map((sermon,index)=> (
               <motion.div
@@ -254,7 +253,7 @@ const SermonBlog=()=> {
                 initial={{opacity: 0,y: 30}}
                 animate={{opacity: 1,y: 0}}
                 transition={{duration: 0.5,delay: index * 0.1}}
-                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                className="bg-white rounded-2xl shadow-modern overflow-hidden hover:shadow-modern-lg hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="p-8">
                   {/* Sermon Header */}
@@ -355,42 +354,32 @@ const SermonBlog=()=> {
             transition={{duration: 0.5}}
             className="mt-12 flex flex-col items-center space-y-4"
           >
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-3 w-full max-w-sm">
               <button
                 onClick={()=> handlePageChange(currentPage - 1)}
                 disabled={currentPage===1}
-                className="px-4 py-2 rounded-lg bg-white text-text-primary font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary hover:text-white font-inter"
+                className="flex-1 min-h-[52px] px-5 py-3 rounded-2xl bg-white text-text-primary font-semibold text-base transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:bg-primary hover:text-white shadow-modern active:scale-95 font-inter"
               >
-                Previous
+                ← Prev
               </button>
 
-              <div className="flex space-x-2">
-                {Array.from({length: totalPages},(_, i)=> i + 1).map((pageNum)=> (
-                  <button
-                    key={pageNum}
-                    onClick={()=> handlePageChange(pageNum)}
-                    className={`w-10 h-10 rounded-lg font-medium transition-colors font-inter ${
-                      currentPage===pageNum
-                        ? 'bg-primary text-white'
-                        : 'bg-white text-text-primary hover:bg-primary hover:text-white'
-                    }`}
-                  >
-                    {pageNum}
-                  </button>
-                ))}
+              <div className="flex items-center justify-center bg-white rounded-2xl shadow-modern px-5 py-3 min-h-[52px] min-w-[90px]">
+                <span className="text-sm font-semibold text-text-primary font-inter">
+                  {currentPage} / {totalPages}
+                </span>
               </div>
 
               <button
                 onClick={()=> handlePageChange(currentPage + 1)}
                 disabled={currentPage===totalPages}
-                className="px-4 py-2 rounded-lg bg-white text-text-primary font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary hover:text-white font-inter"
+                className="flex-1 min-h-[52px] px-5 py-3 rounded-2xl bg-white text-text-primary font-semibold text-base transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:bg-primary hover:text-white shadow-modern active:scale-95 font-inter"
               >
-                Next
+                Next →
               </button>
             </div>
 
             <p className="text-sm text-text-light font-inter">
-              Showing {indexOfFirstSermon + 1}-{Math.min(indexOfLastSermon,filteredSermons.length)} of {filteredSermons.length} sermons
+              Showing {indexOfFirstSermon + 1}–{Math.min(indexOfLastSermon,filteredSermons.length)} of {filteredSermons.length} sermons
             </p>
           </motion.div>
         )}

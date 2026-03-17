@@ -271,17 +271,11 @@ const AdminSermons = () => {
           Manage Sermons
         </h2>
         <div className="space-x-2">
-          <button
-            onClick={() => setShowSeriesForm(true)}
-            className="bg-secondary text-white px-4 py-2 rounded-lg font-semibold hover:bg-secondary-dark transition-colors inline-flex items-center space-x-2 font-inter"
-          >
+          <button onClick={() => setShowSeriesForm(true)} className="admin-btn-secondary">
             <SafeIcon icon={FiLayers} className="h-4 w-4" />
             <span>New Series</span>
           </button>
-          <button
-            onClick={() => setShowForm(true)}
-            className="bg-primary text-white px-4 py-2 rounded-lg font-semibold hover:bg-primary-dark transition-colors inline-flex items-center space-x-2 font-inter"
-          >
+          <button onClick={() => setShowForm(true)} className="admin-btn-primary">
             <SafeIcon icon={FiPlus} className="h-4 w-4" />
             <span>New Sermon</span>
           </button>
@@ -290,7 +284,7 @@ const AdminSermons = () => {
 
       {/* Series Management */}
       {sermonSeries.length > 0 && (
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="admin-card">
           <h3 className="text-lg font-semibold text-text-primary mb-4 font-inter">
             Sermon Series
           </h3>
@@ -323,7 +317,7 @@ const AdminSermons = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-lg shadow-md p-6"
+          className="admin-card"
         >
           <h3 className="text-lg font-semibold text-text-primary mb-4 font-inter">
             Create New Sermon Series
@@ -331,7 +325,7 @@ const AdminSermons = () => {
           <form onSubmit={handleSeriesSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+                <label className="admin-label">
                   Series Name *
                 </label>
                 <input
@@ -339,12 +333,12 @@ const AdminSermons = () => {
                   value={seriesFormData.name}
                   onChange={(e) => setSeriesFormData({...seriesFormData, name: e.target.value})}
                   required
-                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+                  className="admin-input"
                   placeholder="e.g., Faith in Action"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+                <label className="admin-label">
                   Start Date *
                 </label>
                 <input
@@ -352,14 +346,14 @@ const AdminSermons = () => {
                   value={seriesFormData.start_date}
                   onChange={(e) => setSeriesFormData({...seriesFormData, start_date: e.target.value})}
                   required
-                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+                  className="admin-input"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+                <label className="admin-label">
                   Description
                 </label>
                 <textarea
@@ -371,14 +365,14 @@ const AdminSermons = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+                <label className="admin-label">
                   End Date (Optional)
                 </label>
                 <input
                   type="date"
                   value={seriesFormData.end_date}
                   onChange={(e) => setSeriesFormData({...seriesFormData, end_date: e.target.value})}
-                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+                  className="admin-input"
                 />
               </div>
             </div>
@@ -387,7 +381,7 @@ const AdminSermons = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-dark transition-colors disabled:opacity-50 inline-flex items-center space-x-2 font-inter"
+                className="admin-btn-primary"
               >
                 <SafeIcon icon={FiSave} className="h-4 w-4" />
                 <span>Create Series</span>
@@ -395,7 +389,7 @@ const AdminSermons = () => {
               <button
                 type="button"
                 onClick={() => setShowSeriesForm(false)}
-                className="bg-gray-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-600 transition-colors inline-flex items-center space-x-2 font-inter"
+                className="admin-btn-secondary"
               >
                 <SafeIcon icon={FiX} className="h-4 w-4" />
                 <span>Cancel</span>
@@ -410,12 +404,12 @@ const AdminSermons = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-lg shadow-md p-6"
+          className="admin-card"
         >
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+                <label className="admin-label">
                   Title *
                 </label>
                 <input
@@ -423,19 +417,19 @@ const AdminSermons = () => {
                   value={formData.title}
                   onChange={(e) => setFormData({...formData, title: e.target.value})}
                   required
-                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+                  className="admin-input"
                   placeholder="Sermon title"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+                <label className="admin-label">
                   Speaker
                 </label>
                 <input
                   type="text"
                   value={formData.speaker}
                   onChange={(e) => setFormData({...formData, speaker: e.target.value})}
-                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+                  className="admin-input"
                   placeholder="Speaker name"
                 />
               </div>
@@ -443,7 +437,7 @@ const AdminSermons = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+                <label className="admin-label">
                   Sermon Date *
                 </label>
                 <input
@@ -451,17 +445,17 @@ const AdminSermons = () => {
                   value={formData.sermon_date}
                   onChange={(e) => setFormData({...formData, sermon_date: e.target.value})}
                   required
-                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+                  className="admin-input"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+                <label className="admin-label">
                   Sermon Series
                 </label>
                 <select
                   value={formData.sermon_series_id}
                   onChange={(e) => setFormData({...formData, sermon_series_id: e.target.value})}
-                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+                  className="admin-input"
                 >
                   <option value="">Standalone Sermon</option>
                   {sermonSeries.map((series) => (
@@ -474,20 +468,20 @@ const AdminSermons = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+              <label className="admin-label">
                 YouTube URL
               </label>
               <input
                 type="url"
                 value={formData.youtube_url}
                 onChange={(e) => setFormData({...formData, youtube_url: e.target.value})}
-                className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+                className="admin-input"
                 placeholder="https://youtube.com/watch?v=..."
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+              <label className="admin-label">
                 Sermon Summary
               </label>
               <RichTextEditor
@@ -499,7 +493,7 @@ const AdminSermons = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+              <label className="admin-label">
                 Discussion Questions
               </label>
               <RichTextEditor
@@ -514,7 +508,7 @@ const AdminSermons = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-dark transition-colors disabled:opacity-50 inline-flex items-center space-x-2 font-inter"
+                className="admin-btn-primary"
               >
                 <SafeIcon icon={FiSave} className="h-4 w-4" />
                 <span>{editingId ? 'Update' : 'Create'}</span>
@@ -522,7 +516,7 @@ const AdminSermons = () => {
               <button
                 type="button"
                 onClick={handleCancel}
-                className="bg-gray-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-600 transition-colors inline-flex items-center space-x-2 font-inter"
+                className="admin-btn-secondary"
               >
                 <SafeIcon icon={FiX} className="h-4 w-4" />
                 <span>Cancel</span>
@@ -533,7 +527,7 @@ const AdminSermons = () => {
       )}
 
       {/* Sermons List */}
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-modern overflow-hidden">
         {loading ? (
           <div className="p-8 text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
@@ -575,17 +569,11 @@ const AdminSermons = () => {
                       </div>
                     )}
                   </div>
-                  <div className="flex space-x-2 ml-4">
-                    <button
-                      onClick={() => handleEdit(sermon)}
-                      className="p-2 text-primary hover:bg-primary hover:text-white rounded-lg transition-colors"
-                    >
+                  <div className="flex space-x-1 ml-4">
+                    <button onClick={() => handleEdit(sermon)} className="admin-btn-edit">
                       <SafeIcon icon={FiEdit} className="h-4 w-4" />
                     </button>
-                    <button
-                      onClick={() => handleDelete(sermon.id)}
-                      className="p-2 text-red-500 hover:bg-red-500 hover:text-white rounded-lg transition-colors"
-                    >
+                    <button onClick={() => handleDelete(sermon.id)} className="admin-btn-danger">
                       <SafeIcon icon={FiTrash2} className="h-4 w-4" />
                     </button>
                   </div>

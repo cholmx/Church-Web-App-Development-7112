@@ -131,7 +131,7 @@ const SermonPodcast=()=> {
           initial={{opacity: 0,y: 20}}
           animate={{opacity: 1,y: 0}}
           transition={{duration: 0.5,delay: 0.3}}
-          className="bg-white rounded-lg shadow-md p-4 mb-6"
+          className="bg-white rounded-2xl shadow-modern p-4 mb-6"
         >
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex items-center">
@@ -180,7 +180,7 @@ const SermonPodcast=()=> {
                   initial={{opacity: 0,y: 30}}
                   animate={{opacity: 1,y: 0}}
                   transition={{duration: 0.5,delay: index * 0.05}}
-                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                  className="bg-white rounded-2xl shadow-modern overflow-hidden hover:shadow-modern-lg hover:-translate-y-1 transition-all duration-300"
                 >
                   <div className="p-6">
                     <div className="flex items-start space-x-4">

@@ -142,7 +142,7 @@ const AdminStaffContacts=()=> {
         <h2 className="text-2xl text-text-primary">Manage Staff Contacts</h2>
         <button
           onClick={()=> setShowForm(true)}
-          className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors inline-flex items-center space-x-2"
+          className="admin-btn-primary"
         >
           <SafeIcon icon={FiPlus} className="h-4 w-4" />
           <span>New Staff Contact</span>
@@ -154,36 +154,36 @@ const AdminStaffContacts=()=> {
           <motion.div
             initial={{opacity: 0,y: 20}}
             animate={{opacity: 1,y: 0}}
-            className="bg-white rounded-lg shadow-md p-6"
+            className="admin-card"
           >
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">Full Name *</label>
+                  <label className="admin-label">Full Name *</label>
                   <input
                     type="text"
                     value={formData.name}
                     onChange={(e)=> setFormData({...formData,name: e.target.value})}
                     required
-                    className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    className="admin-input"
                     placeholder="e.g., John Smith"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">Job Title *</label>
+                  <label className="admin-label">Job Title *</label>
                   <input
                     type="text"
                     value={formData.title}
                     onChange={(e)=> setFormData({...formData,title: e.target.value})}
                     required
-                    className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    className="admin-input"
                     placeholder="e.g., Administrative Pastor"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2">Email Address *</label>
+                <label className="admin-label">Email Address *</label>
                 <div className="relative">
                   <SafeIcon icon={FiMail} className="absolute left-3 top-3 h-5 w-5 text-text-light" />
                   <input
@@ -191,7 +191,7 @@ const AdminStaffContacts=()=> {
                     value={formData.email}
                     onChange={(e)=> setFormData({...formData,email: e.target.value})}
                     required
-                    className="pl-10 w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    className="admin-input pl-10"
                     placeholder="staff@urfellowship.com"
                   />
                 </div>
@@ -212,7 +212,7 @@ const AdminStaffContacts=()=> {
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="px-4 py-2 border border-accent-dark rounded-lg text-text-primary hover:bg-accent transition-colors inline-flex items-center space-x-2"
+                  className="admin-btn-secondary"
                 >
                   <SafeIcon icon={FiX} className="h-4 w-4" />
                   <span>Cancel</span>
@@ -220,7 +220,7 @@ const AdminStaffContacts=()=> {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors inline-flex items-center space-x-2 disabled:opacity-50"
+                  className="admin-btn-primary"
                 >
                   <SafeIcon icon={FiSave} className="h-4 w-4" />
                   <span>{editingId ? 'Update' : 'Create'} Staff Contact</span>
@@ -232,7 +232,7 @@ const AdminStaffContacts=()=> {
       )}
 
       <LoadingTransition isLoading={loading} skeleton={<SkeletonTable />}>
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-modern overflow-hidden">
           {staffContacts.length===0 ? (
             <div className="p-12 text-center">
               <SafeIcon icon={FiUsers} className="h-12 w-12 text-text-light mx-auto mb-3" />

@@ -158,3 +158,50 @@
 .rich-text-editor u {
   text-decoration: underline !important;
 }
+
+/* Shared admin form styles */
+@layer components {
+  .admin-input {
+    @apply w-full p-3 border border-accent-dark rounded-xl bg-white text-text-primary placeholder-text-light transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary;
+  }
+  .admin-label {
+    @apply block text-sm font-semibold text-text-primary mb-1.5;
+  }
+  .admin-card {
+    @apply bg-white rounded-2xl shadow-modern p-6;
+  }
+  .admin-btn-primary {
+    @apply bg-primary text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-primary/90 active:scale-95 transition-all duration-200 inline-flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .admin-btn-secondary {
+    @apply bg-secondary/10 text-secondary px-5 py-2.5 rounded-xl font-semibold hover:bg-secondary/20 active:scale-95 transition-all duration-200 inline-flex items-center space-x-2;
+  }
+  .admin-btn-danger {
+    @apply p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors;
+  }
+  .admin-btn-edit {
+    @apply p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors;
+  }
+}
+
+/* Global input focus ring */
+input:focus, textarea:focus, select:focus {
+  @apply outline-none ring-2 ring-primary/40 border-primary;
+}
+
+@layer components {
+  .form-input {
+    @apply w-full p-3 border border-accent-dark rounded-xl bg-white text-text-primary placeholder-text-light transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary;
+  }
+  .form-label {
+    @apply block text-sm font-semibold text-text-primary mb-1.5;
+  }
+  .form-section {
+    @apply bg-accent/50 rounded-2xl p-5 space-y-4 border border-accent-dark/30;
+  }
+  .form-section-title {
+    @apply text-xs font-bold uppercase tracking-widest text-primary mb-0;
+  }
+}

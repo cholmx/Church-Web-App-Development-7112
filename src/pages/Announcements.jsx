@@ -91,11 +91,17 @@ const Announcements=()=> {
         >
           <div className="space-y-8">
             {announcements.length===0 ? (
-              <div className="text-center py-12">
-                <SafeIcon icon={FiBell} className="h-16 w-16 text-text-light mx-auto mb-4" />
-                <p className="text-xl">No announcements yet</p>
-                <p className="text-text-light">Check back soon for updates!</p>
-              </div>
+              <motion.div
+                initial={{opacity: 0,y: 20}}
+                animate={{opacity: 1,y: 0}}
+                className="bg-white rounded-2xl shadow-modern p-16 text-center"
+              >
+                <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5">
+                  <SafeIcon icon={FiBell} className="h-9 w-9 text-primary" />
+                </div>
+                <h3 className="text-xl font-bold text-text-primary mb-2">Nothing here yet</h3>
+                <p className="text-text-light max-w-xs mx-auto">Check back soon — new announcements will appear here when they're posted.</p>
+              </motion.div>
             ) : (
               announcements.map((announcement,index)=> (
                 <motion.div

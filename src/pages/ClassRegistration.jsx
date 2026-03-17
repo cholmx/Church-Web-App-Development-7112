@@ -81,17 +81,15 @@ const ClassRegistration=()=> {
         {/* Classes List */}
         {classes.length===0 ? (
           <motion.div
-            initial={{opacity: 0,y: 30}}
+            initial={{opacity: 0,y: 20}}
             animate={{opacity: 1,y: 0}}
-            className="bg-white rounded-lg shadow-md p-12 text-center"
+            className="bg-white rounded-2xl shadow-modern p-16 text-center"
           >
-            <SafeIcon icon={FiBookOpen} className="h-16 w-16 text-text-light mx-auto mb-4" />
-            <h2 className="text-2xl mb-2">
-              No Classes Available
-            </h2>
-            <p className="text-text-light">
-              Check back soon for upcoming classes!
-            </p>
+            <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5">
+              <SafeIcon icon={FiBookOpen} className="h-9 w-9 text-primary" />
+            </div>
+            <h2 className="text-xl font-bold text-text-primary mb-2">No Classes Available</h2>
+            <p className="text-text-light max-w-xs mx-auto">Check back soon — upcoming classes with registration will appear here.</p>
           </motion.div>
         ) : (
           <div className={classes.length===1 ? "max-w-2xl mx-auto" : "grid grid-cols-1 md:grid-cols-2 gap-8"}>

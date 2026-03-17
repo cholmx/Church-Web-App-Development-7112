@@ -601,7 +601,7 @@ className="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-g
 )}
 <button
 onClick={()=> setShowCategoryForm(true)}
-className="bg-secondary text-white px-4 py-2 rounded-lg font-semibold hover:bg-secondary-dark transition-colors inline-flex items-center space-x-2 font-inter"
+className="admin-btn-secondary"
 >
 <SafeIcon icon={FiTag} className="h-4 w-4" />
 <span>New Category</span>
@@ -621,7 +621,7 @@ className="bg-primary text-white px-4 py-2 rounded-lg font-semibold hover:bg-pri
 <motion.div
 initial={{opacity: 0,y: 20}}
 animate={{opacity: 1,y: 0}}
-className="bg-white rounded-lg shadow-md p-6"
+className="admin-card"
 >
 <h3 className="text-lg font-semibold text-text-primary mb-4 font-inter">
 Bulk Import Book Recommendations
@@ -654,7 +654,7 @@ https://www.amazon.com/Mere-Christianity-C-S-Lewis/dp/0060652926`}
 
 <div className="space-y-4">
 <div>
-<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+<label className="admin-label">
 Upload Text File (.txt)
 </label>
 <input
@@ -662,19 +662,19 @@ type="file"
 accept=".txt"
 onChange={handleFileUpload}
 disabled={importing}
-className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+className="admin-input"
 />
 </div>
 
 <div>
-<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+<label className="admin-label">
 Or Paste Text Here
 </label>
 <textarea
 value={importText}
 onChange={(e)=> setImportText(e.target.value)}
 rows={10}
-className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none font-inter"
+className="admin-input resize-none"
 placeholder="Paste your book recommendations here using the format shown above..."
 />
 </div>
@@ -683,7 +683,7 @@ placeholder="Paste your book recommendations here using the format shown above..
 <button
 onClick={handleBulkImport}
 disabled={importing || !importText.trim()}
-className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-dark transition-colors disabled:opacity-50 inline-flex items-center space-x-2 font-inter"
+className="admin-btn-primary"
 >
 <SafeIcon icon={FiUpload} className="h-4 w-4" />
 <span>{importing ? 'Importing...' : 'Import All'}</span>
@@ -693,7 +693,7 @@ onClick={()=> {
 setShowBulkImport(false);
 setImportText('');
 }}
-className="bg-gray-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-600 transition-colors inline-flex items-center space-x-2 font-inter"
+className="admin-btn-secondary"
 >
 <SafeIcon icon={FiX} className="h-4 w-4" />
 <span>Cancel</span>
@@ -721,7 +721,7 @@ Resource Categories
 
 {/* Categories Management */}
 {categories.length > 0 && (
-<div className="bg-white rounded-lg shadow-md p-6">
+<div className="admin-card">
 <h3 className="text-lg font-semibold text-text-primary mb-4 font-inter">
 Categories ({categories.length})
 </h3>
@@ -771,14 +771,14 @@ className="text-red-500 hover:text-red-700 ml-2"
 <motion.div
 initial={{opacity: 0,y: 20}}
 animate={{opacity: 1,y: 0}}
-className="bg-white rounded-lg shadow-md p-6"
+className="admin-card"
 >
 <h3 className="text-lg font-semibold text-text-primary mb-4 font-inter">
 Create New Category
 </h3>
 <form onSubmit={handleCategorySubmit} className="space-y-4">
 <div>
-<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+<label className="admin-label">
 Category Name *
 </label>
 <input
@@ -786,13 +786,13 @@ type="text"
 value={categoryFormData.name}
 onChange={(e)=> setCategoryFormData({...categoryFormData,name: e.target.value})}
 required
-className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+className="admin-input"
 placeholder="e.g., Biblical Studies, Useful Links"
 />
 </div>
 
 <div>
-<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+<label className="admin-label">
 Category Type *
 </label>
 <div className="space-y-2">
@@ -826,14 +826,14 @@ className="w-4 h-4 text-primary focus:ring-primary"
 </div>
 
 <div>
-<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+<label className="admin-label">
 Description
 </label>
 <textarea
 value={categoryFormData.description}
 onChange={(e)=> setCategoryFormData({...categoryFormData,description: e.target.value})}
 rows={3}
-className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none font-inter"
+className="admin-input resize-none"
 placeholder="Brief description of this category"
 />
 </div>
@@ -842,7 +842,7 @@ placeholder="Brief description of this category"
 <button
 type="submit"
 disabled={loading}
-className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-dark transition-colors disabled:opacity-50 inline-flex items-center space-x-2 font-inter"
+className="admin-btn-primary"
 >
 <SafeIcon icon={FiSave} className="h-4 w-4" />
 <span>Create Category</span>
@@ -850,7 +850,7 @@ className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-pri
 <button
 type="button"
 onClick={()=> setShowCategoryForm(false)}
-className="bg-gray-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-600 transition-colors inline-flex items-center space-x-2 font-inter"
+className="admin-btn-secondary"
 >
 <SafeIcon icon={FiX} className="h-4 w-4" />
 <span>Cancel</span>
@@ -865,12 +865,12 @@ className="bg-gray-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gr
 <motion.div
 initial={{opacity: 0,y: 20}}
 animate={{opacity: 1,y: 0}}
-className="bg-white rounded-lg shadow-md p-6"
+className="admin-card"
 >
 <form onSubmit={handleSubmit} className="space-y-4">
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 <div>
-<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+<label className="admin-label">
 Title *
 </label>
 <input
@@ -878,32 +878,32 @@ type="text"
 value={formData.title}
 onChange={(e)=> setFormData({...formData,title: e.target.value})}
 required
-className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+className="admin-input"
 placeholder="Book title or link name"
 />
 </div>
 <div>
-<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+<label className="admin-label">
 Author
 </label>
 <input
 type="text"
 value={formData.author}
 onChange={(e)=> setFormData({...formData,author: e.target.value})}
-className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+className="admin-input"
 placeholder="Author name (for books)"
 />
 </div>
 </div>
 
 <div>
-<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+<label className="admin-label">
 Category
 </label>
 <select
 value={formData.category_id}
 onChange={(e)=> setFormData({...formData,category_id: e.target.value})}
-className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+className="admin-input"
 >
 <option value="">Uncategorized</option>
 {categories.map((category)=> (
@@ -915,20 +915,20 @@ className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ri
 </div>
 
 <div>
-<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+<label className="admin-label">
 Description
 </label>
 <textarea
 value={formData.description}
 onChange={(e)=> setFormData({...formData,description: e.target.value})}
 rows={4}
-className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none font-inter"
+className="admin-input resize-none"
 placeholder="Brief description (optional)"
 />
 </div>
 
 <div>
-<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+<label className="admin-label">
 Links * <span className="text-sm text-text-light">(one per line for multiple links)</span>
 </label>
 <textarea
@@ -936,7 +936,7 @@ value={formData.amazon_link}
 onChange={(e)=> setFormData({...formData,amazon_link: e.target.value})}
 required
 rows={4}
-className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none font-inter"
+className="admin-input resize-none"
 placeholder={`https://www.amazon.com/dp/...
 https://www.barnesandnoble.com/...
 https://www.christianbook.com/...`}
@@ -944,14 +944,14 @@ https://www.christianbook.com/...`}
 </div>
 
 <div>
-<label className="block text-sm font-medium text-text-primary mb-2 font-inter">
+<label className="admin-label">
 Image URL
 </label>
 <input
 type="url"
 value={formData.image_url}
 onChange={(e)=> setFormData({...formData,image_url: e.target.value})}
-className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-inter"
+className="admin-input"
 placeholder="https://example.com/image.jpg (optional)"
 />
 </div>
@@ -960,7 +960,7 @@ placeholder="https://example.com/image.jpg (optional)"
 <button
 type="submit"
 disabled={loading}
-className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-dark transition-colors disabled:opacity-50 inline-flex items-center space-x-2 font-inter"
+className="admin-btn-primary"
 >
 <SafeIcon icon={FiSave} className="h-4 w-4" />
 <span>{editingId ? 'Update' : 'Create'}</span>
@@ -968,7 +968,7 @@ className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-pri
 <button
 type="button"
 onClick={handleCancel}
-className="bg-gray-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-600 transition-colors inline-flex items-center space-x-2 font-inter"
+className="admin-btn-secondary"
 >
 <SafeIcon icon={FiX} className="h-4 w-4" />
 <span>Cancel</span>
@@ -979,7 +979,7 @@ className="bg-gray-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gr
 )}
 
 {/* Resources List */}
-<div className="bg-white rounded-lg shadow-md overflow-hidden">
+<div className="bg-white rounded-2xl shadow-modern overflow-hidden">
 {loading ? (
 <div className="p-8 text-center">
 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
@@ -1062,13 +1062,13 @@ className="bg-[#83A682] hover:bg-[#6d8a6b] text-white px-2 py-1 rounded text-xs 
 <div className="flex space-x-2 ml-4">
 <button
 onClick={()=> handleEdit(resource)}
-className="p-2 text-primary hover:bg-primary hover:text-white rounded-lg transition-colors"
+className="admin-btn-edit"
 >
 <SafeIcon icon={FiEdit} className="h-4 w-4" />
 </button>
 <button
 onClick={()=> handleDelete(resource.id)}
-className="p-2 text-red-500 hover:bg-red-500 hover:text-white rounded-lg transition-colors"
+className="admin-btn-danger"
 >
 <SafeIcon icon={FiTrash2} className="h-4 w-4" />
 </button>

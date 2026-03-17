@@ -211,7 +211,7 @@ const AdminMinistries=()=> {
         <h2 className="text-2xl text-text-primary">Manage Opportunities</h2>
         <button
           onClick={()=> setShowForm(true)}
-          className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors inline-flex items-center space-x-2"
+          className="admin-btn-primary"
         >
           <SafeIcon icon={FiPlus} className="h-4 w-4" />
           <span>New Opportunity</span>
@@ -223,23 +223,23 @@ const AdminMinistries=()=> {
           <motion.div
             initial={{opacity: 0,y: 20}}
             animate={{opacity: 1,y: 0}}
-            className="bg-white rounded-lg shadow-md p-6"
+            className="admin-card"
           >
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2">Title *</label>
+                <label className="admin-label">Title *</label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e)=> setFormData({...formData,title: e.target.value})}
                   required
-                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="admin-input"
                   placeholder="Opportunity name"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2">Opportunities *</label>
+                <label className="admin-label">Opportunities *</label>
                 <RichTextEditor
                   value={formData.description}
                   onChange={(e)=> setFormData({...formData,description: e.target.value})}
@@ -263,7 +263,7 @@ const AdminMinistries=()=> {
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="px-4 py-2 border border-accent-dark rounded-lg text-text-primary hover:bg-accent transition-colors inline-flex items-center space-x-2"
+                  className="admin-btn-secondary"
                 >
                   <SafeIcon icon={FiX} className="h-4 w-4" />
                   <span>Cancel</span>
@@ -271,7 +271,7 @@ const AdminMinistries=()=> {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors inline-flex items-center space-x-2 disabled:opacity-50"
+                  className="admin-btn-primary"
                 >
                   <SafeIcon icon={FiSave} className="h-4 w-4" />
                   <span>{editingId ? 'Update' : 'Create'} Opportunity</span>
@@ -283,7 +283,7 @@ const AdminMinistries=()=> {
       )}
 
       <LoadingTransition isLoading={loading} skeleton={<SkeletonTable />}>
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-modern overflow-hidden">
           {ministries.length===0 ? (
             <div className="p-12 text-center">
               <SafeIcon icon={FiHeart} className="h-12 w-12 text-text-light mx-auto mb-3" />

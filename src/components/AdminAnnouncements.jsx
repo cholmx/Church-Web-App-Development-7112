@@ -120,7 +120,7 @@ const AdminAnnouncements=()=> {
         <h2 className="text-2xl text-text-primary">Manage Announcements</h2>
         <button
           onClick={()=> setShowForm(true)}
-          className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors inline-flex items-center space-x-2"
+          className="admin-btn-primary"
         >
           <SafeIcon icon={FiPlus} className="h-4 w-4" />
           <span>New Announcement</span>
@@ -133,34 +133,34 @@ const AdminAnnouncements=()=> {
           <motion.div
             initial={{opacity: 0,y: 20}}
             animate={{opacity: 1,y: 0}}
-            className="bg-white rounded-lg shadow-md p-6"
+            className="admin-card"
           >
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">Title *</label>
+                  <label className="admin-label">Title *</label>
                   <input
                     type="text"
                     value={formData.title}
                     onChange={(e)=> setFormData({...formData,title: e.target.value})}
                     required
-                    className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    className="admin-input"
                     placeholder="Announcement title"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">Date *</label>
+                  <label className="admin-label">Date *</label>
                   <input
                     type="date"
                     value={formData.announcement_date}
                     onChange={(e)=> setFormData({...formData,announcement_date: e.target.value})}
                     required
-                    className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    className="admin-input"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2">Content *</label>
+                <label className="admin-label">Content *</label>
                 <RichTextEditor
                   value={formData.content}
                   onChange={handleContentChange}
@@ -169,29 +169,21 @@ const AdminAnnouncements=()=> {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-text-primary mb-2">Author</label>
+                <label className="admin-label">Author</label>
                 <input
                   type="text"
                   value={formData.author}
                   onChange={(e)=> setFormData({...formData,author: e.target.value})}
-                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="admin-input"
                   placeholder="Author name (optional)"
                 />
               </div>
-              <div className="flex space-x-4">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50 inline-flex items-center space-x-2"
-                >
+              <div className="flex space-x-3">
+                <button type="submit" disabled={loading} className="admin-btn-primary">
                   <SafeIcon icon={FiSave} className="h-4 w-4" />
                   <span>{editingId ? 'Update' : 'Create'}</span>
                 </button>
-                <button
-                  type="button"
-                  onClick={handleCancel}
-                  className="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors inline-flex items-center space-x-2"
-                >
+                <button type="button" onClick={handleCancel} className="admin-btn-secondary">
                   <SafeIcon icon={FiX} className="h-4 w-4" />
                   <span>Cancel</span>
                 </button>
@@ -203,7 +195,7 @@ const AdminAnnouncements=()=> {
 
       {/* Announcements List with Loading */}
       <LoadingTransition isLoading={loading && !showForm} skeleton={<SkeletonTable rows={5} columns={4} />}>
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-modern overflow-hidden">
           {announcements.length===0 ? (
             <div className="p-8 text-center">
               <p className="text-text-primary">No announcements yet.</p>
@@ -233,17 +225,11 @@ const AdminAnnouncements=()=> {
                           : formatDate(announcement.created_at)}
                       </div>
                     </div>
-                    <div className="flex space-x-2 ml-4">
-                      <button
-                        onClick={()=> handleEdit(announcement)}
-                        className="p-2 text-primary hover:bg-primary hover:text-white rounded-lg transition-colors"
-                      >
+                    <div className="flex space-x-1 ml-4">
+                      <button onClick={()=> handleEdit(announcement)} className="admin-btn-edit">
                         <SafeIcon icon={FiEdit} className="h-4 w-4" />
                       </button>
-                      <button
-                        onClick={()=> handleDelete(announcement.id)}
-                        className="p-2 text-red-500 hover:bg-red-500 hover:text-white rounded-lg transition-colors"
-                      >
+                      <button onClick={()=> handleDelete(announcement.id)} className="admin-btn-danger">
                         <SafeIcon icon={FiTrash2} className="h-4 w-4" />
                       </button>
                     </div>
