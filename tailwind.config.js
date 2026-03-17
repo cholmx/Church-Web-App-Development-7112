@@ -26,7 +26,7 @@ export default {
       },
       fontFamily: {
         'sans': ['Inter', 'sans-serif'],
-        'heading': ['Inter Tight', 'sans-serif'],
+        'heading': ['League Spartan', 'sans-serif'],
         'display': ['Fraunces', 'serif'],
       },
       borderRadius: {

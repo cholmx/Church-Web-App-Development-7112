@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700;800;900&family=Fraunces:wght@300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700;800;900&family=Fraunces:wght@300..900&family=League+Spartan:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,7 +10,11 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-black text-text-primary;
+    @apply font-heading font-black text-text-primary uppercase tracking-wide;
+  }
+
+  label {
+    @apply font-heading font-bold uppercase tracking-wide;
   }
 
   h1 { @apply text-4xl md:text-5xl; }
@@ -34,7 +38,7 @@
   @apply text-text-primary text-sm leading-normal;
 }
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-  @apply text-text-primary font-heading mt-4 mb-2;
+  @apply text-text-primary font-heading mt-4 mb-2 uppercase tracking-wide;
 }
 .prose h1 {
   @apply text-2xl font-bold;
