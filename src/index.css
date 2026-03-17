@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=League+Spartan:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700;800;900&family=Fraunces:wght@300..900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,14 +10,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-black text-text-primary uppercase;
-    letter-spacing: 0.02em;
-  }
-
-  label {
-    @apply font-heading font-semibold uppercase;
-    font-size: 11px;
-    letter-spacing: 0.04em;
+    @apply font-heading font-black text-text-primary;
   }
 
   h1 { @apply text-4xl md:text-5xl; }
@@ -28,11 +21,7 @@
   h6 { @apply text-base md:text-lg; }
 
   p {
-    @apply font-sans leading-normal;
-  }
-
-  input, textarea, select {
-    @apply font-sans;
+    @apply leading-normal;
   }
 
   a {
@@ -40,30 +29,21 @@
   }
 }
 
-.app-title {
-  font-family: 'League Spartan', sans-serif;
-  font-size: 24px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
 /* Prose styles for rendered HTML content */
 .prose {
   @apply text-text-primary text-sm leading-normal;
 }
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-  @apply text-text-primary font-heading mt-4 mb-2 uppercase;
-  letter-spacing: 0.02em;
+  @apply text-text-primary font-heading mt-4 mb-2;
 }
 .prose h1 {
-  @apply text-lg font-bold;
+  @apply text-2xl font-bold;
 }
 .prose h2 {
-  @apply text-base font-bold;
+  @apply text-xl font-bold;
 }
 .prose h3 {
-  @apply text-sm font-bold;
+  @apply text-lg font-bold;
 }
 .prose p {
   @apply mb-0.5 leading-normal;
@@ -104,7 +84,7 @@
 /* Custom button component styles */
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-2xl font-semibold font-heading uppercase tracking-normal transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-accent;
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-2xl font-semibold font-heading tracking-wide transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-accent;
   }
   .btn-primary {
     @apply bg-primary text-white shadow-modern hover:shadow-modern-lg hover:-translate-y-0.5;
