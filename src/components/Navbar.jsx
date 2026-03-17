@@ -24,16 +24,15 @@ const Navbar = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="bg-white shadow-lg sticky top-0 z-50">
+    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-black/5 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-3">
-            <img 
-              src="/logo.png" 
-              alt="Upper Room Fellowship" 
+            <img
+              src="/logo.png"
+              alt="Upper Room Fellowship"
               className="h-10 w-auto"
               onError={(e) => {
-                // Fallback to text logo if image fails to load
                 e.target.style.display = 'none';
                 e.target.nextSibling.style.display = 'flex';
               }}
@@ -47,15 +46,15 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
-                className={`px-3 py-2 text-sm font-medium font-heading transition-colors duration-200 ${
+                className={`px-3 py-1.5 rounded-lg text-sm font-semibold font-heading transition-all duration-200 ${
                   isActive(item.path)
-                    ? 'text-primary border-b-2 border-primary'
-                    : 'text-text-primary hover:text-primary'
+                    ? 'text-primary bg-primary/10'
+                    : 'text-text-primary hover:text-primary hover:bg-primary/8'
                 }`}
               >
                 {item.name}
@@ -67,9 +66,9 @@ const Navbar = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-text-primary hover:text-primary transition-colors duration-200"
+              className="p-2 rounded-lg text-text-primary hover:text-primary hover:bg-primary/10 transition-all duration-200"
             >
-              <SafeIcon icon={isOpen ? FiX : FiMenu} className="h-6 w-6" />
+              <SafeIcon icon={isOpen ? FiX : FiMenu} className="h-5 w-5" />
             </button>
           </div>
         </div>
@@ -79,21 +78,22 @@ const Navbar = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t border-accent"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.18 }}
+            className="md:hidden bg-white/95 backdrop-blur-md border-t border-black/5"
           >
-            <div className="px-2 pt-2 pb-3 space-y-1">
+            <div className="px-3 pt-2 pb-4 space-y-0.5">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   to={item.path}
                   onClick={() => setIsOpen(false)}
-                  className={`block px-3 py-2 text-base font-medium font-heading transition-colors duration-200 ${
+                  className={`flex items-center px-3 py-2.5 rounded-lg text-sm font-semibold font-heading transition-all duration-200 ${
                     isActive(item.path)
-                      ? 'text-primary bg-accent'
-                      : 'text-text-primary hover:text-primary hover:bg-accent-light'
+                      ? 'text-primary bg-primary/10'
+                      : 'text-text-primary hover:text-primary hover:bg-primary/8'
                   }`}
                 >
                   {item.name}

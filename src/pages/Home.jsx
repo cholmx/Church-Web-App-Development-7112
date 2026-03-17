@@ -93,16 +93,16 @@ const Home=()=> {
   return (
     <div className="min-h-screen py-12 md:py-20 bg-accent">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <header className="text-center mb-6 md:mb-8">
+        <header className="text-center mb-8 md:mb-10">
           <motion.h1
             initial={{opacity: 0,y: 20}} animate={{opacity: 1,y: 0}} transition={{duration: 0.7}}
-            className="text-3xl md:text-4xl text-text-primary"
+            className="text-3xl md:text-5xl text-text-primary tracking-tight"
           >
             Upper Room Fellowship
           </motion.h1>
           <motion.p
-            initial={{opacity: 0,y: 20}} animate={{opacity: 1,y: 0}} transition={{duration: 0.7,delay: 0.1}}
-            className="text-base md:text-lg text-text-primary mt-1"
+            initial={{opacity: 0,y: 20}} animate={{opacity: 1,y: 0}} transition={{duration: 0.7,delay: 0.12}}
+            className="text-base md:text-lg text-text-light mt-2 font-normal"
           >
             Your hub for church life
           </motion.p>
@@ -149,15 +149,17 @@ const Home=()=> {
                 </div>
               </section>
 
-              <section className="mt-12 flex flex-col items-center">
-                <motion.h3
-                  initial={{opacity: 0, y: 20}}
+              <section className="mt-14 flex flex-col items-center">
+                <motion.div
+                  initial={{opacity: 0, y: 16}}
                   animate={{opacity: 1, y: 0}}
-                  transition={{duration: 0.6, delay: 0.9}}
-                  className="text-lg text-text-primary mb-4 font-heading"
+                  transition={{duration: 0.5, delay: 0.9}}
+                  className="flex items-center gap-3 mb-5"
                 >
-                  Quick Links
-                </motion.h3>
+                  <div className="h-px w-10 bg-text-light/30"></div>
+                  <span className="text-xs uppercase tracking-widest font-semibold text-text-light font-heading">Quick Links</span>
+                  <div className="h-px w-10 bg-text-light/30"></div>
+                </motion.div>
                 <div className="flex flex-wrap justify-center gap-3">
                   {quickLinks.map((link, i) => (
                     <QuickLinkButton key={link.title} {...link} delay={1.0 + i * 0.1} />
@@ -167,19 +169,23 @@ const Home=()=> {
             </>
           )}
 
-          <motion.footer 
+          <motion.footer
             initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.8, delay: 1.2}}
             className="mt-16 text-center"
           >
-            <h3 className="text-lg text-text-primary mb-4">Follow Us</h3>
-            <div className="flex justify-center space-x-6">
+            <div className="flex items-center justify-center gap-3 mb-5">
+              <div className="h-px w-10 bg-text-light/30"></div>
+              <span className="text-xs uppercase tracking-widest font-semibold text-text-light font-heading">Follow Us</span>
+              <div className="h-px w-10 bg-text-light/30"></div>
+            </div>
+            <div className="flex justify-center space-x-3">
               {socialLinks.map((social, i) => (
                 <motion.a
                   key={social.name} href={social.url} target="_blank" rel="noopener noreferrer"
                   initial={{opacity: 0, scale: 0.8}} animate={{opacity: 1, scale: 1}} transition={{duration: 0.5, delay: 1.3 + i * 0.1}}
-                  className="text-social-green hover:text-text-primary transition-colors transform hover:scale-110"
+                  className="p-3 rounded-full bg-accent-dark hover:bg-primary/15 text-text-light hover:text-primary transition-all duration-300 hover:scale-110"
                 >
-                  <SafeIcon icon={social.icon} className="h-8 w-8" />
+                  <SafeIcon icon={social.icon} className="h-5 w-5" />
                 </motion.a>
               ))}
             </div>
@@ -198,24 +204,24 @@ const Home=()=> {
 
 const HomeButton = ({ title, description, icon, path, isFeatured = false, isInternal = true, delay = 0, gradient = false, isYellow = false }) => {
   const baseClasses = isFeatured
-    ? "relative overflow-hidden p-4 md:p-5 rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block group w-full"
-    : "relative overflow-hidden p-4 rounded-2xl shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-[160px] h-[120px] md:w-[225px] md:h-[150px]";
+    ? "relative overflow-hidden p-4 md:p-5 rounded-2xl border border-white/10 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block group w-full"
+    : "relative overflow-hidden p-4 rounded-2xl border border-white/10 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-[160px] h-[120px] md:w-[225px] md:h-[150px]";
 
   const featuredClasses = gradient ? "" : "text-white";
   const mainClasses = "bg-brand-blue text-white";
 
   const iconColor = isYellow ? 'text-text-primary' : 'text-white';
   const textColor = isYellow ? 'text-text-primary' : 'text-white';
-  const subTextColor = isYellow ? 'text-text-primary opacity-80' : 'text-white opacity-90';
-  const iconBgClass = isYellow ? 'bg-text-primary bg-opacity-10' : 'bg-white bg-opacity-20';
+  const subTextColor = isYellow ? 'text-text-primary/70' : 'text-white/75';
+  const iconBgClass = isYellow ? 'bg-black/10' : 'bg-white/15';
 
   const content = (
     <>
-      <div className={`absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isFeatured ? 'from-white/30' : 'from-white/20'}`}></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       {isFeatured ? (
         <div className="relative z-10 flex items-center justify-between">
           <div className="flex items-center space-x-3 md:space-x-4 flex-1">
-            <div className={`${iconBgClass} p-2 md:p-3 rounded-full flex-shrink-0`}>
+            <div className={`${iconBgClass} p-2.5 md:p-3 rounded-xl flex-shrink-0`}>
               <SafeIcon icon={icon} className={`h-5 w-5 md:h-6 md:w-6 ${iconColor}`} />
             </div>
             <div className="text-left flex-1 min-w-0">
@@ -223,27 +229,28 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, isInte
               <p className={`text-xs leading-tight mt-0.5 ${subTextColor}`}>{description}</p>
             </div>
           </div>
-          <div className={`flex items-center space-x-1 md:space-x-2 flex-shrink-0 ml-2 ${textColor}`}>
-            <span className="text-xs font-bold font-heading hidden md:inline">Learn More</span>
-            <SafeIcon icon={FiExternalLink} className="h-4 w-4 md:h-5 md:w-5" />
+          <div className={`flex items-center space-x-1 flex-shrink-0 ml-2 opacity-60 group-hover:opacity-100 transition-opacity duration-200 ${textColor}`}>
+            <SafeIcon icon={FiExternalLink} className="h-4 w-4" />
           </div>
         </div>
       ) : (
         <div className="relative z-10 flex flex-col items-center">
-          <SafeIcon icon={icon} className="h-6 w-6 md:h-8 md:w-8 mb-2 md:mb-3 transition-transform duration-300 group-hover:scale-110" style={{color: '#E2BA49'}} />
+          <div className="p-2.5 rounded-xl bg-white/15 mb-2.5 md:mb-3 transition-transform duration-300 group-hover:scale-110">
+            <SafeIcon icon={icon} className="h-5 w-5 md:h-6 md:w-6" style={{color: '#E2BA49'}} />
+          </div>
           <h3 className="text-sm md:text-base font-bold font-heading leading-tight text-white">{title}</h3>
-          <p className="text-xs opacity-80 leading-tight text-white">{description}</p>
+          <p className="text-xs leading-tight text-white/70 mt-0.5">{description}</p>
         </div>
       )}
     </>
   );
 
   const gradientStyle = gradient
-    ? {background: 'linear-gradient(135deg, #83A682 0%, #6B8E6A 100%)'}
+    ? {background: 'linear-gradient(135deg, #83A682 0%, #5a7a59 100%)'}
     : isYellow
       ? {backgroundColor: '#E2BA49'}
       : isFeatured
-        ? {backgroundColor: '#D77B29'}
+        ? {backgroundColor: '#C97025'}
         : {};
 
   return (
@@ -270,10 +277,10 @@ const QuickLinkButton = ({ title, icon, path, delay = 0 }) => {
       initial={{opacity: 0, y: 20}}
       animate={{opacity: 1, y: 0}}
       transition={{duration: 0.5, delay}}
-      className="relative overflow-hidden px-4 py-3 rounded-xl bg-accent-dark hover:bg-brand-blue shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 group flex items-center gap-2 w-[120px] md:w-[140px] justify-center"
+      className="relative overflow-hidden px-4 py-3 rounded-xl bg-white border border-black/8 hover:border-primary/30 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 group flex items-center gap-2.5 w-[130px] md:w-[150px] justify-center"
     >
-      <SafeIcon icon={icon} className="h-4 w-4 md:h-5 md:w-5 text-brand-yellow transition-transform duration-300 group-hover:scale-110" />
-      <span className="text-xs md:text-sm font-bold font-heading text-text-primary group-hover:text-white transition-colors duration-300">{title}</span>
+      <SafeIcon icon={icon} className="h-4 w-4 text-primary transition-transform duration-300 group-hover:scale-110 flex-shrink-0" />
+      <span className="text-xs md:text-sm font-semibold font-heading text-text-primary group-hover:text-primary transition-colors duration-200">{title}</span>
     </motion.a>
   );
 };
