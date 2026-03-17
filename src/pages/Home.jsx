@@ -138,14 +138,14 @@ const Home=()=> {
 
               <section className="flex justify-center w-full">
                 <div className="w-full max-w-[344px] md:max-w-[711px]">
-                  <div className="hidden md:grid md:grid-cols-3 gap-4 w-full">
+                  <div className="hidden md:grid md:grid-cols-3 gap-4 w-full items-stretch">
                     {mainButtons.map((button, i) => (
-                      <HomeButton key={button.title} {...button} delay={0.5 + i * 0.05} />
+                      <HomeButton key={button.title} {...button} delay={0.5 + i * 0.05} stretch />
                     ))}
                   </div>
-                  <div className="grid grid-cols-2 md:hidden gap-3 w-full">
+                  <div className="grid grid-cols-2 md:hidden gap-3 w-full items-stretch">
                     {mainButtons.map((button, i) => (
-                      <HomeButton key={button.title} {...button} delay={0.5 + i * 0.05} isLastOdd={mainButtons.length % 2 !== 0 && i === mainButtons.length - 1} />
+                      <HomeButton key={button.title} {...button} delay={0.5 + i * 0.05} isLastOdd={mainButtons.length % 2 !== 0 && i === mainButtons.length - 1} stretch />
                     ))}
                   </div>
                 </div>
@@ -204,10 +204,10 @@ const Home=()=> {
   );
 };
 
-const HomeButton = ({ title, description, icon, path, isFeatured = false, isInternal = true, delay = 0, gradient = false, isYellow = false, isLastOdd = false }) => {
+const HomeButton = ({ title, description, icon, path, isFeatured = false, isInternal = true, delay = 0, gradient = false, isYellow = false, isLastOdd = false, stretch = false }) => {
   const baseClasses = isFeatured
     ? "relative overflow-hidden p-4 md:p-5 rounded-2xl border border-white/10 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block group w-full"
-    : "relative overflow-hidden p-4 rounded-2xl border border-white/10 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-full min-h-[110px] md:min-h-[140px]";
+    : `relative overflow-hidden p-4 rounded-2xl border border-white/10 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-full${stretch ? ' h-full' : ' min-h-[110px] md:min-h-[140px]'}`;
 
   const featuredClasses = gradient ? "" : "text-white";
   const mainClasses = "bg-brand-blue text-white";
@@ -256,7 +256,7 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, isInte
         : {};
 
   return (
-    <motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay}} className={isLastOdd ? 'col-span-2' : ''}>
+    <motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay}} className={`${isLastOdd ? 'col-span-2' : ''}${stretch ? ' h-full flex flex-col' : ''}`}>
       {isInternal ? (
         <Link to={path} className={`${baseClasses} ${isFeatured ? featuredClasses : mainClasses}`} style={gradientStyle}>
           {content}
