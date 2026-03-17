@@ -41,13 +41,13 @@
   @apply text-text-primary font-heading mt-4 mb-2 uppercase tracking-wide;
 }
 .prose h1 {
-  @apply text-2xl font-bold;
+  @apply text-lg font-bold;
 }
 .prose h2 {
-  @apply text-xl font-bold;
+  @apply text-base font-bold;
 }
 .prose h3 {
-  @apply text-lg font-bold;
+  @apply text-sm font-bold;
 }
 .prose p {
   @apply mb-0.5 leading-normal;
@@ -88,7 +88,7 @@
 /* Custom button component styles */
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-2xl font-semibold font-heading tracking-wide transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-accent;
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-2xl font-semibold font-heading uppercase tracking-wide transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-accent;
   }
   .btn-primary {
     @apply bg-primary text-white shadow-modern hover:shadow-modern-lg hover:-translate-y-0.5;
