@@ -126,7 +126,7 @@ const About=()=> {
                 style={{backgroundColor: '#fcfaf2'}}
               >
                 <SafeIcon icon={value.icon} className="h-12 w-12 text-text-primary mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-3 text-text-primary">{value.title}</h3>
+                <h3 className="text-xl font-bold font-heading mb-3 text-text-primary">{value.title}</h3>
                 <p className="text-text-primary">{value.description}</p>
               </motion.div>
             ))}
@@ -152,7 +152,7 @@ const About=()=> {
               >
                 <img src={member.image} alt={member.name} className="w-full h-64 object-cover" />
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-1 text-text-primary">{member.name}</h3>
+                  <h3 className="text-xl font-bold font-heading mb-1 text-text-primary">{member.name}</h3>
                   <p className="text-primary font-medium mb-3">{member.role}</p>
                   <p className="text-text-primary">{member.bio}</p>
                 </div>

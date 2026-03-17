@@ -224,7 +224,7 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, isInte
             </div>
           </div>
           <div className={`flex items-center space-x-1 md:space-x-2 flex-shrink-0 ml-2 ${textColor}`}>
-            <span className="text-xs font-medium hidden md:inline">Learn More</span>
+            <span className="text-xs font-bold font-heading hidden md:inline">Learn More</span>
             <SafeIcon icon={FiExternalLink} className="h-4 w-4 md:h-5 md:w-5" />
           </div>
         </div>
@@ -273,7 +273,7 @@ const QuickLinkButton = ({ title, icon, path, delay = 0 }) => {
       className="relative overflow-hidden px-4 py-3 rounded-xl bg-accent-dark hover:bg-brand-blue shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 group flex items-center gap-2 w-[120px] md:w-[140px] justify-center"
     >
       <SafeIcon icon={icon} className="h-4 w-4 md:h-5 md:w-5 text-brand-yellow transition-transform duration-300 group-hover:scale-110" />
-      <span className="text-xs md:text-sm font-semibold text-text-primary group-hover:text-white transition-colors duration-300">{title}</span>
+      <span className="text-xs md:text-sm font-bold font-heading text-text-primary group-hover:text-white transition-colors duration-300">{title}</span>
     </motion.a>
   );
 };

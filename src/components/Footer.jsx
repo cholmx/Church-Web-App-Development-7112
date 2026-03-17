@@ -51,7 +51,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 font-inter">Quick Links</h3>
+            <h3 className="text-lg font-bold font-heading mb-4">Quick Links</h3>
             <ul className="space-y-2 font-inter">
               <li><Link to="/about" className="text-text-light hover:text-primary transition-colors">About Us</Link></li>
               <li><Link to="/services" className="text-text-light hover:text-primary transition-colors">Services</Link></li>
@@ -62,7 +62,7 @@ const Footer = () => {
 
           {/* Connect */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 font-inter">Connect</h3>
+            <h3 className="text-lg font-bold font-heading mb-4">Connect</h3>
             <div className="flex space-x-4">
               <a href="#" className="text-text-light hover:text-primary transition-colors">
                 <SafeIcon icon={FiFacebook} className="h-6 w-6" />
