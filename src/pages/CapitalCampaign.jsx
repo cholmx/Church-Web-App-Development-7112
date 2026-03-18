@@ -312,60 +312,60 @@ const CapitalCampaign = () => {
         >
           <button
             onClick={() => setActiveTab('living-stones')}
-            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+            className={`px-4 py-2 rounded-lg transition-all duration-300 text-sm ${
               activeTab === 'living-stones'
                 ? 'shadow-lg text-white'
                 : 'bg-white shadow-md hover:shadow-lg'
             }`}
-            style={activeTab === 'living-stones' ? { backgroundColor: '#83A682' } : {}}
+            style={{ fontFamily: "'Inter Tight', sans-serif", fontWeight: 700, ...(activeTab === 'living-stones' ? { backgroundColor: '#83A682' } : {}) }}
           >
-            <div className="flex items-center space-x-2">
-              <SafeIcon icon={FiCamera} className="h-5 w-5" />
+            <div className="flex items-center space-x-1.5">
+              <SafeIcon icon={FiCamera} className="h-4 w-4" />
               <span>Living Stones</span>
             </div>
           </button>
 
           <button
             onClick={() => setActiveTab('updates')}
-            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+            className={`px-4 py-2 rounded-lg transition-all duration-300 text-sm ${
               activeTab === 'updates'
                 ? 'shadow-lg text-white'
                 : 'bg-white shadow-md hover:shadow-lg'
             }`}
-            style={activeTab === 'updates' ? { backgroundColor: '#83A682' } : {}}
+            style={{ fontFamily: "'Inter Tight', sans-serif", fontWeight: 700, ...(activeTab === 'updates' ? { backgroundColor: '#83A682' } : {}) }}
           >
-            <div className="flex items-center space-x-2">
-              <SafeIcon icon={FiFileText} className="h-5 w-5" />
+            <div className="flex items-center space-x-1.5">
+              <SafeIcon icon={FiFileText} className="h-4 w-4" />
               <span>Updates</span>
             </div>
           </button>
 
           <button
             onClick={() => setActiveTab('vision')}
-            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+            className={`px-4 py-2 rounded-lg transition-all duration-300 text-sm ${
               activeTab === 'vision'
                 ? 'shadow-lg text-white'
                 : 'bg-white shadow-md hover:shadow-lg'
             }`}
-            style={activeTab === 'vision' ? { backgroundColor: '#83A682' } : {}}
+            style={{ fontFamily: "'Inter Tight', sans-serif", fontWeight: 700, ...(activeTab === 'vision' ? { backgroundColor: '#83A682' } : {}) }}
           >
-            <div className="flex items-center space-x-2">
-              <SafeIcon icon={FiEye} className="h-5 w-5" />
+            <div className="flex items-center space-x-1.5">
+              <SafeIcon icon={FiEye} className="h-4 w-4" />
               <span>Vision</span>
             </div>
           </button>
 
           <button
             onClick={() => setActiveTab('faqs')}
-            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+            className={`px-4 py-2 rounded-lg transition-all duration-300 text-sm ${
               activeTab === 'faqs'
                 ? 'shadow-lg text-white'
                 : 'bg-white shadow-md hover:shadow-lg'
             }`}
-            style={activeTab === 'faqs' ? { backgroundColor: '#83A682' } : {}}
+            style={{ fontFamily: "'Inter Tight', sans-serif", fontWeight: 700, ...(activeTab === 'faqs' ? { backgroundColor: '#83A682' } : {}) }}
           >
-            <div className="flex items-center space-x-2">
-              <SafeIcon icon={FiHelpCircle} className="h-5 w-5" />
+            <div className="flex items-center space-x-1.5">
+              <SafeIcon icon={FiHelpCircle} className="h-4 w-4" />
               <span>Q&A</span>
             </div>
           </button>
