@@ -285,20 +285,20 @@ const CapitalCampaign = () => {
             href="https://onrealm.org/urfellowship/give/growthcampaign"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center space-x-3 px-8 py-4 rounded-lg font-semibold text-lg text-white hover:text-white hover:scale-105 transition-all duration-300 shadow-lg"
-            style={{ backgroundColor: '#E2BA49' }}
+            className="inline-flex items-center justify-center space-x-1.5 px-4 py-2 rounded-lg text-sm text-white hover:text-white hover:scale-105 transition-all duration-300 shadow-lg"
+            style={{ backgroundColor: '#E2BA49', fontFamily: "'Inter Tight', sans-serif", fontWeight: 700 }}
           >
-            <SafeIcon icon={FiTrendingUp} className="h-6 w-6" />
+            <SafeIcon icon={FiTrendingUp} className="h-4 w-4" />
             <span>Give to the Growth Campaign</span>
           </a>
           <a
             href="https://onrealm.org/urfellowship/AddPledge/goalcard"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center space-x-3 px-8 py-4 rounded-lg font-semibold text-lg text-white hover:text-white hover:scale-105 transition-all duration-300 shadow-lg"
-            style={{ backgroundColor: '#E2BA49' }}
+            className="inline-flex items-center justify-center space-x-1.5 px-4 py-2 rounded-lg text-sm text-white hover:text-white hover:scale-105 transition-all duration-300 shadow-lg"
+            style={{ backgroundColor: '#E2BA49', fontFamily: "'Inter Tight', sans-serif", fontWeight: 700 }}
           >
-            <SafeIcon icon={FiFileText} className="h-6 w-6" />
+            <SafeIcon icon={FiFileText} className="h-4 w-4" />
             <span>Submit Your Commitment Card</span>
           </a>
         </motion.div>
