@@ -311,6 +311,21 @@ const CapitalCampaign = () => {
           className="flex flex-wrap justify-center gap-4 mb-12"
         >
           <button
+            onClick={() => setActiveTab('living-stones')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+              activeTab === 'living-stones'
+                ? 'shadow-lg text-white'
+                : 'bg-white shadow-md hover:shadow-lg'
+            }`}
+            style={activeTab === 'living-stones' ? { backgroundColor: '#83A682' } : {}}
+          >
+            <div className="flex items-center space-x-2">
+              <SafeIcon icon={FiCamera} className="h-5 w-5" />
+              <span>Living Stones</span>
+            </div>
+          </button>
+
+          <button
             onClick={() => setActiveTab('updates')}
             className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
               activeTab === 'updates'
@@ -352,21 +367,6 @@ const CapitalCampaign = () => {
             <div className="flex items-center space-x-2">
               <SafeIcon icon={FiHelpCircle} className="h-5 w-5" />
               <span>Q&A</span>
-            </div>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('living-stones')}
-            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
-              activeTab === 'living-stones'
-                ? 'shadow-lg text-white'
-                : 'bg-white shadow-md hover:shadow-lg'
-            }`}
-            style={activeTab === 'living-stones' ? { backgroundColor: '#83A682' } : {}}
-          >
-            <div className="flex items-center space-x-2">
-              <SafeIcon icon={FiCamera} className="h-5 w-5" />
-              <span>Living Stones</span>
             </div>
           </button>
         </motion.div>
