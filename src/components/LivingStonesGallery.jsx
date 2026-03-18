@@ -4,7 +4,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
 
-const { FiX, FiChevronLeft, FiChevronRight, FiUser, FiMessageSquare } = FiIcons;
+const { FiX, FiChevronLeft, FiChevronRight, FiUser, FiMessageSquare, FiCamera } = FiIcons;
 
 const LivingStonesGallery = () => {
   const [photos, setPhotos] = useState([]);
@@ -67,7 +67,7 @@ const LivingStonesGallery = () => {
   if (photos.length === 0) {
     return (
       <div className="text-center py-16">
-        <div className="text-6xl mb-4">🪨</div>
+        <SafeIcon icon={FiCamera} className="h-12 w-12 text-gray-300 mx-auto mb-4" />
         <p className="text-xl text-text-primary mb-2">No photos yet</p>
         <p className="text-text-light">Be the first to share your Living Stone!</p>
       </div>

@@ -7,7 +7,7 @@ import { SkeletonTable, SkeletonForm, LoadingTransition } from './LoadingSkeleto
 import supabase from '../lib/supabase';
 import { toTitleCase } from '../utils/textFormat';
 
-const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiFileText, FiEye, FiHelpCircle, FiCheck, FiImage } = FiIcons;
+const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiFileText, FiEye, FiHelpCircle, FiCheck, FiImage, FiCamera } = FiIcons;
 
 const AdminCapitalCampaign = () => {
   const [activeSection, setActiveSection] = useState('updates');
@@ -920,7 +920,7 @@ const AdminCapitalCampaign = () => {
           }`}
         >
           <div className="flex items-center space-x-2">
-            <span className="text-sm leading-none">🪨</span>
+            <SafeIcon icon={FiCamera} className="h-4 w-4" />
             <span>Living Stones</span>
             {pendingCount > 0 && (
               <span className="inline-flex items-center justify-center w-5 h-5 rounded-full text-xs font-bold text-white" style={{ backgroundColor: '#E2BA49' }}>

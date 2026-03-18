@@ -9,7 +9,7 @@ import supabase from '../lib/supabase';
 import LivingStonesGallery from '../components/LivingStonesGallery';
 import LivingStonesUpload from '../components/LivingStonesUpload';
 
-const { FiTrendingUp, FiHome, FiPlayCircle, FiFileText, FiEye, FiHelpCircle, FiChevronDown, FiChevronUp } = FiIcons;
+const { FiTrendingUp, FiHome, FiPlayCircle, FiFileText, FiEye, FiHelpCircle, FiChevronDown, FiChevronUp, FiCamera } = FiIcons;
 
 const CapitalCampaign = () => {
   const [updates, setUpdates] = useState([]);
@@ -365,7 +365,7 @@ const CapitalCampaign = () => {
             style={activeTab === 'living-stones' ? { backgroundColor: '#83A682' } : {}}
           >
             <div className="flex items-center space-x-2">
-              <span className="text-lg leading-none">🪨</span>
+              <SafeIcon icon={FiCamera} className="h-5 w-5" />
               <span>Living Stones</span>
             </div>
           </button>
