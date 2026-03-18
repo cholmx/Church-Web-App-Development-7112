@@ -6,6 +6,8 @@ import SafeIcon from '../common/SafeIcon';
 import { SkeletonCard, LoadingTransition } from '../components/LoadingSkeletons';
 import { useCleanContent } from '../hooks/useCleanContent';
 import supabase from '../lib/supabase';
+import LivingStonesGallery from '../components/LivingStonesGallery';
+import LivingStonesUpload from '../components/LivingStonesUpload';
 
 const { FiTrendingUp, FiHome, FiPlayCircle, FiFileText, FiEye, FiHelpCircle, FiChevronDown, FiChevronUp } = FiIcons;
 
@@ -352,6 +354,21 @@ const CapitalCampaign = () => {
               <span>Q&A</span>
             </div>
           </button>
+
+          <button
+            onClick={() => setActiveTab('living-stones')}
+            className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+              activeTab === 'living-stones'
+                ? 'shadow-lg text-white'
+                : 'bg-white shadow-md hover:shadow-lg'
+            }`}
+            style={activeTab === 'living-stones' ? { backgroundColor: '#83A682' } : {}}
+          >
+            <div className="flex items-center space-x-2">
+              <span className="text-lg leading-none">🪨</span>
+              <span>Living Stones</span>
+            </div>
+          </button>
         </motion.div>
 
         {/* Content */}
@@ -368,6 +385,22 @@ const CapitalCampaign = () => {
           {activeTab === 'updates' && renderUpdates()}
           {activeTab === 'vision' && renderVision()}
           {activeTab === 'faqs' && renderFaqs()}
+          {activeTab === 'living-stones' && (
+            <div className="space-y-10">
+              <div>
+                <div className="text-center mb-8">
+                  <h2 className="text-2xl md:text-3xl mb-3">Living Stones Gallery</h2>
+                  <p className="text-text-light max-w-xl mx-auto leading-relaxed">
+                    As part of our Growth Campaign, members of our congregation are painting stones as a symbol of our living faith. Share yours below!
+                  </p>
+                </div>
+                <LivingStonesGallery />
+              </div>
+              <div className="max-w-lg mx-auto">
+                <LivingStonesUpload />
+              </div>
+            </div>
+          )}
         </LoadingTransition>
       </div>
     </div>

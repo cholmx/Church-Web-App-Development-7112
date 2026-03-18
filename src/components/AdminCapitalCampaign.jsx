@@ -7,14 +7,17 @@ import { SkeletonTable, SkeletonForm, LoadingTransition } from './LoadingSkeleto
 import supabase from '../lib/supabase';
 import { toTitleCase } from '../utils/textFormat';
 
-const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiFileText, FiEye, FiHelpCircle } = FiIcons;
+const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiFileText, FiEye, FiHelpCircle, FiCheck, FiImage } = FiIcons;
 
 const AdminCapitalCampaign = () => {
   const [activeSection, setActiveSection] = useState('updates');
   const [updates, setUpdates] = useState([]);
   const [visionItems, setVisionItems] = useState([]);
   const [faqs, setFaqs] = useState([]);
+  const [livingStones, setLivingStones] = useState([]);
+  const [pendingCount, setPendingCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [stonesLoading, setStonesLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
@@ -45,7 +48,59 @@ const AdminCapitalCampaign = () => {
 
   useEffect(() => {
     fetchAllContent();
+    fetchLivingStones();
   }, []);
+
+  const fetchLivingStones = async () => {
+    setStonesLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('living_stones_photos')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      const photos = data || [];
+      setLivingStones(photos);
+      setPendingCount(photos.filter((p) => !p.approved).length);
+    } catch (err) {
+      console.error('Error fetching living stones photos:', err);
+    } finally {
+      setStonesLoading(false);
+    }
+  };
+
+  const handleApprovePhoto = async (id) => {
+    try {
+      const { error } = await supabase
+        .from('living_stones_photos')
+        .update({ approved: true, approved_at: new Date().toISOString() })
+        .eq('id', id);
+      if (error) throw error;
+      fetchLivingStones();
+    } catch (err) {
+      console.error('Error approving photo:', err);
+      alert('Error approving photo. Please try again.');
+    }
+  };
+
+  const handleDeletePhoto = async (id, photoUrl) => {
+    if (!confirm('Are you sure you want to delete this photo? This cannot be undone.')) return;
+    try {
+      const urlParts = photoUrl.split('/living-stones/');
+      if (urlParts.length === 2) {
+        await supabase.storage.from('living-stones').remove([urlParts[1]]);
+      }
+      const { error } = await supabase
+        .from('living_stones_photos')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
+      fetchLivingStones();
+    } catch (err) {
+      console.error('Error deleting photo:', err);
+      alert('Error deleting photo. Please try again.');
+    }
+  };
 
   const fetchAllContent = async () => {
     setLoading(true);
@@ -714,11 +769,109 @@ const AdminCapitalCampaign = () => {
     </div>
   );
 
+  const renderLivingStonesSection = () => {
+    const pending = livingStones.filter((p) => !p.approved);
+    const approved = livingStones.filter((p) => p.approved);
+
+    return (
+      <div className="space-y-8">
+        {pending.length > 0 && (
+          <div>
+            <h3 className="text-lg font-semibold text-text-primary mb-4 flex items-center space-x-2">
+              <span>Pending Review</span>
+              <span className="inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold text-white" style={{ backgroundColor: '#E2BA49' }}>
+                {pending.length}
+              </span>
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {pending.map((photo) => (
+                <div key={photo.id} className="bg-white rounded-xl shadow-md overflow-hidden">
+                  <div className="aspect-square">
+                    <img src={photo.photo_url} alt="Pending stone" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="p-3 space-y-1">
+                    {photo.submitter_name && (
+                      <p className="text-xs font-medium text-text-primary truncate">{photo.submitter_name}</p>
+                    )}
+                    {photo.caption && (
+                      <p className="text-xs text-text-light line-clamp-2">{photo.caption}</p>
+                    )}
+                    <p className="text-xs text-text-light">{formatDate(photo.created_at)}</p>
+                    <div className="flex space-x-2 pt-1">
+                      <button
+                        onClick={() => handleApprovePhoto(photo.id)}
+                        className="flex-1 flex items-center justify-center space-x-1 py-1.5 rounded-lg text-xs font-medium text-white transition-opacity hover:opacity-90"
+                        style={{ backgroundColor: '#83A682' }}
+                      >
+                        <SafeIcon icon={FiCheck} className="h-3 w-3" />
+                        <span>Approve</span>
+                      </button>
+                      <button
+                        onClick={() => handleDeletePhoto(photo.id, photo.photo_url)}
+                        className="flex-1 flex items-center justify-center space-x-1 py-1.5 rounded-lg text-xs font-medium text-white bg-red-500 hover:bg-red-600 transition-colors"
+                      >
+                        <SafeIcon icon={FiTrash2} className="h-3 w-3" />
+                        <span>Reject</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {pending.length === 0 && (
+          <div className="bg-green-50 border border-green-200 rounded-xl p-6 text-center">
+            <SafeIcon icon={FiCheck} className="h-8 w-8 mx-auto mb-2" style={{ color: '#83A682' }} />
+            <p className="text-sm font-medium" style={{ color: '#83A682' }}>All caught up! No photos pending review.</p>
+          </div>
+        )}
+
+        {approved.length > 0 && (
+          <div>
+            <h3 className="text-lg font-semibold text-text-primary mb-4">
+              Approved Photos ({approved.length})
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+              {approved.map((photo) => (
+                <div key={photo.id} className="relative group rounded-xl overflow-hidden shadow-sm aspect-square">
+                  <img src={photo.photo_url} alt="Approved stone" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <button
+                      onClick={() => handleDeletePhoto(photo.id, photo.photo_url)}
+                      className="w-9 h-9 rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center transition-colors"
+                    >
+                      <SafeIcon icon={FiTrash2} className="h-4 w-4 text-white" />
+                    </button>
+                  </div>
+                  {photo.submitter_name && (
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
+                      <p className="text-white text-xs truncate">{photo.submitter_name}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {livingStones.length === 0 && !stonesLoading && (
+          <div className="text-center py-16">
+            <SafeIcon icon={FiImage} className="h-12 w-12 text-text-light mx-auto mb-4" />
+            <p className="text-xl text-text-primary mb-2">No photos submitted yet</p>
+            <p className="text-text-light text-sm">Photos will appear here once congregation members submit them.</p>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-6">
       <h2 className="text-2xl text-text-primary">Manage Growth Campaign</h2>
 
-      <div className="flex space-x-4 border-b border-accent">
+      <div className="flex flex-wrap gap-1 border-b border-accent">
         <button
           onClick={() => setActiveSection('updates')}
           className={`px-4 py-2 font-medium transition-colors ${
@@ -758,11 +911,30 @@ const AdminCapitalCampaign = () => {
             <span>FAQs</span>
           </div>
         </button>
+        <button
+          onClick={() => setActiveSection('living-stones')}
+          className={`px-4 py-2 font-medium transition-colors relative ${
+            activeSection === 'living-stones'
+              ? 'text-primary border-b-2 border-primary'
+              : 'text-text-light hover:text-text-primary'
+          }`}
+        >
+          <div className="flex items-center space-x-2">
+            <span className="text-sm leading-none">🪨</span>
+            <span>Living Stones</span>
+            {pendingCount > 0 && (
+              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full text-xs font-bold text-white" style={{ backgroundColor: '#E2BA49' }}>
+                {pendingCount}
+              </span>
+            )}
+          </div>
+        </button>
       </div>
 
       {activeSection === 'updates' && renderUpdatesSection()}
       {activeSection === 'vision' && renderVisionSection()}
       {activeSection === 'faqs' && renderFaqsSection()}
+      {activeSection === 'living-stones' && renderLivingStonesSection()}
     </div>
   );
 };
