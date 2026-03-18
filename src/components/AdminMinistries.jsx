@@ -5,6 +5,7 @@ import SafeIcon from '../common/SafeIcon';
 import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
 import RichTextEditor from './RichTextEditor';
 import supabase from '../lib/supabase';
+import { toTitleCase } from '../utils/textFormat';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiChevronUp,FiChevronDown,FiHeart}=FiIcons;
 
@@ -62,9 +63,9 @@ const AdminMinistries=()=> {
     setLoading(true);
     try {
       const ministryData={
-        title: formData.title,
+        title: toTitleCase(formData.title),
         description: formData.description,
-        leader_name: formData.leader_name || null,
+        leader_name: formData.leader_name ? toTitleCase(formData.leader_name) : null,
         leader_role: formData.leader_role || null,
         age_group: formData.age_group,
         is_active: formData.is_active,

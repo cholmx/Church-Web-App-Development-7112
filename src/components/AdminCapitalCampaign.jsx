@@ -5,6 +5,7 @@ import SafeIcon from '../common/SafeIcon';
 import RichTextEditor from './RichTextEditor';
 import { SkeletonTable, SkeletonForm, LoadingTransition } from './LoadingSkeletons';
 import supabase from '../lib/supabase';
+import { toTitleCase } from '../utils/textFormat';
 
 const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiFileText, FiEye, FiHelpCircle } = FiIcons;
 
@@ -86,7 +87,7 @@ const AdminCapitalCampaign = () => {
     setLoading(true);
     try {
       const data = {
-        title: updateFormData.title,
+        title: toTitleCase(updateFormData.title),
         content: updateFormData.content,
         type: updateFormData.type,
         video_url: updateFormData.video_url || null,
@@ -122,7 +123,7 @@ const AdminCapitalCampaign = () => {
     setLoading(true);
     try {
       const data = {
-        title: visionFormData.title,
+        title: toTitleCase(visionFormData.title),
         content: visionFormData.content,
         image_url: visionFormData.image_url || null,
         published: visionFormData.published,

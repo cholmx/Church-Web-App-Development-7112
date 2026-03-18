@@ -5,6 +5,7 @@ import SafeIcon from '../common/SafeIcon';
 import RichTextEditor from './RichTextEditor';
 import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
 import supabase from '../lib/supabase';
+import { toTitleCase } from '../utils/textFormat';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX}=FiIcons;
 
@@ -39,9 +40,9 @@ const AdminAnnouncements=()=> {
     setLoading(true);
     try {
       const announcementData={
-        title: formData.title,
+        title: toTitleCase(formData.title),
         content: formData.content,
-        author: formData.author,
+        author: toTitleCase(formData.author),
         announcement_date: formData.announcement_date || new Date().toISOString().split('T')[0]
       };
 

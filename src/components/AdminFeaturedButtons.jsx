@@ -4,6 +4,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
 import supabase from '../lib/supabase';
+import { toTitleCase } from '../utils/textFormat';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiToggleLeft,FiToggleRight}=FiIcons;
 
@@ -44,7 +45,7 @@ const AdminFeaturedButtons=()=> {
     try {
       if (editingId) {
         const buttonData={
-          title: formData.title,
+          title: toTitleCase(formData.title),
           description: formData.description,
           path: formData.path,
           icon_name: 'FiCheck',
@@ -60,7 +61,7 @@ const AdminFeaturedButtons=()=> {
         const nextOrder=buttons.length + 1;
         const buttonData={
           button_type: autoType,
-          title: formData.title,
+          title: toTitleCase(formData.title),
           description: formData.description,
           path: formData.path,
           icon_name: 'FiCheck',

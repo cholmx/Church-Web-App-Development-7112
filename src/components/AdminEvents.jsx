@@ -5,6 +5,7 @@ import SafeIcon from '../common/SafeIcon';
 import RichTextEditor from './RichTextEditor';
 import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
 import supabase from '../lib/supabase';
+import { toTitleCase } from '../utils/textFormat';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiExternalLink}=FiIcons;
 
@@ -39,7 +40,7 @@ const AdminEvents=()=> {
     setLoading(true);
     try {
       const eventData={
-        title: formData.title,
+        title: toTitleCase(formData.title),
         details: formData.details,
         link: formData.link
       };

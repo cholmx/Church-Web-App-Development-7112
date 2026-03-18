@@ -4,6 +4,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import RichTextEditor from './RichTextEditor';
 import supabase from '../lib/supabase';
+import { toTitleCase } from '../utils/textFormat';
 
 const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiLayers, FiAlertTriangle, FiCheckCircle } = FiIcons;
 
@@ -79,8 +80,8 @@ const AdminSermons = () => {
 
     try {
       const sermonData = {
-        title: formData.title,
-        speaker: formData.speaker,
+        title: toTitleCase(formData.title),
+        speaker: toTitleCase(formData.speaker),
         sermon_date: formData.sermon_date,
         youtube_url: formData.youtube_url,
         summary: formData.summary,
@@ -133,7 +134,7 @@ const AdminSermons = () => {
 
     try {
       const seriesData = {
-        name: seriesFormData.name,
+        name: toTitleCase(seriesFormData.name),
         description: seriesFormData.description || null,
         start_date: seriesFormData.start_date,
         end_date: seriesFormData.end_date || null

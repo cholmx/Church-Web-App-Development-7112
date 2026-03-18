@@ -4,6 +4,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import RichTextEditor from './RichTextEditor';
 import supabase from '../lib/supabase';
+import { toTitleCase } from '../utils/textFormat';
 
 const {FiUpload,FiDownload,FiTrash2,FiBookOpen,FiCalendar,FiRefreshCw,FiCheckCircle,FiAlertCircle,FiPlus,FiEdit,FiSave,FiX}=FiIcons;
 
@@ -61,8 +62,8 @@ const AdminDevotionals=()=> {
     try {
       const devotionalData={
         devotional_date: formData.devotional_date,
-        title: formData.title,
-        subtitle: formData.subtitle || null,
+        title: toTitleCase(formData.title),
+        subtitle: formData.subtitle ? toTitleCase(formData.subtitle) : null,
         scripture_reference: formData.scripture_reference || null,
         content: formData.content,
         response: formData.response || null,

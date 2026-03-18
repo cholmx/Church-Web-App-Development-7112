@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
+import { toTitleCase } from '../utils/textFormat';
 
 const { FiBell, FiSend, FiUsers, FiCalendar, FiAlertTriangle, FiCheck, FiX } = FiIcons;
 
@@ -57,7 +58,7 @@ const AdminNotifications = () => {
       if ('serviceWorker' in navigator && 'showNotification' in ServiceWorkerRegistration.prototype) {
         const registration = await navigator.serviceWorker.ready;
         
-        await registration.showNotification(formData.title, {
+        await registration.showNotification(toTitleCase(formData.title), {
           body: formData.body,
           icon: '/logo.png',
           badge: '/logo.png',

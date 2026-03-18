@@ -4,6 +4,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
 import supabase from '../lib/supabase';
+import { toTitleCase } from '../utils/textFormat';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiChevronUp,FiChevronDown,FiUsers,FiMail}=FiIcons;
 
@@ -43,8 +44,8 @@ const AdminStaffContacts=()=> {
     setLoading(true);
     try {
       const staffData={
-        name: formData.name,
-        title: formData.title,
+        name: toTitleCase(formData.name),
+        title: toTitleCase(formData.title),
         email: formData.email,
         is_active: formData.is_active,
         display_order: editingId ? undefined : staffContacts.length

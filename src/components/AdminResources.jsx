@@ -3,6 +3,7 @@ import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
+import { toTitleCase } from '../utils/textFormat';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiBookOpen,FiTag,FiLink,FiAlertCircle,FiCheckCircle,FiUpload,FiDownload,FiRefreshCw}=FiIcons;
 
@@ -362,8 +363,8 @@ setSuccess('');
 
 try {
 const resourceData={
-title: formData.title,
-author: formData.author,
+title: toTitleCase(formData.title),
+author: toTitleCase(formData.author),
 description: formData.description.trim() || '', // Ensure empty string instead of null
 amazon_link: formData.amazon_link,
 category_id: formData.category_id || null,
@@ -415,7 +416,7 @@ setSuccess('');
 try {
 const {error}=await supabase
 .from('resource_categories_portal123')
-.insert([categoryFormData]);
+.insert([{ ...categoryFormData, name: toTitleCase(categoryFormData.name) }]);
 
 if (error) throw error;
 
