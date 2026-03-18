@@ -192,8 +192,8 @@ const Home=()=> {
               ))}
             </div>
             <div className="mt-12">
-              <Link to="/admin" className="inline-flex items-center space-x-2 text-text-light hover:text-text-primary transition-colors">
-                <SafeIcon icon={FiSettings} className="h-4 w-4" />
+              <Link to="/admin" className="inline-flex items-center space-x-1 text-text-light/40 hover:text-text-light transition-colors text-xs">
+                <SafeIcon icon={FiSettings} className="h-3 w-3" />
                 <span>Admin</span>
               </Link>
             </div>

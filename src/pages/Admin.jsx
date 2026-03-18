@@ -15,6 +15,7 @@ import AdminStaffContacts from '../components/AdminStaffContacts';
 import AdminCapitalCampaign from '../components/AdminCapitalCampaign';
 import AdminComments from '../components/AdminComments';
 import AdminDashboard from '../components/AdminDashboard';
+import AdminLeadershipLinks from '../components/AdminLeadershipLinks';
 
 const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid}=FiIcons;
 
@@ -55,6 +56,7 @@ const Admin=()=> {
     {id: 'featured',label: 'Featured Buttons',icon: FiStar},
     {id: 'campaign',label: 'Growth Campaign',icon: FiTrendingUp},
     {id: 'comments',label: 'Comments',icon: FiMessageSquare},
+    {id: 'links',label: 'Leadership Links',icon: FiExternalLink},
   ];
 
   const renderContent=()=> {
@@ -81,6 +83,8 @@ const Admin=()=> {
         return <AdminCapitalCampaign />;
       case 'comments':
         return <AdminComments />;
+      case 'links':
+        return <AdminLeadershipLinks />;
       default:
         return <AdminDashboard onNavigate={(tab)=> setActiveTab(tab)} />;
     }
