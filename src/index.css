@@ -7,7 +7,7 @@
 @layer base {
   body {
     @apply bg-accent text-text-primary font-sans antialiased;
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 400;
     background-image: radial-gradient(ellipse at 50% 0%, rgba(131,166,130,0.07) 0%, transparent 70%);
     background-attachment: fixed;
@@ -29,7 +29,7 @@
 
 /* Prose styles for rendered HTML content */
 .prose {
-  @apply text-text-primary text-sm leading-normal;
+  @apply text-text-primary text-base leading-normal;
 }
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
   @apply text-text-primary font-heading mt-4 mb-2;
