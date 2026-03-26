@@ -25,9 +25,9 @@ export default {
         'social-green': '#83A682',
       },
       fontFamily: {
-        'sans': ['Inter', 'sans-serif'],
-        'heading': ['Inter Tight', 'sans-serif'],
-        'display': ['Inter Tight', 'sans-serif'],
+        'sans': ['Liter', 'sans-serif'],
+        'heading': ['Rethink Sans', 'sans-serif'],
+        'display': ['Rethink Sans', 'sans-serif'],
       },
       borderRadius: {
         'xl': '1rem',
