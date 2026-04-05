@@ -58,15 +58,15 @@ const Home=()=> {
     {title: 'Sermon Blog',description: 'Weekly sermons',icon: FiFileText,path: '/sermon-blog',isInternal: true},
     {title: 'Shine Podcast',description: 'Latest episodes',icon: FiMic,path: '/shine-podcast',isInternal: true},
     {title: 'Sermon Podcast',description: 'Listen to recordings',icon: FiHeadphones,path: '/sermon-podcast',isInternal: true},
+    {title: 'Give',description: 'Support our ministry',icon: FiCreditCard,path: 'https://onrealm.org/urfellowship/-/form/give/now',isInternal: false},
     {title: 'Table Group Sign-Up',description: 'Join a small group',icon: FiUsers,path: '/table-group-signup',isInternal: true},
     ...(hasResources ? [{title: 'Resources',description: 'Helpful materials',icon: FiBookOpen,path: '/resources',isInternal: true}] : []),
     {title: 'Join Realm',description: 'Our online community',icon: FiUserPlus,path: '/join-realm',isInternal: true},
-    {title: 'Opportunities',description: 'Explore our opportunities',icon: FiHeart,path: '/ministries',isInternal: true},
-    {title: 'Contact',description: 'Get in touch with us',icon: FiMail,path: '/contact',isInternal: true}
+    {title: 'Opportunities',description: 'Explore our opportunities',icon: FiHeart,path: '/ministries',isInternal: true}
   ];
 
   const quickLinks=[
-    {title: 'Give',icon: FiCreditCard,path: 'https://onrealm.org/urfellowship/-/form/give/now'},
+    {title: 'Contact',icon: FiMail,path: '/contact',isInternal: true},
     {title: 'Realm Login',icon: FiLogIn,path: 'https://onrealm.org/urfellowship/'},
     {title: 'Church Website',icon: FiGlobe,path: 'https://urfellowship.com'}
   ];
@@ -270,20 +270,22 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, isInte
   );
 };
 
-const QuickLinkButton = ({ title, icon, path, delay = 0 }) => {
-  return (
-    <motion.a
-      href={path}
-      target="_blank"
-      rel="noopener noreferrer"
-      initial={{opacity: 0, y: 20}}
-      animate={{opacity: 1, y: 0}}
-      transition={{duration: 0.5, delay}}
-      className="relative overflow-hidden px-4 py-3 rounded-xl bg-white border border-black/8 hover:border-primary/30 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 group flex items-center gap-2.5 w-[130px] md:w-[150px] justify-center"
-    >
+const QuickLinkButton = ({ title, icon, path, isInternal = false, delay = 0 }) => {
+  const className = "relative overflow-hidden px-4 py-3 rounded-xl bg-white border border-black/8 hover:border-primary/30 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 group flex items-center gap-2.5 w-[130px] md:w-[150px] justify-center";
+  const inner = (
+    <>
       <SafeIcon icon={icon} className="h-4 w-4 text-primary transition-transform duration-300 group-hover:scale-110 flex-shrink-0" />
       <span className="text-xs md:text-sm font-semibold font-heading text-text-primary group-hover:text-primary transition-colors duration-200">{title}</span>
-    </motion.a>
+    </>
+  );
+  return (
+    <motion.div initial={{opacity: 0, y: 20}} animate={{opacity: 1, y: 0}} transition={{duration: 0.5, delay}}>
+      {isInternal ? (
+        <Link to={path} className={className}>{inner}</Link>
+      ) : (
+        <a href={path} target="_blank" rel="noopener noreferrer" className={className}>{inner}</a>
+      )}
+    </motion.div>
   );
 };
 
