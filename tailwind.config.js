@@ -26,8 +26,8 @@ export default {
       },
       fontFamily: {
         'sans': ['Liter', 'sans-serif'],
-        'heading': ['Inter', 'sans-serif'],
-        'display': ['Inter', 'sans-serif'],
+        'heading': ['Inter Tight', 'Inter', 'sans-serif'],
+        'display': ['Inter Tight', 'Inter', 'sans-serif'],
       },
       borderRadius: {
         'xl': '1rem',
