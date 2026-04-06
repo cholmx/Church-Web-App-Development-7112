@@ -50,7 +50,7 @@ const Home=()=> {
       isInternal: !btn.path.startsWith('http')
     })),
     ...(hasClasses ? [{title: 'Classes',description: 'Available church classes',icon: FiBookOpen,path: '/class-registration',isYellow: true}] : []),
-    ...(hasEvents ? [{title: 'Events',description: 'Upcoming church events',icon: FiCalendar,path: '/event-registration',isYellow: true}] : [])
+    ...(hasEvents ? [{title: 'Events',description: 'Upcoming church events',icon: FiCalendar,path: '/event-registration',isOrange: true}] : [])
   ];
 
   const mainButtons=[
@@ -204,7 +204,7 @@ const Home=()=> {
   );
 };
 
-const HomeButton = ({ title, description, icon, path, isFeatured = false, isInternal = true, delay = 0, gradient = false, isYellow = false, isLastOdd = false, stretch = false }) => {
+const HomeButton = ({ title, description, icon, path, isFeatured = false, isInternal = true, delay = 0, gradient = false, isYellow = false, isOrange = false, isLastOdd = false, stretch = false }) => {
   const baseClasses = isFeatured
     ? "relative overflow-hidden p-4 md:p-5 rounded-2xl border border-white/10 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block group w-full"
     : `relative overflow-hidden p-5 rounded-2xl border border-white/10 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-full${stretch ? ' h-full' : ' min-h-[160px] md:min-h-[200px]'}`;
@@ -212,10 +212,10 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, isInte
   const featuredClasses = gradient ? "" : "text-white";
   const mainClasses = "bg-brand-blue text-white";
 
-  const iconColor = isYellow ? 'text-text-primary' : 'text-white';
-  const textColor = isYellow ? 'text-text-primary' : 'text-white';
-  const subTextColor = isYellow ? 'text-text-primary/70' : 'text-white/75';
-  const iconBgClass = isYellow ? 'bg-black/10' : 'bg-white/15';
+  const iconColor = (isYellow || isOrange) ? 'text-text-primary' : 'text-white';
+  const textColor = (isYellow || isOrange) ? 'text-text-primary' : 'text-white';
+  const subTextColor = (isYellow || isOrange) ? 'text-text-primary/70' : 'text-white/75';
+  const iconBgClass = (isYellow || isOrange) ? 'bg-black/10' : 'bg-white/15';
 
   const content = (
     <>
@@ -249,11 +249,13 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, isInte
 
   const gradientStyle = gradient
     ? {background: 'linear-gradient(135deg, #83A682 0%, #5a7a59 100%)'}
-    : isYellow
-      ? {backgroundColor: '#E2BA49'}
-      : isFeatured
-        ? {backgroundColor: '#C97025'}
-        : {};
+    : isOrange
+      ? {backgroundColor: '#FF8F21'}
+      : isYellow
+        ? {backgroundColor: '#E2BA49'}
+        : isFeatured
+          ? {backgroundColor: '#C97025'}
+          : {};
 
   return (
     <motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay}} className={`${isLastOdd ? 'col-span-2' : ''}${stretch ? ' h-full flex flex-col' : ''}`}>
