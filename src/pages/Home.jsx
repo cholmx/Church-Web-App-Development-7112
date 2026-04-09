@@ -177,10 +177,10 @@ const Home=()=> {
           >
             <div className="text-center">
               <div className="flex items-center justify-center mb-3">
-                <SafeIcon icon={FiStar} className="h-5 w-5 text-yellow-300 mr-2" />
-                <h3 className="text-base md:text-lg font-bold font-heading text-white leading-tight">Love Upper Room? Leave Us a Review!</h3>
+                <SafeIcon icon={FiStar} className="h-5 w-5 text-yellow-500 mr-2" />
+                <h3 className="text-base md:text-lg font-bold font-heading text-text-primary leading-tight">Love Upper Room? Leave Us a Review!</h3>
               </div>
-              <p className="text-sm text-white/75 leading-relaxed mb-5">Your experience matters to people looking for a church home. A quick Google review helps others in our community find us. It only takes a minute.</p>
+              <p className="text-sm text-text-light leading-relaxed mb-5">Your experience matters to people looking for a church home. A quick Google review helps others in our community find us. It only takes a minute.</p>
               <a
                 href="https://g.page/r/CfHLfp3nAOi_EBM/review"
                 target="_blank"
