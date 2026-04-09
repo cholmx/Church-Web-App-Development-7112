@@ -66,9 +66,9 @@ const Home=()=> {
   ];
 
   const quickLinks=[
-    {title: 'Contact',icon: FiMail,path: '/contact',isInternal: true, color: 'sky'},
-    {title: 'Realm Login',icon: FiLogIn,path: 'https://onrealm.org/urfellowship/', color: 'emerald'},
-    {title: 'Website',icon: FiGlobe,path: 'https://urfellowship.com', color: 'amber'}
+    {title: 'Contact',icon: FiMail,path: '/contact',isInternal: true},
+    {title: 'Realm Login',icon: FiLogIn,path: 'https://onrealm.org/urfellowship/'},
+    {title: 'Website',icon: FiGlobe,path: 'https://urfellowship.com'}
   ];
 
   const socialLinks=[
@@ -173,7 +173,7 @@ const Home=()=> {
                     initial={{opacity: 0, y: 12}}
                     animate={{opacity: 1, y: 0}}
                     transition={{duration: 0.4, delay: 1.3}}
-                    className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-yellow-50 border border-yellow-200 hover:bg-yellow-100 shadow-sm transition-all duration-300 hover:-translate-y-1 w-[130px] md:w-[150px] justify-center font-semibold text-sm font-heading text-yellow-700"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-accent-dark text-text-primary font-semibold text-sm font-heading hover:bg-white transition-all duration-200 hover:scale-105 shadow-sm border border-text-light/10"
                   >
                     <SafeIcon icon={FiStar} className="h-4 w-4 text-yellow-500" />
                     Leave a Review
@@ -284,20 +284,12 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, isInte
   );
 };
 
-const colorMap = {
-  sky:     { bg: 'bg-sky-50',     border: 'border-sky-200',     icon: 'text-sky-500',     text: 'text-sky-700',     hover: 'hover:bg-sky-100' },
-  emerald: { bg: 'bg-emerald-50', border: 'border-emerald-200', icon: 'text-emerald-500', text: 'text-emerald-700', hover: 'hover:bg-emerald-100' },
-  amber:   { bg: 'bg-amber-50',   border: 'border-amber-200',   icon: 'text-amber-500',   text: 'text-amber-700',   hover: 'hover:bg-amber-100' },
-  yellow:  { bg: 'bg-yellow-50',  border: 'border-yellow-200',  icon: 'text-yellow-500',  text: 'text-yellow-700',  hover: 'hover:bg-yellow-100' },
-};
-
-const QuickLinkButton = ({ title, icon, path, isInternal = false, delay = 0, color = 'sky' }) => {
-  const c = colorMap[color] || colorMap.sky;
-  const className = `relative overflow-hidden px-4 py-3 rounded-xl ${c.bg} border ${c.border} ${c.hover} shadow-sm transition-all duration-300 hover:-translate-y-1 group flex items-center gap-2.5 w-[130px] md:w-[150px] justify-center`;
+const QuickLinkButton = ({ title, icon, path, isInternal = false, delay = 0 }) => {
+  const className = "relative overflow-hidden px-4 py-3 rounded-xl bg-white border border-black/8 hover:border-primary/30 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 group flex items-center gap-2.5 w-[130px] md:w-[150px] justify-center";
   const inner = (
     <>
-      <SafeIcon icon={icon} className={`h-4 w-4 ${c.icon} transition-transform duration-300 group-hover:scale-110 flex-shrink-0`} />
-      <span className={`text-xs md:text-sm font-semibold font-heading ${c.text}`}>{title}</span>
+      <SafeIcon icon={icon} className="h-4 w-4 text-primary transition-transform duration-300 group-hover:scale-110 flex-shrink-0" />
+      <span className="text-xs md:text-sm font-semibold font-heading text-text-primary group-hover:text-primary transition-colors duration-200">{title}</span>
     </>
   );
   return (
