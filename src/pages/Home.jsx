@@ -175,11 +175,9 @@ const Home=()=> {
             initial={{opacity: 0, y: 20}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay: 1.15}}
             className="mt-12 flex justify-center"
           >
-            <div className="w-full max-w-[344px] md:max-w-[711px] rounded-2xl border border-white/10 shadow-modern p-6 md:p-8 text-center" style={{backgroundColor: '#1E1E21'}}>
+            <div className="text-center">
               <div className="flex items-center justify-center mb-3">
-                <div className="p-2 rounded-xl bg-white/15 mr-3">
-                  <SafeIcon icon={FiStar} className="h-5 w-5 text-yellow-300" />
-                </div>
+                <SafeIcon icon={FiStar} className="h-5 w-5 text-yellow-300 mr-2" />
                 <h3 className="text-base md:text-lg font-bold font-heading text-white leading-tight">Love Upper Room? Leave Us a Review!</h3>
               </div>
               <p className="text-sm text-white/75 leading-relaxed mb-5">Your experience matters to people looking for a church home. A quick Google review helps others in our community find us. It only takes a minute.</p>
