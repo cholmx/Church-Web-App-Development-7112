@@ -166,32 +166,22 @@ const Home=()=> {
                   {quickLinks.map((link, i) => (
                     <QuickLinkButton key={link.title} {...link} delay={1.0 + i * 0.1} />
                   ))}
+                  <motion.a
+                    href="https://g.page/r/CfHLfp3nAOi_EBM/review"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{opacity: 0, y: 12}}
+                    animate={{opacity: 1, y: 0}}
+                    transition={{duration: 0.4, delay: 1.3}}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-accent-dark text-text-primary font-semibold text-sm font-heading hover:bg-white transition-all duration-200 hover:scale-105 shadow-sm border border-text-light/10"
+                  >
+                    <SafeIcon icon={FiStar} className="h-4 w-4 text-yellow-500" />
+                    Leave a Review
+                  </motion.a>
                 </div>
               </section>
             </>
           )}
-
-          <motion.div
-            initial={{opacity: 0, y: 20}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay: 1.15}}
-            className="mt-12 flex justify-center"
-          >
-            <div className="text-center">
-              <div className="flex items-center justify-center mb-3">
-                <SafeIcon icon={FiStar} className="h-5 w-5 text-yellow-500 mr-2" />
-                <h3 className="text-base md:text-lg font-bold font-heading text-text-primary leading-tight">Love Upper Room? Leave Us a Review!</h3>
-              </div>
-              <p className="text-sm text-text-light leading-relaxed mb-5">Your experience matters to people looking for a church home. A quick Google review helps others in our community find us. It only takes a minute.</p>
-              <a
-                href="https://g.page/r/CfHLfp3nAOi_EBM/review"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white font-semibold text-sm font-heading hover:bg-white/90 transition-all duration-300 hover:scale-105 shadow-sm" style={{color: '#1E1E21'}}
-              >
-                <SafeIcon icon={FiExternalLink} className="h-4 w-4" />
-                Leave a Review
-              </a>
-            </div>
-          </motion.div>
 
           <motion.footer
             initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.8, delay: 1.2}}
