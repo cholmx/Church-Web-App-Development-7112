@@ -5,7 +5,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
 
-const {FiBell,FiPlay,FiMic,FiUsers,FiCreditCard,FiUserPlus,FiMail,FiCalendar,FiBookOpen,FiSettings,FiFacebook,FiInstagram,FiYoutube,FiGlobe,FiHeart,FiLogIn,FiExternalLink,FiFileText,FiHeadphones,FiTrendingUp,FiCheck}=FiIcons;
+const {FiBell,FiPlay,FiMic,FiUsers,FiCreditCard,FiUserPlus,FiMail,FiCalendar,FiBookOpen,FiSettings,FiFacebook,FiInstagram,FiYoutube,FiGlobe,FiHeart,FiLogIn,FiExternalLink,FiFileText,FiHeadphones,FiTrendingUp,FiCheck,FiStar}=FiIcons;
 
 const Home=()=> {
   const [hasEvents,setHasEvents]=useState(false);
@@ -170,6 +170,30 @@ const Home=()=> {
               </section>
             </>
           )}
+
+          <motion.div
+            initial={{opacity: 0, y: 20}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay: 1.15}}
+            className="mt-12 flex justify-center"
+          >
+            <div className="w-full max-w-[344px] md:max-w-[711px] rounded-2xl border border-white/10 bg-brand-blue shadow-modern p-6 md:p-8 text-center">
+              <div className="flex items-center justify-center mb-3">
+                <div className="p-2 rounded-xl bg-white/15 mr-3">
+                  <SafeIcon icon={FiStar} className="h-5 w-5 text-yellow-300" />
+                </div>
+                <h3 className="text-base md:text-lg font-bold font-heading text-white leading-tight">Love Upper Room? Leave Us a Review!</h3>
+              </div>
+              <p className="text-sm text-white/75 leading-relaxed mb-5">Your experience matters to people looking for a church home. A quick Google review helps others in our community find us. It only takes a minute.</p>
+              <a
+                href="https://g.page/r/CfHLfp3nAOi_EBM/review"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-brand-blue font-semibold text-sm font-heading hover:bg-white/90 transition-all duration-300 hover:scale-105 shadow-sm"
+              >
+                <SafeIcon icon={FiExternalLink} className="h-4 w-4" />
+                Leave a Review
+              </a>
+            </div>
+          </motion.div>
 
           <motion.footer
             initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.8, delay: 1.2}}
