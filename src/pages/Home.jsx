@@ -68,7 +68,7 @@ const Home=()=> {
   const quickLinks=[
     {title: 'Contact',icon: FiMail,path: '/contact',isInternal: true},
     {title: 'Realm Login',icon: FiLogIn,path: 'https://onrealm.org/urfellowship/'},
-    {title: 'Church Website',icon: FiGlobe,path: 'https://urfellowship.com'}
+    {title: 'Website',icon: FiGlobe,path: 'https://urfellowship.com'}
   ];
 
   const socialLinks=[
@@ -175,7 +175,7 @@ const Home=()=> {
             initial={{opacity: 0, y: 20}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay: 1.15}}
             className="mt-12 flex justify-center"
           >
-            <div className="w-full max-w-[344px] md:max-w-[711px] rounded-2xl border border-white/10 bg-brand-blue shadow-modern p-6 md:p-8 text-center">
+            <div className="w-full max-w-[344px] md:max-w-[711px] rounded-2xl border border-white/10 shadow-modern p-6 md:p-8 text-center" style={{backgroundColor: '#FF8F21'}}>
               <div className="flex items-center justify-center mb-3">
                 <div className="p-2 rounded-xl bg-white/15 mr-3">
                   <SafeIcon icon={FiStar} className="h-5 w-5 text-yellow-300" />
@@ -187,7 +187,7 @@ const Home=()=> {
                 href="https://g.page/r/CfHLfp3nAOi_EBM/review"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-brand-blue font-semibold text-sm font-heading hover:bg-white/90 transition-all duration-300 hover:scale-105 shadow-sm"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white font-semibold text-sm font-heading hover:bg-white/90 transition-all duration-300 hover:scale-105 shadow-sm" style={{color: '#FF8F21'}}
               >
                 <SafeIcon icon={FiExternalLink} className="h-4 w-4" />
                 Leave a Review
