@@ -166,19 +166,32 @@ const Home=()=> {
                   {quickLinks.map((link, i) => (
                     <QuickLinkButton key={link.title} {...link} delay={1.0 + i * 0.1} />
                   ))}
-                  <motion.a
-                    href="https://g.page/r/CfHLfp3nAOi_EBM/review"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    initial={{opacity: 0, y: 12}}
-                    animate={{opacity: 1, y: 0}}
-                    transition={{duration: 0.4, delay: 1.3}}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-accent-dark text-text-primary font-semibold text-sm font-heading hover:bg-white transition-all duration-200 hover:scale-105 shadow-sm border border-text-light/10"
-                  >
-                    <SafeIcon icon={FiStar} className="h-4 w-4 text-yellow-500" />
-                    Leave a Review
-                  </motion.a>
                 </div>
+              </section>
+
+              <section className="mt-8 flex flex-col items-center">
+                <motion.div
+                  initial={{opacity: 0, y: 16}}
+                  animate={{opacity: 1, y: 0}}
+                  transition={{duration: 0.5, delay: 1.2}}
+                  className="flex items-center gap-3 mb-5"
+                >
+                  <div className="h-px w-16 bg-text-light/30"></div>
+                  <span className="text-xs uppercase tracking-widest font-semibold text-text-light font-heading">Share Your Experience</span>
+                  <div className="h-px w-16 bg-text-light/30"></div>
+                </motion.div>
+                <motion.a
+                  href="https://g.page/r/CfHLfp3nAOi_EBM/review"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{opacity: 0, y: 12}}
+                  animate={{opacity: 1, y: 0}}
+                  transition={{duration: 0.4, delay: 1.35}}
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-accent-dark text-text-primary font-semibold text-sm font-heading hover:bg-white transition-all duration-200 hover:scale-105 shadow-sm border border-text-light/10"
+                >
+                  <SafeIcon icon={FiStar} className="h-4 w-4 text-yellow-500" />
+                  Leave a Review
+                </motion.a>
               </section>
             </>
           )}
