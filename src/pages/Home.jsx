@@ -174,24 +174,27 @@ const Home=()=> {
                   initial={{opacity: 0, y: 16}}
                   animate={{opacity: 1, y: 0}}
                   transition={{duration: 0.5, delay: 1.2}}
-                  className="flex items-center gap-3 mb-5"
+                  className="w-full max-w-[344px] md:max-w-[500px] bg-accent-dark rounded-2xl border border-text-light/10 px-6 py-5 flex flex-col items-center text-center gap-3"
                 >
-                  <div className="h-px w-16 bg-text-light/30"></div>
-                  <span className="text-xs uppercase tracking-widest font-semibold text-text-light font-heading">Share Your Experience</span>
-                  <div className="h-px w-16 bg-text-light/30"></div>
+                  <div className="flex items-center gap-1.5">
+                    {[0,1,2,3,4].map(i => (
+                      <SafeIcon key={i} icon={FiStar} className="h-4 w-4 text-yellow-500" />
+                    ))}
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold font-heading text-text-primary leading-snug">Love Upper Room? Leave Us a Review!</h3>
+                    <p className="text-xs text-text-light mt-1.5 leading-relaxed">Your experience matters to people looking for a church home. A quick Google review helps others in our community find us. It only takes a minute.</p>
+                  </div>
+                  <a
+                    href="https://g.page/r/CfHLfp3nAOi_EBM/review"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-text-primary font-semibold text-sm font-heading hover:bg-primary hover:text-white transition-all duration-200 hover:scale-105 shadow-sm border border-text-light/10"
+                  >
+                    <SafeIcon icon={FiExternalLink} className="h-4 w-4" />
+                    Leave a Review
+                  </a>
                 </motion.div>
-                <motion.a
-                  href="https://g.page/r/CfHLfp3nAOi_EBM/review"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{opacity: 0, y: 12}}
-                  animate={{opacity: 1, y: 0}}
-                  transition={{duration: 0.4, delay: 1.35}}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-accent-dark text-text-primary font-semibold text-sm font-heading hover:bg-white transition-all duration-200 hover:scale-105 shadow-sm border border-text-light/10"
-                >
-                  <SafeIcon icon={FiStar} className="h-4 w-4 text-yellow-500" />
-                  Leave a Review
-                </motion.a>
               </section>
             </>
           )}
