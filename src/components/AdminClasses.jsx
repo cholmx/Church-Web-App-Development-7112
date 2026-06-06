@@ -5,7 +5,6 @@ import SafeIcon from '../common/SafeIcon';
 import RichTextEditor from './RichTextEditor';
 import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
 import supabase from '../lib/supabase';
-import { toTitleCase } from '../utils/textFormat';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiExternalLink}=FiIcons;
 
@@ -40,7 +39,7 @@ const AdminClasses=()=> {
     setLoading(true);
     try {
       const classData={
-        title: toTitleCase(formData.title),
+        title: formData.title,
         details: formData.details,
         link: formData.link
       };
@@ -102,10 +101,10 @@ const AdminClasses=()=> {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl text-text-primary">Manage Classes</h2>
+        <h2 className="text-2xl text-secondary">Manage Classes</h2>
         <button
           onClick={()=> setShowForm(true)}
-          className="admin-btn-primary"
+          className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors inline-flex items-center space-x-2"
         >
           <SafeIcon icon={FiPlus} className="h-4 w-4" />
           <span>New Class</span>
@@ -118,22 +117,22 @@ const AdminClasses=()=> {
           <motion.div
             initial={{opacity: 0,y: 20}}
             animate={{opacity: 1,y: 0}}
-            className="admin-card"
+            className="bg-white rounded-lg shadow-md p-6"
           >
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="admin-label">Class Title *</label>
+                <label className="block text-sm font-medium text-secondary mb-2">Class Title *</label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e)=> setFormData({...formData,title: e.target.value})}
                   required
-                  className="admin-input"
+                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                   placeholder="Class title"
                 />
               </div>
               <div>
-                <label className="admin-label">Class Details *</label>
+                <label className="block text-sm font-medium text-secondary mb-2">Class Details *</label>
                 <RichTextEditor
                   value={formData.details}
                   onChange={(e)=> setFormData({...formData,details: e.target.value})}
@@ -142,15 +141,15 @@ const AdminClasses=()=> {
                 />
               </div>
               <div>
-                <label className="admin-label">Registration Link</label>
+                <label className="block text-sm font-medium text-secondary mb-2">Registration Link</label>
                 <input
                   type="url"
                   value={formData.link}
                   onChange={(e)=> setFormData({...formData,link: e.target.value})}
-                  className="admin-input"
+                  className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                   placeholder="https://example.com/register"
                 />
-                <p className="text-sm text-text-light mt-1">
+                <p className="text-sm text-secondary-light mt-1">
                   Optional: Add a link to external registration or more information
                 </p>
               </div>
@@ -158,7 +157,7 @@ const AdminClasses=()=> {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="admin-btn-primary"
+                  className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50 inline-flex items-center space-x-2"
                 >
                   <SafeIcon icon={FiSave} className="h-4 w-4" />
                   <span>{editingId ? 'Update' : 'Create'}</span>
@@ -166,7 +165,7 @@ const AdminClasses=()=> {
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="admin-btn-secondary"
+                  className="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors inline-flex items-center space-x-2"
                 >
                   <SafeIcon icon={FiX} className="h-4 w-4" />
                   <span>Cancel</span>
@@ -179,10 +178,10 @@ const AdminClasses=()=> {
 
       {/* Classes List */}
       <LoadingTransition isLoading={loading && !showForm} skeleton={<SkeletonTable rows={3} columns={2} />}>
-        <div className="bg-white rounded-2xl shadow-modern overflow-hidden">
+        <div className="bg-white rounded-lg shadow-md overflow-hidden">
           {classes.length===0 ? (
             <div className="p-8 text-center">
-              <p className="text-text-primary">No classes yet.</p>
+              <p className="text-secondary">No classes yet.</p>
             </div>
           ) : (
             <div className="divide-y divide-accent">
@@ -190,9 +189,9 @@ const AdminClasses=()=> {
                 <div key={classItem.id} className="p-6">
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
-                      <h3 className="text-lg text-text-primary mb-2">{classItem.title}</h3>
+                      <h3 className="text-lg text-secondary mb-2">{classItem.title}</h3>
                       <div
-                        className="text-text-primary text-sm mb-2 prose prose-sm max-w-none rendered-content"
+                        className="text-secondary text-sm mb-2 prose prose-sm max-w-none rendered-content"
                         dangerouslySetInnerHTML={{__html: classItem.details}}
                       />
                       {classItem.link && (
@@ -212,13 +211,13 @@ const AdminClasses=()=> {
                     <div className="flex space-x-2 ml-4">
                       <button
                         onClick={()=> handleEdit(classItem)}
-                        className="admin-btn-edit"
+                        className="p-2 text-primary hover:bg-primary hover:text-white rounded-lg transition-colors"
                       >
                         <SafeIcon icon={FiEdit} className="h-4 w-4" />
                       </button>
                       <button
                         onClick={()=> handleDelete(classItem.id)}
-                        className="admin-btn-danger"
+                        className="p-2 text-red-500 hover:bg-red-500 hover:text-white rounded-lg transition-colors"
                       >
                         <SafeIcon icon={FiTrash2} className="h-4 w-4" />
                       </button>

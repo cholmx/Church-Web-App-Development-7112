@@ -4,7 +4,7 @@ import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 
-const {FiCalendar, FiClock, FiMapPin, FiUsers, FiFilter, FiHome, FiSearch} = FiIcons;
+const {FiCalendar, FiClock, FiMapPin, FiUsers, FiFilter, FiHome} = FiIcons;
 
 const Events = () => {
   const [filter, setFilter] = useState('all');
@@ -141,7 +141,7 @@ const Events = () => {
       <section className="py-8 bg-white border-b border-accent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <div className="flex items-center space-x-2 text-text-primary">
+            <div className="flex items-center space-x-2 text-secondary">
               <SafeIcon icon={FiFilter} className="h-5 w-5" />
               <span className="font-medium font-inter">Filter by:</span>
             </div>
@@ -149,7 +149,7 @@ const Events = () => {
               <button
                 key={category.key}
                 onClick={() => setFilter(category.key)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${filter === category.key ? 'bg-primary text-white' : 'bg-accent text-text-primary hover:bg-accent-dark'}`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${filter === category.key ? 'bg-primary text-white' : 'bg-accent text-secondary hover:bg-accent-dark'}`}
               >
                 {category.label}
               </button>
@@ -168,15 +168,13 @@ const Events = () => {
                 initial={{opacity: 0, y: 30}}
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.5, delay: index * 0.1}}
-                className="bg-white rounded-2xl shadow-modern overflow-hidden hover:shadow-modern-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
+                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
               >
-                <div className="overflow-hidden">
-                  <img src={event.image} alt={event.title} className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105" />
-                </div>
+                <img src={event.image} alt={event.title} className="w-full h-48 object-cover" />
                 <div className="p-6">
-                  <h3 className="text-xl mb-3 text-text-primary font-fraunces">{event.title}</h3>
-                  <p className="text-text-primary mb-4 font-inter">{event.description}</p>
-                  <div className="space-y-2 text-sm text-text-light">
+                  <h3 className="text-xl mb-3 text-secondary font-fraunces">{event.title}</h3>
+                  <p className="text-secondary mb-4 font-inter">{event.description}</p>
+                  <div className="space-y-2 text-sm text-secondary-light">
                     <div className="flex items-center space-x-2">
                       <SafeIcon icon={FiCalendar} className="h-4 w-4 text-primary" />
                       <span className="font-inter">{formatDate(event.date)}</span>
@@ -200,17 +198,9 @@ const Events = () => {
             ))}
           </div>
           {filteredEvents.length === 0 && (
-            <motion.div
-              initial={{opacity: 0, y: 20}}
-              animate={{opacity: 1, y: 0}}
-              className="col-span-3 text-center py-20"
-            >
-              <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5">
-                <SafeIcon icon={FiSearch} className="h-9 w-9 text-primary" />
-              </div>
-              <h3 className="text-xl font-bold text-text-primary mb-2">No events found</h3>
-              <p className="text-text-light">Try selecting a different category, or check back soon for upcoming events.</p>
-            </motion.div>
+            <div className="text-center py-12">
+              <p className="text-secondary text-lg font-inter">No events found for the selected category.</p>
+            </div>
           )}
         </div>
       </section>
@@ -223,10 +213,10 @@ const Events = () => {
             Don't miss out on upcoming events and opportunities to grow in faith and community.
           </p>
           <div className="space-x-4">
-            <button className="bg-white text-text-primary px-8 py-3 rounded-full font-semibold hover:bg-accent transition-colors font-inter">
+            <button className="bg-white text-secondary px-8 py-3 rounded-full font-semibold hover:bg-accent transition-colors font-inter">
               Subscribe to Updates
             </button>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-text-primary transition-colors font-inter">
+            <button className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-secondary transition-colors font-inter">
               Contact Us
             </button>
           </div>

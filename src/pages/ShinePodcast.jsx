@@ -6,18 +6,13 @@ import SafeIcon from '../common/SafeIcon';
 import AudioPlayer from '../components/AudioPlayer';
 import {SkeletonEpisode,LoadingTransition} from '../components/LoadingSkeletons';
 import podcastRSSService from '../lib/podcastRSS';
-import StandardButton from '../components/StandardButton';
 
-const {FiMic,FiCalendar,FiHome,FiPlay,FiClock,FiRefreshCw,FiExternalLink,FiChevronDown,FiChevronUp,FiFilter}=FiIcons;
+const {FiMic,FiCalendar,FiHome,FiPlay,FiClock,FiRefreshCw,FiExternalLink}=FiIcons;
 
 const ShinePodcast=()=> {
   const [podcastData,setPodcastData]=useState({channel: null,episodes: []});
   const [loading,setLoading]=useState(true);
   const [selectedEpisode,setSelectedEpisode]=useState(null);
-  const [expandedEpisode,setExpandedEpisode]=useState(null);
-  const [showMoreCount,setShowMoreCount]=useState(10);
-  const [searchTerm,setSearchTerm]=useState('');
-  const [isFiltering,setIsFiltering]=useState(false);
 
   useEffect(()=> {
     fetchPodcastData();
@@ -62,31 +57,6 @@ const ShinePodcast=()=> {
     return text.substr(0,maxLength).trim() + '...';
   };
 
-  const toggleEpisodeExpansion=(episodeId)=> {
-    if (expandedEpisode===episodeId) {
-      setExpandedEpisode(null);
-    } else {
-      setExpandedEpisode(episodeId);
-    }
-  };
-
-  const handleShowMore=()=> {
-    setShowMoreCount((prevCount)=> prevCount + 10);
-  };
-
-  const filteredEpisodes=podcastData.episodes.filter((episode)=> {
-    if (!searchTerm) return true;
-    const lowerCaseSearch=searchTerm.toLowerCase();
-    return (
-      episode.title.toLowerCase().includes(lowerCaseSearch) ||
-      stripHtml(episode.description || '').toLowerCase().includes(lowerCaseSearch) ||
-      stripHtml(episode.summary || '').toLowerCase().includes(lowerCaseSearch)
-    );
-  });
-
-  const displayedEpisodes=filteredEpisodes.slice(0,showMoreCount);
-  const hasMoreEpisodes=filteredEpisodes.length > showMoreCount;
-
   return (
     <div className="min-h-screen bg-accent py-12 relative">
       {/* Back to Home Button - Top Right */}
@@ -130,45 +100,12 @@ const ShinePodcast=()=> {
           </motion.div>
         </div>
 
-        {/* Search and Filter */}
-        <motion.div
-          initial={{opacity: 0,y: 20}}
-          animate={{opacity: 1,y: 0}}
-          transition={{duration: 0.5,delay: 0.3}}
-          className="bg-white rounded-2xl shadow-modern p-4 mb-6"
-        >
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="flex items-center">
-              <SafeIcon icon={FiFilter} className="h-5 w-5 text-primary mr-2" />
-              <h3 className="text-lg">Filter Episodes</h3>
-            </div>
-            <div className="flex-1 max-w-md">
-              <input
-                type="text"
-                placeholder="Search by title or content..."
-                value={searchTerm}
-                onChange={(e)=> {
-                  setSearchTerm(e.target.value);
-                  setIsFiltering(e.target.value.length > 0);
-                  setShowMoreCount(10);
-                }}
-                className="w-full p-2 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-              />
-            </div>
-          </div>
-          {isFiltering && (
-            <div className="mt-2 text-sm text-text-light">
-              Found {filteredEpisodes.length} matching episodes
-            </div>
-          )}
-        </motion.div>
-
         {/* Episodes List with Loading */}
         <LoadingTransition
           isLoading={loading}
           skeleton={
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-text-primary font-inter">
+              <h2 className="text-2xl font-bold text-secondary font-inter">
                 Episodes
               </h2>
               {Array.from({length: 5}).map((_,i)=> (
@@ -179,16 +116,16 @@ const ShinePodcast=()=> {
         >
           {podcastData.episodes && podcastData.episodes.length > 0 && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-text-primary font-inter">
+              <h2 className="text-2xl font-bold text-secondary font-inter">
                 Episodes ({podcastData.episodes.length})
               </h2>
-              {displayedEpisodes.map((episode,index)=> (
+              {podcastData.episodes.map((episode,index)=> (
                 <motion.div
                   key={episode.id}
                   initial={{opacity: 0,y: 30}}
                   animate={{opacity: 1,y: 0}}
                   transition={{duration: 0.5,delay: index * 0.1}}
-                  className="bg-white rounded-2xl shadow-modern overflow-hidden hover:shadow-modern-lg hover:-translate-y-1 transition-all duration-300"
+                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
                 >
                   <div className="p-6">
                     <div className="flex items-start space-x-4">
@@ -204,7 +141,7 @@ const ShinePodcast=()=> {
                       )}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between mb-2">
-                          <h3 className="text-lg font-semibold text-text-primary font-inter">
+                          <h3 className="text-lg font-semibold text-secondary font-inter">
                             {episode.title}
                           </h3>
                           {episode.audioUrl && (
@@ -217,7 +154,7 @@ const ShinePodcast=()=> {
                             </button>
                           )}
                         </div>
-                        <div className="flex items-center space-x-4 text-sm text-text-light mb-3">
+                        <div className="flex items-center space-x-4 text-sm text-secondary-light mb-3">
                           {episode.pubDate && (
                             <div className="flex items-center space-x-1">
                               <SafeIcon
@@ -239,59 +176,38 @@ const ShinePodcast=()=> {
                           )}
                         </div>
                         {episode.summary && (
-                          <div className="mb-4">
-                            {expandedEpisode===episode.id ? (
-                              <p className="text-text-primary font-inter">
-                                {stripHtml(episode.summary)}
-                              </p>
-                            ) : (
-                              <p className="text-text-primary mb-2 font-inter">
-                                {truncateText(stripHtml(episode.summary))}
-                              </p>
-                            )}
-                            {stripHtml(episode.summary).length > 150 && (
-                              <button
-                                onClick={()=> toggleEpisodeExpansion(episode.id)}
-                                className="text-primary font-medium flex items-center space-x-1 mt-1"
-                              >
-                                <span>
-                                  {expandedEpisode===episode.id
-                                    ? 'Show Less'
-                                    : 'Show More'}
-                                </span>
-                                <SafeIcon
-                                  icon={
-                                    expandedEpisode===episode.id
-                                      ? FiChevronUp
-                                      : FiChevronDown
-                                  }
-                                  className="h-4 w-4"
-                                />
-                              </button>
-                            )}
-                          </div>
+                          <p className="text-secondary mb-4 font-inter">
+                            {truncateText(stripHtml(episode.summary))}
+                          </p>
                         )}
-                        <div className="flex flex-wrap items-center gap-4">
+                        <div className="flex items-center space-x-4">
                           {episode.audioUrl ? (
-                            <StandardButton
+                            <button
                               onClick={()=> setSelectedEpisode(episode)}
-                              icon={FiPlay}
+                              className="bg-white text-primary border-2 border-primary px-4 py-2 rounded-lg font-semibold hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2 font-inter"
                             >
-                              Play Episode
-                            </StandardButton>
+                              <SafeIcon icon={FiPlay} className="h-4 w-4" />
+                              <span>Play Episode</span>
+                            </button>
                           ) : (
-                            <div className="bg-gray-100 text-text-light px-4 py-2 rounded-lg font-semibold inline-flex items-center space-x-2 font-inter">
+                            <div className="bg-gray-100 text-gray-500 px-4 py-2 rounded-lg font-semibold inline-flex items-center space-x-2 font-inter">
                               <SafeIcon icon={FiPlay} className="h-4 w-4" />
                               <span>Audio Coming Soon</span>
                             </div>
                           )}
                           {episode.link && (
-                            <StandardButton
-                              onClick={()=> window.open(episode.link,'_blank','noopener,noreferrer')}
-                              icon={FiExternalLink}
+                            <a
+                              href={episode.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="bg-white text-primary border-2 border-primary px-4 py-2 rounded-lg font-semibold hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2 font-inter"
                             >
-                              View Online
-                            </StandardButton>
+                              <SafeIcon
+                                icon={FiExternalLink}
+                                className="h-4 w-4"
+                              />
+                              <span>View Online</span>
+                            </a>
                           )}
                         </div>
                       </div>
@@ -299,33 +215,21 @@ const ShinePodcast=()=> {
                   </div>
                 </motion.div>
               ))}
-              {hasMoreEpisodes && (
-                <div className="text-center mt-8">
-                  <StandardButton
-                    onClick={handleShowMore}
-                    icon={FiChevronDown}
-                  >
-                    Show More Episodes
-                  </StandardButton>
-                </div>
-              )}
             </div>
           )}
           {/* No Episodes State */}
-          {!loading && (!filteredEpisodes || filteredEpisodes.length===0) && (
+          {!loading && (!podcastData.episodes || podcastData.episodes.length===0) && (
             <motion.div
               initial={{opacity: 0,y: 30}}
               animate={{opacity: 1,y: 0}}
               className="bg-white rounded-lg shadow-md p-12 text-center"
             >
-              <SafeIcon icon={FiMic} className="h-16 w-16 text-text-light mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-text-primary mb-2 font-inter">
-                {searchTerm ? 'No Matching Episodes' : 'No Episodes Available'}
+              <SafeIcon icon={FiMic} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-secondary mb-2 font-inter">
+                No Episodes Available
               </h2>
-              <p className="text-text-light font-inter">
-                {searchTerm
-                  ? 'Try a different search term'
-                  : 'Check back soon for new podcast episodes!'}
+              <p className="text-secondary-light font-inter">
+                Check back soon for new podcast episodes!
               </p>
             </motion.div>
           )}

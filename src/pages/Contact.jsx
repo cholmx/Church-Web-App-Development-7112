@@ -1,13 +1,11 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import {Link} from 'react-router-dom';
 import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import {submitContactForm} from '../lib/contactStorage';
-import StandardButton from '../components/StandardButton';
-import supabase from '../lib/supabase';
 
-const {FiMail,FiCheck,FiUser,FiMessageSquare,FiPhone,FiHome,FiUsers}=FiIcons;
+const {FiMail,FiCheck,FiUser,FiMessageSquare,FiPhone,FiHome}=FiIcons;
 
 const Contact=()=> {
   const [formData,setFormData]=useState({
@@ -19,28 +17,6 @@ const Contact=()=> {
   });
   const [isSubmitting,setIsSubmitting]=useState(false);
   const [isSubmitted,setIsSubmitted]=useState(false);
-  const [staffContacts,setStaffContacts]=useState([]);
-  const [loadingStaff,setLoadingStaff]=useState(true);
-
-  useEffect(()=> {
-    fetchStaffContacts();
-  },[]);
-
-  const fetchStaffContacts=async ()=> {
-    try {
-      const {data,error}=await supabase
-        .from('staff_contacts_portal123')
-        .select('*')
-        .eq('is_active',true)
-        .order('display_order',{ascending: true});
-      if (error) throw error;
-      setStaffContacts(data || []);
-    } catch (error) {
-      console.error('Error fetching staff contacts:',error);
-    } finally {
-      setLoadingStaff(false);
-    }
-  };
 
   const handleInputChange=(e)=> {
     const {name,value}=e.target;
@@ -84,18 +60,17 @@ const Contact=()=> {
           <h2 className="text-2xl mb-4">
             Message Sent!
           </h2>
-          <p className="text-text-primary mb-6">
+          <p className="text-secondary mb-6">
             Thank you for your message. We'll get back to you as soon as
             possible.
           </p>
           <div className="space-y-3">
-            <StandardButton
+            <button
               onClick={()=> setIsSubmitted(false)}
-              icon={FiMail}
-              fullWidth
+              className="w-full bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-dark transition-colors"
             >
               Send Another Message
-            </StandardButton>
+            </button>
           </div>
         </motion.div>
       </div>
@@ -111,7 +86,7 @@ const Contact=()=> {
         </Link>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
           <motion.div
@@ -137,89 +112,23 @@ const Contact=()=> {
           </motion.p>
         </div>
 
-        {/* Staff Contacts Section */}
-        {!loadingStaff && staffContacts.length > 0 && (
-          <motion.div
-            initial={{opacity: 0,y: 30}}
-            animate={{opacity: 1,y: 0}}
-            transition={{duration: 0.8,delay: 0.3}}
-            className="mb-12"
-          >
-            <div className="text-center mb-6">
-              <div className="flex items-center justify-center space-x-3 mb-2">
-                <SafeIcon icon={FiUsers} className="h-6 w-6 text-primary" />
-                <h2 className="text-2xl font-bold text-text-primary">
-                  Our Leadership Team
-                </h2>
-              </div>
-              <p className="text-text-light">
-                Reach out directly to a member of our staff
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {staffContacts.map((staff,index)=> (
-                <motion.div
-                  key={staff.id}
-                  initial={{opacity: 0,y: 20}}
-                  animate={{opacity: 1,y: 0}}
-                  transition={{duration: 0.5,delay: 0.4 + index * 0.1}}
-                  className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
-                >
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                        <SafeIcon icon={FiUser} className="h-6 w-6 text-primary" />
-                      </div>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-semibold text-text-primary mb-1">
-                        {staff.name}
-                      </h3>
-                      <p className="text-sm text-text-light mb-2">
-                        {staff.title}
-                      </p>
-                      <a
-                        href={`mailto:${staff.email}`}
-                        className="inline-flex items-center space-x-2 text-primary hover:text-primary-dark transition-colors text-sm"
-                      >
-                        <SafeIcon icon={FiMail} className="h-4 w-4" />
-                        <span className="truncate">{staff.email}</span>
-                      </a>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        )}
-
-        {/* Contact Form Section */}
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-text-primary mb-2">
-            Send Us a Message
-          </h2>
-          <p className="text-text-light">
-            Have a question or need assistance? Fill out the form below
-          </p>
-        </div>
-
         {/* Form */}
         <motion.div
           initial={{opacity: 0,y: 30}}
           animate={{opacity: 1,y: 0}}
-          transition={{duration: 0.8,delay: 0.6}}
-          className="bg-white rounded-lg shadow-md p-8 max-w-2xl mx-auto"
+          transition={{duration: 0.8,delay: 0.4}}
+          className="bg-white rounded-lg shadow-md p-8"
         >
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Name */}
             <div>
-              <label className="block text-sm font-medium text-text-primary mb-2">
+              <label className="block text-sm font-medium text-secondary mb-2">
                 Full Name *
               </label>
               <div className="relative">
                 <SafeIcon
                   icon={FiUser}
-                  className="absolute left-3 top-3 h-5 w-5 text-text-light"
+                  className="absolute left-3 top-3 h-5 w-5 text-gray-400"
                 />
                 <input
                   type="text"
@@ -235,13 +144,13 @@ const Contact=()=> {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-text-primary mb-2">
+              <label className="block text-sm font-medium text-secondary mb-2">
                 Email Address *
               </label>
               <div className="relative">
                 <SafeIcon
                   icon={FiMail}
-                  className="absolute left-3 top-3 h-5 w-5 text-text-light"
+                  className="absolute left-3 top-3 h-5 w-5 text-gray-400"
                 />
                 <input
                   type="email"
@@ -257,13 +166,13 @@ const Contact=()=> {
 
             {/* Phone */}
             <div>
-              <label className="block text-sm font-medium text-text-primary mb-2">
+              <label className="block text-sm font-medium text-secondary mb-2">
                 Phone Number
               </label>
               <div className="relative">
                 <SafeIcon
                   icon={FiPhone}
-                  className="absolute left-3 top-3 h-5 w-5 text-text-light"
+                  className="absolute left-3 top-3 h-5 w-5 text-gray-400"
                 />
                 <input
                   type="tel"
@@ -278,7 +187,7 @@ const Contact=()=> {
 
             {/* Subject */}
             <div>
-              <label className="block text-sm font-medium text-text-primary mb-2">
+              <label className="block text-sm font-medium text-secondary mb-2">
                 Subject *
               </label>
               <select
@@ -302,13 +211,13 @@ const Contact=()=> {
 
             {/* Message */}
             <div>
-              <label className="block text-sm font-medium text-text-primary mb-2">
+              <label className="block text-sm font-medium text-secondary mb-2">
                 Message *
               </label>
               <div className="relative">
                 <SafeIcon
                   icon={FiMessageSquare}
-                  className="absolute left-3 top-3 h-5 w-5 text-text-light"
+                  className="absolute left-3 top-3 h-5 w-5 text-gray-400"
                 />
                 <textarea
                   name="message"
@@ -322,14 +231,13 @@ const Contact=()=> {
               </div>
             </div>
 
-            <StandardButton
+            <button
               type="submit"
               disabled={isSubmitting}
-              icon={FiMail}
-              fullWidth
+              className="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Sending...' : 'Send Message'}
-            </StandardButton>
+            </button>
           </form>
         </motion.div>
       </div>

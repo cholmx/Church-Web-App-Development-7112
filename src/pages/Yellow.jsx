@@ -5,7 +5,6 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import AudioPlayer from '../components/AudioPlayer';
 import yellowPodcastRSSService from '../lib/yellowPodcastRSS';
-import StandardButton from '../components/StandardButton';
 
 const { FiMic, FiCalendar, FiHome, FiPlay, FiClock, FiRefreshCw, FiExternalLink, FiChevronDown, FiChevronUp, FiFilter } = FiIcons;
 
@@ -90,7 +89,7 @@ const Yellow = () => {
       <div className="min-h-screen bg-accent py-12 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-text-primary font-inter">Loading episodes...</p>
+          <p className="text-secondary font-inter">Loading episodes...</p>
         </div>
       </div>
     );
@@ -103,7 +102,7 @@ const Yellow = () => {
         <Link
           to="/"
           className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
-          style={{ backgroundColor: '#83A682' }}
+          style={{ backgroundColor: '#E2BA49' }}
           title="Back to Home"
         >
           <SafeIcon icon={FiHome} className="h-5 w-5 text-white" />
@@ -120,7 +119,7 @@ const Yellow = () => {
             className="flex items-center justify-center space-x-4 mb-3"
           >
             <SafeIcon icon={FiMic} className="h-8 w-8 text-primary" />
-            <h1 className="text-3xl md:text-4xl font-bold text-text-primary font-inter">
+            <h1 className="text-3xl md:text-4xl font-bold text-secondary font-inter">
               {podcastData.channel?.title || 'Yellow Podcast'}
             </h1>
           </motion.div>
@@ -130,7 +129,7 @@ const Yellow = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex items-center justify-center space-x-4"
           >
-            <p className="text-lg text-text-primary page-subtitle">
+            <p className="text-lg text-secondary page-subtitle">
               {podcastData.channel?.description || 'Listen to our latest episodes'}
             </p>
             <button
@@ -153,7 +152,7 @@ const Yellow = () => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex items-center">
               <SafeIcon icon={FiFilter} className="h-5 w-5 text-primary mr-2" />
-              <h3 className="text-lg font-semibold text-text-primary font-inter">
+              <h3 className="text-lg font-semibold text-secondary font-inter">
                 Filter Episodes
               </h3>
             </div>
@@ -172,7 +171,7 @@ const Yellow = () => {
             </div>
           </div>
           {isFiltering && (
-            <div className="mt-2 text-sm text-text-light">
+            <div className="mt-2 text-sm text-secondary-light">
               Found {filteredEpisodes.length} matching episodes
             </div>
           )}
@@ -181,7 +180,7 @@ const Yellow = () => {
         {/* Episodes List */}
         {podcastData.episodes && podcastData.episodes.length > 0 && (
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-text-primary font-inter">
+            <h2 className="text-2xl font-bold text-secondary font-inter">
               Episodes ({podcastData.episodes.length})
             </h2>
 
@@ -208,7 +207,7 @@ const Yellow = () => {
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between mb-2">
-                        <h3 className="text-lg font-semibold text-text-primary font-inter">
+                        <h3 className="text-lg font-semibold text-secondary font-inter">
                           {episode.title}
                         </h3>
                         {episode.audioUrl && (
@@ -223,7 +222,7 @@ const Yellow = () => {
                         )}
                       </div>
 
-                      <div className="flex items-center space-x-4 text-sm text-text-light mb-3">
+                      <div className="flex items-center space-x-4 text-sm text-secondary-light mb-3">
                         {episode.pubDate && (
                           <div className="flex items-center space-x-1">
                             <SafeIcon icon={FiCalendar} className="h-3 w-3" />
@@ -241,11 +240,11 @@ const Yellow = () => {
                       {episode.summary && (
                         <div className="mb-4">
                           {expandedEpisode === episode.id ? (
-                            <p className="text-text-primary font-inter">
+                            <p className="text-secondary font-inter">
                               {stripHtml(episode.summary)}
                             </p>
                           ) : (
-                            <p className="text-text-primary mb-2 font-inter">
+                            <p className="text-secondary mb-2 font-inter">
                               {truncateText(stripHtml(episode.summary))}
                             </p>
                           )}
@@ -263,26 +262,32 @@ const Yellow = () => {
 
                       <div className="flex flex-wrap items-center gap-4">
                         {episode.audioUrl ? (
-                          <StandardButton
+                          <button
                             onClick={() => setSelectedEpisode(episode)}
-                            icon={FiPlay}
+                            className="bg-white text-primary border-2 border-primary px-4 py-2 rounded-lg font-semibold hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2 font-inter"
+                            style={{ borderColor: '#E2BA49', color: '#E2BA49' }}
                           >
-                            Play Episode
-                          </StandardButton>
+                            <SafeIcon icon={FiPlay} className="h-4 w-4" />
+                            <span>Play Episode</span>
+                          </button>
                         ) : (
-                          <div className="bg-gray-100 text-text-light px-4 py-2 rounded-lg font-semibold inline-flex items-center space-x-2 font-inter">
+                          <div className="bg-gray-100 text-gray-500 px-4 py-2 rounded-lg font-semibold inline-flex items-center space-x-2 font-inter">
                             <SafeIcon icon={FiPlay} className="h-4 w-4" />
                             <span>Audio Coming Soon</span>
                           </div>
                         )}
 
                         {episode.link && (
-                          <StandardButton
-                            onClick={() => window.open(episode.link,'_blank','noopener,noreferrer')}
-                            icon={FiExternalLink}
+                          <a
+                            href={episode.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-white text-primary border-2 border-primary px-4 py-2 rounded-lg font-semibold hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2 font-inter"
+                            style={{ borderColor: '#E2BA49', color: '#E2BA49' }}
                           >
-                            View Online
-                          </StandardButton>
+                            <SafeIcon icon={FiExternalLink} className="h-4 w-4" />
+                            <span>View Online</span>
+                          </a>
                         )}
                       </div>
                     </div>
@@ -294,12 +299,14 @@ const Yellow = () => {
             {/* Show More Button */}
             {hasMoreEpisodes && (
               <div className="text-center mt-8">
-                <StandardButton
+                <button
                   onClick={handleShowMore}
-                  icon={FiChevronDown}
+                  className="bg-white text-primary border-2 border-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2 font-inter"
+                  style={{ borderColor: '#E2BA49', color: '#E2BA49' }}
                 >
-                  Show More Episodes
-                </StandardButton>
+                  <span>Show More Episodes</span>
+                  <SafeIcon icon={FiChevronDown} className="h-4 w-4" />
+                </button>
               </div>
             )}
           </div>
@@ -312,11 +319,11 @@ const Yellow = () => {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white rounded-lg shadow-md p-12 text-center"
           >
-            <SafeIcon icon={FiMic} className="h-16 w-16 text-text-light mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-text-primary mb-2 font-inter">
+            <SafeIcon icon={FiMic} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-secondary mb-2 font-inter">
               {searchTerm ? 'No Matching Episodes' : 'No Episodes Available'}
             </h2>
-            <p className="text-text-light font-inter">
+            <p className="text-secondary-light font-inter">
               {searchTerm ? 'Try a different search term' : 'Check back soon for new episodes!'}
             </p>
           </motion.div>

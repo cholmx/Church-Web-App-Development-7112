@@ -91,17 +91,11 @@ const Announcements=()=> {
         >
           <div className="space-y-8">
             {announcements.length===0 ? (
-              <motion.div
-                initial={{opacity: 0,y: 20}}
-                animate={{opacity: 1,y: 0}}
-                className="bg-white rounded-2xl shadow-modern p-16 text-center"
-              >
-                <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5">
-                  <SafeIcon icon={FiBell} className="h-9 w-9 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold text-text-primary mb-2">Nothing here yet</h3>
-                <p className="text-text-light max-w-xs mx-auto">Check back soon — new announcements will appear here when they're posted.</p>
-              </motion.div>
+              <div className="text-center py-12">
+                <SafeIcon icon={FiBell} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                <p className="text-xl">No announcements yet</p>
+                <p className="text-gray-500">Check back soon for updates!</p>
+              </div>
             ) : (
               announcements.map((announcement,index)=> (
                 <motion.div
@@ -116,7 +110,7 @@ const Announcements=()=> {
                       <h2 className="text-3xl md:text-4xl leading-tight">
                         {announcement.title}
                       </h2>
-                      <div className="flex items-center space-x-2 text-text-light">
+                      <div className="flex items-center space-x-2 text-gray-500">
                         <SafeIcon icon={FiCalendar} className="h-4 w-4" />
                         <span className="text-sm">
                           {announcement.announcement_date
@@ -134,8 +128,8 @@ const Announcements=()=> {
                     </div>
                     {announcement.author && (
                       <div className="mt-6 pt-4 border-t border-accent flex items-center space-x-2">
-                        <SafeIcon icon={FiUser} className="h-4 w-4 text-text-light" />
-                        <span className="text-sm text-text-light">
+                        <SafeIcon icon={FiUser} className="h-4 w-4 text-gray-400" />
+                        <span className="text-sm text-gray-500">
                           By {announcement.author}
                         </span>
                       </div>

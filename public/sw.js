@@ -1,14 +1,31 @@
 // Service Worker for Push Notifications
 const CACHE_NAME = 'church-portal-v1';
+const urlsToCache = [
+  '/',
+  '/static/js/bundle.js',
+  '/static/css/main.css',
+  '/manifest.json'
+];
 
 // Install event
 self.addEventListener('install', (event) => {
-  self.skipWaiting();
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(urlsToCache))
+  );
 });
 
-// Activate event
-self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim());
+// Fetch event
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request)
+      .then((response) => {
+        if (response) {
+          return response;
+        }
+        return fetch(event.request);
+      })
+  );
 });
 
 // Push event - handles incoming push notifications
