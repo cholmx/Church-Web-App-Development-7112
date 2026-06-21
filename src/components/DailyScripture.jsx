@@ -70,13 +70,13 @@ const DailyScripture=()=> {
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
             <SafeIcon icon={FiBookOpen} className="h-5 w-5 text-primary" />
-            <h3 className="text-lg font-semibold text-secondary font-inter">
+            <h3 className="text-lg font-semibold text-text-primary font-inter">
               Today's Scripture
             </h3>
           </div>
           <button
             onClick={fetchTodaysScripture}
-            className="p-1 text-secondary hover:text-primary transition-colors"
+            className="p-1 text-text-primary hover:text-primary transition-colors"
             title="Refresh"
           >
             <SafeIcon icon={FiRefreshCw} className="h-4 w-4" />
@@ -85,7 +85,7 @@ const DailyScripture=()=> {
 
         <div className="space-y-3">
           <div
-            className="text-secondary leading-relaxed scripture-text"
+            className="text-text-primary leading-relaxed scripture-text"
             style={{
               fontFamily: 'Inter Tight, sans-serif',
               fontSize: '14px',
@@ -96,7 +96,7 @@ const DailyScripture=()=> {
             <div dangerouslySetInnerHTML={{__html: currentScripture.verse_text}} />
           </div>
           <div className="text-right">
-            <span className="text-secondary font-semibold font-inter">
+            <span className="text-text-primary font-semibold font-inter">
               - {currentScripture.reference}
             </span>
           </div>

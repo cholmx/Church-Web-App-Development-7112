@@ -71,7 +71,7 @@ const AdminPodcast=()=> {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl text-secondary">Manage Podcast</h2>
+        <h2 className="text-2xl text-text-primary">Manage Podcast</h2>
         <button
           onClick={fetchPodcastData}
           className="bg-secondary text-white px-4 py-2 rounded-lg hover:bg-secondary-dark transition-colors inline-flex items-center space-x-2"
@@ -88,7 +88,7 @@ const AdminPodcast=()=> {
         >
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2">Podcast Title</label>
+              <label className="block text-sm font-medium text-text-primary mb-2">Podcast Title</label>
               <input
                 type="text"
                 name="title"
@@ -99,7 +99,7 @@ const AdminPodcast=()=> {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2">Spotify Embed URL *</label>
+              <label className="block text-sm font-medium text-text-primary mb-2">Spotify Embed URL *</label>
               <input
                 type="url"
                 name="spotify_embed_url"
@@ -109,12 +109,12 @@ const AdminPodcast=()=> {
                 className="w-full p-3 border border-accent-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                 placeholder="https://open.spotify.com/embed/episode/..."
               />
-              <p className="text-sm text-secondary-light mt-1">
+              <p className="text-sm text-text-light mt-1">
                 Get the embed URL from Spotify: Share → Embed Episode → Copy the src URL
               </p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-secondary mb-2">Description</label>
+              <label className="block text-sm font-medium text-text-primary mb-2">Description</label>
               <textarea
                 name="description"
                 value={formData.description}
@@ -140,7 +140,7 @@ const AdminPodcast=()=> {
             animate={{opacity: 1,y: 0}}
             className="bg-white rounded-lg shadow-md p-6"
           >
-            <h3 className="text-lg text-secondary mb-4">Preview</h3>
+            <h3 className="text-lg text-text-primary mb-4">Preview</h3>
             <div className="w-full h-96 rounded-lg overflow-hidden bg-gray-100">
               <iframe
                 src={formData.spotify_embed_url}

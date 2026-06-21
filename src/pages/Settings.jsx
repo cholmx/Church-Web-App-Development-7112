@@ -32,7 +32,7 @@ const Settings = () => {
             className="flex items-center justify-center space-x-4 mb-3"
           >
             <SafeIcon icon={FiSettings} className="h-8 w-8 text-primary" />
-            <h1 className="text-3xl md:text-4xl font-bold text-secondary font-inter">
+            <h1 className="text-3xl md:text-4xl font-bold text-text-primary font-inter">
               Settings
             </h1>
           </motion.div>
@@ -40,7 +40,7 @@ const Settings = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg text-secondary font-inter"
+            className="text-lg text-text-primary font-inter"
           >
             Manage your preferences and notifications
           </motion.p>

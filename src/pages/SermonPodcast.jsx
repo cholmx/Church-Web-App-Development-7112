@@ -6,6 +6,7 @@ import SafeIcon from '../common/SafeIcon';
 import AudioPlayer from '../components/AudioPlayer';
 import {SkeletonEpisode,LoadingTransition} from '../components/LoadingSkeletons';
 import sermonPodcastRSSService from '../lib/sermonPodcastRSS';
+import StandardButton from '../components/StandardButton';
 
 const {FiMic,FiCalendar,FiHome,FiPlay,FiClock,FiRefreshCw,FiExternalLink,FiChevronDown,FiChevronUp,FiFilter}=FiIcons;
 
@@ -89,7 +90,7 @@ const SermonPodcast=()=> {
     <div className="min-h-screen bg-accent py-12 relative">
       {/* Back to Home Button - Top Right */}
       <div className="fixed top-6 right-6 z-50">
-        <Link to="/" className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105" style={{backgroundColor: '#2c4747'}} title="Back to Home">
+        <Link to="/" className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105" style={{backgroundColor: '#83A682'}} title="Back to Home">
           <SafeIcon icon={FiHome} className="h-5 w-5 text-white" />
         </Link>
       </div>
@@ -130,7 +131,7 @@ const SermonPodcast=()=> {
           initial={{opacity: 0,y: 20}}
           animate={{opacity: 1,y: 0}}
           transition={{duration: 0.5,delay: 0.3}}
-          className="bg-white rounded-lg shadow-md p-4 mb-6"
+          className="bg-white rounded-2xl shadow-modern p-4 mb-6"
         >
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex items-center">
@@ -152,7 +153,7 @@ const SermonPodcast=()=> {
             </div>
           </div>
           {isFiltering && (
-            <div className="mt-2 text-sm text-secondary-light">
+            <div className="mt-2 text-sm text-text-light">
               Found {filteredEpisodes.length} matching episodes
             </div>
           )}
@@ -179,7 +180,7 @@ const SermonPodcast=()=> {
                   initial={{opacity: 0,y: 30}}
                   animate={{opacity: 1,y: 0}}
                   transition={{duration: 0.5,delay: index * 0.05}}
-                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                  className="bg-white rounded-2xl shadow-modern overflow-hidden hover:shadow-modern-lg hover:-translate-y-1 transition-all duration-300"
                 >
                   <div className="p-6">
                     <div className="flex items-start space-x-4">
@@ -206,7 +207,7 @@ const SermonPodcast=()=> {
                             </button>
                           )}
                         </div>
-                        <div className="flex items-center space-x-4 text-sm text-secondary-light mb-3">
+                        <div className="flex items-center space-x-4 text-sm text-text-light mb-3">
                           {episode.pubDate && (
                             <div className="flex items-center space-x-1">
                               <SafeIcon icon={FiCalendar} className="h-3 w-3" />
@@ -225,7 +226,7 @@ const SermonPodcast=()=> {
                             {expandedEpisode===episode.id ? (
                               <p>{stripHtml(episode.summary)}</p>
                             ) : (
-                              <p className="text-secondary mb-2">
+                              <p className="text-text-primary mb-2">
                                 {truncateText(stripHtml(episode.summary))}
                               </p>
                             )}
@@ -253,34 +254,25 @@ const SermonPodcast=()=> {
                         )}
                         <div className="flex flex-wrap items-center gap-4">
                           {episode.audioUrl ? (
-                            <button
+                            <StandardButton
                               onClick={()=> setSelectedEpisode(episode)}
-                              className="bg-white text-primary border-2 border-primary px-4 py-2 rounded-lg hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2"
-                              style={{borderColor: '#2c4747',color: '#2c4747'}}
+                              icon={FiPlay}
                             >
-                              <SafeIcon icon={FiPlay} className="h-4 w-4" />
-                              <span>Play Episode</span>
-                            </button>
+                              Play Episode
+                            </StandardButton>
                           ) : (
-                            <div className="bg-gray-100 text-gray-500 px-4 py-2 rounded-lg inline-flex items-center space-x-2">
+                            <div className="bg-gray-100 text-text-light px-4 py-2 rounded-lg inline-flex items-center space-x-2">
                               <SafeIcon icon={FiPlay} className="h-4 w-4" />
                               <span>Audio Coming Soon</span>
                             </div>
                           )}
                           {episode.link && (
-                            <a
-                              href={episode.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="bg-white text-primary border-2 border-primary px-4 py-2 rounded-lg hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2"
-                              style={{borderColor: '#2c4747',color: '#2c4747'}}
+                            <StandardButton
+                              onClick={()=> window.open(episode.link,'_blank','noopener,noreferrer')}
+                              icon={FiExternalLink}
                             >
-                              <SafeIcon
-                                icon={FiExternalLink}
-                                className="h-4 w-4"
-                              />
-                              <span>View Online</span>
-                            </a>
+                              View Online
+                            </StandardButton>
                           )}
                         </div>
                       </div>
@@ -290,14 +282,12 @@ const SermonPodcast=()=> {
               ))}
               {hasMoreEpisodes && (
                 <div className="text-center mt-8">
-                  <button
+                  <StandardButton
                     onClick={handleShowMore}
-                    className="bg-white text-primary border-2 border-primary px-6 py-3 rounded-lg hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2"
-                    style={{borderColor: '#2c4747',color: '#2c4747'}}
+                    icon={FiChevronDown}
                   >
-                    <span>Show More Episodes</span>
-                    <SafeIcon icon={FiChevronDown} className="h-4 w-4" />
-                  </button>
+                    Show More Episodes
+                  </StandardButton>
                 </div>
               )}
             </div>
@@ -308,11 +298,11 @@ const SermonPodcast=()=> {
               animate={{opacity: 1,y: 0}}
               className="bg-white rounded-lg shadow-md p-12 text-center"
             >
-              <SafeIcon icon={FiMic} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+              <SafeIcon icon={FiMic} className="h-16 w-16 text-text-light mx-auto mb-4" />
               <h2 className="text-2xl mb-2">
                 {searchTerm ? 'No Matching Episodes' : 'No Episodes Available'}
               </h2>
-              <p className="text-secondary-light">
+              <p className="text-text-light">
                 {searchTerm
                   ? 'Try a different search term'
                   : 'Check back soon for new sermon episodes!'}

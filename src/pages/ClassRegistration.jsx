@@ -4,6 +4,7 @@ import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
+import StandardButton from '../components/StandardButton';
 
 const {FiBookOpen,FiHome,FiExternalLink}=FiIcons;
 
@@ -36,7 +37,7 @@ const ClassRegistration=()=> {
       <div className="min-h-screen bg-accent py-12 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-secondary font-inter">Loading...</p>
+          <p className="text-text-primary font-inter">Loading...</p>
         </div>
       </div>
     );
@@ -80,17 +81,15 @@ const ClassRegistration=()=> {
         {/* Classes List */}
         {classes.length===0 ? (
           <motion.div
-            initial={{opacity: 0,y: 30}}
+            initial={{opacity: 0,y: 20}}
             animate={{opacity: 1,y: 0}}
-            className="bg-white rounded-lg shadow-md p-12 text-center"
+            className="bg-white rounded-2xl shadow-modern p-16 text-center"
           >
-            <SafeIcon icon={FiBookOpen} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-2xl mb-2">
-              No Classes Available
-            </h2>
-            <p className="text-secondary-light">
-              Check back soon for upcoming classes!
-            </p>
+            <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5">
+              <SafeIcon icon={FiBookOpen} className="h-9 w-9 text-primary" />
+            </div>
+            <h2 className="text-xl font-bold text-text-primary mb-2">No Classes Available</h2>
+            <p className="text-text-light max-w-xs mx-auto">Check back soon — upcoming classes with registration will appear here.</p>
           </motion.div>
         ) : (
           <div className={classes.length===1 ? "max-w-2xl mx-auto" : "grid grid-cols-1 md:grid-cols-2 gap-8"}>
@@ -102,24 +101,21 @@ const ClassRegistration=()=> {
                 transition={{duration: 0.5,delay: index * 0.1}}
                 className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
               >
-                <h3 className="text-xl font-semibold text-secondary mb-4">
+                <h3 className="text-xl font-semibold text-text-primary mb-4">
                   {classItem.title}
                 </h3>
                 <div
-                  className="text-secondary mb-6 prose prose-sm max-w-none rendered-content"
+                  className="text-text-primary mb-6 prose prose-sm max-w-none rendered-content"
                   dangerouslySetInnerHTML={{__html: classItem.details}}
                 />
                 {classItem.link && (
                   <div className="flex justify-start">
-                    <a
-                      href={classItem.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition-colors inline-flex items-center space-x-2"
+                    <StandardButton
+                      onClick={() => window.open(classItem.link, '_blank', 'noopener,noreferrer')}
+                      icon={FiExternalLink}
                     >
-                      <SafeIcon icon={FiExternalLink} className="h-4 w-4" />
-                      <span>Register Here</span>
-                    </a>
+                      Register Here
+                    </StandardButton>
                   </div>
                 )}
               </motion.div>

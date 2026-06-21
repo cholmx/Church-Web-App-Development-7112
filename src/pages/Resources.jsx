@@ -6,6 +6,7 @@ import SafeIcon from '../common/SafeIcon';
 import BookCard from '../components/BookCard';
 import {SkeletonBookCard,LoadingTransition} from '../components/LoadingSkeletons';
 import supabase from '../lib/supabase';
+import StandardButton from '../components/StandardButton';
 
 const {FiBookOpen,FiHome,FiExternalLink,FiTag,FiFilter,FiLink}=FiIcons;
 
@@ -146,12 +147,14 @@ const Resources=()=> {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-red-50 border border-red-200 rounded-lg p-8 text-center">
             <p className="text-red-700 font-inter">{error}</p>
-            <button
-              onClick={()=> window.location.reload()}
-              className="mt-4 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors"
-            >
-              Try Again
-            </button>
+            <div className="mt-4">
+              <StandardButton
+                onClick={()=> window.location.reload()}
+                icon={FiIcons.FiRefreshCw}
+              >
+                Try Again
+              </StandardButton>
+            </div>
           </div>
         </div>
       </div>
@@ -200,8 +203,8 @@ const Resources=()=> {
           >
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center space-x-2">
-                <SafeIcon icon={FiFilter} className="h-5 w-5 text-secondary" />
-                <span className="font-medium text-secondary font-inter">
+                <SafeIcon icon={FiFilter} className="h-5 w-5 text-text-primary" />
+                <span className="font-medium text-text-primary font-inter">
                   Filter by Category:
                 </span>
               </div>
@@ -211,7 +214,7 @@ const Resources=()=> {
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${
                     selectedCategory===''
                       ? 'bg-primary text-white'
-                      : 'bg-accent text-secondary hover:bg-accent-dark'
+                      : 'bg-accent text-text-primary hover:bg-accent-dark'
                   }`}
                 >
                   All Resources
@@ -223,7 +226,7 @@ const Resources=()=> {
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter flex items-center space-x-1 ${
                       selectedCategory===category.id
                         ? 'bg-primary text-white'
-                        : 'bg-accent text-secondary hover:bg-accent-dark'
+                        : 'bg-accent text-text-primary hover:bg-accent-dark'
                     }`}
                   >
                     <SafeIcon
@@ -239,7 +242,7 @@ const Resources=()=> {
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-colors font-inter ${
                       selectedCategory==='uncategorized'
                         ? 'bg-primary text-white'
-                        : 'bg-accent text-secondary hover:bg-accent-dark'
+                        : 'bg-accent text-text-primary hover:bg-accent-dark'
                     }`}
                   >
                     Uncategorized
@@ -258,7 +261,7 @@ const Resources=()=> {
               <div className="bg-white rounded-lg shadow-md p-12 text-center">
                 <SafeIcon
                   icon={FiBookOpen}
-                  className="h-16 w-16 text-gray-400 mx-auto mb-4"
+                  className="h-16 w-16 text-text-light mx-auto mb-4"
                 />
                 <h2 className="text-2xl mb-2">
                   Loading Resources...
@@ -285,12 +288,12 @@ const Resources=()=> {
             >
               <SafeIcon
                 icon={FiBookOpen}
-                className="h-16 w-16 text-gray-400 mx-auto mb-4"
+                className="h-16 w-16 text-text-light mx-auto mb-4"
               />
               <h2 className="text-2xl mb-2">
                 No Resources Available
               </h2>
-              <p className="text-secondary-light">
+              <p className="text-text-light">
                 Check back soon for helpful books and materials!
               </p>
             </motion.div>
@@ -321,7 +324,7 @@ const Resources=()=> {
                       />
                       <h2
                         className={`text-2xl ${
-                          group.isPriority ? 'text-white' : 'text-secondary'
+                          group.isPriority ? 'text-white' : 'text-text-primary'
                         }`}
                       >
                         {group.name}
@@ -345,7 +348,7 @@ const Resources=()=> {
                         className={`font-inter ${
                           group.isPriority
                             ? 'text-white opacity-90 ml-4'
-                            : 'text-secondary-light'
+                            : 'text-text-light'
                         }`}
                       >
                         {group.description}

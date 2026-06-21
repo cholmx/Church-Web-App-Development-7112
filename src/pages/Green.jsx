@@ -5,6 +5,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import AudioPlayer from '../components/AudioPlayer';
 import greenPodcastRSSService from '../lib/greenPodcastRSS';
+import StandardButton from '../components/StandardButton';
 
 const { FiMic, FiCalendar, FiHome, FiPlay, FiClock, FiRefreshCw, FiExternalLink, FiChevronDown, FiChevronUp, FiFilter } = FiIcons;
 
@@ -89,7 +90,7 @@ const Green = () => {
       <div className="min-h-screen bg-accent py-12 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-secondary font-inter">Loading episodes...</p>
+          <p className="text-text-primary font-inter">Loading episodes...</p>
         </div>
       </div>
     );
@@ -119,7 +120,7 @@ const Green = () => {
             className="flex items-center justify-center space-x-4 mb-3"
           >
             <SafeIcon icon={FiMic} className="h-8 w-8 text-primary" />
-            <h1 className="text-3xl md:text-4xl font-bold text-secondary font-inter">
+            <h1 className="text-3xl md:text-4xl font-bold text-text-primary font-inter">
               {podcastData.channel?.title || 'Green Podcast'}
             </h1>
           </motion.div>
@@ -129,7 +130,7 @@ const Green = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex items-center justify-center space-x-4"
           >
-            <p className="text-lg text-secondary page-subtitle">
+            <p className="text-lg text-text-primary page-subtitle">
               {podcastData.channel?.description || 'Listen to our latest episodes'}
             </p>
             <button
@@ -152,7 +153,7 @@ const Green = () => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex items-center">
               <SafeIcon icon={FiFilter} className="h-5 w-5 text-primary mr-2" />
-              <h3 className="text-lg font-semibold text-secondary font-inter">
+              <h3 className="text-lg font-semibold text-text-primary font-inter">
                 Filter Episodes
               </h3>
             </div>
@@ -171,7 +172,7 @@ const Green = () => {
             </div>
           </div>
           {isFiltering && (
-            <div className="mt-2 text-sm text-secondary-light">
+            <div className="mt-2 text-sm text-text-light">
               Found {filteredEpisodes.length} matching episodes
             </div>
           )}
@@ -180,7 +181,7 @@ const Green = () => {
         {/* Episodes List */}
         {podcastData.episodes && podcastData.episodes.length > 0 && (
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-secondary font-inter">
+            <h2 className="text-2xl font-bold text-text-primary font-inter">
               Episodes ({podcastData.episodes.length})
             </h2>
 
@@ -207,7 +208,7 @@ const Green = () => {
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between mb-2">
-                        <h3 className="text-lg font-semibold text-secondary font-inter">
+                        <h3 className="text-lg font-semibold text-text-primary font-inter">
                           {episode.title}
                         </h3>
                         {episode.audioUrl && (
@@ -222,7 +223,7 @@ const Green = () => {
                         )}
                       </div>
 
-                      <div className="flex items-center space-x-4 text-sm text-secondary-light mb-3">
+                      <div className="flex items-center space-x-4 text-sm text-text-light mb-3">
                         {episode.pubDate && (
                           <div className="flex items-center space-x-1">
                             <SafeIcon icon={FiCalendar} className="h-3 w-3" />
@@ -240,11 +241,11 @@ const Green = () => {
                       {episode.summary && (
                         <div className="mb-4">
                           {expandedEpisode === episode.id ? (
-                            <p className="text-secondary font-inter">
+                            <p className="text-text-primary font-inter">
                               {stripHtml(episode.summary)}
                             </p>
                           ) : (
-                            <p className="text-secondary mb-2 font-inter">
+                            <p className="text-text-primary mb-2 font-inter">
                               {truncateText(stripHtml(episode.summary))}
                             </p>
                           )}
@@ -262,32 +263,26 @@ const Green = () => {
 
                       <div className="flex flex-wrap items-center gap-4">
                         {episode.audioUrl ? (
-                          <button
+                          <StandardButton
                             onClick={() => setSelectedEpisode(episode)}
-                            className="bg-white text-primary border-2 border-primary px-4 py-2 rounded-lg font-semibold hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2 font-inter"
-                            style={{ borderColor: '#83A682', color: '#83A682' }}
+                            icon={FiPlay}
                           >
-                            <SafeIcon icon={FiPlay} className="h-4 w-4" />
-                            <span>Play Episode</span>
-                          </button>
+                            Play Episode
+                          </StandardButton>
                         ) : (
-                          <div className="bg-gray-100 text-gray-500 px-4 py-2 rounded-lg font-semibold inline-flex items-center space-x-2 font-inter">
+                          <div className="bg-gray-100 text-text-light px-4 py-2 rounded-lg font-semibold inline-flex items-center space-x-2 font-inter">
                             <SafeIcon icon={FiPlay} className="h-4 w-4" />
                             <span>Audio Coming Soon</span>
                           </div>
                         )}
 
                         {episode.link && (
-                          <a
-                            href={episode.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-white text-primary border-2 border-primary px-4 py-2 rounded-lg font-semibold hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2 font-inter"
-                            style={{ borderColor: '#83A682', color: '#83A682' }}
+                          <StandardButton
+                            onClick={() => window.open(episode.link,'_blank','noopener,noreferrer')}
+                            icon={FiExternalLink}
                           >
-                            <SafeIcon icon={FiExternalLink} className="h-4 w-4" />
-                            <span>View Online</span>
-                          </a>
+                            View Online
+                          </StandardButton>
                         )}
                       </div>
                     </div>
@@ -299,14 +294,12 @@ const Green = () => {
             {/* Show More Button */}
             {hasMoreEpisodes && (
               <div className="text-center mt-8">
-                <button
+                <StandardButton
                   onClick={handleShowMore}
-                  className="bg-white text-primary border-2 border-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary hover:text-white transition-colors inline-flex items-center space-x-2 font-inter"
-                  style={{ borderColor: '#83A682', color: '#83A682' }}
+                  icon={FiChevronDown}
                 >
-                  <span>Show More Episodes</span>
-                  <SafeIcon icon={FiChevronDown} className="h-4 w-4" />
-                </button>
+                  Show More Episodes
+                </StandardButton>
               </div>
             )}
           </div>
@@ -319,11 +312,11 @@ const Green = () => {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white rounded-lg shadow-md p-12 text-center"
           >
-            <SafeIcon icon={FiMic} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-secondary mb-2 font-inter">
+            <SafeIcon icon={FiMic} className="h-16 w-16 text-text-light mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-text-primary mb-2 font-inter">
               {searchTerm ? 'No Matching Episodes' : 'No Episodes Available'}
             </h2>
-            <p className="text-secondary-light font-inter">
+            <p className="text-text-light font-inter">
               {searchTerm ? 'Try a different search term' : 'Check back soon for new episodes!'}
             </p>
           </motion.div>

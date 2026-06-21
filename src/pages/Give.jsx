@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
+import StandardButton from '../components/StandardButton';
 
 const {FiCreditCard,FiExternalLink,FiShield,FiHome}=FiIcons;
 
@@ -58,18 +59,18 @@ const Give=()=> {
               <h3 className="text-2xl mb-4">
                 Secure Online Giving
               </h3>
-              <p className="text-secondary mb-6">
+              <p className="text-text-primary mb-6">
                 Your generous giving helps support our church's mission and
                 ministries. Click below to access our secure online giving
                 platform.
               </p>
-              <button
+              <StandardButton
                 onClick={handleGiveClick}
-                className="bg-primary text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary-dark transition-colors inline-flex items-center space-x-3"
+                icon={FiExternalLink}
+                className="text-lg px-8 py-4"
               >
-                <SafeIcon icon={FiExternalLink} className="h-5 w-5" />
-                <span>Give Online Now</span>
-              </button>
+                Give Online Now
+              </StandardButton>
             </div>
 
             {/* Security Notice */}
@@ -92,19 +93,19 @@ const Give=()=> {
             {/* Additional Info */}
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-accent p-6 rounded-lg">
-                <h4 className="font-semibold text-secondary mb-2">
+                <h4 className="font-semibold text-text-primary mb-2">
                   Tax Deductible
                 </h4>
-                <p className="text-secondary text-sm">
+                <p className="text-text-primary text-sm">
                   All donations are tax-deductible. You will receive a receipt
                   for your records.
                 </p>
               </div>
               <div className="bg-accent p-6 rounded-lg">
-                <h4 className="font-semibold text-secondary mb-2">
+                <h4 className="font-semibold text-text-primary mb-2">
                   Multiple Options
                 </h4>
-                <p className="text-secondary text-sm">
+                <p className="text-text-primary text-sm">
                   Set up one-time gifts or recurring donations to support our
                   ongoing ministry.
                 </p>
@@ -120,7 +121,7 @@ const Give=()=> {
           transition={{duration: 0.8,delay: 0.6}}
           className="mt-8 text-center"
         >
-          <p className="text-secondary">
+          <p className="text-text-primary">
             Questions about giving? Contact our church office for assistance.
           </p>
         </motion.div>

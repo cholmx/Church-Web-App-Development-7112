@@ -13,8 +13,8 @@ export default {
         'accent-light': '#FFFFFF',
         'accent-dark': '#F3F1E6',
         
-        'text-primary': '#333333',
-        'text-secondary': '#5F5F5A',
+        'text-primary': '#1E1E21',
+        'text-secondary': '#1E1E21',
         'text-light': '#888888',
 
         'brand-yellow': '#E2BA49',
@@ -25,9 +25,9 @@ export default {
         'social-green': '#83A682',
       },
       fontFamily: {
-        'sans': ['Inter', 'sans-serif'],
-        'heading': ['Inter Tight', 'sans-serif'],
-        'display': ['Fraunces', 'serif'],
+        'sans': ['Liter', 'sans-serif'],
+        'heading': ['Inter Tight', 'Inter', 'sans-serif'],
+        'display': ['Inter Tight', 'Inter', 'sans-serif'],
       },
       borderRadius: {
         'xl': '1rem',
@@ -38,8 +38,8 @@ export default {
       boxShadow: {
         'soft': '8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff',
         'soft-inset': 'inset 8px 8px 16px #d1d9e6, inset -8px -8px 16px #ffffff',
-        'modern': '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-        'modern-lg': '0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+        'modern': '0 2px 8px rgba(0,0,0,0.06), 0 8px 20px -4px rgba(0,0,0,0.07)',
+        'modern-lg': '0 4px 16px rgba(0,0,0,0.08), 0 16px 32px -8px rgba(0,0,0,0.10)',
       },
     },
   },

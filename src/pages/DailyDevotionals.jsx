@@ -122,7 +122,7 @@ const DailyDevotionals=()=> {
       <div className="min-h-screen bg-accent py-12 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-secondary font-inter">Loading devotionals...</p>
+          <p className="text-text-primary font-inter">Loading devotionals...</p>
         </div>
       </div>
     );
@@ -153,7 +153,7 @@ const DailyDevotionals=()=> {
           >
             <SafeIcon icon={FiBookOpen} className="h-8 w-8 text-primary" />
             <Link to="/" className="hover:text-primary transition-colors">
-              <h1 className="text-3xl md:text-4xl font-bold text-secondary font-inter"> 
+              <h1 className="text-3xl md:text-4xl font-bold text-text-primary font-inter"> 
                 Daily Devotionals 
               </h1>
             </Link>
@@ -162,7 +162,7 @@ const DailyDevotionals=()=> {
             initial={{opacity: 0,y: 30}} 
             animate={{opacity: 1,y: 0}} 
             transition={{duration: 0.8,delay: 0.2}} 
-            className="text-lg text-secondary font-inter"
+            className="text-lg text-text-primary font-inter"
           > 
             Daily inspiration and reflection for your spiritual journey 
           </motion.p>
@@ -175,11 +175,11 @@ const DailyDevotionals=()=> {
             animate={{opacity: 1,y: 0}} 
             className="bg-white rounded-lg shadow-md p-12 text-center"
           >
-            <SafeIcon icon={FiBookOpen} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-secondary mb-2 font-inter"> 
+            <SafeIcon icon={FiBookOpen} className="h-16 w-16 text-text-light mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-text-primary mb-2 font-inter"> 
               No Devotionals Available 
             </h2>
-            <p className="text-secondary-light font-inter"> 
+            <p className="text-text-light font-inter"> 
               Devotionals will appear here once they are uploaded by an administrator. 
             </p>
           </motion.div>
@@ -229,7 +229,7 @@ const DailyDevotionals=()=> {
               {currentDevotional ? (
                 <div className="space-y-6">
                   {/* Title */}
-                  <h3 className="text-3xl font-bold text-secondary font-inter"> 
+                  <h3 className="text-3xl font-bold text-text-primary font-inter"> 
                     {currentDevotional.title} 
                   </h3>
 
@@ -242,14 +242,14 @@ const DailyDevotionals=()=> {
 
                   {/* Scripture Reference */}
                   {currentDevotional.scripture_reference && (
-                    <p className="text-lg font-medium text-secondary italic font-inter"> 
+                    <p className="text-lg font-medium text-text-primary italic font-inter"> 
                       {currentDevotional.scripture_reference} 
                     </p>
                   )}
 
                   {/* Content */}
                   {currentDevotional.content && (
-                    <div className="text-secondary leading-relaxed text-lg font-inter">
+                    <div className="text-text-primary leading-relaxed text-lg font-inter">
                       {currentDevotional.content.split('\n\n').map((paragraph,index)=> (
                         <p key={index} className="mb-4"> 
                           {paragraph} 
@@ -261,26 +261,26 @@ const DailyDevotionals=()=> {
                   {/* Response */}
                   {currentDevotional.response && (
                     <div className="bg-accent p-6 rounded-lg">
-                      <h5 className="font-semibold text-secondary mb-3 text-lg font-inter">Response:</h5>
-                      <p className="text-secondary font-inter text-lg">{currentDevotional.response}</p>
+                      <h5 className="font-semibold text-text-primary mb-3 text-lg font-inter">Response:</h5>
+                      <p className="text-text-primary font-inter text-lg">{currentDevotional.response}</p>
                     </div>
                   )}
 
                   {/* Prayer */}
                   {currentDevotional.prayer && (
                     <div className="bg-primary bg-opacity-10 p-6 rounded-lg">
-                      <h5 className="font-semibold text-secondary mb-3 text-lg font-inter">Prayer:</h5>
-                      <p className="text-secondary italic font-inter text-lg">{currentDevotional.prayer}</p>
+                      <h5 className="font-semibold text-text-primary mb-3 text-lg font-inter">Prayer:</h5>
+                      <p className="text-text-primary italic font-inter text-lg">{currentDevotional.prayer}</p>
                     </div>
                   )}
                 </div>
               ) : (
                 <div className="text-center py-12">
-                  <SafeIcon icon={FiBookOpen} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                  <h4 className="text-xl font-semibold text-secondary mb-2 font-inter"> 
+                  <SafeIcon icon={FiBookOpen} className="h-16 w-16 text-text-light mx-auto mb-4" />
+                  <h4 className="text-xl font-semibold text-text-primary mb-2 font-inter"> 
                     No Devotional for This Date 
                   </h4>
-                  <p className="text-secondary-light font-inter"> 
+                  <p className="text-text-light font-inter"> 
                     Use the navigation arrows to browse available devotionals. 
                   </p>
                 </div>

@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Your Supabase project credentials
-const SUPABASE_URL = 'https://ujotluggpkxvgsyhdviv.supabase.co'
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVqb3RsdWdncGt4dmdzeWhkdml2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE0MTc4ODIsImV4cCI6MjA2Njk5Mzg4Mn0.q9zIpG91s_2hdioT58x7rCoRNoWTUvJKS_oE5AauMB8'
+// Get Supabase credentials from environment variables
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
   throw new Error('Missing Supabase environment variables')
@@ -32,7 +32,7 @@ const testConnection = async () => {
       return false
     }
 
-    console.log('✅ Supabase connected successfully')
+    console.log('✅ Supabase connected successfully to bolt.new database')
     return true
   } catch (error) {
     console.error('Supabase connection failed:', error)

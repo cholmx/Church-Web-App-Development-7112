@@ -328,7 +328,7 @@ export const LoadingOverlay = ({ message = "Loading..." }) => (
       className="bg-white rounded-lg p-6 shadow-xl text-center space-y-4"
     >
       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-      <p className="text-secondary font-inter">{message}</p>
+      <p className="text-text-primary font-inter">{message}</p>
     </motion.div>
   </motion.div>
 );

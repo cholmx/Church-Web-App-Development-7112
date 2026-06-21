@@ -46,25 +46,62 @@ const RichTextEditor = ({ value, onChange, placeholder, rows = 12, className = '
 
   const handlePaste = (e) => {
     e.preventDefault()
-    const paste = (e.clipboardData || window.clipboardData).getData('text/html') || 
+    const paste = (e.clipboardData || window.clipboardData).getData('text/html') ||
                   (e.clipboardData || window.clipboardData).getData('text/plain')
-    
+
     if (paste) {
       const selection = window.getSelection()
       if (selection.rangeCount > 0) {
         const range = selection.getRangeAt(0)
         range.deleteContents()
-        
-        // Create a temporary div to clean the pasted content
+
         const tempDiv = document.createElement('div')
         tempDiv.innerHTML = paste
-        
-        // Remove all inline styles from pasted content
-        const elements = tempDiv.querySelectorAll('*')
-        elements.forEach(element => {
-          element.removeAttribute('style')
+
+        // Step 1: Convert <b> to <strong> and <i> to <em>
+        tempDiv.querySelectorAll('b').forEach(b => {
+          const strong = document.createElement('strong')
+          strong.innerHTML = b.innerHTML
+          b.replaceWith(strong)
         })
-        
+        tempDiv.querySelectorAll('i').forEach(i => {
+          const em = document.createElement('em')
+          em.innerHTML = i.innerHTML
+          i.replaceWith(em)
+        })
+
+        // Step 2: Find elements with inline styling and wrap content
+        tempDiv.querySelectorAll('*').forEach(element => {
+          const style = element.style
+          if (!style) return
+
+          const fontWeight = style.fontWeight
+          const fontStyle = style.fontStyle
+          const textDecoration = style.textDecoration
+
+          const isBold = fontWeight === 'bold' || fontWeight === '700' || parseInt(fontWeight) >= 600
+          const isItalic = fontStyle === 'italic'
+          const isUnderline = textDecoration?.includes('underline')
+
+          // Only process if not already a semantic tag
+          const tagName = element.tagName.toLowerCase()
+          if (!['strong', 'em', 'u', 'b', 'i'].includes(tagName) && (isBold || isItalic || isUnderline)) {
+            let html = element.innerHTML
+
+            if (isBold) html = `<strong>${html}</strong>`
+            if (isItalic) html = `<em>${html}</em>`
+            if (isUnderline) html = `<u>${html}</u>`
+
+            element.innerHTML = html
+          }
+        })
+
+        // Step 3: Remove all inline styles and classes
+        tempDiv.querySelectorAll('*').forEach(element => {
+          element.removeAttribute('style')
+          element.removeAttribute('class')
+        })
+
         const fragment = document.createRange().createContextualFragment(tempDiv.innerHTML)
         range.insertNode(fragment)
         range.collapse(false)
@@ -107,7 +144,7 @@ const RichTextEditor = ({ value, onChange, placeholder, rows = 12, className = '
 
   return (
     <div className={`border border-accent-dark rounded-lg overflow-hidden bg-white ${className}`}>
-      <div className="bg-gray-50 border-b border-accent-dark p-3 text-sm text-gray-600">
+      <div className="bg-gray-50 border-b border-accent-dark p-3 text-sm text-text-light">
         💡 <strong>Tip:</strong> Paste formatted text directly! Bold, italics, lists, and paragraphs will be preserved. 
         Press <kbd>Enter</kbd> for new paragraph, <kbd>Shift+Enter</kbd> for line break.
       </div>
