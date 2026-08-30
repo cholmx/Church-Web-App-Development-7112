@@ -5,10 +5,12 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import {sendEmail} from '../lib/emailService';
 import StandardButton from '../components/StandardButton';
+import {useToast} from '../hooks/useToast';
 
 const {FiCalendar,FiCheck,FiUser,FiMail,FiPhone,FiHome,FiUsers}=FiIcons;
 
 const OverflowSignup=()=> {
+  const toast=useToast();
   const [formData,setFormData]=useState({
     name: '',
     phone: '',
@@ -45,7 +47,7 @@ const OverflowSignup=()=> {
     e.preventDefault();
 
     if (formData.selectedSundays.length===0) {
-      alert('Please select at least one Sunday commitment.');
+      toast.error('Please select at least one Sunday commitment.');
       return;
     }
 
@@ -65,7 +67,7 @@ const OverflowSignup=()=> {
       setFormData({name: '',phone: '',email: '',partySize: '1',selectedSundays: []});
     } catch (error) {
       console.error('Error submitting form:',error);
-      alert('There was an error submitting your form. Please try again.');
+      toast.error('There was an error submitting your form. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

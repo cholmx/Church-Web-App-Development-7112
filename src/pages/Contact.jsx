@@ -6,10 +6,12 @@ import SafeIcon from '../common/SafeIcon';
 import {submitContactForm} from '../lib/contactStorage';
 import StandardButton from '../components/StandardButton';
 import supabase from '../lib/supabase';
+import {useToast} from '../hooks/useToast';
 
 const {FiMail,FiCheck,FiUser,FiMessageSquare,FiPhone,FiHome,FiUsers}=FiIcons;
 
 const Contact=()=> {
+  const toast=useToast();
   const [formData,setFormData]=useState({
     name: '',
     email: '',
@@ -57,7 +59,7 @@ const Contact=()=> {
       setFormData({name: '',email: '',phone: '',subject: '',message: ''});
     } catch (error) {
       console.error('Error submitting form:',error);
-      alert('There was an error submitting your message. Please try again.');
+      toast.error('There was an error submitting your message. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

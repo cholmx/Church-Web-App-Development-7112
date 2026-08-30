@@ -3,10 +3,12 @@ import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import {SkeletonForm,LoadingTransition} from './LoadingSkeletons';
+import {useToast} from '../hooks/useToast';
 
 const {FiSave,FiRefreshCw}=FiIcons;
 
 const AdminPodcast=()=> {
+  const toast=useToast();
   const [loading,setLoading]=useState(true);
   const [saving,setSaving]=useState(false);
   const [formData,setFormData]=useState({
@@ -54,10 +56,10 @@ const AdminPodcast=()=> {
         }
       ];
       localStorage.setItem('podcast_portal123',JSON.stringify(podcastData));
-      alert('Podcast updated successfully!');
+      toast.success('Podcast updated successfully!');
     } catch (error) {
       console.error('Error saving podcast:',error);
-      alert('Error saving podcast. Please try again.');
+      toast.error('Error saving podcast. Please try again.');
     } finally {
       setSaving(false);
     }

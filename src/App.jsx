@@ -5,6 +5,8 @@ import './App.css'
 
 import Home from './pages/Home'
 import ErrorBoundary from './components/ErrorBoundary'
+import { ToastProvider } from './hooks/useToast'
+import { ConfirmProvider } from './hooks/useConfirm'
 
 const About = lazy(() => import('./pages/About'))
 const Services = lazy(() => import('./pages/Services'))
@@ -89,11 +91,15 @@ const AnimatedRoutes = () => {
 function App() {
   return (
     <ErrorBoundary>
-      <Router>
-        <div className="min-h-screen bg-accent">
-          <AnimatedRoutes />
-        </div>
-      </Router>
+      <ToastProvider>
+        <ConfirmProvider>
+          <Router>
+            <div className="min-h-screen bg-accent">
+              <AnimatedRoutes />
+            </div>
+          </Router>
+        </ConfirmProvider>
+      </ToastProvider>
     </ErrorBoundary>
   )
 }
