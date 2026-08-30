@@ -6,12 +6,16 @@ import RichTextEditor from '../RichTextEditor';
 import { SkeletonTable, LoadingTransition } from '../LoadingSkeletons';
 import { formatDate } from '../../utils/dateFormat';
 import { useSupabaseCrud } from '../../hooks/useSupabaseCrud';
+import { useToast } from '../../hooks/useToast';
+import { useConfirm } from '../../hooks/useConfirm';
 
 const { FiPlus, FiEdit, FiTrash2, FiSave, FiX } = FiIcons;
 
 const emptyForm = { question: '', answer: '', published: false, display_order: 0 };
 
 const CampaignFaqsManager = () => {
+  const toast = useToast();
+  const confirm = useConfirm();
   const { items: faqs, loading, insertItem, updateItem, deleteItem } = useSupabaseCrud(
     'campaign_faqs',
     { orderBy: 'display_order', ascending: true }
@@ -37,7 +41,7 @@ const CampaignFaqsManager = () => {
       handleCancel();
     } catch (error) {
       console.error('Error saving FAQ:', error);
-      alert(`Error saving FAQ: ${error.message}`);
+      toast.error(`Error saving FAQ: ${error.message}`);
     }
   };
 
@@ -53,12 +57,12 @@ const CampaignFaqsManager = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this item?')) return;
+    if (!(await confirm('Are you sure you want to delete this item?'))) return;
     try {
       await deleteItem(id);
     } catch (error) {
       console.error('Error deleting item:', error);
-      alert('Error deleting item. Please try again.');
+      toast.error('Error deleting item. Please try again.');
     }
   };
 

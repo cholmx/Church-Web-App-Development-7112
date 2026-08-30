@@ -7,12 +7,16 @@ import { SkeletonTable, LoadingTransition } from '../LoadingSkeletons';
 import { toTitleCase } from '../../utils/textFormat';
 import { formatDate } from '../../utils/dateFormat';
 import { useSupabaseCrud } from '../../hooks/useSupabaseCrud';
+import { useToast } from '../../hooks/useToast';
+import { useConfirm } from '../../hooks/useConfirm';
 
 const { FiPlus, FiEdit, FiTrash2, FiSave, FiX } = FiIcons;
 
 const emptyForm = { title: '', content: '', image_url: '', published: false, display_order: 0 };
 
 const CampaignVisionManager = () => {
+  const toast = useToast();
+  const confirm = useConfirm();
   const { items: visionItems, loading, insertItem, updateItem, deleteItem } = useSupabaseCrud(
     'campaign_vision',
     { orderBy: 'display_order', ascending: true }
@@ -39,7 +43,7 @@ const CampaignVisionManager = () => {
       handleCancel();
     } catch (error) {
       console.error('Error saving vision:', error);
-      alert(`Error saving vision: ${error.message}`);
+      toast.error(`Error saving vision: ${error.message}`);
     }
   };
 
@@ -56,12 +60,12 @@ const CampaignVisionManager = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this item?')) return;
+    if (!(await confirm('Are you sure you want to delete this item?'))) return;
     try {
       await deleteItem(id);
     } catch (error) {
       console.error('Error deleting item:', error);
-      alert('Error deleting item. Please try again.');
+      toast.error('Error deleting item. Please try again.');
     }
   };
 

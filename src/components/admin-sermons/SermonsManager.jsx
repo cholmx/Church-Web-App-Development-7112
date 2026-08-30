@@ -7,6 +7,7 @@ import { toTitleCase } from '../../utils/textFormat';
 import { formatDate } from '../../utils/dateFormat';
 import { useSupabaseCrud } from '../../hooks/useSupabaseCrud';
 import { useSermonSeries } from './SermonSeriesManager';
+import { useConfirm } from '../../hooks/useConfirm';
 
 const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiLayers, FiAlertTriangle, FiCheckCircle } = FiIcons;
 
@@ -21,6 +22,7 @@ const emptyForm = {
 };
 
 const SermonsManager = () => {
+  const confirm = useConfirm();
   const { items: sermons, loading, insertItem, updateItem, deleteItem } = useSupabaseCrud(
     'sermons_portal123',
     { orderBy: 'sermon_date', ascending: false }
@@ -88,7 +90,7 @@ const SermonsManager = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this sermon?')) return;
+    if (!(await confirm('Are you sure you want to delete this sermon?'))) return;
     try {
       await deleteItem(id);
       setSuccess('Sermon deleted successfully!');

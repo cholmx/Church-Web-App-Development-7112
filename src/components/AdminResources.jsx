@@ -8,10 +8,14 @@ import ResourceCategoriesManager from './admin-resources/ResourceCategoriesManag
 import ResourceForm from './admin-resources/ResourceForm';
 import ResourceBulkImport from './admin-resources/ResourceBulkImport';
 import ResourceList, { getCleanDescription } from './admin-resources/ResourceList';
+import { useToast } from '../hooks/useToast';
+import { useConfirm } from '../hooks/useConfirm';
 
 const { FiPlus, FiTag, FiBookOpen, FiAlertCircle, FiCheckCircle, FiUpload, FiDownload, FiRefreshCw } = FiIcons;
 
 const AdminResources = () => {
+  const toast = useToast();
+  const confirm = useConfirm();
   const {
     items: resources, loading, fetchItems: fetchResources, insertItem: insertResource,
     updateItem: updateResource, deleteItem: deleteResource
@@ -58,7 +62,7 @@ const AdminResources = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this resource?')) return;
+    if (!(await confirm('Are you sure you want to delete this resource?'))) return;
     try {
       await deleteResource(id);
       setSuccess('Resource deleted successfully!');
@@ -69,7 +73,7 @@ const AdminResources = () => {
   };
 
   const handleDeleteCategory = async (id) => {
-    if (!confirm('Are you sure you want to delete this category? Resources in this category will become uncategorized.')) return;
+    if (!(await confirm('Are you sure you want to delete this category? Resources in this category will become uncategorized.'))) return;
     try {
       await deleteCategory(id);
       setSuccess('Category deleted successfully!');
@@ -124,7 +128,7 @@ const AdminResources = () => {
 
   const exportResources = () => {
     if (resources.length === 0) {
-      alert('No resources to export.');
+      toast.error('No resources to export.');
       return;
     }
 

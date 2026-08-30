@@ -4,6 +4,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../../common/SafeIcon';
 import supabase from '../../lib/supabase';
 import { parseResourcesFile } from '../../utils/resourceParser';
+import { useConfirm } from '../../hooks/useConfirm';
 
 const { FiUpload, FiX } = FiIcons;
 
@@ -15,6 +16,7 @@ const { FiUpload, FiX } = FiIcons;
 // form submission, wasteful for a loop of dozens of inserts. The parent
 // refetches once via onImported when the whole batch is done.
 const ResourceBulkImport = ({ resources, categories, onImported, onCancel, onError }) => {
+  const confirm = useConfirm();
   const [importText, setImportText] = useState('');
   const [importing, setImporting] = useState(false);
 
@@ -28,7 +30,7 @@ const ResourceBulkImport = ({ resources, categories, onImported, onCancel, onErr
 
   const handleBulkImport = async () => {
     if (!importText.trim()) {
-      alert('Please paste your book recommendations text first.');
+      onError('Please paste your book recommendations text first.');
       return;
     }
 
@@ -41,7 +43,7 @@ const ResourceBulkImport = ({ resources, categories, onImported, onCancel, onErr
       }
 
       const confirmMessage = `Found ${parsedResources.length} book recommendations. Import them all?`;
-      if (!confirm(confirmMessage)) {
+      if (!(await confirm(confirmMessage))) {
         setImporting(false);
         return;
       }

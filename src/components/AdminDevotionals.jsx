@@ -8,10 +8,14 @@ import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
 import DevotionalForm from './admin-devotionals/DevotionalForm';
 import DevotionalBulkImport from './admin-devotionals/DevotionalBulkImport';
 import DevotionalList from './admin-devotionals/DevotionalList';
+import { useToast } from '../hooks/useToast';
+import { useConfirm } from '../hooks/useConfirm';
 
 const { FiUpload, FiDownload, FiTrash2, FiRefreshCw, FiCheckCircle, FiAlertCircle, FiPlus } = FiIcons;
 
 const AdminDevotionals = () => {
+  const toast = useToast();
+  const confirm = useConfirm();
   const {
     items: devotionals, loading, fetchItems, insertItem, updateItem, deleteItem
   } = useSupabaseCrud('daily_devotionals_portal123', { orderBy: 'devotional_date', ascending: true });
@@ -44,7 +48,7 @@ const AdminDevotionals = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this devotional?')) return;
+    if (!(await confirm('Are you sure you want to delete this devotional?'))) return;
     try {
       await deleteItem(id);
       setSuccess('Devotional deleted successfully!');
@@ -63,7 +67,7 @@ const AdminDevotionals = () => {
 
   const exportDevotionals = () => {
     if (devotionals.length === 0) {
-      alert('No devotionals to export.');
+      toast.error('No devotionals to export.');
       return;
     }
 
@@ -94,7 +98,7 @@ const AdminDevotionals = () => {
   };
 
   const clearAllDevotionals = async () => {
-    if (!confirm('Are you sure you want to delete ALL devotionals? This cannot be undone.')) return;
+    if (!(await confirm('Are you sure you want to delete ALL devotionals? This cannot be undone.'))) return;
     try {
       const { error: deleteError } = await supabase
         .from('daily_devotionals_portal123')

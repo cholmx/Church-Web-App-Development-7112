@@ -5,6 +5,7 @@ import SafeIcon from '../../common/SafeIcon';
 import { toTitleCase } from '../../utils/textFormat';
 import { formatDate } from '../../utils/dateFormat';
 import { useSupabaseCrud } from '../../hooks/useSupabaseCrud';
+import { useConfirm } from '../../hooks/useConfirm';
 
 const { FiTrash2, FiSave, FiX, FiAlertTriangle, FiCheckCircle } = FiIcons;
 
@@ -14,6 +15,7 @@ const emptyForm = { name: '', description: '', start_date: '', end_date: '' };
 // created/deleted here and referenced by id from SermonsManager's sermon
 // form (which fetches its own copy of the series list for the dropdown).
 const SermonSeriesManager = ({ showForm, onCloseForm }) => {
+  const confirm = useConfirm();
   const { items: series, saving, insertItem, deleteItem } = useSermonSeries();
   const [formData, setFormData] = useState(emptyForm);
   const [error, setError] = useState(null);
@@ -40,7 +42,7 @@ const SermonSeriesManager = ({ showForm, onCloseForm }) => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this sermon series? This will not delete the sermons in the series.')) return;
+    if (!(await confirm('Are you sure you want to delete this sermon series? This will not delete the sermons in the series.'))) return;
     try {
       await deleteItem(id);
       setSuccess('Sermon series deleted successfully!');

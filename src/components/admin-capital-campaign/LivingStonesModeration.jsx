@@ -4,6 +4,8 @@ import SafeIcon from '../../common/SafeIcon';
 import supabase from '../../lib/supabase';
 import { formatDate } from '../../utils/dateFormat';
 import { useSupabaseCrud } from '../../hooks/useSupabaseCrud';
+import { useToast } from '../../hooks/useToast';
+import { useConfirm } from '../../hooks/useConfirm';
 
 const { FiCheck, FiTrash2, FiImage } = FiIcons;
 
@@ -11,6 +13,8 @@ const { FiCheck, FiTrash2, FiImage } = FiIcons;
 // Reports its pending count up to the parent (for the tab badge) via
 // onPendingCountChange, called on every render of the fetched list.
 const LivingStonesModeration = ({ onPendingCountChange }) => {
+  const toast = useToast();
+  const confirm = useConfirm();
   const { items: livingStones, loading, updateItem, deleteItem } = useSupabaseCrud(
     'living_stones_photos',
     { orderBy: 'created_at', ascending: false }
@@ -28,12 +32,12 @@ const LivingStonesModeration = ({ onPendingCountChange }) => {
       await updateItem(id, { approved: true, approved_at: new Date().toISOString() });
     } catch (err) {
       console.error('Error approving photo:', err);
-      alert('Error approving photo. Please try again.');
+      toast.error('Error approving photo. Please try again.');
     }
   };
 
   const handleDeletePhoto = async (id, photoUrl) => {
-    if (!confirm('Are you sure you want to delete this photo? This cannot be undone.')) return;
+    if (!(await confirm('Are you sure you want to delete this photo? This cannot be undone.'))) return;
     try {
       const urlParts = photoUrl.split('/living-stones/');
       if (urlParts.length === 2) {
@@ -42,7 +46,7 @@ const LivingStonesModeration = ({ onPendingCountChange }) => {
       await deleteItem(id);
     } catch (err) {
       console.error('Error deleting photo:', err);
-      alert('Error deleting photo. Please try again.');
+      toast.error('Error deleting photo. Please try again.');
     }
   };
 

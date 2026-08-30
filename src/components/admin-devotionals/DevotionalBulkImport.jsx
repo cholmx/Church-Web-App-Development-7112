@@ -4,6 +4,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../../common/SafeIcon';
 import supabase from '../../lib/supabase';
 import { parseDevotionalFile } from '../../utils/devotionalParser';
+import { useConfirm } from '../../hooks/useConfirm';
 
 const { FiUpload, FiX } = FiIcons;
 
@@ -12,6 +13,7 @@ const { FiUpload, FiX } = FiIcons;
 // (rather than useSupabaseCrud) since this is a bulk delete-then-insert,
 // not a single-record mutation - the parent refetches once via onImported.
 const DevotionalBulkImport = ({ onImported, onCancel, onError }) => {
+  const confirm = useConfirm();
   const [importText, setImportText] = useState('');
   const [importing, setImporting] = useState(false);
 
@@ -26,7 +28,7 @@ const DevotionalBulkImport = ({ onImported, onCancel, onError }) => {
 
   const handleBulkImport = async () => {
     if (!importText.trim()) {
-      alert('Please paste your devotional text first.');
+      onError('Please paste your devotional text first.');
       return;
     }
 
@@ -39,7 +41,7 @@ const DevotionalBulkImport = ({ onImported, onCancel, onError }) => {
       }
 
       const confirmMessage = `Found ${parsedEntries.length} devotional entries. Import them all?`;
-      if (!confirm(confirmMessage)) {
+      if (!(await confirm(confirmMessage))) {
         setImporting(false);
         return;
       }
