@@ -4,13 +4,17 @@ import SafeIcon from '../../common/SafeIcon';
 
 const { FiEdit, FiTrash2, FiBookOpen, FiTag } = FiIcons;
 
+// Longer, period-inclusive variants must come before their shorter
+// no-period counterparts: String.replace only removes the first literal
+// match, so checking the no-period form first left a stray "." behind
+// whenever the noise phrase in the source text actually ended in one.
 const DESCRIPTION_NOISE = [
-  'Available from multiple sources',
   'Available from multiple sources.',
-  'available from multiple sources',
+  'Available from multiple sources',
   'available from multiple sources.',
-  'AVAILABLE FROM MULTIPLE SOURCES',
-  'AVAILABLE FROM MULTIPLE SOURCES.'
+  'available from multiple sources',
+  'AVAILABLE FROM MULTIPLE SOURCES.',
+  'AVAILABLE FROM MULTIPLE SOURCES'
 ];
 
 // Strips leftover "Available from multiple sources" boilerplate that used
@@ -25,7 +29,7 @@ export const getCleanDescription = (description) => {
   return cleanDescription;
 };
 
-const getWebsiteName = (url) => {
+export const getWebsiteName = (url) => {
   try {
     const domain = new URL(url).hostname.toLowerCase();
     if (domain.includes('amazon')) return 'Amazon';
