@@ -1,51 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
-import supabase from '../lib/supabase';
+import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
 
 const { FiMessageSquare, FiCheck, FiX, FiTrash2 } = FiIcons;
 
 const AdminComments = () => {
-  const [comments, setComments] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const {items: comments,loading,updateItem,deleteItem}=useSupabaseCrud(
+    'campaign_comments',
+    {orderBy: 'created_at',ascending: false}
+  );
   const [replyText, setReplyText] = useState({});
   const [savingReply, setSavingReply] = useState({});
 
-  useEffect(() => {
-    fetchComments();
-  }, []);
-
-  const fetchComments = async () => {
-    try {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('campaign_comments')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setComments(data || []);
-    } catch (error) {
-      console.error('Error fetching comments:', error);
-      alert('Failed to load comments: ' + error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const approveComment = async (commentId) => {
     try {
-      const { error } = await supabase
-        .from('campaign_comments')
-        .update({ is_approved: true, approved_at: new Date().toISOString() })
-        .eq('id', commentId);
-
-      if (error) throw error;
-
-      setComments(comments.map(c =>
-        c.id === commentId ? { ...c, is_approved: true, approved_at: new Date().toISOString() } : c
-      ));
+      await updateItem(commentId, { is_approved: true, approved_at: new Date().toISOString() });
     } catch (error) {
       console.error('Error approving comment:', error);
       alert('Failed to approve comment: ' + error.message);
@@ -54,16 +25,7 @@ const AdminComments = () => {
 
   const unapproveComment = async (commentId) => {
     try {
-      const { error } = await supabase
-        .from('campaign_comments')
-        .update({ is_approved: false, approved_at: null })
-        .eq('id', commentId);
-
-      if (error) throw error;
-
-      setComments(comments.map(c =>
-        c.id === commentId ? { ...c, is_approved: false, approved_at: null } : c
-      ));
+      await updateItem(commentId, { is_approved: false, approved_at: null });
     } catch (error) {
       console.error('Error unapproving comment:', error);
       alert('Failed to unapprove comment: ' + error.message);
@@ -74,16 +36,8 @@ const AdminComments = () => {
     if (!window.confirm('Are you sure you want to delete this comment?')) {
       return;
     }
-
     try {
-      const { error } = await supabase
-        .from('campaign_comments')
-        .delete()
-        .eq('id', commentId);
-
-      if (error) throw error;
-
-      setComments(comments.filter(c => c.id !== commentId));
+      await deleteItem(commentId);
     } catch (error) {
       console.error('Error deleting comment:', error);
       alert('Failed to delete comment: ' + error.message);
@@ -99,17 +53,7 @@ const AdminComments = () => {
 
     try {
       setSavingReply({ ...savingReply, [commentId]: true });
-
-      const { error } = await supabase
-        .from('campaign_comments')
-        .update({ admin_reply: reply })
-        .eq('id', commentId);
-
-      if (error) throw error;
-
-      setComments(comments.map(c =>
-        c.id === commentId ? { ...c, admin_reply: reply } : c
-      ));
+      await updateItem(commentId, { admin_reply: reply });
       setReplyText({ ...replyText, [commentId]: '' });
     } catch (error) {
       console.error('Error saving reply:', error);
@@ -123,18 +67,8 @@ const AdminComments = () => {
     if (!window.confirm('Are you sure you want to delete this reply?')) {
       return;
     }
-
     try {
-      const { error } = await supabase
-        .from('campaign_comments')
-        .update({ admin_reply: null })
-        .eq('id', commentId);
-
-      if (error) throw error;
-
-      setComments(comments.map(c =>
-        c.id === commentId ? { ...c, admin_reply: null } : c
-      ));
+      await updateItem(commentId, { admin_reply: null });
     } catch (error) {
       console.error('Error deleting reply:', error);
       alert('Failed to delete reply: ' + error.message);
