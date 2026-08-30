@@ -33,11 +33,12 @@ export function useSupabaseCrud(table, { orderBy, ascending = true } = {}) {
   }, [fetchItems]);
 
   const insertItem = useCallback(async (payload) => {
-    const { error: insertError } = await supabase.from(table).insert(
+    const { data, error: insertError } = await supabase.from(table).insert(
       Array.isArray(payload) ? payload : [payload]
-    );
+    ).select();
     if (insertError) throw insertError;
     await fetchItems();
+    return data;
   }, [table, fetchItems]);
 
   const updateItem = useCallback(async (id, payload) => {
