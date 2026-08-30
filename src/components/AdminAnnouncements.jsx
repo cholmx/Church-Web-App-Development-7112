@@ -8,10 +8,14 @@ import { toTitleCase } from '../utils/textFormat';
 import { formatDate, getTodayDateString } from '../utils/dateFormat';
 import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
 import { sanitizeHtml } from '../utils/sanitizeHtml';
+import { useToast } from '../hooks/useToast';
+import { useConfirm } from '../hooks/useConfirm';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX}=FiIcons;
 
 const AdminAnnouncements=()=> {
+  const toast=useToast();
+  const confirm=useConfirm();
   const {items: announcements,loading,insertItem,updateItem,deleteItem}=useSupabaseCrud(
     'announcements_portal123',
     {orderBy: 'announcement_date',ascending: false}
@@ -41,7 +45,7 @@ const AdminAnnouncements=()=> {
     } catch (error) {
       console.error('Error saving announcement:',error);
       const errorMessage = error?.message || 'Unknown error occurred';
-      alert(`Error saving announcement: ${errorMessage}\n\nPlease check the console for more details.`);
+      toast.error(`Error saving announcement: ${errorMessage}`);
     } finally {
       setSaving(false);
     }
@@ -59,12 +63,12 @@ const AdminAnnouncements=()=> {
   };
 
   const handleDelete=async (id)=> {
-    if (!confirm('Are you sure you want to delete this announcement?')) return;
+    if (!(await confirm('Are you sure you want to delete this announcement?'))) return;
     try {
       await deleteItem(id);
     } catch (error) {
       console.error('Error deleting announcement:',error);
-      alert('Error deleting announcement. Please try again.');
+      toast.error('Error deleting announcement. Please try again.');
     }
   };
 

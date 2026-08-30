@@ -7,10 +7,14 @@ import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
 import { toTitleCase } from '../utils/textFormat';
 import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
 import { sanitizeHtml } from '../utils/sanitizeHtml';
+import { useToast } from '../hooks/useToast';
+import { useConfirm } from '../hooks/useConfirm';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiExternalLink}=FiIcons;
 
 const AdminEvents=()=> {
+  const toast=useToast();
+  const confirm=useConfirm();
   const {items: events,loading,insertItem,updateItem,deleteItem}=useSupabaseCrud(
     'events_portal123',
     {orderBy: 'created_at',ascending: false}
@@ -38,7 +42,7 @@ const AdminEvents=()=> {
       handleCancel();
     } catch (error) {
       console.error('Error saving event:',error);
-      alert('Error saving event. Please try again.');
+      toast.error('Error saving event. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -55,12 +59,12 @@ const AdminEvents=()=> {
   };
 
   const handleDelete=async (id)=> {
-    if (!confirm('Are you sure you want to delete this event?')) return;
+    if (!(await confirm('Are you sure you want to delete this event?'))) return;
     try {
       await deleteItem(id);
     } catch (error) {
       console.error('Error deleting event:',error);
-      alert('Error deleting event. Please try again.');
+      toast.error('Error deleting event. Please try again.');
     }
   };
 

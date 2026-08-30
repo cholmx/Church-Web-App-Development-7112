@@ -6,10 +6,14 @@ import RichTextEditor from './RichTextEditor';
 import supabase from '../lib/supabase';
 import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
 import { sanitizeHtml } from '../utils/sanitizeHtml';
+import { useToast } from '../hooks/useToast';
+import { useConfirm } from '../hooks/useConfirm';
 
 const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiBookOpen, FiUpload, FiDownload } = FiIcons;
 
 const AdminScriptures = () => {
+  const toast = useToast();
+  const confirm = useConfirm();
   const {items: scriptures,loading,fetchItems,insertItem,updateItem,deleteItem}=useSupabaseCrud(
     'daily_scriptures_portal123',
     {orderBy: 'created_at',ascending: true}
@@ -84,7 +88,7 @@ const AdminScriptures = () => {
 
   const handleBulkImport = async () => {
     if (!importText.trim()) {
-      alert('Please paste your scripture text first.');
+      toast.error('Please paste your scripture text first.');
       return;
     }
 
@@ -94,14 +98,14 @@ const AdminScriptures = () => {
       const parsedEntries = parseImportText(importText);
 
       if (parsedEntries.length === 0) {
-        alert('No valid scripture entries found. Please check your format.');
+        toast.error('No valid scripture entries found. Please check your format.');
         setImporting(false);
         return;
       }
 
       // Show preview and confirm
       const confirmMessage = `Found ${parsedEntries.length} scripture entries. Import them all?`;
-      if (!confirm(confirmMessage)) {
+      if (!(await confirm(confirmMessage))) {
         setImporting(false);
         return;
       }
@@ -119,14 +123,14 @@ const AdminScriptures = () => {
 
       await Promise.all(importPromises);
 
-      alert(`Successfully imported ${parsedEntries.length} scriptures!`);
+      toast.success(`Successfully imported ${parsedEntries.length} scriptures!`);
       setImportText('');
       setShowBulkImport(false);
       fetchItems();
 
     } catch (error) {
       console.error('Error importing scriptures:', error);
-      alert('Error importing scriptures. Please try again.');
+      toast.error('Error importing scriptures. Please try again.');
     } finally {
       setImporting(false);
     }
@@ -145,7 +149,7 @@ const AdminScriptures = () => {
 
   const exportScriptures = () => {
     if (scriptures.length === 0) {
-      alert('No scriptures to export.');
+      toast.error('No scriptures to export.');
       return;
     }
 
@@ -194,7 +198,7 @@ const AdminScriptures = () => {
       setShowForm(false);
     } catch (error) {
       console.error('Error saving scripture:', error);
-      alert('Error saving scripture. Please try again.');
+      toast.error('Error saving scripture. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -211,13 +215,13 @@ const AdminScriptures = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this scripture verse?')) return;
+    if (!(await confirm('Are you sure you want to delete this scripture verse?'))) return;
 
     try {
       await deleteItem(id);
     } catch (error) {
       console.error('Error deleting scripture:', error);
-      alert('Error deleting scripture. Please try again.');
+      toast.error('Error deleting scripture. Please try again.');
     }
   };
 

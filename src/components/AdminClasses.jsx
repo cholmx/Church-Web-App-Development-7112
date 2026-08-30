@@ -7,10 +7,14 @@ import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
 import { toTitleCase } from '../utils/textFormat';
 import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
 import { sanitizeHtml } from '../utils/sanitizeHtml';
+import { useToast } from '../hooks/useToast';
+import { useConfirm } from '../hooks/useConfirm';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiExternalLink}=FiIcons;
 
 const AdminClasses=()=> {
+  const toast=useToast();
+  const confirm=useConfirm();
   const {items: classes,loading,insertItem,updateItem,deleteItem}=useSupabaseCrud(
     'classes_portal123',
     {orderBy: 'created_at',ascending: false}
@@ -38,7 +42,7 @@ const AdminClasses=()=> {
       handleCancel();
     } catch (error) {
       console.error('Error saving class:',error);
-      alert('Error saving class. Please try again.');
+      toast.error('Error saving class. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -55,12 +59,12 @@ const AdminClasses=()=> {
   };
 
   const handleDelete=async (id)=> {
-    if (!confirm('Are you sure you want to delete this class?')) return;
+    if (!(await confirm('Are you sure you want to delete this class?'))) return;
     try {
       await deleteItem(id);
     } catch (error) {
       console.error('Error deleting class:',error);
-      alert('Error deleting class. Please try again.');
+      toast.error('Error deleting class. Please try again.');
     }
   };
 
