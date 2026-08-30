@@ -32,7 +32,6 @@ const testConnection = async () => {
       return false
     }
 
-    console.log('✅ Supabase connected successfully to bolt.new database')
     return true
   } catch (error) {
     console.error('Supabase connection failed:', error)

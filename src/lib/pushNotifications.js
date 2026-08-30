@@ -15,7 +15,6 @@ class PushNotificationService {
     try {
       // Register service worker
       const registration = await navigator.serviceWorker.register('/sw.js');
-      console.log('Service Worker registered:', registration);
 
       // Check if already subscribed
       this.subscription = await registration.pushManager.getSubscription();
@@ -91,7 +90,6 @@ class PushNotificationService {
       subscriptions.push(subscriptionData);
       localStorage.setItem('push_subscriptions_portal123', JSON.stringify(subscriptions));
       
-      console.log('Subscription saved to local storage');
     } catch (error) {
       console.error('Failed to send subscription to server:', error);
     }
@@ -102,7 +100,6 @@ class PushNotificationService {
       // Remove from localStorage for demo
       // In production, remove from your server
       localStorage.removeItem('push_subscriptions_portal123');
-      console.log('Subscription removed from local storage');
     } catch (error) {
       console.error('Failed to remove subscription from server:', error);
     }

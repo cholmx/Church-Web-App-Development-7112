@@ -24,7 +24,6 @@ export class PodcastRSSService {
         url = `${proxy}${this.rssUrl}`
       }
 
-      console.log(`Trying proxy ${proxyIndex + 1}:`, url)
 
       const response = await fetch(url, {
         headers: {
@@ -51,17 +50,15 @@ export class PodcastRSSService {
 
   async fetchPodcastFeed() {
     try {
-      console.log('Fetching podcast RSS feed...')
 
       try {
         const directResponse = await fetch(this.rssUrl)
         if (directResponse.ok) {
           const directXml = await directResponse.text()
-          console.log('Direct fetch successful')
           return this.parseRSSFeed(directXml)
         }
       } catch {
-        console.log('Direct fetch failed, trying proxies...')
+        // Direct fetch failed, fall through to the proxy fetch below.
       }
 
       const xmlContent = await this.fetchWithProxy()
@@ -74,7 +71,6 @@ export class PodcastRSSService {
 
   parseRSSFeed(xmlString) {
     try {
-      console.log('Parsing RSS feed...')
       const parser = new DOMParser()
       const xmlDoc = parser.parseFromString(xmlString, 'text/xml')
 
@@ -89,7 +85,6 @@ export class PodcastRSSService {
       }
 
       const items = xmlDoc.querySelectorAll('item')
-      console.log(`Found ${items.length} episodes`)
 
       const channelInfo = {
         title: this.getTextContent(channel, 'title') || 'Shine Podcast',
@@ -119,7 +114,6 @@ export class PodcastRSSService {
         }
       }).filter(episode => episode.title && episode.title !== '')
 
-      console.log(`Parsed ${episodes.length} valid episodes`)
       return {
         channel: channelInfo,
         episodes: episodes,
@@ -131,7 +125,6 @@ export class PodcastRSSService {
   }
 
   getFallbackData() {
-    console.log('Using fallback podcast data')
     return {
       channel: {
         title: 'Shine Podcast',
@@ -238,7 +231,6 @@ export class PodcastRSSService {
         cached_at: new Date().toISOString()
       }
       localStorage.setItem('shine_podcast_cache', JSON.stringify(cacheData))
-      console.log('Episodes cached successfully')
     } catch (error) {
       console.error('Error caching episodes:', error)
     }
@@ -258,7 +250,6 @@ export class PodcastRSSService {
         return null
       }
 
-      console.log('Using cached episodes')
       return data
     } catch {
       return null

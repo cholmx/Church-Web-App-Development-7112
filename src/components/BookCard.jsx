@@ -17,7 +17,6 @@ if (resource.image_url) {
 const isValid=await testImageUrl(resource.image_url);
 if (isValid) {
 finalImageUrl=resource.image_url;
-console.log('✅ Using custom image:',finalImageUrl);
 }
 }
 
@@ -26,16 +25,12 @@ if (!finalImageUrl && resource.amazon_link) {
 const amazonImageUrls=extractFirstAmazonImage(resource.amazon_link);
 if (amazonImageUrls && Array.isArray(amazonImageUrls)) {
 finalImageUrl=await testImageUrls(amazonImageUrls);
-if (finalImageUrl) {
-console.log('✅ Using Amazon image:',finalImageUrl);
-}
 }
 }
 
 // Priority 3: Use fallback image
 if (!finalImageUrl) {
 finalImageUrl=getBookFallbackImage();
-console.log('✅ Using fallback image:',finalImageUrl);
 }
 
 setImageUrl(finalImageUrl);
@@ -46,7 +41,6 @@ loadImage();
 },[resource.image_url,resource.amazon_link]);
 
 const handleImageError=()=> {
-console.log('❌ Image failed to load,using fallback');
 setImageError(true);
 setImageUrl(getBookFallbackImage());
 };

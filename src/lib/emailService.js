@@ -26,7 +26,6 @@ export const sendEmail = async (formData, formType) => {
     }
 
     await response.json()
-    console.log('✅ Email sent successfully via Formspree')
     return { success: true, error: null }
     
   } catch (error) {

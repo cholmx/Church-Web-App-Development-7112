@@ -32,7 +32,6 @@ const Resources=()=> {
 
       if (error) throw error;
       setResources(data || []);
-      console.log('✅ Resources loaded:',data?.length || 0);
     } catch (error) {
       console.error('❌ Error fetching resources:',error);
       setError('Failed to load resources: ' + error.message);
@@ -51,7 +50,6 @@ const Resources=()=> {
 
       if (error) throw error;
       setCategories(data || []);
-      console.log('✅ Categories loaded:',data?.length || 0);
     } catch (error) {
       console.error('❌ Error fetching categories:',error);
       setError('Failed to load categories: ' + error.message);
