@@ -3,10 +3,14 @@ import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
+import { useToast } from '../hooks/useToast';
+import { useConfirm } from '../hooks/useConfirm';
 
 const { FiMessageSquare, FiCheck, FiX, FiTrash2 } = FiIcons;
 
 const AdminComments = () => {
+  const toast = useToast();
+  const confirm = useConfirm();
   const {items: comments,loading,updateItem,deleteItem}=useSupabaseCrud(
     'campaign_comments',
     {orderBy: 'created_at',ascending: false}
@@ -19,7 +23,7 @@ const AdminComments = () => {
       await updateItem(commentId, { is_approved: true, approved_at: new Date().toISOString() });
     } catch (error) {
       console.error('Error approving comment:', error);
-      alert('Failed to approve comment: ' + error.message);
+      toast.error('Failed to approve comment: ' + error.message);
     }
   };
 
@@ -28,26 +32,26 @@ const AdminComments = () => {
       await updateItem(commentId, { is_approved: false, approved_at: null });
     } catch (error) {
       console.error('Error unapproving comment:', error);
-      alert('Failed to unapprove comment: ' + error.message);
+      toast.error('Failed to unapprove comment: ' + error.message);
     }
   };
 
   const deleteComment = async (commentId) => {
-    if (!window.confirm('Are you sure you want to delete this comment?')) {
+    if (!(await confirm('Are you sure you want to delete this comment?'))) {
       return;
     }
     try {
       await deleteItem(commentId);
     } catch (error) {
       console.error('Error deleting comment:', error);
-      alert('Failed to delete comment: ' + error.message);
+      toast.error('Failed to delete comment: ' + error.message);
     }
   };
 
   const saveReply = async (commentId) => {
     const reply = replyText[commentId]?.trim();
     if (!reply) {
-      alert('Please enter a reply');
+      toast.error('Please enter a reply');
       return;
     }
 
@@ -57,21 +61,21 @@ const AdminComments = () => {
       setReplyText({ ...replyText, [commentId]: '' });
     } catch (error) {
       console.error('Error saving reply:', error);
-      alert('Failed to save reply: ' + error.message);
+      toast.error('Failed to save reply: ' + error.message);
     } finally {
       setSavingReply({ ...savingReply, [commentId]: false });
     }
   };
 
   const deleteReply = async (commentId) => {
-    if (!window.confirm('Are you sure you want to delete this reply?')) {
+    if (!(await confirm('Are you sure you want to delete this reply?'))) {
       return;
     }
     try {
       await updateItem(commentId, { admin_reply: null });
     } catch (error) {
       console.error('Error deleting reply:', error);
-      alert('Failed to delete reply: ' + error.message);
+      toast.error('Failed to delete reply: ' + error.message);
     }
   };
 

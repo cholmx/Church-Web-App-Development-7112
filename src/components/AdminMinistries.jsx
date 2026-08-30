@@ -7,10 +7,14 @@ import RichTextEditor from './RichTextEditor';
 import supabase from '../lib/supabase';
 import { toTitleCase } from '../utils/textFormat';
 import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
+import { useToast } from '../hooks/useToast';
+import { useConfirm } from '../hooks/useConfirm';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiChevronUp,FiChevronDown,FiHeart}=FiIcons;
 
 const AdminMinistries=()=> {
+  const toast=useToast();
+  const confirm=useConfirm();
   const {items: ministries,loading,fetchItems,insertItem,updateItem,deleteItem}=useSupabaseCrud(
     'ministries_portal123',
     {orderBy: 'display_order',ascending: true}
@@ -88,7 +92,7 @@ const AdminMinistries=()=> {
       fetchItems();
     } catch (error) {
       console.error('Error saving ministry:',error);
-      alert(`Error saving ministry: ${error.message}`);
+      toast.error(`Error saving ministry: ${error.message}`);
     } finally {
       setSaving(false);
     }
@@ -109,12 +113,12 @@ const AdminMinistries=()=> {
   };
 
   const handleDelete=async (id)=> {
-    if (!confirm('Are you sure you want to delete this ministry? This will also delete all associated features.')) return;
+    if (!(await confirm('Are you sure you want to delete this ministry? This will also delete all associated features.'))) return;
     try {
       await deleteItem(id);
     } catch (error) {
       console.error('Error deleting ministry:',error);
-      alert('Error deleting ministry. Please try again.');
+      toast.error('Error deleting ministry. Please try again.');
     }
   };
 
@@ -174,7 +178,7 @@ const AdminMinistries=()=> {
       fetchItems();
     } catch (error) {
       console.error('Error reordering ministries:',error);
-      alert('Error reordering ministries. Please try again.');
+      toast.error('Error reordering ministries. Please try again.');
     }
   };
 

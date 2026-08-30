@@ -4,10 +4,14 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
 import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
+import { useToast } from '../hooks/useToast';
+import { useConfirm } from '../hooks/useConfirm';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiToggleLeft,FiToggleRight,FiExternalLink}=FiIcons;
 
 const AdminLeadershipLinks=()=> {
+  const toast=useToast();
+  const confirm=useConfirm();
   const {items: links,loading,insertItem,updateItem,deleteItem}=useSupabaseCrud(
     'leadership_links',
     {orderBy: 'sort_order',ascending: true}
@@ -45,7 +49,7 @@ const AdminLeadershipLinks=()=> {
       handleCancel();
     } catch (error) {
       console.error('Error saving link:',error);
-      alert('Error saving link. Please try again.');
+      toast.error('Error saving link. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -65,12 +69,12 @@ const AdminLeadershipLinks=()=> {
   };
 
   const handleDelete=async (id)=> {
-    if (!confirm('Are you sure you want to delete this link?')) return;
+    if (!(await confirm('Are you sure you want to delete this link?'))) return;
     try {
       await deleteItem(id);
     } catch (error) {
       console.error('Error deleting link:',error);
-      alert('Error deleting link. Please try again.');
+      toast.error('Error deleting link. Please try again.');
     }
   };
 
@@ -79,7 +83,7 @@ const AdminLeadershipLinks=()=> {
       await updateItem(link.id,{is_active: !link.is_active,updated_at: new Date().toISOString()});
     } catch (error) {
       console.error('Error toggling link:',error);
-      alert('Error updating link status. Please try again.');
+      toast.error('Error updating link status. Please try again.');
     }
   };
 

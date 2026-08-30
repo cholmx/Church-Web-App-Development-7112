@@ -6,10 +6,14 @@ import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
 import supabase from '../lib/supabase';
 import { toTitleCase } from '../utils/textFormat';
 import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
+import { useToast } from '../hooks/useToast';
+import { useConfirm } from '../hooks/useConfirm';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiChevronUp,FiChevronDown,FiUsers,FiMail}=FiIcons;
 
 const AdminStaffContacts=()=> {
+  const toast=useToast();
+  const confirm=useConfirm();
   const {items: staffContacts,loading,fetchItems,insertItem,updateItem,deleteItem}=useSupabaseCrud(
     'staff_contacts_portal123',
     {orderBy: 'display_order',ascending: true}
@@ -45,7 +49,7 @@ const AdminStaffContacts=()=> {
       handleCancel();
     } catch (error) {
       console.error('Error saving staff contact:',error);
-      alert(`Error saving staff contact: ${error.message}`);
+      toast.error(`Error saving staff contact: ${error.message}`);
     } finally {
       setSaving(false);
     }
@@ -63,12 +67,12 @@ const AdminStaffContacts=()=> {
   };
 
   const handleDelete=async (id)=> {
-    if (!confirm('Are you sure you want to delete this staff contact?')) return;
+    if (!(await confirm('Are you sure you want to delete this staff contact?'))) return;
     try {
       await deleteItem(id);
     } catch (error) {
       console.error('Error deleting staff contact:',error);
-      alert('Error deleting staff contact. Please try again.');
+      toast.error('Error deleting staff contact. Please try again.');
     }
   };
 
@@ -105,7 +109,7 @@ const AdminStaffContacts=()=> {
       fetchItems();
     } catch (error) {
       console.error('Error reordering staff contacts:',error);
-      alert('Error reordering staff contacts. Please try again.');
+      toast.error('Error reordering staff contacts. Please try again.');
     }
   };
 

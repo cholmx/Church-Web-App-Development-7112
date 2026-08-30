@@ -5,10 +5,14 @@ import SafeIcon from '../common/SafeIcon';
 import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
 import { toTitleCase } from '../utils/textFormat';
 import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
+import { useToast } from '../hooks/useToast';
+import { useConfirm } from '../hooks/useConfirm';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiToggleLeft,FiToggleRight}=FiIcons;
 
 const AdminFeaturedButtons=()=> {
+  const toast=useToast();
+  const confirm=useConfirm();
   const {items: buttons,loading,insertItem,updateItem,deleteItem}=useSupabaseCrud(
     'featured_buttons_portal123',
     {orderBy: 'display_order',ascending: true}
@@ -53,7 +57,7 @@ const AdminFeaturedButtons=()=> {
       handleCancel();
     } catch (error) {
       console.error('Error saving button:',error);
-      alert('Error saving button. Please try again.');
+      toast.error('Error saving button. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -71,12 +75,12 @@ const AdminFeaturedButtons=()=> {
   };
 
   const handleDelete=async (id)=> {
-    if (!confirm('Are you sure you want to delete this featured button?')) return;
+    if (!(await confirm('Are you sure you want to delete this featured button?'))) return;
     try {
       await deleteItem(id);
     } catch (error) {
       console.error('Error deleting button:',error);
-      alert('Error deleting button. Please try again.');
+      toast.error('Error deleting button. Please try again.');
     }
   };
 
@@ -85,7 +89,7 @@ const AdminFeaturedButtons=()=> {
       await updateItem(button.id,{is_active: !button.is_active});
     } catch (error) {
       console.error('Error toggling button:',error);
-      alert('Error updating button status. Please try again.');
+      toast.error('Error updating button status. Please try again.');
     }
   };
 
