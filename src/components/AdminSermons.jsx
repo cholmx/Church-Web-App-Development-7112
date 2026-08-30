@@ -5,6 +5,7 @@ import SafeIcon from '../common/SafeIcon';
 import RichTextEditor from './RichTextEditor';
 import supabase from '../lib/supabase';
 import { toTitleCase } from '../utils/textFormat';
+import { formatDate } from '../utils/dateFormat';
 
 const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiLayers, FiAlertTriangle, FiCheckCircle } = FiIcons;
 
@@ -303,8 +304,8 @@ const AdminSermons = () => {
                 </div>
                 <p className="text-sm text-text-light mb-2 font-inter">{series.description}</p>
                 <div className="text-xs text-text-light font-inter">
-                  {new Date(series.start_date).toLocaleDateString()} - {
-                    series.end_date ? new Date(series.end_date).toLocaleDateString() : 'Ongoing'
+                  {formatDate(series.start_date)} - {
+                    series.end_date ? formatDate(series.end_date) : 'Ongoing'
                   }
                 </div>
               </div>
@@ -557,7 +558,7 @@ const AdminSermons = () => {
                     )}
                     <div className="text-sm text-text-light font-inter mb-2">
                       {sermon.speaker && `${sermon.speaker} • `}
-                      {new Date(sermon.sermon_date).toLocaleDateString()}
+                      {formatDate(sermon.sermon_date)}
                     </div>
                     {sermon.youtube_url && (
                       <div className="text-sm text-primary font-inter mb-2">

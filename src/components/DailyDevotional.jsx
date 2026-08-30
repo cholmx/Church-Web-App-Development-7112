@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
+import { parseLocalDate } from '../utils/dateFormat';
 
 const { FiBookOpen, FiCalendar, FiChevronLeft, FiChevronRight, FiRefreshCw } = FiIcons;
 
@@ -31,7 +32,7 @@ const DailyDevotional = () => {
 
       if (error) throw error;
       
-      const dates = data.map(item => new Date(item.devotional_date));
+      const dates = data.map(item => parseLocalDate(item.devotional_date));
       setAvailableDates(dates);
       
       // Set initial date to today if available, otherwise first available date

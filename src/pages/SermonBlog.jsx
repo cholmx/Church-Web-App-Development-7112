@@ -5,6 +5,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import {useCleanContent} from '../hooks/useCleanContent';
 import supabase from '../lib/supabase';
+import {formatDate} from '../utils/dateFormat';
 
 const {FiPlay,FiCalendar,FiUser,FiMessageCircle,FiHome,FiLayers,FiFilter}=FiIcons;
 
@@ -52,14 +53,6 @@ const SermonBlog=()=> {
     } catch (error) {
       console.error('Error fetching sermon series:',error);
     }
-  };
-
-  const formatDate=(dateString)=> {
-    return new Date(dateString).toLocaleDateString('en-US',{
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
   };
 
   const getYouTubeEmbedUrl=(url)=> {

@@ -6,6 +6,7 @@ import SafeIcon from '../common/SafeIcon';
 import {SkeletonCard,LoadingTransition} from '../components/LoadingSkeletons';
 import {useCleanContent} from '../hooks/useCleanContent';
 import supabase from '../lib/supabase';
+import {formatDate} from '../utils/dateFormat';
 
 const {FiBell,FiCalendar,FiUser,FiHome}=FiIcons;
 
@@ -35,15 +36,6 @@ const Announcements=()=> {
       // Add minimum delay to show skeleton
       setTimeout(()=> setLoading(false),600);
     }
-  };
-
-  const formatDate=(dateString)=> {
-    if (!dateString) return '';
-    return new Date(dateString).toLocaleDateString('en-US',{
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
   };
 
   return (

@@ -6,6 +6,7 @@ import RichTextEditor from './RichTextEditor';
 import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
 import supabase from '../lib/supabase';
 import { toTitleCase } from '../utils/textFormat';
+import { formatDate, getTodayDateString } from '../utils/dateFormat';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX}=FiIcons;
 
@@ -43,7 +44,7 @@ const AdminAnnouncements=()=> {
         title: toTitleCase(formData.title),
         content: formData.content,
         author: toTitleCase(formData.author),
-        announcement_date: formData.announcement_date || new Date().toISOString().split('T')[0]
+        announcement_date: formData.announcement_date || getTodayDateString()
       };
 
       if (editingId) {
@@ -103,15 +104,6 @@ const AdminAnnouncements=()=> {
 
   const handleContentChange=(e)=> {
     setFormData({...formData,content: e.target.value});
-  };
-
-  const formatDate=(dateString)=> {
-    if (!dateString) return '';
-    return new Date(dateString).toLocaleDateString('en-US',{
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
   };
 
   return (

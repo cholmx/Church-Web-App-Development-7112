@@ -5,6 +5,7 @@ import SafeIcon from '../common/SafeIcon';
 import RichTextEditor from './RichTextEditor';
 import supabase from '../lib/supabase';
 import { toTitleCase } from '../utils/textFormat';
+import { formatDate, parseLocalDate } from '../utils/dateFormat';
 
 const {FiUpload,FiDownload,FiTrash2,FiBookOpen,FiCalendar,FiRefreshCw,FiCheckCircle,FiAlertCircle,FiPlus,FiEdit,FiSave,FiX}=FiIcons;
 
@@ -294,7 +295,7 @@ const AdminDevotionals=()=> {
 
     let exportText='';
     devotionals.forEach((devotional,index)=> {
-      const date=new Date(devotional.devotional_date);
+      const date=parseLocalDate(devotional.devotional_date);
       const monthName=date.toLocaleDateString('en-US',{month: 'long'}).toUpperCase();
       const day=date.getDate();
 
@@ -357,7 +358,7 @@ const AdminDevotionals=()=> {
   const getDevotionalsByMonth=()=> {
     const months={};
     devotionals.forEach(devotional=> {
-      const date=new Date(devotional.devotional_date);
+      const date=parseLocalDate(devotional.devotional_date);
       const monthKey=date.toLocaleDateString('en-US',{month: 'long',year: 'numeric'});
       if (!months[monthKey]) {
         months[monthKey]=[];
@@ -365,14 +366,6 @@ const AdminDevotionals=()=> {
       months[monthKey].push(devotional);
     });
     return months;
-  };
-
-  const formatDate=(dateString)=> {
-    return new Date(dateString).toLocaleDateString('en-US',{
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
   };
 
   return (
