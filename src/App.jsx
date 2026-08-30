@@ -4,6 +4,7 @@ import {AnimatePresence,motion} from 'framer-motion'
 import './App.css'
 
 import Home from './pages/Home'
+import ErrorBoundary from './components/ErrorBoundary'
 
 const About = lazy(() => import('./pages/About'))
 const Services = lazy(() => import('./pages/Services'))
@@ -87,11 +88,13 @@ const AnimatedRoutes = () => {
 
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-accent">
-        <AnimatedRoutes />
-      </div>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <div className="min-h-screen bg-accent">
+          <AnimatedRoutes />
+        </div>
+      </Router>
+    </ErrorBoundary>
   )
 }
 
