@@ -6,6 +6,7 @@ import RichTextEditor from './RichTextEditor';
 import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
 import { toTitleCase } from '../utils/textFormat';
 import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
+import { sanitizeHtml } from '../utils/sanitizeHtml';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiExternalLink}=FiIcons;
 
@@ -164,7 +165,7 @@ const AdminClasses=()=> {
                       <h3 className="text-lg text-text-primary mb-2">{classItem.title}</h3>
                       <div
                         className="text-text-primary text-sm mb-2 prose prose-sm max-w-none rendered-content"
-                        dangerouslySetInnerHTML={{__html: classItem.details}}
+                        dangerouslySetInnerHTML={{__html: sanitizeHtml(classItem.details)}}
                       />
                       {classItem.link && (
                         <div className="mb-2">

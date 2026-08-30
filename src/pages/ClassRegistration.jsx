@@ -5,6 +5,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
 import StandardButton from '../components/StandardButton';
+import {sanitizeHtml} from '../utils/sanitizeHtml';
 
 const {FiBookOpen,FiHome,FiExternalLink}=FiIcons;
 
@@ -106,7 +107,7 @@ const ClassRegistration=()=> {
                 </h3>
                 <div
                   className="text-text-primary mb-6 prose prose-sm max-w-none rendered-content"
-                  dangerouslySetInnerHTML={{__html: classItem.details}}
+                  dangerouslySetInnerHTML={{__html: sanitizeHtml(classItem.details)}}
                 />
                 {classItem.link && (
                   <div className="flex justify-start">

@@ -6,6 +6,7 @@ import SafeIcon from '../common/SafeIcon';
 import {useCleanContent} from '../hooks/useCleanContent';
 import supabase from '../lib/supabase';
 import {formatDate} from '../utils/dateFormat';
+import {sanitizeHtml} from '../utils/sanitizeHtml';
 
 const {FiPlay,FiCalendar,FiUser,FiMessageCircle,FiHome,FiLayers,FiFilter}=FiIcons;
 
@@ -305,7 +306,7 @@ const SermonBlog=()=> {
                       <div className="prose max-w-none">
                         <div
                           className="rendered-content text-text-primary font-inter"
-                          dangerouslySetInnerHTML={{__html: sermon.summary}}
+                          dangerouslySetInnerHTML={{__html: sanitizeHtml(sermon.summary)}}
                         />
                       </div>
                     </div>
@@ -327,7 +328,7 @@ const SermonBlog=()=> {
                         <div
                           className="rendered-content text-text-primary font-inter"
                           dangerouslySetInnerHTML={{
-                            __html: sermon.discussion_questions
+                            __html: sanitizeHtml(sermon.discussion_questions)
                           }}
                         />
                       </div>

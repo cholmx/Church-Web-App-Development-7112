@@ -6,6 +6,7 @@ import RichTextEditor from './RichTextEditor';
 import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
 import { toTitleCase } from '../utils/textFormat';
 import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
+import { sanitizeHtml } from '../utils/sanitizeHtml';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiExternalLink}=FiIcons;
 
@@ -164,7 +165,7 @@ const AdminEvents=()=> {
                       <h3 className="text-lg text-text-primary mb-2">{event.title}</h3>
                       <div
                         className="text-text-primary text-sm mb-3 prose prose-sm max-w-none rendered-content"
-                        dangerouslySetInnerHTML={{__html: event.details}}
+                        dangerouslySetInnerHTML={{__html: sanitizeHtml(event.details)}}
                       />
                       {event.link && (
                         <div className="mb-3">

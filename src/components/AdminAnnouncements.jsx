@@ -7,6 +7,7 @@ import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
 import { toTitleCase } from '../utils/textFormat';
 import { formatDate, getTodayDateString } from '../utils/dateFormat';
 import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
+import { sanitizeHtml } from '../utils/sanitizeHtml';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX}=FiIcons;
 
@@ -180,7 +181,7 @@ const AdminAnnouncements=()=> {
                       </h3>
                       <div
                         className="announcement-content text-sm mb-2 prose prose-sm max-w-none"
-                        dangerouslySetInnerHTML={{__html: announcement.content}}
+                        dangerouslySetInnerHTML={{__html: sanitizeHtml(announcement.content)}}
                       />
                       <div className="text-sm text-text-light">
                         {announcement.author && `By ${announcement.author} • `}

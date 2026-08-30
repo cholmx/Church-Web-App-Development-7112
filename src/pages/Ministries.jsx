@@ -4,6 +4,7 @@ import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
+import {sanitizeHtml} from '../utils/sanitizeHtml';
 
 const {FiHeart,FiHome}=FiIcons;
 
@@ -133,7 +134,7 @@ const Ministries=()=> {
                   <div className="mb-6">
                     <div
                       className="text-text-primary leading-relaxed prose prose-sm max-w-none"
-                      dangerouslySetInnerHTML={{__html: ministry.description}}
+                      dangerouslySetInnerHTML={{__html: sanitizeHtml(ministry.description)}}
                     />
                   </div>
 

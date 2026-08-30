@@ -5,6 +5,7 @@ import SafeIcon from '../common/SafeIcon';
 import RichTextEditor from './RichTextEditor';
 import supabase from '../lib/supabase';
 import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
+import { sanitizeHtml } from '../utils/sanitizeHtml';
 
 const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiBookOpen, FiUpload, FiDownload } = FiIcons;
 
@@ -457,13 +458,13 @@ And we know that in all things God works for the good of those who love him, who
                       </h3>
                     </div>
                     <div className="text-text-primary font-inter mb-3 prose prose-sm max-w-none rendered-content">
-                      <div dangerouslySetInnerHTML={{ __html: scripture.verse_text }} />
+                      <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(scripture.verse_text) }} />
                     </div>
                     {scripture.notes && (
                       <div className="text-sm text-text-light">
                         <strong>Notes:</strong>
                         <div className="mt-1 prose prose-sm max-w-none rendered-content">
-                          <div dangerouslySetInnerHTML={{ __html: scripture.notes }} />
+                          <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(scripture.notes) }} />
                         </div>
                       </div>
                     )}

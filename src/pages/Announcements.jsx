@@ -7,6 +7,7 @@ import {SkeletonCard,LoadingTransition} from '../components/LoadingSkeletons';
 import {useCleanContent} from '../hooks/useCleanContent';
 import supabase from '../lib/supabase';
 import {formatDate} from '../utils/dateFormat';
+import {sanitizeHtml} from '../utils/sanitizeHtml';
 
 const {FiBell,FiCalendar,FiUser,FiHome}=FiIcons;
 
@@ -121,7 +122,7 @@ const Announcements=()=> {
                     <div className="prose max-w-none">
                       <div
                         className="announcement-content"
-                        dangerouslySetInnerHTML={{__html: announcement.content}}
+                        dangerouslySetInnerHTML={{__html: sanitizeHtml(announcement.content)}}
                       />
                     </div>
                     {announcement.author && (
