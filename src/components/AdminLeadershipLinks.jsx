@@ -1,15 +1,18 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
-import supabase from '../lib/supabase';
+import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiToggleLeft,FiToggleRight,FiExternalLink}=FiIcons;
 
 const AdminLeadershipLinks=()=> {
-  const [links,setLinks]=useState([]);
-  const [loading,setLoading]=useState(true);
+  const {items: links,loading,insertItem,updateItem,deleteItem}=useSupabaseCrud(
+    'leadership_links',
+    {orderBy: 'sort_order',ascending: true}
+  );
+  const [saving,setSaving]=useState(false);
   const [editingId,setEditingId]=useState(null);
   const [showForm,setShowForm]=useState(false);
   const [formData,setFormData]=useState({
@@ -21,28 +24,9 @@ const AdminLeadershipLinks=()=> {
     is_active: true
   });
 
-  useEffect(()=> {
-    fetchLinks();
-  },[]);
-
-  const fetchLinks=async ()=> {
-    try {
-      const {data,error}=await supabase
-        .from('leadership_links')
-        .select('*')
-        .order('sort_order',{ascending: true});
-      if (error) throw error;
-      setLinks(data || []);
-    } catch (error) {
-      console.error('Error fetching leadership links:',error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleSubmit=async (e)=> {
     e.preventDefault();
-    setLoading(true);
+    setSaving(true);
     try {
       const linkData={
         title: formData.title,
@@ -54,24 +38,16 @@ const AdminLeadershipLinks=()=> {
         updated_at: new Date().toISOString()
       };
       if (editingId) {
-        const {error}=await supabase
-          .from('leadership_links')
-          .update(linkData)
-          .eq('id',editingId);
-        if (error) throw error;
+        await updateItem(editingId,linkData);
       } else {
-        const {error}=await supabase
-          .from('leadership_links')
-          .insert([{...linkData}]);
-        if (error) throw error;
+        await insertItem(linkData);
       }
       handleCancel();
-      fetchLinks();
     } catch (error) {
       console.error('Error saving link:',error);
       alert('Error saving link. Please try again.');
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
@@ -91,12 +67,7 @@ const AdminLeadershipLinks=()=> {
   const handleDelete=async (id)=> {
     if (!confirm('Are you sure you want to delete this link?')) return;
     try {
-      const {error}=await supabase
-        .from('leadership_links')
-        .delete()
-        .eq('id',id);
-      if (error) throw error;
-      fetchLinks();
+      await deleteItem(id);
     } catch (error) {
       console.error('Error deleting link:',error);
       alert('Error deleting link. Please try again.');
@@ -105,12 +76,7 @@ const AdminLeadershipLinks=()=> {
 
   const handleToggleActive=async (link)=> {
     try {
-      const {error}=await supabase
-        .from('leadership_links')
-        .update({is_active: !link.is_active,updated_at: new Date().toISOString()})
-        .eq('id',link.id);
-      if (error) throw error;
-      fetchLinks();
+      await updateItem(link.id,{is_active: !link.is_active,updated_at: new Date().toISOString()});
     } catch (error) {
       console.error('Error toggling link:',error);
       alert('Error updating link status. Please try again.');
@@ -144,7 +110,7 @@ const AdminLeadershipLinks=()=> {
       </div>
 
       {showForm && (
-        <LoadingTransition isLoading={loading && !!editingId} skeleton={<SkeletonForm />}>
+        <LoadingTransition isLoading={saving && !!editingId} skeleton={<SkeletonForm />}>
           <motion.div
             initial={{opacity: 0,y: 20}}
             animate={{opacity: 1,y: 0}}
@@ -220,7 +186,7 @@ const AdminLeadershipLinks=()=> {
                 </div>
               </div>
               <div className="flex space-x-4">
-                <button type="submit" disabled={loading} className="admin-btn-primary">
+                <button type="submit" disabled={saving} className="admin-btn-primary">
                   <SafeIcon icon={FiSave} className="h-4 w-4" />
                   <span>{editingId ? 'Update' : 'Save'}</span>
                 </button>

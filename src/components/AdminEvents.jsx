@@ -1,43 +1,27 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import RichTextEditor from './RichTextEditor';
 import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
-import supabase from '../lib/supabase';
 import { toTitleCase } from '../utils/textFormat';
+import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiExternalLink}=FiIcons;
 
 const AdminEvents=()=> {
-  const [events,setEvents]=useState([]);
-  const [loading,setLoading]=useState(true);
+  const {items: events,loading,insertItem,updateItem,deleteItem}=useSupabaseCrud(
+    'events_portal123',
+    {orderBy: 'created_at',ascending: false}
+  );
+  const [saving,setSaving]=useState(false);
   const [editingId,setEditingId]=useState(null);
   const [showForm,setShowForm]=useState(false);
   const [formData,setFormData]=useState({title: '',details: '',link: ''});
 
-  useEffect(()=> {
-    fetchEvents();
-  },[]);
-
-  const fetchEvents=async ()=> {
-    try {
-      const {data,error}=await supabase
-        .from('events_portal123')
-        .select('*')
-        .order('created_at',{ascending: false});
-      if (error) throw error;
-      setEvents(data || []);
-    } catch (error) {
-      console.error('Error fetching events:',error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleSubmit=async (e)=> {
     e.preventDefault();
-    setLoading(true);
+    setSaving(true);
     try {
       const eventData={
         title: toTitleCase(formData.title),
@@ -46,24 +30,16 @@ const AdminEvents=()=> {
       };
 
       if (editingId) {
-        const {error}=await supabase
-          .from('events_portal123')
-          .update(eventData)
-          .eq('id',editingId);
-        if (error) throw error;
+        await updateItem(editingId,eventData);
       } else {
-        const {error}=await supabase
-          .from('events_portal123')
-          .insert([eventData]);
-        if (error) throw error;
+        await insertItem(eventData);
       }
       handleCancel();
-      fetchEvents();
     } catch (error) {
       console.error('Error saving event:',error);
       alert('Error saving event. Please try again.');
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
@@ -80,12 +56,7 @@ const AdminEvents=()=> {
   const handleDelete=async (id)=> {
     if (!confirm('Are you sure you want to delete this event?')) return;
     try {
-      const {error}=await supabase
-        .from('events_portal123')
-        .delete()
-        .eq('id',id);
-      if (error) throw error;
-      fetchEvents();
+      await deleteItem(id);
     } catch (error) {
       console.error('Error deleting event:',error);
       alert('Error deleting event. Please try again.');
@@ -114,7 +85,7 @@ const AdminEvents=()=> {
 
       {/* Form */}
       {showForm && (
-        <LoadingTransition isLoading={loading && editingId} skeleton={<SkeletonForm />}>
+        <LoadingTransition isLoading={saving && editingId} skeleton={<SkeletonForm />}>
           <motion.div
             initial={{opacity: 0,y: 20}}
             animate={{opacity: 1,y: 0}}
@@ -157,7 +128,7 @@ const AdminEvents=()=> {
               <div className="flex space-x-4">
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={saving}
                   className="admin-btn-primary"
                 >
                   <SafeIcon icon={FiSave} className="h-4 w-4" />
