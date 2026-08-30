@@ -4,7 +4,6 @@ import {AnimatePresence,motion} from 'framer-motion'
 import Home from './pages/Home'
 import About from './pages/About'
 import Services from './pages/Services'
-import Events from './pages/Events'
 import Ministries from './pages/Ministries'
 import Give from './pages/Give'
 import Contact from './pages/Contact'
@@ -51,7 +50,7 @@ const AnimatedRoutes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/events" element={<Events />} />
+          <Route path="/events" element={<EventRegistration />} />
           <Route path="/ministries" element={<Ministries />} />
           <Route path="/give" element={<Give />} />
           <Route path="/contact" element={<Contact />} />
