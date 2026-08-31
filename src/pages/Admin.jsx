@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {Link} from 'react-router-dom';
-import {motion} from 'framer-motion';
+import {motion,AnimatePresence} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
@@ -22,7 +22,42 @@ import StaffCommsApp from '../staffComms/StaffCommsApp';
 import SlideMaker from '../staffTools/slideMaker/SlideMaker';
 import SignupSheetMaker from '../staffTools/signupSheet/SignupSheetMaker';
 
-const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid,FiLogOut,FiInbox,FiRadio,FiImage,FiClipboard}=FiIcons;
+const {FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiExternalLink,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid,FiLogOut,FiInbox,FiRadio,FiImage,FiClipboard,FiMenu,FiX}=FiIcons;
+
+const NAV_SECTIONS=[
+  {
+    items: [
+      {id: 'overview',label: 'Overview',icon: FiGrid},
+      {id: 'submissions',label: 'Submissions',icon: FiInbox},
+    ],
+  },
+  {
+    label: 'Content',
+    items: [
+      {id: 'announcements',label: 'Announcements',icon: FiBell},
+      {id: 'sermons',label: 'Sermons',icon: FiPlay},
+      {id: 'events',label: 'Events',icon: FiCalendar},
+      {id: 'classes',label: 'Classes',icon: FiBookOpen},
+      {id: 'resources',label: 'Resources',icon: FiBookOpen},
+      {id: 'ministries',label: 'Ministries',icon: FiHeart},
+      {id: 'staff',label: 'Staff Contacts',icon: FiUsers},
+      {id: 'featured',label: 'Featured Buttons',icon: FiStar},
+      {id: 'campaign',label: 'Growth Campaign',icon: FiTrendingUp},
+      {id: 'comments',label: 'Comments',icon: FiMessageSquare},
+      {id: 'links',label: 'Leadership Links',icon: FiExternalLink},
+    ],
+  },
+  {
+    label: 'Tools',
+    items: [
+      {id: 'comms',label: 'Announcement Organizer',icon: FiRadio},
+      {id: 'slideMaker',label: 'Slide Maker',icon: FiImage},
+      {id: 'signupSheet',label: 'Sign-up Sheets',icon: FiClipboard},
+    ],
+  },
+];
+
+const ALL_TABS=NAV_SECTIONS.flatMap((section)=> section.items);
 
 const Admin=()=> {
   const [isAuthenticated,setIsAuthenticated]=useState(false);
@@ -31,6 +66,7 @@ const Admin=()=> {
   const [error,setError]=useState('');
   const [activeTab,setActiveTab]=useState('overview');
   const [loading,setLoading]=useState(false);
+  const [sidebarOpen,setSidebarOpen]=useState(false);
 
   useEffect(()=> {
     supabase.auth.getSession().then(({data: {session}})=> {
@@ -73,29 +109,15 @@ const Admin=()=> {
     await supabase.auth.signOut();
   };
 
-  const tabs=[
-    {id: 'overview',label: 'Overview',icon: FiGrid},
-    {id: 'submissions',label: 'Submissions',icon: FiInbox},
-    {id: 'announcements',label: 'Announcements',icon: FiBell},
-    {id: 'sermons',label: 'Sermons',icon: FiPlay},
-    {id: 'events',label: 'Events',icon: FiCalendar},
-    {id: 'classes',label: 'Classes',icon: FiBookOpen},
-    {id: 'resources',label: 'Resources',icon: FiBookOpen},
-    {id: 'ministries',label: 'Ministries',icon: FiHeart},
-    {id: 'staff',label: 'Staff Contacts',icon: FiUsers},
-    {id: 'featured',label: 'Featured Buttons',icon: FiStar},
-    {id: 'campaign',label: 'Growth Campaign',icon: FiTrendingUp},
-    {id: 'comments',label: 'Comments',icon: FiMessageSquare},
-    {id: 'links',label: 'Leadership Links',icon: FiExternalLink},
-    {id: 'comms',label: 'Announcement Organizer',icon: FiRadio},
-    {id: 'slideMaker',label: 'Slide Maker',icon: FiImage},
-    {id: 'signupSheet',label: 'Sign-up Sheets',icon: FiClipboard},
-  ];
+  const selectTab=(id)=> {
+    setActiveTab(id);
+    setSidebarOpen(false);
+  };
 
   const renderContent=()=> {
     switch (activeTab) {
       case 'overview':
-        return <AdminDashboard onNavigate={(tab)=> setActiveTab(tab)} />;
+        return <AdminDashboard onNavigate={selectTab} />;
       case 'submissions':
         return <AdminSubmissions />;
       case 'announcements':
@@ -127,7 +149,7 @@ const Admin=()=> {
       case 'signupSheet':
         return <SignupSheetMaker />;
       default:
-        return <AdminDashboard onNavigate={(tab)=> setActiveTab(tab)} />;
+        return <AdminDashboard onNavigate={selectTab} />;
     }
   };
 
@@ -135,19 +157,18 @@ const Admin=()=> {
   if (!isAuthenticated) {
     if (checkingSession) {
       return (
-        <div className="min-h-screen py-12 flex items-center justify-center" style={{backgroundColor: '#fcfaf2'}}>
+        <div className="admin-shell min-h-screen py-12 flex items-center justify-center bg-gray-50">
           <SkeletonForm />
         </div>
       );
     }
     return (
-      <div className="min-h-screen py-12 flex items-center justify-center relative" style={{backgroundColor: '#fcfaf2'}}>
+      <div className="admin-shell min-h-screen py-12 flex items-center justify-center relative bg-gray-50">
         {/* Back to Home Button - Top Right */}
         <div className="fixed top-6 right-6 z-50">
           <Link
             to="/"
-            className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
-            style={{backgroundColor: '#83A682'}}
+            className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 bg-gray-900"
             title="Back to Home"
           >
             <SafeIcon icon={FiHome} className="h-5 w-5 text-white" />
@@ -159,16 +180,16 @@ const Admin=()=> {
             initial={{opacity: 0,scale: 0.9}}
             animate={{opacity: 1,scale: 1}}
             transition={{duration: 0.5}}
-            className="bg-white rounded-3xl shadow-modern-lg p-8 max-w-md w-full mx-4"
+            className="bg-white rounded-3xl shadow-modern-lg p-8 max-w-md w-full mx-4 border border-gray-100"
           >
             <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-4">
                 <SafeIcon icon={FiLock} className="h-8 w-8 text-white" />
               </div>
-              <h1 className="text-2xl font-bold text-text-primary mb-2 font-fraunces">
+              <h1 className="text-2xl font-bold text-gray-900 mb-2">
                 Admin Access
               </h1>
-              <p className="text-text-light font-inter">
+              <p className="text-gray-500">
                 Please enter the admin password to continue
               </p>
             </div>
@@ -186,14 +207,14 @@ const Admin=()=> {
                 />
               </div>
               {error && (
-                <div className="text-red-600 text-sm font-inter">
+                <div className="text-red-600 text-sm">
                   {error}
                 </div>
               )}
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-primary text-white py-3 px-6 rounded-xl font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50 active:scale-[0.98]"
+                className="w-full bg-gray-900 text-white py-3 px-6 rounded-xl font-semibold hover:bg-gray-700 transition-colors disabled:opacity-50 active:scale-[0.98]"
               >
                 {loading ? 'Authenticating...' : 'Access Admin Dashboard'}
               </button>
@@ -204,85 +225,134 @@ const Admin=()=> {
     );
   }
 
-  // Main admin dashboard (shown after authentication)
-  return (
-    <div className="min-h-screen py-12 relative" style={{backgroundColor: '#fcfaf2'}}>
-      {/* Back to Home / Logout - Top Right */}
-      <div className="fixed top-6 right-6 z-50 flex items-center gap-3">
-        <button
-          onClick={handleLogout}
-          className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 bg-white"
-          title="Log out"
-        >
-          <SafeIcon icon={FiLogOut} className="h-5 w-5 text-text-primary" />
-        </button>
-        <Link
-          to="/"
-          className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
-          style={{backgroundColor: '#83A682'}}
-          title="Back to Home"
-        >
-          <SafeIcon icon={FiHome} className="h-5 w-5 text-white" />
-        </Link>
-      </div>
+  const activeLabel=ALL_TABS.find((t)=> t.id===activeTab)?.label || 'Overview';
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <motion.div
-            initial={{opacity: 0,y: 30}}
-            animate={{opacity: 1,y: 0}}
-            transition={{duration: 0.8}}
-            className="flex items-center justify-center space-x-4 mb-6"
-          >
-            <SafeIcon icon={FiSettings} className="h-12 w-12 text-primary" />
-            <h1 className="text-4xl md:text-5xl font-bold text-text-primary">
-              Admin Dashboard
-            </h1>
-          </motion.div>
-          <motion.p
-            initial={{opacity: 0,y: 30}}
-            animate={{opacity: 1,y: 0}}
-            transition={{duration: 0.8,delay: 0.2}}
-            className="text-xl text-text-primary"
-          >
-            Manage your church portal content and notifications
-          </motion.p>
-        </div>
-
-        {/* Tabs */}
-        <motion.div
-          initial={{opacity: 0,y: 30}}
-          animate={{opacity: 1,y: 0}}
-          transition={{duration: 0.8,delay: 0.4}}
-          className="bg-white rounded-2xl shadow-modern mb-8 p-4"
-        >
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
-            {tabs.map((tab)=> (
+  const NavList=()=> (
+    <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-6">
+      {NAV_SECTIONS.map((section,i)=> (
+        <div key={section.label || `top-${i}`}>
+          {section.label && (
+            <div className="px-3 mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-white/35">
+              {section.label}
+            </div>
+          )}
+          <div className="space-y-0.5">
+            {section.items.map((tab)=> (
               <button
                 key={tab.id}
-                onClick={()=> setActiveTab(tab.id)}
-                className={`flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl font-semibold text-xs transition-all duration-200 ${
+                onClick={()=> selectTab(tab.id)}
+                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-150 ${
                   activeTab===tab.id
-                    ? 'bg-primary text-white shadow-sm'
-                    : 'text-text-light hover:text-text-primary hover:bg-accent'
+                    ? 'bg-white/10 text-white'
+                    : 'text-white/60 hover:text-white hover:bg-white/5'
                 }`}
               >
-                <SafeIcon icon={tab.icon} className="h-5 w-5 flex-shrink-0" />
-                <span className="text-center leading-tight">{tab.label}</span>
+                <SafeIcon icon={tab.icon} className="h-4 w-4 flex-shrink-0" />
+                <span className="text-left truncate">{tab.label}</span>
               </button>
             ))}
           </div>
-        </motion.div>
+        </div>
+      ))}
+    </nav>
+  );
 
-        {/* Content */}
-        <motion.div
-          initial={{opacity: 0,y: 30}}
-          animate={{opacity: 1,y: 0}}
-          transition={{duration: 0.8,delay: 0.6}}
-        >
-          {renderContent()}
-        </motion.div>
+  // Main admin dashboard (shown after authentication)
+  return (
+    <div className="admin-shell min-h-screen bg-gray-50 md:flex">
+      {/* Sidebar - desktop */}
+      <aside className="hidden md:flex md:flex-col md:w-64 md:flex-shrink-0 bg-gray-900">
+        <div className="px-5 py-5 border-b border-white/10">
+          <div className="text-white font-bold text-lg leading-tight">Admin</div>
+          <div className="text-white/40 text-xs">Upper Room Fellowship</div>
+        </div>
+        <NavList />
+        <div className="px-3 py-4 border-t border-white/10 space-y-0.5">
+          <Link
+            to="/"
+            className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 transition-colors"
+          >
+            <SafeIcon icon={FiHome} className="h-4 w-4" />
+            Back to Site
+          </Link>
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 transition-colors"
+          >
+            <SafeIcon icon={FiLogOut} className="h-4 w-4" />
+            Log Out
+          </button>
+        </div>
+      </aside>
+
+      {/* Mobile top bar */}
+      <div className="md:hidden sticky top-0 z-40 bg-gray-900 text-white flex items-center justify-between px-4 h-14">
+        <button onClick={()=> setSidebarOpen(true)} className="p-2 -ml-2" aria-label="Open menu">
+          <SafeIcon icon={FiMenu} className="h-5 w-5" />
+        </button>
+        <span className="font-semibold text-sm truncate">{activeLabel}</span>
+        <Link to="/" className="p-2 -mr-2" title="Back to Home">
+          <SafeIcon icon={FiHome} className="h-5 w-5" />
+        </Link>
+      </div>
+
+      {/* Mobile sidebar drawer */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <>
+            <motion.div
+              initial={{opacity: 0}}
+              animate={{opacity: 1}}
+              exit={{opacity: 0}}
+              onClick={()=> setSidebarOpen(false)}
+              className="md:hidden fixed inset-0 bg-black/40 z-40"
+            />
+            <motion.aside
+              initial={{x: '-100%'}}
+              animate={{x: 0}}
+              exit={{x: '-100%'}}
+              transition={{duration: 0.2}}
+              className="md:hidden fixed top-0 left-0 bottom-0 w-72 bg-gray-900 z-50 flex flex-col"
+            >
+              <div className="px-5 py-5 border-b border-white/10 flex items-center justify-between">
+                <div>
+                  <div className="text-white font-bold text-lg leading-tight">Admin</div>
+                  <div className="text-white/40 text-xs">Upper Room Fellowship</div>
+                </div>
+                <button onClick={()=> setSidebarOpen(false)} className="p-2 text-white/60 hover:text-white" aria-label="Close menu">
+                  <SafeIcon icon={FiX} className="h-5 w-5" />
+                </button>
+              </div>
+              <NavList />
+              <div className="px-3 py-4 border-t border-white/10 space-y-0.5">
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 transition-colors"
+                >
+                  <SafeIcon icon={FiLogOut} className="h-4 w-4" />
+                  Log Out
+                </button>
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Main content */}
+      <div className="flex-1 min-w-0">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <h1 className="hidden md:block text-2xl font-bold text-gray-900 mb-6">
+            {activeLabel}
+          </h1>
+          <motion.div
+            key={activeTab}
+            initial={{opacity: 0,y: 12}}
+            animate={{opacity: 1,y: 0}}
+            transition={{duration: 0.3}}
+          >
+            {renderContent()}
+          </motion.div>
+        </div>
       </div>
     </div>
   );

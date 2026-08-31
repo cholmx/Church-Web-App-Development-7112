@@ -1,51 +1,54 @@
+// Category badges are informational (letting staff tell announcement types
+// apart at a glance), not brand chrome, so they keep their own colors while
+// everything else below uses the site-wide dark gray / white admin palette.
 export const scopeChipColors: Record<string, { bg: string; text: string; border: string }> = {
-  whole_church:  { bg: '#BDECE7', text: '#003B36', border: '#9DD4CF' },
-  ministry:      { bg: '#CFEAC5', text: '#2A4A26', border: '#B0CFA6' },
-  informational: { bg: '#F4F1E8', text: '#4A4553', border: '#D8D3C4' },
+  whole_church:  { bg: '#E5E5E5', text: '#1E1E21', border: '#D0D0D0' },
+  ministry:      { bg: '#EFEFEF', text: '#3A3A3D', border: '#DCDCDC' },
+  informational: { bg: '#F5F5F5', text: '#6E6E6E', border: '#E5E5E5' },
 };
 
 export const scopeRangeColors: Record<string, string> = {
-  whole_church:  '#003B36',
-  ministry:      '#4D6547',
-  informational: '#7A7286',
+  whole_church:  '#1E1E21',
+  ministry:      '#4A4A4D',
+  informational: '#7A7A7D',
 };
 
 export const C = {
   // Surfaces
-  bg:          '#F4F1E8',
-  bgSubtle:    '#EBE7DA',
+  bg:          '#F7F7F7',
+  bgSubtle:    '#EFEFEF',
   card:        '#FFFFFF',
-  cardAlt:     '#EBE7DA',
+  cardAlt:     '#F5F5F5',
   // Borders
-  border:      '#D8D3C4',
-  borderMed:   '#B0A892',
-  borderFocus: '#003B36',
+  border:      '#E2E2E2',
+  borderMed:   '#C7C7C7',
+  borderFocus: '#1E1E21',
   // Text
-  text:        '#1A1C1C',
-  textSec:     '#4A4553',
-  textTer:     '#7A7286',
-  textMuted:   '#9E9AAA',
-  // Accent (Orange — primary brand)
-  accent:      '#E98A15',
-  accentBg:    '#FEF1DC',
-  accentDark:  '#B86910',
-  accentHover: '#C97A12',
+  text:        '#1E1E21',
+  textSec:     '#4A4A4D',
+  textTer:     '#6E6E6E',
+  textMuted:   '#9A9A9A',
+  // Accent (dark gray - matches the main site's admin buttons)
+  accent:      '#1E1E21',
+  accentBg:    '#EFEFEF',
+  accentDark:  '#000000',
+  accentHover: '#3A3A3D',
   // Status
   warn:        '#BA1A1A',
   warnBg:      '#FFDAD6',
-  success:     '#4D6547',
-  successBg:   '#CCE7C2',
+  success:     '#2E7D32',
+  successBg:   '#DCF0DD',
   // Interaction tints
-  high:        '#E98A15',
-  highBg:      '#FEF1DC',
-  // Dark panels (Stage, Slides) — Deep Forest
-  stageBg:     '#003B36',
+  high:        '#1E1E21',
+  highBg:      '#EFEFEF',
+  // Dark panels (Stage, Slides)
+  stageBg:     '#1E1E21',
   stageText:   '#FFFFFF',
-  stageAccent: '#E98A15',
-  slideBg:     '#003B36',
+  stageAccent: '#FFFFFF',
+  slideBg:     '#1E1E21',
   slideText:   '#FFFFFF',
   // Nav
-  navBg:       '#003B36',
+  navBg:       '#1E1E21',
   navText:     '#FFFFFF',
 } as const;
 
