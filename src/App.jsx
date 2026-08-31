@@ -22,6 +22,8 @@ const EventRegistration = lazy(() => import('./pages/EventRegistration'))
 const ClassRegistration = lazy(() => import('./pages/ClassRegistration'))
 const JoinRealm = lazy(() => import('./pages/JoinRealm'))
 const Resources = lazy(() => import('./pages/Resources'))
+const DailyDevotionals = lazy(() => import('./pages/DailyDevotionals'))
+const Search = lazy(() => import('./pages/Search'))
 const Admin = lazy(() => import('./pages/Admin'))
 const Yellow = lazy(() => import('./pages/Yellow'))
 const Green = lazy(() => import('./pages/Green'))
@@ -66,6 +68,8 @@ const AnimatedRoutes = () => {
             <Route path="/give" element={<Give />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/resources" element={<Resources />} />
+            <Route path="/daily-devotionals" element={<DailyDevotionals />} />
+            <Route path="/search" element={<Search />} />
             <Route path="/announcements" element={<Announcements />} />
             <Route path="/sermon-blog" element={<SermonBlog />} />
             <Route path="/shine-podcast" element={<ShinePodcast />} />
