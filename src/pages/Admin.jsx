@@ -53,7 +53,6 @@ const Admin=()=> {
         throw new Error(data?.error || fnError?.message || 'Invalid password');
       }
       const {error: otpError}=await supabase.auth.verifyOtp({
-        email: data.email,
         token_hash: data.token,
         type: 'magiclink'
       });
