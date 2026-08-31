@@ -18,8 +18,9 @@ import AdminComments from '../components/AdminComments';
 import AdminDashboard from '../components/AdminDashboard';
 import AdminLeadershipLinks from '../components/AdminLeadershipLinks';
 import AdminSubmissions from '../components/AdminSubmissions';
+import StaffCommsApp from '../staffComms/StaffCommsApp';
 
-const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid,FiLogOut,FiInbox}=FiIcons;
+const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid,FiLogOut,FiInbox,FiRadio}=FiIcons;
 
 const Admin=()=> {
   const [isAuthenticated,setIsAuthenticated]=useState(false);
@@ -99,6 +100,7 @@ const Admin=()=> {
     {id: 'campaign',label: 'Growth Campaign',icon: FiTrendingUp},
     {id: 'comments',label: 'Comments',icon: FiMessageSquare},
     {id: 'links',label: 'Leadership Links',icon: FiExternalLink},
+    {id: 'comms',label: 'Announcement Organizer',icon: FiRadio},
   ];
 
   const renderContent=()=> {
@@ -129,6 +131,8 @@ const Admin=()=> {
         return <AdminComments />;
       case 'links':
         return <AdminLeadershipLinks />;
+      case 'comms':
+        return <StaffCommsApp />;
       default:
         return <AdminDashboard onNavigate={(tab)=> setActiveTab(tab)} />;
     }
