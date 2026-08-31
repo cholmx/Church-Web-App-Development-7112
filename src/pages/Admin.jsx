@@ -54,7 +54,7 @@ const Admin=()=> {
       }
       const {error: otpError}=await supabase.auth.verifyOtp({
         email: data.email,
-        token: data.token,
+        token_hash: data.token,
         type: 'magiclink'
       });
       if (otpError) throw otpError;
