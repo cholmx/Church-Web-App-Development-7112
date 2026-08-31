@@ -23,7 +23,6 @@ export class GreenPodcastRSSService {
         url = `${proxy}${this.rssUrl}`
       }
 
-      console.log(`Trying proxy ${proxyIndex + 1}:`, url)
 
       const response = await fetch(url, {
         headers: {
@@ -50,17 +49,15 @@ export class GreenPodcastRSSService {
 
   async fetchPodcastFeed() {
     try {
-      console.log('Fetching green podcast RSS feed...')
 
       try {
         const directResponse = await fetch(this.rssUrl)
         if (directResponse.ok) {
           const directXml = await directResponse.text()
-          console.log('Direct fetch successful')
           return this.parseRSSFeed(directXml)
         }
       } catch {
-        console.log('Direct fetch failed, trying proxies...')
+        // Direct fetch failed, fall through to the proxy fetch below.
       }
 
       const xmlContent = await this.fetchWithProxy()
@@ -73,7 +70,6 @@ export class GreenPodcastRSSService {
 
   parseRSSFeed(xmlString) {
     try {
-      console.log('Parsing RSS feed...')
       const parser = new DOMParser()
       const xmlDoc = parser.parseFromString(xmlString, 'text/xml')
 
@@ -88,7 +84,6 @@ export class GreenPodcastRSSService {
       }
 
       const items = xmlDoc.querySelectorAll('item')
-      console.log(`Found ${items.length} episodes`)
 
       const channelInfo = {
         title: this.getTextContent(channel, 'title') || 'Green Podcast',
@@ -118,7 +113,6 @@ export class GreenPodcastRSSService {
         }
       }).filter(episode => episode.title && episode.title !== '')
 
-      console.log(`Parsed ${episodes.length} valid episodes`)
 
       return {
         channel: channelInfo,
@@ -131,7 +125,6 @@ export class GreenPodcastRSSService {
   }
 
   getFallbackData() {
-    console.log('Using fallback green podcast data')
     return {
       channel: {
         title: 'Green Podcast',
@@ -235,7 +228,6 @@ export class GreenPodcastRSSService {
         cached_at: new Date().toISOString()
       }
       localStorage.setItem('green_podcast_cache', JSON.stringify(cacheData))
-      console.log('Episodes cached successfully')
     } catch (error) {
       console.error('Error caching episodes:', error)
     }
@@ -255,7 +247,6 @@ export class GreenPodcastRSSService {
         return null
       }
 
-      console.log('Using cached episodes')
       return data
     } catch {
       return null

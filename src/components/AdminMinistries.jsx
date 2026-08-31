@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
@@ -6,12 +6,20 @@ import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
 import RichTextEditor from './RichTextEditor';
 import supabase from '../lib/supabase';
 import { toTitleCase } from '../utils/textFormat';
+import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
+import { useToast } from '../hooks/useToast';
+import { useConfirm } from '../hooks/useConfirm';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiChevronUp,FiChevronDown,FiHeart}=FiIcons;
 
 const AdminMinistries=()=> {
-  const [ministries,setMinistries]=useState([]);
-  const [loading,setLoading]=useState(true);
+  const toast=useToast();
+  const confirm=useConfirm();
+  const {items: ministries,loading,fetchItems,insertItem,updateItem,deleteItem}=useSupabaseCrud(
+    'ministries_portal123',
+    {orderBy: 'display_order',ascending: true}
+  );
+  const [saving,setSaving]=useState(false);
   const [editingId,setEditingId]=useState(null);
   const [showForm,setShowForm]=useState(false);
   const [formData,setFormData]=useState({
@@ -24,25 +32,6 @@ const AdminMinistries=()=> {
   });
   const [features,setFeatures]=useState([]);
   const [newFeature,setNewFeature]=useState('');
-
-  useEffect(()=> {
-    fetchMinistries();
-  },[]);
-
-  const fetchMinistries=async ()=> {
-    try {
-      const {data,error}=await supabase
-        .from('ministries_portal123')
-        .select('*')
-        .order('display_order',{ascending: true});
-      if (error) throw error;
-      setMinistries(data || []);
-    } catch (error) {
-      console.error('Error fetching ministries:',error);
-    } finally {
-      setTimeout(()=> setLoading(false),600);
-    }
-  };
 
   const fetchFeatures=async (ministryId)=> {
     try {
@@ -60,7 +49,7 @@ const AdminMinistries=()=> {
 
   const handleSubmit=async (e)=> {
     e.preventDefault();
-    setLoading(true);
+    setSaving(true);
     try {
       const ministryData={
         title: toTitleCase(formData.title),
@@ -75,18 +64,10 @@ const AdminMinistries=()=> {
       let ministryId=editingId;
 
       if (editingId) {
-        const {error}=await supabase
-          .from('ministries_portal123')
-          .update(ministryData)
-          .eq('id',editingId);
-        if (error) throw error;
+        await updateItem(editingId,ministryData);
       } else {
-        const {data,error}=await supabase
-          .from('ministries_portal123')
-          .insert([ministryData])
-          .select();
-        if (error) throw error;
-        ministryId=data[0].id;
+        const inserted=await insertItem(ministryData);
+        ministryId=inserted[0].id;
       }
 
       if (features.length > 0) {
@@ -108,12 +89,12 @@ const AdminMinistries=()=> {
       }
 
       handleCancel();
-      fetchMinistries();
+      fetchItems();
     } catch (error) {
       console.error('Error saving ministry:',error);
-      alert(`Error saving ministry: ${error.message}`);
+      toast.error(`Error saving ministry: ${error.message}`);
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
@@ -132,17 +113,12 @@ const AdminMinistries=()=> {
   };
 
   const handleDelete=async (id)=> {
-    if (!confirm('Are you sure you want to delete this ministry? This will also delete all associated features.')) return;
+    if (!(await confirm('Are you sure you want to delete this ministry? This will also delete all associated features.'))) return;
     try {
-      const {error}=await supabase
-        .from('ministries_portal123')
-        .delete()
-        .eq('id',id);
-      if (error) throw error;
-      fetchMinistries();
+      await deleteItem(id);
     } catch (error) {
       console.error('Error deleting ministry:',error);
-      alert('Error deleting ministry. Please try again.');
+      toast.error('Error deleting ministry. Please try again.');
     }
   };
 
@@ -199,10 +175,10 @@ const AdminMinistries=()=> {
         .update({display_order: ministry1.display_order})
         .eq('id',ministry2.id);
 
-      fetchMinistries();
+      fetchItems();
     } catch (error) {
       console.error('Error reordering ministries:',error);
-      alert('Error reordering ministries. Please try again.');
+      toast.error('Error reordering ministries. Please try again.');
     }
   };
 
@@ -220,7 +196,7 @@ const AdminMinistries=()=> {
       </div>
 
       {showForm && (
-        <LoadingTransition isLoading={loading && editingId} skeleton={<SkeletonForm />}>
+        <LoadingTransition isLoading={saving && editingId} skeleton={<SkeletonForm />}>
           <motion.div
             initial={{opacity: 0,y: 20}}
             animate={{opacity: 1,y: 0}}
@@ -271,7 +247,7 @@ const AdminMinistries=()=> {
                 </button>
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={saving}
                   className="admin-btn-primary"
                 >
                   <SafeIcon icon={FiSave} className="h-4 w-4" />

@@ -1,15 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import RichTextEditor from './RichTextEditor';
 import supabase from '../lib/supabase';
+import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
+import { sanitizeHtml } from '../utils/sanitizeHtml';
+import { useToast } from '../hooks/useToast';
+import { useConfirm } from '../hooks/useConfirm';
 
 const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiBookOpen, FiUpload, FiDownload } = FiIcons;
 
 const AdminScriptures = () => {
-  const [scriptures, setScriptures] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const toast = useToast();
+  const confirm = useConfirm();
+  const {items: scriptures,loading,fetchItems,insertItem,updateItem,deleteItem}=useSupabaseCrud(
+    'daily_scriptures_portal123',
+    {orderBy: 'created_at',ascending: true}
+  );
+  const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [showBulkImport, setShowBulkImport] = useState(false);
@@ -21,38 +30,18 @@ const AdminScriptures = () => {
     notes: ''
   });
 
-  useEffect(() => {
-    fetchScriptures();
-  }, []);
-
-  const fetchScriptures = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('daily_scriptures_portal123')
-        .select('*')
-        .order('created_at', { ascending: true });
-
-      if (error) throw error;
-      setScriptures(data || []);
-    } catch (error) {
-      console.error('Error fetching scriptures:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const parseImportText = (text) => {
     const entries = [];
     const lines = text.split('\n').filter(line => line.trim() !== '');
-    
+
     let currentEntry = null;
-    
+
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
-      
+
       // Check if this line looks like a reference (contains numbers and colons)
       const referencePattern = /^[A-Za-z0-9\s]+\s+\d+[:\d\s,-]+$/;
-      
+
       if (referencePattern.test(line)) {
         // This is a reference line
         if (currentEntry && currentEntry.verse_text) {
@@ -88,41 +77,41 @@ const AdminScriptures = () => {
         }
       }
     }
-    
+
     // Don't forget the last entry
     if (currentEntry && currentEntry.verse_text) {
       entries.push(currentEntry);
     }
-    
+
     return entries;
   };
 
   const handleBulkImport = async () => {
     if (!importText.trim()) {
-      alert('Please paste your scripture text first.');
+      toast.error('Please paste your scripture text first.');
       return;
     }
 
     setImporting(true);
-    
+
     try {
       const parsedEntries = parseImportText(importText);
-      
+
       if (parsedEntries.length === 0) {
-        alert('No valid scripture entries found. Please check your format.');
+        toast.error('No valid scripture entries found. Please check your format.');
         setImporting(false);
         return;
       }
 
       // Show preview and confirm
       const confirmMessage = `Found ${parsedEntries.length} scripture entries. Import them all?`;
-      if (!confirm(confirmMessage)) {
+      if (!(await confirm(confirmMessage))) {
         setImporting(false);
         return;
       }
 
       // Import all entries
-      const importPromises = parsedEntries.map(entry => 
+      const importPromises = parsedEntries.map(entry =>
         supabase
           .from('daily_scriptures_portal123')
           .insert([{
@@ -133,15 +122,15 @@ const AdminScriptures = () => {
       );
 
       await Promise.all(importPromises);
-      
-      alert(`Successfully imported ${parsedEntries.length} scriptures!`);
+
+      toast.success(`Successfully imported ${parsedEntries.length} scriptures!`);
       setImportText('');
       setShowBulkImport(false);
-      fetchScriptures();
-      
+      fetchItems();
+
     } catch (error) {
       console.error('Error importing scriptures:', error);
-      alert('Error importing scriptures. Please try again.');
+      toast.error('Error importing scriptures. Please try again.');
     } finally {
       setImporting(false);
     }
@@ -160,7 +149,7 @@ const AdminScriptures = () => {
 
   const exportScriptures = () => {
     if (scriptures.length === 0) {
-      alert('No scriptures to export.');
+      toast.error('No scriptures to export.');
       return;
     }
 
@@ -189,7 +178,7 @@ const AdminScriptures = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setSaving(true);
 
     try {
       const scriptureData = {
@@ -199,29 +188,19 @@ const AdminScriptures = () => {
       };
 
       if (editingId) {
-        const { error } = await supabase
-          .from('daily_scriptures_portal123')
-          .update(scriptureData)
-          .eq('id', editingId);
-
-        if (error) throw error;
+        await updateItem(editingId, scriptureData);
       } else {
-        const { error } = await supabase
-          .from('daily_scriptures_portal123')
-          .insert([scriptureData]);
-
-        if (error) throw error;
+        await insertItem(scriptureData);
       }
 
       setFormData({ verse_text: '', reference: '', notes: '' });
       setEditingId(null);
       setShowForm(false);
-      fetchScriptures();
     } catch (error) {
       console.error('Error saving scripture:', error);
-      alert('Error saving scripture. Please try again.');
+      toast.error('Error saving scripture. Please try again.');
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
@@ -236,19 +215,13 @@ const AdminScriptures = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this scripture verse?')) return;
+    if (!(await confirm('Are you sure you want to delete this scripture verse?'))) return;
 
     try {
-      const { error } = await supabase
-        .from('daily_scriptures_portal123')
-        .delete()
-        .eq('id', id);
-
-      if (error) throw error;
-      fetchScriptures();
+      await deleteItem(id);
     } catch (error) {
       console.error('Error deleting scripture:', error);
-      alert('Error deleting scripture. Please try again.');
+      toast.error('Error deleting scripture. Please try again.');
     }
   };
 
@@ -325,7 +298,7 @@ const AdminScriptures = () => {
           <h3 className="text-lg font-semibold text-text-primary mb-4 font-inter">
             Bulk Import Scriptures
           </h3>
-          
+
           <div className="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
             <h4 className="font-semibold text-yellow-800 mb-2 font-inter">
               Format Instructions
@@ -444,7 +417,7 @@ And we know that in all things God works for the good of those who love him, who
             <div className="flex space-x-4">
               <button
                 type="submit"
-                disabled={loading}
+                disabled={saving}
                 className="bg-primary text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-dark transition-colors disabled:opacity-50 inline-flex items-center space-x-2 font-inter"
               >
                 <SafeIcon icon={FiSave} className="h-4 w-4" />
@@ -489,13 +462,13 @@ And we know that in all things God works for the good of those who love him, who
                       </h3>
                     </div>
                     <div className="text-text-primary font-inter mb-3 prose prose-sm max-w-none rendered-content">
-                      <div dangerouslySetInnerHTML={{ __html: scripture.verse_text }} />
+                      <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(scripture.verse_text) }} />
                     </div>
                     {scripture.notes && (
                       <div className="text-sm text-text-light">
                         <strong>Notes:</strong>
                         <div className="mt-1 prose prose-sm max-w-none rendered-content">
-                          <div dangerouslySetInnerHTML={{ __html: scripture.notes }} />
+                          <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(scripture.notes) }} />
                         </div>
                       </div>
                     )}

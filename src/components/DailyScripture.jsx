@@ -3,6 +3,7 @@ import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
+import {sanitizeHtml} from '../utils/sanitizeHtml';
 
 const {FiBookOpen,FiRefreshCw}=FiIcons;
 
@@ -93,7 +94,7 @@ const DailyScripture=()=> {
               lineHeight: '1.6'
             }}
           >
-            <div dangerouslySetInnerHTML={{__html: currentScripture.verse_text}} />
+            <div dangerouslySetInnerHTML={{__html: sanitizeHtml(currentScripture.verse_text)}} />
           </div>
           <div className="text-right">
             <span className="text-text-primary font-semibold font-inter">

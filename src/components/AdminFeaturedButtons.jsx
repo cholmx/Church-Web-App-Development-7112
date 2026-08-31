@@ -1,16 +1,23 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
-import supabase from '../lib/supabase';
 import { toTitleCase } from '../utils/textFormat';
+import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
+import { useToast } from '../hooks/useToast';
+import { useConfirm } from '../hooks/useConfirm';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiToggleLeft,FiToggleRight}=FiIcons;
 
 const AdminFeaturedButtons=()=> {
-  const [buttons,setButtons]=useState([]);
-  const [loading,setLoading]=useState(true);
+  const toast=useToast();
+  const confirm=useConfirm();
+  const {items: buttons,loading,insertItem,updateItem,deleteItem}=useSupabaseCrud(
+    'featured_buttons_portal123',
+    {orderBy: 'display_order',ascending: true}
+  );
+  const [saving,setSaving]=useState(false);
   const [editingId,setEditingId]=useState(null);
   const [showForm,setShowForm]=useState(false);
   const [formData,setFormData]=useState({
@@ -20,28 +27,9 @@ const AdminFeaturedButtons=()=> {
     is_active: false
   });
 
-  useEffect(()=> {
-    fetchButtons();
-  },[]);
-
-  const fetchButtons=async ()=> {
-    try {
-      const {data,error}=await supabase
-        .from('featured_buttons_portal123')
-        .select('*')
-        .order('display_order',{ascending: true});
-      if (error) throw error;
-      setButtons(data || []);
-    } catch (error) {
-      console.error('Error fetching featured buttons:',error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleSubmit=async (e)=> {
     e.preventDefault();
-    setLoading(true);
+    setSaving(true);
     try {
       if (editingId) {
         const buttonData={
@@ -51,11 +39,7 @@ const AdminFeaturedButtons=()=> {
           icon_name: 'FiCheck',
           is_active: formData.is_active
         };
-        const {error}=await supabase
-          .from('featured_buttons_portal123')
-          .update(buttonData)
-          .eq('id',editingId);
-        if (error) throw error;
+        await updateItem(editingId,buttonData);
       } else {
         const autoType=formData.title.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
         const nextOrder=buttons.length + 1;
@@ -68,18 +52,14 @@ const AdminFeaturedButtons=()=> {
           display_order: nextOrder,
           is_active: formData.is_active
         };
-        const {error}=await supabase
-          .from('featured_buttons_portal123')
-          .insert([buttonData]);
-        if (error) throw error;
+        await insertItem(buttonData);
       }
       handleCancel();
-      fetchButtons();
     } catch (error) {
       console.error('Error saving button:',error);
-      alert('Error saving button. Please try again.');
+      toast.error('Error saving button. Please try again.');
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
@@ -95,31 +75,21 @@ const AdminFeaturedButtons=()=> {
   };
 
   const handleDelete=async (id)=> {
-    if (!confirm('Are you sure you want to delete this featured button?')) return;
+    if (!(await confirm('Are you sure you want to delete this featured button?'))) return;
     try {
-      const {error}=await supabase
-        .from('featured_buttons_portal123')
-        .delete()
-        .eq('id',id);
-      if (error) throw error;
-      fetchButtons();
+      await deleteItem(id);
     } catch (error) {
       console.error('Error deleting button:',error);
-      alert('Error deleting button. Please try again.');
+      toast.error('Error deleting button. Please try again.');
     }
   };
 
   const handleToggleActive=async (button)=> {
     try {
-      const {error}=await supabase
-        .from('featured_buttons_portal123')
-        .update({is_active: !button.is_active})
-        .eq('id',button.id);
-      if (error) throw error;
-      fetchButtons();
+      await updateItem(button.id,{is_active: !button.is_active});
     } catch (error) {
       console.error('Error toggling button:',error);
-      alert('Error updating button status. Please try again.');
+      toast.error('Error updating button status. Please try again.');
     }
   };
 
@@ -148,7 +118,7 @@ const AdminFeaturedButtons=()=> {
       </div>
 
       {showForm && (
-        <LoadingTransition isLoading={loading && editingId} skeleton={<SkeletonForm />}>
+        <LoadingTransition isLoading={saving && editingId} skeleton={<SkeletonForm />}>
           <motion.div
             initial={{opacity: 0,y: 20}}
             animate={{opacity: 1,y: 0}}
@@ -202,7 +172,7 @@ const AdminFeaturedButtons=()=> {
               <div className="flex space-x-4">
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={saving}
                   className="admin-btn-primary"
                 >
                   <SafeIcon icon={FiSave} className="h-4 w-4" />

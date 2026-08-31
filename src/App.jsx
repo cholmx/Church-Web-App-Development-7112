@@ -1,30 +1,35 @@
+import {lazy, Suspense} from 'react'
 import {HashRouter as Router,Routes,Route,useLocation} from 'react-router-dom'
 import {AnimatePresence,motion} from 'framer-motion'
+import './App.css'
 
 import Home from './pages/Home'
-import About from './pages/About'
-import Services from './pages/Services'
-import Events from './pages/Events'
-import Ministries from './pages/Ministries'
-import Give from './pages/Give'
-import Contact from './pages/Contact'
-import Announcements from './pages/Announcements'
-import SermonBlog from './pages/SermonBlog'
-import ShinePodcast from './pages/ShinePodcast'
-import SermonPodcast from './pages/SermonPodcast'
-import TableGroupSignup from './pages/TableGroupSignup'
-import EventRegistration from './pages/EventRegistration'
-import ClassRegistration from './pages/ClassRegistration'
-import JoinRealm from './pages/JoinRealm'
-import Resources from './pages/Resources'
-import Admin from './pages/Admin'
-import Yellow from './pages/Yellow'
-import Green from './pages/Green'
-import OverflowSignup from './pages/OverflowSignup'
-import CapitalCampaign from './pages/CapitalCampaign'
-import NotFound from './pages/NotFound'
+import ErrorBoundary from './components/ErrorBoundary'
+import { ToastProvider } from './hooks/useToast'
+import { ConfirmProvider } from './hooks/useConfirm'
 
-import './App.css'
+const About = lazy(() => import('./pages/About'))
+const Services = lazy(() => import('./pages/Services'))
+const Ministries = lazy(() => import('./pages/Ministries'))
+const Give = lazy(() => import('./pages/Give'))
+const Contact = lazy(() => import('./pages/Contact'))
+const Announcements = lazy(() => import('./pages/Announcements'))
+const SermonBlog = lazy(() => import('./pages/SermonBlog'))
+const ShinePodcast = lazy(() => import('./pages/ShinePodcast'))
+const SermonPodcast = lazy(() => import('./pages/SermonPodcast'))
+const TableGroupSignup = lazy(() => import('./pages/TableGroupSignup'))
+const EventRegistration = lazy(() => import('./pages/EventRegistration'))
+const ClassRegistration = lazy(() => import('./pages/ClassRegistration'))
+const JoinRealm = lazy(() => import('./pages/JoinRealm'))
+const Resources = lazy(() => import('./pages/Resources'))
+const DailyDevotionals = lazy(() => import('./pages/DailyDevotionals'))
+const Search = lazy(() => import('./pages/Search'))
+const Admin = lazy(() => import('./pages/Admin'))
+const Yellow = lazy(() => import('./pages/Yellow'))
+const Green = lazy(() => import('./pages/Green'))
+const OverflowSignup = lazy(() => import('./pages/OverflowSignup'))
+const CapitalCampaign = lazy(() => import('./pages/CapitalCampaign'))
+const NotFound = lazy(() => import('./pages/NotFound'))
 
 const pageVariants = {
   initial: {opacity: 0, y: 16},
@@ -33,6 +38,12 @@ const pageVariants = {
 }
 
 const pageTransition = {duration: 0.28, ease: [0.4, 0, 0.2, 1]}
+
+const PageLoader = () => (
+  <div style={{minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+  </div>
+)
 
 const AnimatedRoutes = () => {
   const location = useLocation()
@@ -47,31 +58,35 @@ const AnimatedRoutes = () => {
         transition={pageTransition}
         style={{minHeight: '100vh'}}
       >
-        <Routes location={location}>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/ministries" element={<Ministries />} />
-          <Route path="/give" element={<Give />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/resources" element={<Resources />} />
-          <Route path="/announcements" element={<Announcements />} />
-          <Route path="/sermon-blog" element={<SermonBlog />} />
-          <Route path="/shine-podcast" element={<ShinePodcast />} />
-          <Route path="/sermon-podcast" element={<SermonPodcast />} />
-          <Route path="/table-group-signup" element={<TableGroupSignup />} />
-          <Route path="/event-registration" element={<EventRegistration />} />
-          <Route path="/class-registration" element={<ClassRegistration />} />
-          <Route path="/join-realm" element={<JoinRealm />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/yellow" element={<Yellow />} />
-          <Route path="/green" element={<Green />} />
-          <Route path="/overflow-signup" element={<OverflowSignup />} />
-          <Route path="/capital-campaign" element={<CapitalCampaign />} />
-          <Route path="/growth-campaign" element={<CapitalCampaign />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes location={location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/events" element={<EventRegistration />} />
+            <Route path="/ministries" element={<Ministries />} />
+            <Route path="/give" element={<Give />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/resources" element={<Resources />} />
+            <Route path="/daily-devotionals" element={<DailyDevotionals />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/announcements" element={<Announcements />} />
+            <Route path="/sermon-blog" element={<SermonBlog />} />
+            <Route path="/shine-podcast" element={<ShinePodcast />} />
+            <Route path="/sermon-podcast" element={<SermonPodcast />} />
+            <Route path="/table-group-signup" element={<TableGroupSignup />} />
+            <Route path="/event-registration" element={<EventRegistration />} />
+            <Route path="/class-registration" element={<ClassRegistration />} />
+            <Route path="/join-realm" element={<JoinRealm />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/yellow" element={<Yellow />} />
+            <Route path="/green" element={<Green />} />
+            <Route path="/overflow-signup" element={<OverflowSignup />} />
+            <Route path="/capital-campaign" element={<CapitalCampaign />} />
+            <Route path="/growth-campaign" element={<CapitalCampaign />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </motion.div>
     </AnimatePresence>
   )
@@ -79,11 +94,17 @@ const AnimatedRoutes = () => {
 
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-accent">
-        <AnimatedRoutes />
-      </div>
-    </Router>
+    <ErrorBoundary>
+      <ToastProvider>
+        <ConfirmProvider>
+          <Router>
+            <div className="min-h-screen bg-accent">
+              <AnimatedRoutes />
+            </div>
+          </Router>
+        </ConfirmProvider>
+      </ToastProvider>
+    </ErrorBoundary>
   )
 }
 

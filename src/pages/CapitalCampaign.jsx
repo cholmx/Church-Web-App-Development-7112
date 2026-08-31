@@ -8,6 +8,7 @@ import { useCleanContent } from '../hooks/useCleanContent';
 import supabase from '../lib/supabase';
 import LivingStonesGallery from '../components/LivingStonesGallery';
 import LivingStonesUpload from '../components/LivingStonesUpload';
+import { sanitizeHtml } from '../utils/sanitizeHtml';
 
 const { FiTrendingUp, FiHome, FiPlayCircle, FiFileText, FiEye, FiHelpCircle, FiChevronDown, FiChevronUp, FiCamera } = FiIcons;
 
@@ -134,7 +135,7 @@ const CapitalCampaign = () => {
               <div className="prose max-w-none">
                 <div
                   className="announcement-content"
-                  dangerouslySetInnerHTML={{ __html: update.content }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(update.content) }}
                 />
               </div>
             </div>
@@ -175,7 +176,7 @@ const CapitalCampaign = () => {
               <div className="prose max-w-none">
                 <div
                   className="announcement-content"
-                  dangerouslySetInnerHTML={{ __html: item.content }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.content) }}
                 />
               </div>
             </div>
@@ -226,7 +227,7 @@ const CapitalCampaign = () => {
               >
                 <div
                   className="announcement-content pt-4 text-text-primary leading-relaxed"
-                  dangerouslySetInnerHTML={{ __html: faq.answer }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(faq.answer) }}
                 />
               </motion.div>
             )}

@@ -3,12 +3,14 @@ import {Link} from 'react-router-dom';
 import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
-import {sendEmail} from '../lib/emailService';
+import {submitOverflowSignup} from '../lib/contactStorage';
 import StandardButton from '../components/StandardButton';
+import {useToast} from '../hooks/useToast';
 
 const {FiCalendar,FiCheck,FiUser,FiMail,FiPhone,FiHome,FiUsers}=FiIcons;
 
 const OverflowSignup=()=> {
+  const toast=useToast();
   const [formData,setFormData]=useState({
     name: '',
     phone: '',
@@ -45,27 +47,27 @@ const OverflowSignup=()=> {
     e.preventDefault();
 
     if (formData.selectedSundays.length===0) {
-      alert('Please select at least one Sunday commitment.');
+      toast.error('Please select at least one Sunday commitment.');
       return;
     }
 
     setIsSubmitting(true);
     try {
-      const {success,error}=await sendEmail({
+      const {error}=await submitOverflowSignup({
         name: formData.name,
         phone: formData.phone,
         email: formData.email,
-        party_size: formData.partySize,
+        party_size: parseInt(formData.partySize) || null,
         selected_sundays: formData.selectedSundays
-      },'overflow');
+      });
 
-      if (!success) throw new Error(error);
+      if (error) throw new Error(error);
 
       setIsSubmitted(true);
       setFormData({name: '',phone: '',email: '',partySize: '1',selectedSundays: []});
     } catch (error) {
       console.error('Error submitting form:',error);
-      alert('There was an error submitting your form. Please try again.');
+      toast.error('There was an error submitting your form. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

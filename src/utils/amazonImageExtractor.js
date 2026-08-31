@@ -28,7 +28,6 @@ export const extractAmazonBookImage = (amazonUrl) => {
     }
 
     if (!asin) {
-      console.log('No ASIN found in URL:', amazonUrl);
       return null;
     }
 
@@ -42,7 +41,6 @@ export const extractAmazonBookImage = (amazonUrl) => {
       `https://images.amazon.com/images/P/${asin}.01._SL1500_.jpg`                 // Another alternative
     ];
     
-    console.log('Generated Amazon image URLs for ASIN:', asin);
     return imageUrls;
 
   } catch (error) {
@@ -82,12 +80,10 @@ export const testImageUrls = async (urls) => {
   for (const url of urls) {
     const isValid = await testImageUrl(url);
     if (isValid) {
-      console.log('✅ Found working image URL:', url);
       return url;
     }
   }
   
-  console.log('❌ No working image URLs found');
   return null;
 };
 

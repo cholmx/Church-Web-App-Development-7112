@@ -1,8 +1,9 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
+import supabase from '../lib/supabase';
 import {SkeletonForm,LoadingTransition} from '../components/LoadingSkeletons';
 import AdminAnnouncements from '../components/AdminAnnouncements';
 import AdminSermons from '../components/AdminSermons';
@@ -16,36 +17,63 @@ import AdminCapitalCampaign from '../components/AdminCapitalCampaign';
 import AdminComments from '../components/AdminComments';
 import AdminDashboard from '../components/AdminDashboard';
 import AdminLeadershipLinks from '../components/AdminLeadershipLinks';
+import AdminSubmissions from '../components/AdminSubmissions';
 
-const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid}=FiIcons;
+const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid,FiLogOut,FiInbox}=FiIcons;
 
 const Admin=()=> {
   const [isAuthenticated,setIsAuthenticated]=useState(false);
+  const [checkingSession,setCheckingSession]=useState(true);
   const [password,setPassword]=useState('');
   const [error,setError]=useState('');
   const [activeTab,setActiveTab]=useState('overview');
   const [loading,setLoading]=useState(false);
 
-  const ADMIN_PASSWORD='upperroom500';
+  useEffect(()=> {
+    supabase.auth.getSession().then(({data: {session}})=> {
+      setIsAuthenticated(!!session);
+      setCheckingSession(false);
+    });
+    const {data: listener}=supabase.auth.onAuthStateChange((_event,session)=> {
+      setIsAuthenticated(!!session);
+    });
+    return ()=> listener.subscription.unsubscribe();
+  },[]);
 
-  const handlePasswordSubmit=(e)=> {
+  const handlePasswordSubmit=async (e)=> {
     e.preventDefault();
     setLoading(true);
-    // Simulate authentication delay
-    setTimeout(()=> {
-      if (password===ADMIN_PASSWORD) {
-        setIsAuthenticated(true);
-        setError('');
-      } else {
-        setError('Invalid password. Please try again.');
-        setPassword('');
+    setError('');
+    try {
+      const {data,error: fnError}=await supabase.functions.invoke('admin-login',{
+        body: {password}
+      });
+      if (fnError || data?.error) {
+        throw new Error(data?.error || fnError?.message || 'Invalid password');
       }
+      const {error: otpError}=await supabase.auth.verifyOtp({
+        email: data.email,
+        token: data.token,
+        type: 'magiclink'
+      });
+      if (otpError) throw otpError;
+      setPassword('');
+    } catch (err) {
+      console.error('Admin login failed:',err);
+      setError('Invalid password. Please try again.');
+      setPassword('');
+    } finally {
       setLoading(false);
-    },800);
+    }
+  };
+
+  const handleLogout=async ()=> {
+    await supabase.auth.signOut();
   };
 
   const tabs=[
     {id: 'overview',label: 'Overview',icon: FiGrid},
+    {id: 'submissions',label: 'Submissions',icon: FiInbox},
     {id: 'announcements',label: 'Announcements',icon: FiBell},
     {id: 'sermons',label: 'Sermons',icon: FiPlay},
     {id: 'events',label: 'Events',icon: FiCalendar},
@@ -63,6 +91,8 @@ const Admin=()=> {
     switch (activeTab) {
       case 'overview':
         return <AdminDashboard onNavigate={(tab)=> setActiveTab(tab)} />;
+      case 'submissions':
+        return <AdminSubmissions />;
       case 'announcements':
         return <AdminAnnouncements />;
       case 'sermons':
@@ -92,6 +122,13 @@ const Admin=()=> {
 
   // Password protection screen
   if (!isAuthenticated) {
+    if (checkingSession) {
+      return (
+        <div className="min-h-screen py-12 flex items-center justify-center" style={{backgroundColor: '#fcfaf2'}}>
+          <SkeletonForm />
+        </div>
+      );
+    }
     return (
       <div className="min-h-screen py-12 flex items-center justify-center relative" style={{backgroundColor: '#fcfaf2'}}>
         {/* Back to Home Button - Top Right */}
@@ -159,8 +196,15 @@ const Admin=()=> {
   // Main admin dashboard (shown after authentication)
   return (
     <div className="min-h-screen py-12 relative" style={{backgroundColor: '#fcfaf2'}}>
-      {/* Back to Home Button - Top Right */}
-      <div className="fixed top-6 right-6 z-50">
+      {/* Back to Home / Logout - Top Right */}
+      <div className="fixed top-6 right-6 z-50 flex items-center gap-3">
+        <button
+          onClick={handleLogout}
+          className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 bg-white"
+          title="Log out"
+        >
+          <SafeIcon icon={FiLogOut} className="h-5 w-5 text-text-primary" />
+        </button>
         <Link
           to="/"
           className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"

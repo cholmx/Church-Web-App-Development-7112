@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 
-const { FiMenu, FiX, FiChevronDown } = FiIcons;
+const { FiMenu, FiX, FiChevronDown, FiSearch } = FiIcons;
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,10 +60,24 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
+            <Link
+              to="/search"
+              className="p-2 ml-1 rounded-lg text-text-primary hover:text-primary hover:bg-primary/8 transition-all duration-200"
+              title="Search"
+            >
+              <SafeIcon icon={FiSearch} className="h-4 w-4" />
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center space-x-1">
+            <Link
+              to="/search"
+              className="p-2 rounded-lg text-text-primary hover:text-primary hover:bg-primary/10 transition-all duration-200"
+              title="Search"
+            >
+              <SafeIcon icon={FiSearch} className="h-5 w-5" />
+            </Link>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="p-2 rounded-lg text-text-primary hover:text-primary hover:bg-primary/10 transition-all duration-200"

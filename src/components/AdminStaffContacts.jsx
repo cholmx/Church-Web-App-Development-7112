@@ -1,16 +1,24 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
 import supabase from '../lib/supabase';
 import { toTitleCase } from '../utils/textFormat';
+import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
+import { useToast } from '../hooks/useToast';
+import { useConfirm } from '../hooks/useConfirm';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiChevronUp,FiChevronDown,FiUsers,FiMail}=FiIcons;
 
 const AdminStaffContacts=()=> {
-  const [staffContacts,setStaffContacts]=useState([]);
-  const [loading,setLoading]=useState(true);
+  const toast=useToast();
+  const confirm=useConfirm();
+  const {items: staffContacts,loading,fetchItems,insertItem,updateItem,deleteItem}=useSupabaseCrud(
+    'staff_contacts_portal123',
+    {orderBy: 'display_order',ascending: true}
+  );
+  const [saving,setSaving]=useState(false);
   const [editingId,setEditingId]=useState(null);
   const [showForm,setShowForm]=useState(false);
   const [formData,setFormData]=useState({
@@ -20,28 +28,9 @@ const AdminStaffContacts=()=> {
     is_active: true
   });
 
-  useEffect(()=> {
-    fetchStaffContacts();
-  },[]);
-
-  const fetchStaffContacts=async ()=> {
-    try {
-      const {data,error}=await supabase
-        .from('staff_contacts_portal123')
-        .select('*')
-        .order('display_order',{ascending: true});
-      if (error) throw error;
-      setStaffContacts(data || []);
-    } catch (error) {
-      console.error('Error fetching staff contacts:',error);
-    } finally {
-      setTimeout(()=> setLoading(false),600);
-    }
-  };
-
   const handleSubmit=async (e)=> {
     e.preventDefault();
-    setLoading(true);
+    setSaving(true);
     try {
       const staffData={
         name: toTitleCase(formData.name),
@@ -52,25 +41,17 @@ const AdminStaffContacts=()=> {
       };
 
       if (editingId) {
-        const {error}=await supabase
-          .from('staff_contacts_portal123')
-          .update(staffData)
-          .eq('id',editingId);
-        if (error) throw error;
+        await updateItem(editingId,staffData);
       } else {
-        const {error}=await supabase
-          .from('staff_contacts_portal123')
-          .insert([staffData]);
-        if (error) throw error;
+        await insertItem(staffData);
       }
 
       handleCancel();
-      fetchStaffContacts();
     } catch (error) {
       console.error('Error saving staff contact:',error);
-      alert(`Error saving staff contact: ${error.message}`);
+      toast.error(`Error saving staff contact: ${error.message}`);
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
@@ -86,17 +67,12 @@ const AdminStaffContacts=()=> {
   };
 
   const handleDelete=async (id)=> {
-    if (!confirm('Are you sure you want to delete this staff contact?')) return;
+    if (!(await confirm('Are you sure you want to delete this staff contact?'))) return;
     try {
-      const {error}=await supabase
-        .from('staff_contacts_portal123')
-        .delete()
-        .eq('id',id);
-      if (error) throw error;
-      fetchStaffContacts();
+      await deleteItem(id);
     } catch (error) {
       console.error('Error deleting staff contact:',error);
-      alert('Error deleting staff contact. Please try again.');
+      toast.error('Error deleting staff contact. Please try again.');
     }
   };
 
@@ -130,10 +106,10 @@ const AdminStaffContacts=()=> {
         .update({display_order: staff1.display_order})
         .eq('id',staff2.id);
 
-      fetchStaffContacts();
+      fetchItems();
     } catch (error) {
       console.error('Error reordering staff contacts:',error);
-      alert('Error reordering staff contacts. Please try again.');
+      toast.error('Error reordering staff contacts. Please try again.');
     }
   };
 
@@ -151,7 +127,7 @@ const AdminStaffContacts=()=> {
       </div>
 
       {showForm && (
-        <LoadingTransition isLoading={loading && editingId} skeleton={<SkeletonForm />}>
+        <LoadingTransition isLoading={saving && editingId} skeleton={<SkeletonForm />}>
           <motion.div
             initial={{opacity: 0,y: 20}}
             animate={{opacity: 1,y: 0}}
@@ -220,7 +196,7 @@ const AdminStaffContacts=()=> {
                 </button>
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={saving}
                   className="admin-btn-primary"
                 >
                   <SafeIcon icon={FiSave} className="h-4 w-4" />

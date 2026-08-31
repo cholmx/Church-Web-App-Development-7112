@@ -5,6 +5,8 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import {useCleanContent} from '../hooks/useCleanContent';
 import supabase from '../lib/supabase';
+import {formatDate} from '../utils/dateFormat';
+import {sanitizeHtml} from '../utils/sanitizeHtml';
 
 const {FiPlay,FiCalendar,FiUser,FiMessageCircle,FiHome,FiLayers,FiFilter}=FiIcons;
 
@@ -52,14 +54,6 @@ const SermonBlog=()=> {
     } catch (error) {
       console.error('Error fetching sermon series:',error);
     }
-  };
-
-  const formatDate=(dateString)=> {
-    return new Date(dateString).toLocaleDateString('en-US',{
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
   };
 
   const getYouTubeEmbedUrl=(url)=> {
@@ -312,7 +306,7 @@ const SermonBlog=()=> {
                       <div className="prose max-w-none">
                         <div
                           className="rendered-content text-text-primary font-inter"
-                          dangerouslySetInnerHTML={{__html: sermon.summary}}
+                          dangerouslySetInnerHTML={{__html: sanitizeHtml(sermon.summary)}}
                         />
                       </div>
                     </div>
@@ -334,7 +328,7 @@ const SermonBlog=()=> {
                         <div
                           className="rendered-content text-text-primary font-inter"
                           dangerouslySetInnerHTML={{
-                            __html: sermon.discussion_questions
+                            __html: sanitizeHtml(sermon.discussion_questions)
                           }}
                         />
                       </div>

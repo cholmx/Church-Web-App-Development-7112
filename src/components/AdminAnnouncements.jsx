@@ -1,71 +1,53 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import RichTextEditor from './RichTextEditor';
 import {SkeletonTable,SkeletonForm,LoadingTransition} from './LoadingSkeletons';
-import supabase from '../lib/supabase';
 import { toTitleCase } from '../utils/textFormat';
+import { formatDate, getTodayDateString } from '../utils/dateFormat';
+import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
+import { sanitizeHtml } from '../utils/sanitizeHtml';
+import { useToast } from '../hooks/useToast';
+import { useConfirm } from '../hooks/useConfirm';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX}=FiIcons;
 
 const AdminAnnouncements=()=> {
-  const [announcements,setAnnouncements]=useState([]);
-  const [loading,setLoading]=useState(true);
+  const toast=useToast();
+  const confirm=useConfirm();
+  const {items: announcements,loading,insertItem,updateItem,deleteItem}=useSupabaseCrud(
+    'announcements_portal123',
+    {orderBy: 'announcement_date',ascending: false}
+  );
+  const [saving,setSaving]=useState(false);
   const [editingId,setEditingId]=useState(null);
   const [showForm,setShowForm]=useState(false);
   const [formData,setFormData]=useState({title: '',content: '',author: '',announcement_date: ''});
 
-  useEffect(()=> {
-    fetchAnnouncements();
-  },[]);
-
-  const fetchAnnouncements=async ()=> {
-    try {
-      const {data,error}=await supabase
-        .from('announcements_portal123')
-        .select('*')
-        .order('announcement_date',{ascending: false});
-      if (error) throw error;
-      setAnnouncements(data || []);
-    } catch (error) {
-      console.error('Error fetching announcements:',error);
-    } finally {
-      setTimeout(()=> setLoading(false),600);
-    }
-  };
-
   const handleSubmit=async (e)=> {
     e.preventDefault();
-    setLoading(true);
+    setSaving(true);
     try {
       const announcementData={
         title: toTitleCase(formData.title),
         content: formData.content,
         author: toTitleCase(formData.author),
-        announcement_date: formData.announcement_date || new Date().toISOString().split('T')[0]
+        announcement_date: formData.announcement_date || getTodayDateString()
       };
 
       if (editingId) {
-        const {error}=await supabase
-          .from('announcements_portal123')
-          .update(announcementData)
-          .eq('id',editingId);
-        if (error) throw error;
+        await updateItem(editingId,announcementData);
       } else {
-        const {error}=await supabase
-          .from('announcements_portal123')
-          .insert([announcementData]);
-        if (error) throw error;
+        await insertItem(announcementData);
       }
       handleCancel();
-      fetchAnnouncements();
     } catch (error) {
       console.error('Error saving announcement:',error);
       const errorMessage = error?.message || 'Unknown error occurred';
-      alert(`Error saving announcement: ${errorMessage}\n\nPlease check the console for more details.`);
+      toast.error(`Error saving announcement: ${errorMessage}`);
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
@@ -81,17 +63,12 @@ const AdminAnnouncements=()=> {
   };
 
   const handleDelete=async (id)=> {
-    if (!confirm('Are you sure you want to delete this announcement?')) return;
+    if (!(await confirm('Are you sure you want to delete this announcement?'))) return;
     try {
-      const {error}=await supabase
-        .from('announcements_portal123')
-        .delete()
-        .eq('id',id);
-      if (error) throw error;
-      fetchAnnouncements();
+      await deleteItem(id);
     } catch (error) {
       console.error('Error deleting announcement:',error);
-      alert('Error deleting announcement. Please try again.');
+      toast.error('Error deleting announcement. Please try again.');
     }
   };
 
@@ -103,15 +80,6 @@ const AdminAnnouncements=()=> {
 
   const handleContentChange=(e)=> {
     setFormData({...formData,content: e.target.value});
-  };
-
-  const formatDate=(dateString)=> {
-    if (!dateString) return '';
-    return new Date(dateString).toLocaleDateString('en-US',{
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
   };
 
   return (
@@ -130,7 +98,7 @@ const AdminAnnouncements=()=> {
 
       {/* Form with Loading */}
       {showForm && (
-        <LoadingTransition isLoading={loading && editingId} skeleton={<SkeletonForm />}>
+        <LoadingTransition isLoading={saving && editingId} skeleton={<SkeletonForm />}>
           <motion.div
             initial={{opacity: 0,y: 20}}
             animate={{opacity: 1,y: 0}}
@@ -180,7 +148,7 @@ const AdminAnnouncements=()=> {
                 />
               </div>
               <div className="flex space-x-3">
-                <button type="submit" disabled={loading} className="admin-btn-primary">
+                <button type="submit" disabled={saving} className="admin-btn-primary">
                   <SafeIcon icon={FiSave} className="h-4 w-4" />
                   <span>{editingId ? 'Update' : 'Create'}</span>
                 </button>
@@ -217,7 +185,7 @@ const AdminAnnouncements=()=> {
                       </h3>
                       <div
                         className="announcement-content text-sm mb-2 prose prose-sm max-w-none"
-                        dangerouslySetInnerHTML={{__html: announcement.content}}
+                        dangerouslySetInnerHTML={{__html: sanitizeHtml(announcement.content)}}
                       />
                       <div className="text-sm text-text-light">
                         {announcement.author && `By ${announcement.author} • `}

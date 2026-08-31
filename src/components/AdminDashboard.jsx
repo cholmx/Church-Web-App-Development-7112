@@ -3,6 +3,7 @@ import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
+import { formatDate as formatDateSafe } from '../utils/dateFormat';
 
 const {
   FiBell,FiPlay,FiCalendar,FiBookOpen,FiHeart,FiUsers,FiTrendingUp,
@@ -109,7 +110,7 @@ const AdminDashboard=({onNavigate})=> {
 
   const formatDate=(d)=> {
     if (!d) return '';
-    return new Date(d).toLocaleDateString('en-US',{month: 'short',day: 'numeric',year: 'numeric'});
+    return formatDateSafe(d,{month: 'short',day: 'numeric',year: 'numeric'});
   };
 
   return (

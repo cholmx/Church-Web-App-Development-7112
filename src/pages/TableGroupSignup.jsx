@@ -4,12 +4,14 @@ import {motion,AnimatePresence} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import {submitTableGroupSignup} from '../lib/contactStorage';
+import {useToast} from '../hooks/useToast';
 
 const {FiUsers,FiCheckCircle,FiUser,FiMail,FiHash,FiHome,FiArrowRight,FiCalendar}=FiIcons;
 
 const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
 const TableGroupSignup=()=> {
+  const toast=useToast();
   const [formData,setFormData]=useState({
     firstName: '',
     lastName: '',
@@ -50,7 +52,7 @@ const TableGroupSignup=()=> {
       setFormData({firstName: '',lastName: '',email: '',partySize: '',unavailableDays: []});
     } catch (error) {
       console.error('Error submitting form:',error);
-      alert('There was an error submitting your form. Please try again.');
+      toast.error('There was an error submitting your form. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

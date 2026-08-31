@@ -6,6 +6,8 @@ import SafeIcon from '../common/SafeIcon';
 import {SkeletonCard,LoadingTransition} from '../components/LoadingSkeletons';
 import {useCleanContent} from '../hooks/useCleanContent';
 import supabase from '../lib/supabase';
+import {formatDate} from '../utils/dateFormat';
+import {sanitizeHtml} from '../utils/sanitizeHtml';
 
 const {FiBell,FiCalendar,FiUser,FiHome}=FiIcons;
 
@@ -35,15 +37,6 @@ const Announcements=()=> {
       // Add minimum delay to show skeleton
       setTimeout(()=> setLoading(false),600);
     }
-  };
-
-  const formatDate=(dateString)=> {
-    if (!dateString) return '';
-    return new Date(dateString).toLocaleDateString('en-US',{
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
   };
 
   return (
@@ -129,7 +122,7 @@ const Announcements=()=> {
                     <div className="prose max-w-none">
                       <div
                         className="announcement-content"
-                        dangerouslySetInnerHTML={{__html: announcement.content}}
+                        dangerouslySetInnerHTML={{__html: sanitizeHtml(announcement.content)}}
                       />
                     </div>
                     {announcement.author && (

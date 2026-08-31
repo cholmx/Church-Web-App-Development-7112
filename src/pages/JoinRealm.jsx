@@ -5,10 +5,12 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import {submitRealmSignup} from '../lib/contactStorage';
 import StandardButton from '../components/StandardButton';
+import {useToast} from '../hooks/useToast';
 
 const {FiUserPlus,FiCheckCircle,FiUser,FiMail,FiPhone,FiMapPin,FiCalendar,FiHeart,FiHome,FiArrowRight}=FiIcons;
 
 const JoinRealm=()=> {
+  const toast=useToast();
   const [formData,setFormData]=useState({
     firstName: '',
     lastName: '',
@@ -63,7 +65,7 @@ const JoinRealm=()=> {
       setIsSubmitted(true);
     } catch (error) {
       console.error('Error submitting form:',error);
-      alert('There was an error submitting your form. Please try again.');
+      toast.error('There was an error submitting your form. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

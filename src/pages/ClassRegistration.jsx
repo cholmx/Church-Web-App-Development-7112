@@ -5,6 +5,9 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
 import StandardButton from '../components/StandardButton';
+import {sanitizeHtml} from '../utils/sanitizeHtml';
+import {formatDate,formatTime} from '../utils/dateFormat';
+import AddToCalendarButton from '../components/AddToCalendarButton';
 
 const {FiBookOpen,FiHome,FiExternalLink}=FiIcons;
 
@@ -101,23 +104,38 @@ const ClassRegistration=()=> {
                 transition={{duration: 0.5,delay: index * 0.1}}
                 className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
               >
-                <h3 className="text-xl font-semibold text-text-primary mb-4">
+                <h3 className="text-xl font-semibold text-text-primary mb-2">
                   {classItem.title}
                 </h3>
+                {classItem.start_date && (
+                  <p className="text-sm text-text-light mb-4">
+                    {formatDate(classItem.start_date, {weekday: 'long',year: 'numeric',month: 'long',day: 'numeric'})}
+                    {classItem.start_time && ` at ${formatTime(classItem.start_time)}`}
+                    {classItem.location && ` · ${classItem.location}`}
+                  </p>
+                )}
                 <div
                   className="text-text-primary mb-6 prose prose-sm max-w-none rendered-content"
-                  dangerouslySetInnerHTML={{__html: classItem.details}}
+                  dangerouslySetInnerHTML={{__html: sanitizeHtml(classItem.details)}}
                 />
-                {classItem.link && (
-                  <div className="flex justify-start">
+                <div className="flex flex-wrap items-center gap-4">
+                  {classItem.link && (
                     <StandardButton
                       onClick={() => window.open(classItem.link, '_blank', 'noopener,noreferrer')}
                       icon={FiExternalLink}
                     >
                       Register Here
                     </StandardButton>
-                  </div>
-                )}
+                  )}
+                  <AddToCalendarButton
+                    title={classItem.title}
+                    description={classItem.details}
+                    date={classItem.start_date}
+                    startTime={classItem.start_time}
+                    endTime={classItem.end_time}
+                    location={classItem.location}
+                  />
+                </div>
               </motion.div>
             ))}
           </div>
