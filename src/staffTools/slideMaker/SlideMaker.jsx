@@ -199,7 +199,23 @@ function SlideMakerInner() {
   const slideProps = {tmplId, data, brand, bgImg: activePhoto, accentImg: accentPhoto, ov, blur, canvasW: aspectRatio.w, canvasH: aspectRatio.h, cornerR};
 
   return (
-    <div style={{fontFamily: ui.body, background: C.bg, minHeight: "100vh", display: "flex", flexDirection: "column"}}>
+    <div className="slide-maker" style={{fontFamily: ui.body, background: C.bg, minHeight: "100vh", display: "flex", flexDirection: "column"}}>
+      <style>{`
+        @media (max-width: 900px) {
+          .slide-maker .sidebar-desktop { display: none !important; }
+          .slide-maker .sidebar-toggle-btn { display: block !important; }
+        }
+        @media (min-width: 901px) {
+          .slide-maker .sidebar-overlay,
+          .slide-maker .sidebar-mobile { display: none !important; }
+        }
+        @media (max-width: 700px) {
+          .slide-maker .aspect-ratio-group { display: none !important; }
+        }
+        @media (max-width: 500px) {
+          .slide-maker .dl-jpg-btn { display: none !important; }
+        }
+      `}</style>
       <TopBar
         onDownload={dl}
         onDownloadJpg={dlJpg}

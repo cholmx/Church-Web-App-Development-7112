@@ -180,63 +180,33 @@ export default function StaffCommsApp() {
 
       <div style={{ fontFamily: font.body, background: C.bg, minHeight: '100vh', borderRadius: 16, overflow: 'hidden' }}>
         <header style={{ background: C.navBg, position: 'sticky', top: 0, zIndex: 40, isolation: 'isolate' }}>
-          <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
-
-            {/* Title row */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', padding: '18px 0 14px', gap: 12 }}>
-              <div style={{ minWidth: 0 }}>
-                <div style={{
-                  fontFamily: font.display,
-                  fontSize: 11,
-                  fontWeight: 700,
-                  color: C.stageAccent,
-                  letterSpacing: '0.2em',
-                  textTransform: 'uppercase',
-                  marginBottom: 5,
-                }}>
-                  Upper Room Fellowship
-                </div>
-                <div style={{
-                  fontFamily: font.display,
-                  fontSize: 22,
-                  fontWeight: 900,
-                  color: C.navText,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.03em',
-                  lineHeight: 1,
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}>
-                  Announcement Organizer
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0, paddingBottom: 2 }}>
-                <span className="nav-preview-label" style={{ fontFamily: font.mono, fontSize: 10, color: 'rgba(241,245,249,0.3)', letterSpacing: '0.05em' }}>preview</span>
-                <input
-                  type="date"
-                  value={today}
-                  onChange={e => setToday(e.target.value)}
-                  style={{
-                    padding: '5px 7px',
-                    border: '1px solid rgba(241,245,249,0.12)',
-                    borderRadius: 5,
-                    fontFamily: font.mono,
-                    fontSize: 11,
-                    fontWeight: 500,
-                    color: 'rgba(241,245,249,0.7)',
-                    background: 'rgba(255,255,255,0.06)',
-                    outline: 'none',
-                    colorScheme: 'dark',
-                    cursor: 'pointer',
-                    maxWidth: 130,
-                  }}
-                />
-              </div>
+          <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <TabBar active={tab} onChange={setTab} />
             </div>
 
-            <TabBar active={tab} onChange={setTab} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0, padding: '8px 0' }}>
+              <span className="nav-preview-label" style={{ fontFamily: font.mono, fontSize: 10, color: 'rgba(241,245,249,0.3)', letterSpacing: '0.05em' }}>preview</span>
+              <input
+                type="date"
+                value={today}
+                onChange={e => setToday(e.target.value)}
+                style={{
+                  padding: '5px 7px',
+                  border: '1px solid rgba(241,245,249,0.12)',
+                  borderRadius: 5,
+                  fontFamily: font.mono,
+                  fontSize: 11,
+                  fontWeight: 500,
+                  color: 'rgba(241,245,249,0.7)',
+                  background: 'rgba(255,255,255,0.06)',
+                  outline: 'none',
+                  colorScheme: 'dark',
+                  cursor: 'pointer',
+                  maxWidth: 130,
+                }}
+              />
+            </div>
           </div>
         </header>
 
