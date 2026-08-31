@@ -49,7 +49,19 @@ const Admin=()=> {
         body: {password}
       });
       if (fnError || data?.error) {
-        throw new Error(data?.error || fnError?.message || 'Invalid password');
+        // supabase-js only gives us the raw Response for a non-2xx function
+        // call (data is null) - the actual "Invalid password" / "Admin login
+        // is not configured" message lives in that response's JSON body.
+        let message=data?.error;
+        if (!message && fnError?.context?.json) {
+          try {
+            const body=await fnError.context.json();
+            message=body?.error;
+          } catch {
+            // Response body wasn't JSON - fall through to the generic message below.
+          }
+        }
+        throw new Error(message || fnError?.message || 'Invalid password');
       }
       const {error: otpError}=await supabase.auth.verifyOtp({
         email: data.email,
@@ -60,7 +72,7 @@ const Admin=()=> {
       setPassword('');
     } catch (err) {
       console.error('Admin login failed:',err);
-      setError('Invalid password. Please try again.');
+      setError(err.message || 'Login failed. Please try again.');
       setPassword('');
     } finally {
       setLoading(false);
