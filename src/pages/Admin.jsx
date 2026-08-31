@@ -61,7 +61,7 @@ const Admin=()=> {
       setPassword('');
     } catch (err) {
       console.error('Admin login failed:',err);
-      setError('Invalid password. Please try again.');
+      setError(err?.message || 'Login failed. Please try again.');
       setPassword('');
     } finally {
       setLoading(false);
