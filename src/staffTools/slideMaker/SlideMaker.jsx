@@ -1,6 +1,6 @@
 import React, {useState, useRef, useEffect, useCallback, useMemo} from 'react';
 import useGoogleFonts from './hooks/useGoogleFonts';
-import {useToast} from './hooks/useToast.jsx';
+import {ToastProvider, useToast} from './hooks/useToast.jsx';
 import {useUndoHistory} from './hooks/useUndoHistory';
 import {FONT_COMBOS, COLOR_PALETTES, ASPECT_RATIOS} from './constants/data';
 import {C, ui} from './constants/styles';
@@ -34,6 +34,14 @@ const DEFAULT_BRAND = (combo) => ({
 });
 
 export default function SlideMaker() {
+  return (
+    <ToastProvider>
+      <SlideMakerInner />
+    </ToastProvider>
+  );
+}
+
+function SlideMakerInner() {
   useGoogleFonts();
   const toast = useToast();
 
