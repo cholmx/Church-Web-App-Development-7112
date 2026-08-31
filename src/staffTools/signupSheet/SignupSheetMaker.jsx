@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import SignupSheetBuilder from './SignupSheetBuilder';
 import SignupSheetPreview from './SignupSheetPreview';
 import './signupSheet.css';
-
-const FONT_HREF = "https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700;800;900&family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap";
 
 const defaultColumns = () => {
   const names = ['Name', 'Email', 'Phone'];
@@ -17,16 +15,6 @@ const defaultColumns = () => {
 // state instead, since this is mounted as one tab inside /admin rather
 // than owning its own URL.
 export default function SignupSheetMaker() {
-  useEffect(() => {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = FONT_HREF;
-    document.head.appendChild(link);
-    return () => {
-      if (document.head.contains(link)) document.head.removeChild(link);
-    };
-  }, []);
-
   const [view, setView] = useState('builder');
   const [sheetData, setSheetData] = useState({
     title: '',

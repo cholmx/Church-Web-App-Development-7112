@@ -50,23 +50,23 @@ const SignupSheetPreview = ({ sheetData, setSheetData, onBack }) => {
   }, [sheetData.columns, setSheetData]);
 
   return (
-    <div className="min-h-screen print:bg-white" style={{ backgroundColor: '#E5E1D5' }}>
+    <div className="min-h-screen print:bg-white" style={{ backgroundColor: '#F7F7F7' }}>
 
       {/* Header (Hidden when printing) */}
-      <header className="bg-[#0D2B23] pt-6 px-8 flex flex-col gap-6 shadow-sm print:hidden">
+      <header className="bg-[#1E1E21] pt-6 px-8 flex flex-col gap-6 shadow-sm print:hidden">
         <div className="flex justify-between items-start max-w-5xl mx-auto w-full">
           <div>
-            <div className="text-[#E8851A] text-[10px] font-bold tracking-widest uppercase mb-1 font-google-sans">
+            <div className="text-[#1E1E21] text-[10px] font-bold tracking-widest uppercase mb-1">
               Printable Resources
             </div>
-            <h1 className="text-white text-2xl font-black tracking-wide uppercase font-spartan">
+            <h1 className="text-white text-2xl font-black tracking-wide uppercase font-heading">
               Sign-up Sheet Organizer
             </h1>
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={handlePrint}
-              className="flex items-center gap-2 bg-[#E8851A] border border-[#E8851A] text-white px-5 py-2 rounded text-xs font-bold uppercase tracking-wider hover:bg-[#d07612] transition-colors font-google-sans shadow-md"
+              className="flex items-center gap-2 bg-[#1E1E21] border border-[#1E1E21] text-white px-5 py-2 rounded text-xs font-bold uppercase tracking-wider hover:bg-[#3A3A3D] transition-colors shadow-md"
             >
               <FiPrinter className="text-sm" />
               Print Sheet
@@ -78,11 +78,11 @@ const SignupSheetPreview = ({ sheetData, setSheetData, onBack }) => {
         <div className="flex gap-8 max-w-5xl mx-auto w-full">
           <button
             onClick={onBack}
-            className="pb-3 text-sm font-bold uppercase tracking-wider border-b-4 border-transparent text-white/60 hover:text-white transition-colors font-google-sans"
+            className="pb-3 text-sm font-bold uppercase tracking-wider border-b-4 border-transparent text-white/60 hover:text-white transition-colors"
           >
             Manage
           </button>
-          <button className="pb-3 text-sm font-bold uppercase tracking-wider border-b-4 border-[#E8851A] text-[#E8851A] font-google-sans">
+          <button className="pb-3 text-sm font-bold uppercase tracking-wider border-b-4 border-[#1E1E21] text-[#1E1E21]">
             Preview
           </button>
         </div>
@@ -97,15 +97,15 @@ const SignupSheetPreview = ({ sheetData, setSheetData, onBack }) => {
             <div className={`text-center ${isUltraCompact ? 'mb-2' : isCompact ? 'mb-4' : 'mb-6'}`}>
               <h1
                 className={`${isUltraCompact ? 'text-2xl' : isCompact ? 'text-3xl' : 'text-4xl'} sheet-title`}
-                style={{ color: '#0D2B23' }}
+                style={{ color: '#1E1E21' }}
               >
                 {sheetData.title || 'Sign-up Sheet'}
               </h1>
 
               {sheetData.showDateTime && sheetData.dateTimeLabel && (
                 <div
-                  className={`${isUltraCompact ? 'text-base' : 'text-xl'} font-bold mt-1 font-google-sans`}
-                  style={{ color: '#1a3a2e' }}
+                  className={`${isUltraCompact ? 'text-base' : 'text-xl'} font-bold mt-1`}
+                  style={{ color: '#4A4A4D' }}
                 >
                   {sheetData.dateTimeLabel}
                 </div>
@@ -113,8 +113,8 @@ const SignupSheetPreview = ({ sheetData, setSheetData, onBack }) => {
 
               {sheetData.instructions && (
                 <div
-                  className={`max-w-3xl mx-auto mt-2 ${isUltraCompact ? 'text-[10px]' : 'text-sm'} whitespace-pre-wrap leading-tight font-google-sans`}
-                  style={{ color: '#1a3a2e' }}
+                  className={`max-w-3xl mx-auto mt-2 ${isUltraCompact ? 'text-[10px]' : 'text-sm'} whitespace-pre-wrap leading-tight`}
+                  style={{ color: '#4A4A4D' }}
                 >
                   {sheetData.instructions}
                 </div>
@@ -131,14 +131,14 @@ const SignupSheetPreview = ({ sheetData, setSheetData, onBack }) => {
             {/* Table */}
             <div className="sheet-table" ref={tableRef}>
               {/* Header Row */}
-              <div className="sheet-header-row" style={{ backgroundColor: '#f0ede8' }}>
+              <div className="sheet-header-row" style={{ backgroundColor: '#F5F5F5' }}>
                 {sheetData.columns.map((column, index) => (
                   <div
                     key={index}
                     className="relative flex items-center justify-center px-2 py-1.5 text-center border-r-2 border-black last:border-r-0"
                     style={{ width: `${column.width}%` }}
                   >
-                    <span className="column-header text-[11px] leading-tight select-none" style={{ color: '#0D2B23' }}>
+                    <span className="column-header text-[11px] leading-tight select-none" style={{ color: '#1E1E21' }}>
                       {column.name}
                     </span>
                     {index < sheetData.columns.length - 1 && (
@@ -172,7 +172,7 @@ const SignupSheetPreview = ({ sheetData, setSheetData, onBack }) => {
             {/* Footer */}
             {!isUltraCompact && (
               <div className="mt-2 flex justify-end items-end">
-                <p className="text-[10px] font-google-sans" style={{ color: '#1a3a2e' }}>
+                <p className="text-[10px]" style={{ color: '#4A4A4D' }}>
                   Please print clearly. Thank you!
                 </p>
               </div>

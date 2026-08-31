@@ -98,14 +98,14 @@ const AdminDashboard=({onNavigate})=> {
   };
 
   const stats=[
-    {key: 'announcements',icon: FiBell,label: 'Announcements',color: 'bg-blue-500'},
-    {key: 'sermons',icon: FiPlay,label: 'Sermons',color: 'bg-primary'},
-    {key: 'events',icon: FiCalendar,label: 'Events',color: 'bg-orange-500'},
-    {key: 'classes',icon: FiBookOpen,label: 'Classes',color: 'bg-teal-500'},
-    {key: 'resources',icon: FiBookOpen,label: 'Resources',color: 'bg-rose-500'},
-    {key: 'ministries',icon: FiHeart,label: 'Ministries',color: 'bg-pink-500'},
-    {key: 'staff',icon: FiUsers,label: 'Staff Members',color: 'bg-cyan-600'},
-    {key: 'comments',icon: FiMessageSquare,label: 'Campaign Comments',color: 'bg-amber-500'},
+    {key: 'announcements',icon: FiBell,label: 'Announcements',color: 'bg-gray-900'},
+    {key: 'sermons',icon: FiPlay,label: 'Sermons',color: 'bg-gray-900'},
+    {key: 'events',icon: FiCalendar,label: 'Events',color: 'bg-gray-900'},
+    {key: 'classes',icon: FiBookOpen,label: 'Classes',color: 'bg-gray-900'},
+    {key: 'resources',icon: FiBookOpen,label: 'Resources',color: 'bg-gray-900'},
+    {key: 'ministries',icon: FiHeart,label: 'Ministries',color: 'bg-gray-900'},
+    {key: 'staff',icon: FiUsers,label: 'Staff Members',color: 'bg-gray-900'},
+    {key: 'comments',icon: FiMessageSquare,label: 'Campaign Comments',color: 'bg-gray-900'},
   ];
 
   const formatDate=(d)=> {
@@ -155,7 +155,7 @@ const AdminDashboard=({onNavigate})=> {
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-text-primary flex items-center space-x-2">
-              <SafeIcon icon={FiBell} className="h-4 w-4 text-blue-500" />
+              <SafeIcon icon={FiBell} className="h-4 w-4 text-gray-900" />
               <span>Recent Announcements</span>
             </h3>
             <button
@@ -244,7 +244,7 @@ const AdminDashboard=({onNavigate})=> {
             href="https://urf.life/#/yellow"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-between p-4 border-2 border-yellow-300 rounded-xl hover:bg-yellow-50 transition-colors group"
+            className="flex items-center justify-between p-4 border-2 border-gray-200 rounded-xl hover:bg-gray-50 transition-colors group"
           >
             <div className="flex items-center space-x-3">
               <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{backgroundColor: '#E2BA49'}}>
@@ -261,7 +261,7 @@ const AdminDashboard=({onNavigate})=> {
             href="https://urf.life/#/green"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-between p-4 border-2 border-green-300 rounded-xl hover:bg-green-50 transition-colors group"
+            className="flex items-center justify-between p-4 border-2 border-gray-200 rounded-xl hover:bg-gray-50 transition-colors group"
           >
             <div className="flex items-center space-x-3">
               <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{backgroundColor: '#83A682'}}>

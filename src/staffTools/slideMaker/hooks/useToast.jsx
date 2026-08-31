@@ -35,7 +35,7 @@ export function ToastProvider({ children }) {
             pointerEvents: 'auto',
             padding: '12px 20px',
             borderRadius: 8,
-            fontFamily: "'DM Sans',sans-serif",
+            fontFamily: "'Inter',sans-serif",
             fontSize: 13,
             fontWeight: 600,
             color: '#fff',
@@ -43,9 +43,9 @@ export function ToastProvider({ children }) {
             boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
             animation: 'toastIn 0.2s ease-out',
             background: t.type === 'error' ? '#DC2626'
-              : t.type === 'success' ? '#059669'
-              : t.type === 'warning' ? '#D97706'
-              : '#0A1A1F',
+              : t.type === 'success' ? '#2E7D32'
+              : t.type === 'warning' ? '#B45309'
+              : '#1E1E21',
             maxWidth: 360,
           }}>
             {t.message}
