@@ -17,8 +17,9 @@ import AdminCapitalCampaign from '../components/AdminCapitalCampaign';
 import AdminComments from '../components/AdminComments';
 import AdminDashboard from '../components/AdminDashboard';
 import AdminLeadershipLinks from '../components/AdminLeadershipLinks';
+import AdminSubmissions from '../components/AdminSubmissions';
 
-const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid,FiLogOut}=FiIcons;
+const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid,FiLogOut,FiInbox}=FiIcons;
 
 const Admin=()=> {
   const [isAuthenticated,setIsAuthenticated]=useState(false);
@@ -72,6 +73,7 @@ const Admin=()=> {
 
   const tabs=[
     {id: 'overview',label: 'Overview',icon: FiGrid},
+    {id: 'submissions',label: 'Submissions',icon: FiInbox},
     {id: 'announcements',label: 'Announcements',icon: FiBell},
     {id: 'sermons',label: 'Sermons',icon: FiPlay},
     {id: 'events',label: 'Events',icon: FiCalendar},
@@ -89,6 +91,8 @@ const Admin=()=> {
     switch (activeTab) {
       case 'overview':
         return <AdminDashboard onNavigate={(tab)=> setActiveTab(tab)} />;
+      case 'submissions':
+        return <AdminSubmissions />;
       case 'announcements':
         return <AdminAnnouncements />;
       case 'sermons':
