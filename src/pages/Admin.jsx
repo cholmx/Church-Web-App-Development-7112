@@ -19,8 +19,10 @@ import AdminDashboard from '../components/AdminDashboard';
 import AdminLeadershipLinks from '../components/AdminLeadershipLinks';
 import AdminSubmissions from '../components/AdminSubmissions';
 import StaffCommsApp from '../staffComms/StaffCommsApp';
+import SlideMaker from '../staffTools/slideMaker/SlideMaker';
+import SignupSheetMaker from '../staffTools/signupSheet/SignupSheetMaker';
 
-const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid,FiLogOut,FiInbox,FiRadio}=FiIcons;
+const {FiSettings,FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiMic,FiExternalLink,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid,FiLogOut,FiInbox,FiRadio,FiImage,FiClipboard}=FiIcons;
 
 const Admin=()=> {
   const [isAuthenticated,setIsAuthenticated]=useState(false);
@@ -101,6 +103,8 @@ const Admin=()=> {
     {id: 'comments',label: 'Comments',icon: FiMessageSquare},
     {id: 'links',label: 'Leadership Links',icon: FiExternalLink},
     {id: 'comms',label: 'Announcement Organizer',icon: FiRadio},
+    {id: 'slideMaker',label: 'Slide Maker',icon: FiImage},
+    {id: 'signupSheet',label: 'Sign-up Sheets',icon: FiClipboard},
   ];
 
   const renderContent=()=> {
@@ -133,6 +137,10 @@ const Admin=()=> {
         return <AdminLeadershipLinks />;
       case 'comms':
         return <StaffCommsApp />;
+      case 'slideMaker':
+        return <SlideMaker />;
+      case 'signupSheet':
+        return <SignupSheetMaker />;
       default:
         return <AdminDashboard onNavigate={(tab)=> setActiveTab(tab)} />;
     }
