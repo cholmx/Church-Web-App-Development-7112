@@ -9,8 +9,12 @@ import { useSupabaseCrud } from '../hooks/useSupabaseCrud';
 import { sanitizeHtml } from '../utils/sanitizeHtml';
 import { useToast } from '../hooks/useToast';
 import { useConfirm } from '../hooks/useConfirm';
+import AddToCalendarButton from './AddToCalendarButton';
+import { formatDate, formatTime } from '../utils/dateFormat';
 
 const {FiPlus,FiEdit,FiTrash2,FiSave,FiX,FiExternalLink}=FiIcons;
+
+const emptyForm={title: '',details: '',link: '',event_date: '',start_time: '',end_time: '',location: ''};
 
 const AdminEvents=()=> {
   const toast=useToast();
@@ -22,7 +26,7 @@ const AdminEvents=()=> {
   const [saving,setSaving]=useState(false);
   const [editingId,setEditingId]=useState(null);
   const [showForm,setShowForm]=useState(false);
-  const [formData,setFormData]=useState({title: '',details: '',link: ''});
+  const [formData,setFormData]=useState(emptyForm);
 
   const handleSubmit=async (e)=> {
     e.preventDefault();
@@ -31,7 +35,11 @@ const AdminEvents=()=> {
       const eventData={
         title: toTitleCase(formData.title),
         details: formData.details,
-        link: formData.link
+        link: formData.link,
+        event_date: formData.event_date || null,
+        start_time: formData.start_time || null,
+        end_time: formData.end_time || null,
+        location: formData.location || null
       };
 
       if (editingId) {
@@ -52,7 +60,11 @@ const AdminEvents=()=> {
     setFormData({
       title: event.title,
       details: event.details,
-      link: event.link || ''
+      link: event.link || '',
+      event_date: event.event_date || '',
+      start_time: event.start_time ? event.start_time.slice(0,5) : '',
+      end_time: event.end_time ? event.end_time.slice(0,5) : '',
+      location: event.location || ''
     });
     setEditingId(event.id);
     setShowForm(true);
@@ -69,7 +81,7 @@ const AdminEvents=()=> {
   };
 
   const handleCancel=()=> {
-    setFormData({title: '',details: '',link: ''});
+    setFormData(emptyForm);
     setEditingId(null);
     setShowForm(false);
   };
@@ -130,6 +142,50 @@ const AdminEvents=()=> {
                   Optional: Add a link to external registration,more info,or related content
                 </p>
               </div>
+              <div className="border-t border-accent pt-4">
+                <p className="text-sm text-text-light mb-3">
+                  Optional: fill in a date to show a structured date on the page and let visitors add this event to their calendar.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="admin-label">Date</label>
+                    <input
+                      type="date"
+                      value={formData.event_date}
+                      onChange={(e)=> setFormData({...formData,event_date: e.target.value})}
+                      className="admin-input"
+                    />
+                  </div>
+                  <div>
+                    <label className="admin-label">Start Time</label>
+                    <input
+                      type="time"
+                      value={formData.start_time}
+                      onChange={(e)=> setFormData({...formData,start_time: e.target.value})}
+                      className="admin-input"
+                    />
+                  </div>
+                  <div>
+                    <label className="admin-label">End Time</label>
+                    <input
+                      type="time"
+                      value={formData.end_time}
+                      onChange={(e)=> setFormData({...formData,end_time: e.target.value})}
+                      className="admin-input"
+                    />
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <label className="admin-label">Location</label>
+                  <input
+                    type="text"
+                    value={formData.location}
+                    onChange={(e)=> setFormData({...formData,location: e.target.value})}
+                    className="admin-input"
+                    placeholder="e.g. Main Sanctuary"
+                  />
+                </div>
+              </div>
               <div className="flex space-x-4">
                 <button
                   type="submit"
@@ -167,12 +223,19 @@ const AdminEvents=()=> {
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
                       <h3 className="text-lg text-text-primary mb-2">{event.title}</h3>
+                      {event.event_date && (
+                        <p className="text-sm text-text-light mb-2">
+                          {formatDate(event.event_date)}
+                          {event.start_time && ` at ${formatTime(event.start_time)}`}
+                          {event.location && ` · ${event.location}`}
+                        </p>
+                      )}
                       <div
                         className="text-text-primary text-sm mb-3 prose prose-sm max-w-none rendered-content"
                         dangerouslySetInnerHTML={{__html: sanitizeHtml(event.details)}}
                       />
-                      {event.link && (
-                        <div className="mb-3">
+                      <div className="flex flex-wrap items-center gap-4 mb-3">
+                        {event.link && (
                           <a
                             href={event.link}
                             target="_blank"
@@ -182,8 +245,16 @@ const AdminEvents=()=> {
                             <SafeIcon icon={FiExternalLink} className="h-3 w-3" />
                             <span>External Link</span>
                           </a>
-                        </div>
-                      )}
+                        )}
+                        <AddToCalendarButton
+                          title={event.title}
+                          description={event.details}
+                          date={event.event_date}
+                          startTime={event.start_time}
+                          endTime={event.end_time}
+                          location={event.location}
+                        />
+                      </div>
                     </div>
                     <div className="flex space-x-2 ml-4">
                       <button

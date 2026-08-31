@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseLocalDate, formatDate, getTodayDateString } from './dateFormat';
+import { parseLocalDate, formatDate, formatTime, getTodayDateString } from './dateFormat';
 
 describe('parseLocalDate', () => {
   it('parses a YYYY-MM-DD string as a local date, not UTC midnight', () => {
@@ -36,6 +36,22 @@ describe('formatDate', () => {
 
   it('accepts custom Intl options', () => {
     expect(formatDate('2026-08-30', { month: 'short', day: 'numeric', year: 'numeric' })).toBe('Aug 30, 2026');
+  });
+});
+
+describe('formatTime', () => {
+  it('formats a Postgres HH:MM:SS time as 12-hour clock time', () => {
+    expect(formatTime('19:00:00')).toBe('7:00 PM');
+    expect(formatTime('09:05:00')).toBe('9:05 AM');
+  });
+
+  it('also accepts an HH:MM value without seconds', () => {
+    expect(formatTime('19:00')).toBe('7:00 PM');
+  });
+
+  it('returns an empty string for a missing time', () => {
+    expect(formatTime('')).toBe('');
+    expect(formatTime(null)).toBe('');
   });
 });
 

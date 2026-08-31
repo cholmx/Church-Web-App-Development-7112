@@ -6,6 +6,8 @@ import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
 import StandardButton from '../components/StandardButton';
 import {sanitizeHtml} from '../utils/sanitizeHtml';
+import {formatDate,formatTime} from '../utils/dateFormat';
+import AddToCalendarButton from '../components/AddToCalendarButton';
 
 const {FiCalendar,FiHome,FiExternalLink}=FiIcons;
 
@@ -102,23 +104,38 @@ const EventRegistration=()=> {
                 transition={{duration: 0.5,delay: index * 0.1}}
                 className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
               >
-                <h3 className="text-xl font-semibold text-text-primary mb-4">
+                <h3 className="text-xl font-semibold text-text-primary mb-2">
                   {event.title}
                 </h3>
+                {event.event_date && (
+                  <p className="text-sm text-text-light mb-4">
+                    {formatDate(event.event_date, {weekday: 'long',year: 'numeric',month: 'long',day: 'numeric'})}
+                    {event.start_time && ` at ${formatTime(event.start_time)}`}
+                    {event.location && ` · ${event.location}`}
+                  </p>
+                )}
                 <div
                   className="text-text-primary mb-6 prose prose-sm max-w-none rendered-content"
                   dangerouslySetInnerHTML={{__html: sanitizeHtml(event.details)}}
                 />
-                {event.link && (
-                  <div className="flex justify-start">
+                <div className="flex flex-wrap items-center gap-4">
+                  {event.link && (
                     <StandardButton
                       onClick={() => window.open(event.link, '_blank', 'noopener,noreferrer')}
                       icon={FiExternalLink}
                     >
                       Register Here
                     </StandardButton>
-                  </div>
-                )}
+                  )}
+                  <AddToCalendarButton
+                    title={event.title}
+                    description={event.details}
+                    date={event.event_date}
+                    startTime={event.start_time}
+                    endTime={event.end_time}
+                    location={event.location}
+                  />
+                </div>
               </motion.div>
             ))}
           </div>

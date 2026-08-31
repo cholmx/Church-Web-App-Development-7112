@@ -28,3 +28,12 @@ export const formatDate = (dateString, options = { year: 'numeric', month: 'long
   if (!date) return '';
   return date.toLocaleDateString('en-US', options);
 };
+
+// Formats a Postgres `time` value ('19:00:00' or '19:00') as '7:00 PM'.
+export const formatTime = (timeString) => {
+  if (!timeString) return '';
+  const [hour, minute] = timeString.split(':').map(Number);
+  if (Number.isNaN(hour) || Number.isNaN(minute)) return '';
+  const date = new Date(2000, 0, 1, hour, minute);
+  return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+};
