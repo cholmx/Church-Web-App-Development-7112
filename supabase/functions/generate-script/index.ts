@@ -6,25 +6,30 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };
 
-async function callAnthropic(apiKey: string, system: string, userContent: string, maxTokens = 1000): Promise<string> {
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": apiKey,
-      "anthropic-version": "2023-06-01",
-    },
-    body: JSON.stringify({
-      model: "claude-sonnet-4-5",
-      max_tokens: maxTokens,
-      system,
-      messages: [{ role: "user", content: userContent }],
-    }),
-  });
+const GEMINI_MODEL = "gemini-2.5-flash";
+
+async function callGemini(apiKey: string, system: string, userContent: string, maxTokens = 1000): Promise<string> {
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey,
+      },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: system }] },
+        contents: [{ role: "user", parts: [{ text: userContent }] }],
+        generationConfig: { maxOutputTokens: maxTokens },
+      }),
+    }
+  );
   const data = await response.json();
-  return data.content?.map((b: { type: string; text?: string }) =>
-    b.type === "text" ? b.text : ""
-  ).join("") || "";
+  if (!response.ok) {
+    throw new Error(data.error?.message || `Gemini API error (${response.status})`);
+  }
+  const parts = data.candidates?.[0]?.content?.parts as { text?: string }[] | undefined;
+  return parts?.map((p) => p.text ?? "").join("") || "";
 }
 
 Deno.serve(async (req: Request) => {
@@ -33,10 +38,10 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
-    const anthropicKey = Deno.env.get("ANTHROPIC_API_KEY");
-    if (!anthropicKey) {
+    const geminiKey = Deno.env.get("GEMINI_API_KEY");
+    if (!geminiKey) {
       return new Response(
-        JSON.stringify({ error: "ANTHROPIC_API_KEY not configured" }),
+        JSON.stringify({ error: "GEMINI_API_KEY not configured" }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
@@ -44,7 +49,7 @@ Deno.serve(async (req: Request) => {
     const body = await req.json();
 
     if (body._direct && body.systemPrompt && body.userPrompt) {
-      const result = await callAnthropic(anthropicKey, body.systemPrompt, body.userPrompt, 600);
+      const result = await callGemini(geminiKey, body.systemPrompt, body.userPrompt, 600);
       return new Response(
         JSON.stringify({ script: result }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -89,7 +94,7 @@ Deno.serve(async (req: Request) => {
 
     const userContent = `Write the Sunday morning stage announcement script for ${formattedSunday}. Here are the whole-church announcements that need to be covered:\n\n${itemsContext}\n\nWrite ONLY the script text. No headers, no labels, no stage directions. Just the words the pastor would say out loud.`;
 
-    const script = await callAnthropic(anthropicKey, systemPrompt, userContent, 1000);
+    const script = await callGemini(geminiKey, systemPrompt, userContent, 1000);
 
     return new Response(
       JSON.stringify({ script: script || "Could not generate script." }),
