@@ -63,9 +63,11 @@ const Admin=()=> {
         }
         throw new Error(message || fnError?.message || 'Invalid password');
       }
+      // generateLink returns a hashed token, which verifyOtp only accepts via
+      // token_hash - passing it as the plain `token` (paired with `email`)
+      // is a different, mismatched verification path and always fails.
       const {error: otpError}=await supabase.auth.verifyOtp({
-        email: data.email,
-        token: data.token,
+        token_hash: data.token,
         type: 'magiclink'
       });
       if (otpError) throw otpError;
