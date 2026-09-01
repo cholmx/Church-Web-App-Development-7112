@@ -25,12 +25,12 @@ export default {
         'social-green': '#83A682',
       },
       fontFamily: {
-        'sans': ['Liter', 'sans-serif'],
-        'heading': ['Inter Tight', 'Inter', 'sans-serif'],
-        'display': ['Inter Tight', 'Inter', 'sans-serif'],
+        'sans': ['Inter', 'sans-serif'],
+        'heading': ['"Google Sans Flex"', 'Inter', 'sans-serif'],
+        'display': ['"Google Sans Flex"', 'Inter', 'sans-serif'],
 
         // New design system typography
-        'gsans': ['"Google Sans Flex"', 'Inter Tight', 'sans-serif'],
+        'gsans': ['"Google Sans Flex"', 'Inter', 'sans-serif'],
         'caladea': ['Caladea', 'Georgia', 'serif'],
         'ui': ['Inter', 'sans-serif'],
       },
