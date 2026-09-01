@@ -105,3 +105,18 @@ export function weeksUntil(eventDate: string | null | undefined, today: string):
   const diff = (new Date(eventDate + 'T12:00:00').getTime() - new Date(today + 'T12:00:00').getTime()) / (1000 * 60 * 60 * 24 * 7);
   return Math.ceil(diff);
 }
+
+// Converts a plain-text field (this tool's announcement body is a plain
+// <textarea>) into the paragraph HTML the public announcements_portal123
+// table expects, since that table's `content` is rendered with
+// dangerouslySetInnerHTML on the public site.
+export function plainTextToHtml(text: string): string {
+  const escape = (s: string) =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return text
+    .split(/\n{2,}/)
+    .map(block => block.trim())
+    .filter(Boolean)
+    .map(block => `<p>${escape(block).replace(/\n/g, '<br>')}</p>`)
+    .join('');
+}

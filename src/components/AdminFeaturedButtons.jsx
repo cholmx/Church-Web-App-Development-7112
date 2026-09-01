@@ -133,7 +133,7 @@ const AdminFeaturedButtons=()=> {
                   onChange={(e)=> setFormData({...formData,title: e.target.value})}
                   required
                   className="admin-input"
-                  placeholder="Overflow Signup"
+                  placeholder="Volunteer Sign-up"
                 />
               </div>
               <div>
@@ -154,7 +154,7 @@ const AdminFeaturedButtons=()=> {
                   onChange={(e)=> setFormData({...formData,path: e.target.value})}
                   required
                   className="admin-input"
-                  placeholder="/overflow-signup or https://example.com"
+                  placeholder="/table-group-signup or https://example.com"
                 />
                 <p className="text-xs text-text-light mt-1">Use a path like /page-name for internal pages, or a full URL for external links</p>
               </div>

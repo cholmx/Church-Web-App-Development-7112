@@ -27,7 +27,6 @@ const Search = lazy(() => import('./pages/Search'))
 const Admin = lazy(() => import('./pages/Admin'))
 const Yellow = lazy(() => import('./pages/Yellow'))
 const Green = lazy(() => import('./pages/Green'))
-const OverflowSignup = lazy(() => import('./pages/OverflowSignup'))
 const CapitalCampaign = lazy(() => import('./pages/CapitalCampaign'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
@@ -81,7 +80,6 @@ const AnimatedRoutes = () => {
             <Route path="/admin" element={<Admin />} />
             <Route path="/yellow" element={<Yellow />} />
             <Route path="/green" element={<Green />} />
-            <Route path="/overflow-signup" element={<OverflowSignup />} />
             <Route path="/capital-campaign" element={<CapitalCampaign />} />
             <Route path="/growth-campaign" element={<CapitalCampaign />} />
             <Route path="*" element={<NotFound />} />

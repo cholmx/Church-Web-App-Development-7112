@@ -521,8 +521,8 @@ export function AnnouncementForm({ announcement, initialOverrides, onSave, onCan
             onClick={handleSave}
             disabled={saving || !f.title.trim()}
             style={{ ...btnPrimary, opacity: saving || !f.title.trim() ? 0.5 : 1 }}
-            onMouseEnter={e => { if (!saving && f.title.trim()) (e.currentTarget as HTMLElement).style.background = '#204E4B'; }}
-            onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = '#3A6662'}
+            onMouseEnter={e => { if (!saving && f.title.trim()) (e.currentTarget as HTMLElement).style.background = C.accentHover; }}
+            onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = C.accent}
           >
             {saving ? 'Saving...' : 'Save'}
           </button>

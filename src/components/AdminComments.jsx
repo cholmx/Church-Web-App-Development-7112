@@ -173,7 +173,7 @@ const AdminComments = () => {
               </div>
 
               {comment.admin_reply && (
-                <div className="mt-4 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                <div className="mt-4 p-4 bg-neutral-50 rounded-lg border-l-4 border-neutral-400">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <p className="text-sm font-semibold mb-2">Your Reply:</p>
@@ -198,7 +198,7 @@ const AdminComments = () => {
                   <textarea
                     value={replyText[comment.id] || comment.admin_reply || ''}
                     onChange={(e) => setReplyText({ ...replyText, [comment.id]: e.target.value })}
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                    className="flex-1 px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
                     rows="3"
                     placeholder="Type your reply here..."
                   />

@@ -3,7 +3,7 @@ import { C, font } from './lib/theme';
 import { supabase } from './lib/supabase';
 import { TabBar } from './components/TabBar';
 import { ErrorToastContainer, useErrorToast } from './components/ui/ErrorToast';
-import { getAutoHappeningsStartDate, getAutoHappeningsEndDate, isArchived } from './lib/helpers';
+import { getAutoHappeningsStartDate, getAutoHappeningsEndDate, isArchived, plainTextToHtml } from './lib/helpers';
 import type { Announcement, Tab } from './types';
 
 const ManageTab     = lazy(() => import('./components/manage/ManageTab').then(m => ({ default: m.ManageTab })));
@@ -32,7 +32,7 @@ export default function StaffCommsApp() {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   });
-  const { toasts, showError, dismissToast } = useErrorToast();
+  const { toasts, showError, showSuccess, dismissToast } = useErrorToast();
 
   useEffect(() => {
     fetchAnnouncements();
@@ -148,6 +148,28 @@ export default function StaffCommsApp() {
     }
   };
 
+  // Copies a planning entry from this internal tool into the public,
+  // visitor-facing announcements_portal123 table (shown on urf.life's
+  // /announcements page) so staff don't have to retype it a second time.
+  // This inserts a new public announcement rather than linking the two
+  // records - editing one afterward does not affect the other.
+  const handlePublishToAnnouncements = async (a: Announcement) => {
+    const content = a.body?.trim()
+      ? plainTextToHtml(a.body)
+      : plainTextToHtml(a.description || a.short_version || '');
+    const { error } = await supabase.from('announcements_portal123').insert({
+      title: a.title,
+      content,
+      author: '',
+      announcement_date: a.event_date || today,
+    });
+    if (error) {
+      showError('Failed to copy to public Announcements.');
+      return;
+    }
+    showSuccess('Copied to public Announcements.');
+  };
+
   const activeAnnouncements = announcements.filter(a => !isArchived(a, today));
   const archivedAnnouncements = announcements.filter(a => isArchived(a, today));
 
@@ -219,6 +241,7 @@ export default function StaffCommsApp() {
                 onSave={handleSave}
                 onDelete={handleDelete}
                 onApprove={handleApprove}
+                onPublish={handlePublishToAnnouncements}
                 editing={editing}
                 setEditing={setEditing}
                 copySource={copySource}

@@ -95,30 +95,3 @@ export const submitTableGroupSignup = async (formData) => {
     return { data: null, error: error.message };
   }
 };
-
-export const submitOverflowSignup = async (formData) => {
-  try {
-    const { data, error } = await supabase
-      .from('overflow_signups_portal123')
-      .insert([{
-        name: formData.name,
-        phone: formData.phone || null,
-        email: formData.email || null,
-        party_size: formData.party_size || null,
-        selected_sundays: formData.selected_sundays || []
-      }])
-      .select()
-      .single();
-
-    if (error) throw error;
-
-    sendEmail(formData, 'overflow').catch(err =>
-      console.error('Overflow signup notification email failed:', err)
-    );
-
-    return { data, error: null };
-  } catch (error) {
-    console.error('Error submitting overflow signup:', error);
-    return { data: null, error: error.message };
-  }
-};

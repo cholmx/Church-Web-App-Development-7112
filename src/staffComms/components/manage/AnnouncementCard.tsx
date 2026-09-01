@@ -22,11 +22,22 @@ interface AnnouncementCardProps {
   onEdit: (a: Announcement) => void;
   onDelete: (id: string) => void;
   onApprove: (id: string) => void;
+  onPublish: (a: Announcement) => Promise<void>;
 }
 
-export function AnnouncementCard({ a, today, onEdit, onDelete, onApprove }: AnnouncementCardProps) {
+export function AnnouncementCard({ a, today, onEdit, onDelete, onApprove, onPublish }: AnnouncementCardProps) {
   const [hovered, setHovered] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [publishing, setPublishing] = useState(false);
+
+  const handlePublish = async () => {
+    setPublishing(true);
+    try {
+      await onPublish(a);
+    } finally {
+      setPublishing(false);
+    }
+  };
   const wks = weeksUntil(a.event_date, today);
   const accentColor = scopeRangeColors[a.scope] || C.borderMed;
   const st = STATUS_STYLES[a.status];
@@ -164,6 +175,12 @@ export function AnnouncementCard({ a, today, onEdit, onDelete, onApprove }: Anno
             </>
           ) : (
             <>
+              <button
+                onClick={handlePublish}
+                disabled={publishing}
+                title="Copy this announcement into the public urf.life/#/announcements page"
+                style={{ fontFamily: font.display, fontSize: 10, fontWeight: 700, color: '#fff', background: C.accent, border: `1px solid ${C.accent}`, borderRadius: 5, padding: '4px 10px', cursor: publishing ? 'default' : 'pointer', letterSpacing: '0.04em', textTransform: 'uppercase', opacity: publishing ? 0.6 : 1, transition: 'background 0.15s' }}
+              >{publishing ? 'Copying...' : '→ Announcements'}</button>
               <button
                 onClick={printInvite}
                 style={{ fontFamily: font.display, fontSize: 10, fontWeight: 700, color: C.accent, background: C.card, border: `1px solid ${C.accent}44`, borderRadius: 5, padding: '4px 10px', cursor: 'pointer', letterSpacing: '0.04em', textTransform: 'uppercase', transition: 'border-color 0.15s' }}
