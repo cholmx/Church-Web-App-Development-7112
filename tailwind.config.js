@@ -23,17 +23,6 @@ export default {
 
         'white': '#FFFFFF',
         'social-green': '#83A682',
-
-        // New design system (Home page, Navbar/Footer, and admin area only —
-        // named distinctly so the existing green/cream tokens above keep
-        // driving the ~20 untouched public pages without collision).
-        'deep': '#0B1613',
-        'deep-hover': '#1B2622',
-        'sun': '#FFC44F',
-        'gold': '#CCA866',
-        'gold-text': '#A6790F',
-        'ivory': '#F9F9F7',
-        'ink': '#080C0B',
       },
       fontFamily: {
         'sans': ['Liter', 'sans-serif'],

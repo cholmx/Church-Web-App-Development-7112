@@ -45,7 +45,7 @@ export function ToastProvider({ children }) {
             background: t.type === 'error' ? '#DC2626'
               : t.type === 'success' ? '#2E7D32'
               : t.type === 'warning' ? '#B45309'
-              : '#0B1613',
+              : '#1E1E21',
             maxWidth: 360,
           }}>
             {t.message}
