@@ -3,8 +3,9 @@ import * as FiIcons from 'react-icons/fi';
 
 const { FiPrinter } = FiIcons;
 const MIN_COL_WIDTH = 5;
+const SAVE_LABELS = { idle: 'Save to Happening', saving: 'Saving...', saved: 'Saved', error: 'Save Failed - Retry' };
 
-const SignupSheetPreview = ({ sheetData, setSheetData, onBack }) => {
+const SignupSheetPreview = ({ sheetData, setSheetData, onBack, happening, saveState, onSaveToHappening, onClearHappening }) => {
   const tableRef = useRef(null);
   const resizingRef = useRef(null);
   const [activeHandle, setActiveHandle] = useState(null);
@@ -66,14 +67,40 @@ const SignupSheetPreview = ({ sheetData, setSheetData, onBack }) => {
               Preview
             </button>
           </div>
-          <button
-            onClick={handlePrint}
-            className="flex items-center gap-2 bg-[#1E1E21] text-white px-5 py-2 rounded text-xs font-bold uppercase tracking-wider hover:bg-[#3A3A3D] transition-colors"
-          >
-            <FiPrinter className="text-sm" />
-            Print Sheet
-          </button>
+          <div className="flex items-center gap-3">
+            {happening && (
+              <button
+                onClick={onSaveToHappening}
+                disabled={saveState === 'saving'}
+                className="bg-white border border-[#1E1E21] text-[#1E1E21] px-4 py-2 rounded text-xs font-bold uppercase tracking-wider hover:bg-[#F5F5F5] transition-colors disabled:opacity-50"
+              >
+                {SAVE_LABELS[saveState] || SAVE_LABELS.idle}
+              </button>
+            )}
+            <button
+              onClick={handlePrint}
+              className="flex items-center gap-2 bg-[#1E1E21] text-white px-5 py-2 rounded text-xs font-bold uppercase tracking-wider hover:bg-[#3A3A3D] transition-colors"
+            >
+              <FiPrinter className="text-sm" />
+              Print Sheet
+            </button>
+          </div>
         </div>
+        {happening && (
+          <div className="max-w-5xl mx-auto w-full pb-2 flex items-center justify-between print:hidden">
+            <span className="text-[11px] text-[#6E6E6E] italic">
+              Editing the sign-up sheet for <b>{happening.title}</b>
+            </span>
+            {onClearHappening && (
+              <button
+                onClick={onClearHappening}
+                className="text-[11px] text-[#9A9A9A] hover:text-[#1E1E21] uppercase tracking-wider font-bold"
+              >
+                Done
+              </button>
+            )}
+          </div>
+        )}
       </header>
 
       {/* Page Container */}

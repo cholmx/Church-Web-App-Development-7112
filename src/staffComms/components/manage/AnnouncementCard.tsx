@@ -22,18 +22,24 @@ interface AnnouncementCardProps {
   onEdit: (a: Announcement) => void;
   onDelete: (id: string) => void;
   onApprove: (id: string) => void;
-  onPublish: (a: Announcement) => Promise<void>;
+  onTogglePublish: (a: Announcement) => Promise<void>;
 }
 
-export function AnnouncementCard({ a, today, onEdit, onDelete, onApprove, onPublish }: AnnouncementCardProps) {
+const SIGNUP_MODE_LABELS: Record<string, string> = {
+  online: 'Online RSVP',
+  sheet: 'Sign-up Sheet',
+  both: 'RSVP + Sheet',
+};
+
+export function AnnouncementCard({ a, today, onEdit, onDelete, onApprove, onTogglePublish }: AnnouncementCardProps) {
   const [hovered, setHovered] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [publishing, setPublishing] = useState(false);
 
-  const handlePublish = async () => {
+  const handleTogglePublish = async () => {
     setPublishing(true);
     try {
-      await onPublish(a);
+      await onTogglePublish(a);
     } finally {
       setPublishing(false);
     }
@@ -101,6 +107,20 @@ export function AnnouncementCard({ a, today, onEdit, onDelete, onApprove, onPubl
             borderRadius: 4,
             padding: '2px 7px',
           }}>{st.label}</span>
+          {a.is_published && (
+            <span style={{
+              fontFamily: font.display,
+              fontSize: 9,
+              fontWeight: 700,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              color: '#15803D',
+              background: 'rgba(22,163,74,0.12)',
+              border: '1px solid rgba(22,163,74,0.35)',
+              borderRadius: 4,
+              padding: '2px 7px',
+            }}>Published</span>
+          )}
           {DEST_LABELS.filter(d => a[d.key]).map(d => (
             <span key={d.key} style={{ fontFamily: font.display, fontSize: 10, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: C.textTer }}>
               {d.short}
@@ -143,15 +163,13 @@ export function AnnouncementCard({ a, today, onEdit, onDelete, onApprove, onPubl
           )}
         </div>
         <div style={{ display: 'flex', gap: 4, opacity: hovered ? 1 : 0, transition: 'opacity 0.15s' }}>
-          {a.needs_signup && (
-            <a
-              href="https://urfsignup.bolt.host"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ fontFamily: font.display, fontSize: 10, fontWeight: 700, color: C.accent, textDecoration: 'none', letterSpacing: '0.04em', textTransform: 'uppercase', padding: '4px 10px', border: `1px solid ${C.border}`, borderRadius: 5, background: C.card }}
+          {a.signup_mode && a.signup_mode !== 'none' && (
+            <span
+              title="Edit this happening to manage sign-ups"
+              style={{ fontFamily: font.display, fontSize: 10, fontWeight: 700, color: C.textSec, letterSpacing: '0.04em', textTransform: 'uppercase', padding: '4px 10px', border: `1px solid ${C.border}`, borderRadius: 5, background: C.card }}
             >
-              Sign Up ↗
-            </a>
+              {SIGNUP_MODE_LABELS[a.signup_mode] || 'Sign-up'}
+            </span>
           )}
           {a.status === 'draft' && (
             <button
@@ -176,11 +194,14 @@ export function AnnouncementCard({ a, today, onEdit, onDelete, onApprove, onPubl
           ) : (
             <>
               <button
-                onClick={handlePublish}
+                onClick={handleTogglePublish}
                 disabled={publishing}
-                title="Copy this announcement into the public urf.life/#/announcements page"
-                style={{ fontFamily: font.display, fontSize: 10, fontWeight: 700, color: '#fff', background: C.accent, border: `1px solid ${C.accent}`, borderRadius: 5, padding: '4px 10px', cursor: publishing ? 'default' : 'pointer', letterSpacing: '0.04em', textTransform: 'uppercase', opacity: publishing ? 0.6 : 1, transition: 'background 0.15s' }}
-              >{publishing ? 'Copying...' : '→ Announcements'}</button>
+                title={a.is_published ? 'Remove from the public site' : 'Publish to the public site'}
+                style={a.is_published
+                  ? { fontFamily: font.display, fontSize: 10, fontWeight: 700, color: C.textSec, background: C.card, border: `1px solid ${C.border}`, borderRadius: 5, padding: '4px 10px', cursor: publishing ? 'default' : 'pointer', letterSpacing: '0.04em', textTransform: 'uppercase', opacity: publishing ? 0.6 : 1, transition: 'background 0.15s' }
+                  : { fontFamily: font.display, fontSize: 10, fontWeight: 700, color: '#fff', background: C.accent, border: `1px solid ${C.accent}`, borderRadius: 5, padding: '4px 10px', cursor: publishing ? 'default' : 'pointer', letterSpacing: '0.04em', textTransform: 'uppercase', opacity: publishing ? 0.6 : 1, transition: 'background 0.15s' }
+                }
+              >{publishing ? 'Saving...' : a.is_published ? 'Unpublish' : 'Publish'}</button>
               <button
                 onClick={printInvite}
                 style={{ fontFamily: font.display, fontSize: 10, fontWeight: 700, color: C.accent, background: C.card, border: `1px solid ${C.accent}44`, borderRadius: 5, padding: '4px 10px', cursor: 'pointer', letterSpacing: '0.04em', textTransform: 'uppercase', transition: 'border-color 0.15s' }}

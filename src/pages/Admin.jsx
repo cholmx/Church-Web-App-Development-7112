@@ -65,6 +65,7 @@ const Admin=()=> {
   const [activeTab,setActiveTab]=useState('overview');
   const [loading,setLoading]=useState(false);
   const [sidebarOpen,setSidebarOpen]=useState(false);
+  const [signupSheetTarget,setSignupSheetTarget]=useState(null);
 
   useEffect(()=> {
     supabase.auth.getSession().then(({data: {session}})=> {
@@ -139,11 +140,20 @@ const Admin=()=> {
       case 'comments':
         return <AdminComments />;
       case 'comms':
-        return <StaffCommsApp />;
+        return (
+          <StaffCommsApp
+            onOpenSignupSheet={(a)=> { setSignupSheetTarget(a); setActiveTab('signupSheet'); }}
+          />
+        );
       case 'slideMaker':
         return <SlideMaker />;
       case 'signupSheet':
-        return <SignupSheetMaker />;
+        return (
+          <SignupSheetMaker
+            happening={signupSheetTarget}
+            onClearHappening={()=> setSignupSheetTarget(null)}
+          />
+        );
       default:
         return <AdminDashboard onNavigate={selectTab} />;
     }

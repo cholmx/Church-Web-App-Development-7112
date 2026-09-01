@@ -20,7 +20,9 @@ const sectionTitleClass = "text-[#1E1E21] text-[11px] font-bold tracking-[0.15em
 const labelClass = "block text-[#3A3A3D] text-[10px] font-bold uppercase tracking-wider mb-2";
 const inputClass = "w-full bg-white border border-[#E2E2E2] rounded-md px-3 py-2.5 text-sm text-[#1E1E21] focus:outline-none focus:border-[#1E1E21] focus:ring-1 focus:ring-[#1E1E21] placeholder-[#9A9A9A] transition-shadow";
 
-const SignupSheetBuilder = ({ sheetData, setSheetData, onPreview }) => {
+const SAVE_LABELS = { idle: 'Save to Happening', saving: 'Saving...', saved: 'Saved', error: 'Save Failed - Retry' };
+
+const SignupSheetBuilder = ({ sheetData, setSheetData, onPreview, happening, saveState, onSaveToHappening, onClearHappening }) => {
   const updateField = (field, value) => setSheetData(prev => ({ ...prev, [field]: value }));
   const updateRows = (rows) => setSheetData(prev => ({ ...prev, rows: Math.max(1, Math.min(50, rows)) }));
   const toggleDateTime = () => setSheetData(prev => ({ ...prev, showDateTime: !prev.showDateTime }));
@@ -69,13 +71,39 @@ const SignupSheetBuilder = ({ sheetData, setSheetData, onPreview }) => {
               Preview
             </button>
           </div>
-          <button
-            onClick={onPreview}
-            className="bg-[#1E1E21] text-white px-4 py-2 rounded text-xs font-bold uppercase tracking-wider hover:bg-[#3A3A3D] transition-colors"
-          >
-            Preview & Print
-          </button>
+          <div className="flex items-center gap-3">
+            {happening && (
+              <button
+                onClick={onSaveToHappening}
+                disabled={saveState === 'saving'}
+                className="bg-white border border-[#1E1E21] text-[#1E1E21] px-4 py-2 rounded text-xs font-bold uppercase tracking-wider hover:bg-[#F5F5F5] transition-colors disabled:opacity-50"
+              >
+                {SAVE_LABELS[saveState] || SAVE_LABELS.idle}
+              </button>
+            )}
+            <button
+              onClick={onPreview}
+              className="bg-[#1E1E21] text-white px-4 py-2 rounded text-xs font-bold uppercase tracking-wider hover:bg-[#3A3A3D] transition-colors"
+            >
+              Preview & Print
+            </button>
+          </div>
         </div>
+        {happening && (
+          <div className="max-w-5xl mx-auto w-full pb-2 flex items-center justify-between">
+            <span className="text-[11px] text-[#6E6E6E] italic">
+              Editing the sign-up sheet for <b>{happening.title}</b>
+            </span>
+            {onClearHappening && (
+              <button
+                onClick={onClearHappening}
+                className="text-[11px] text-[#9A9A9A] hover:text-[#1E1E21] uppercase tracking-wider font-bold"
+              >
+                Done
+              </button>
+            )}
+          </div>
+        )}
       </header>
 
       {/* Main Content */}

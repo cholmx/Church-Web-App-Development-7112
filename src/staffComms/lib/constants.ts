@@ -22,6 +22,20 @@ export const MINISTRY_OPTIONS = [
   'Children',
 ] as const;
 
+export const HAPPENING_TYPE_OPTIONS = [
+  { value: 'announcement', label: 'Announcement', desc: 'News or an update, no signup needed' },
+  { value: 'event', label: 'Event', desc: 'A one-time or occasional gathering' },
+  { value: 'class', label: 'Class', desc: 'An ongoing or scheduled class' },
+  { value: 'general', label: 'General', desc: 'Anything else' },
+] as const;
+
+export const SIGNUP_MODE_OPTIONS = [
+  { value: 'none', label: 'No sign-up needed' },
+  { value: 'online', label: 'Online RSVP' },
+  { value: 'sheet', label: 'Printable sign-up sheet' },
+  { value: 'both', label: 'Both online and printable' },
+] as const;
+
 export const TABS = [
   { key: 'manage', label: 'Manage' },
   { key: 'calendar', label: 'Calendar' },
@@ -44,9 +58,12 @@ export const DEFAULT_ANNOUNCEMENT = {
   short_version: '',
   category: 'General Info',
   scope: 'ministry' as const,
+  happening_type: 'announcement' as const,
+  link: '',
   event_date: null as string | null,
   event_dates: [] as string[],
   event_time: '',
+  end_time: '',
   is_recurring: false,
   slides_lead_weeks: 3,
   happenings_start_date: null as string | null,
@@ -62,6 +79,10 @@ export const DEFAULT_ANNOUNCEMENT = {
   flyer_text: '',
   stage_notes: '',
   needs_signup: false,
+  signup_mode: 'none' as const,
+  signup_sheet_config: null,
+  is_published: false,
+  published_at: null as string | null,
   slide_made: false,
   status: 'draft' as const,
   assigned_to: '',

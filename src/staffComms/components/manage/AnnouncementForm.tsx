@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { C, font } from '../../lib/theme';
-import { CATEGORIES, SCOPE_OPTIONS, MINISTRY_OPTIONS, DEFAULT_ANNOUNCEMENT } from '../../lib/constants';
+import { supabase } from '../../lib/supabase';
+import { CATEGORIES, SCOPE_OPTIONS, MINISTRY_OPTIONS, DEFAULT_ANNOUNCEMENT, HAPPENING_TYPE_OPTIONS, SIGNUP_MODE_OPTIONS } from '../../lib/constants';
 import { inputBase, labelBase, btnPrimary, btnGhost } from '../ui/inputs';
 import {
   formatDateNice,
@@ -57,6 +58,7 @@ interface AnnouncementFormProps {
   onSave: (a: Omit<Announcement, 'id' | 'created_at' | 'updated_at'> & { id?: string }) => Promise<void>;
   onCancel: () => void;
   onError: (msg: string) => void;
+  onOpenSignupSheet?: (a: { id: string; title: string; event_date: string | null }) => void;
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -80,7 +82,70 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-export function AnnouncementForm({ announcement, initialOverrides, onSave, onCancel, onError }: AnnouncementFormProps) {
+interface RsvpRow {
+  id: string;
+  name: string;
+  email: string | null;
+  phone: string | null;
+  party_size: number | null;
+  created_at: string;
+}
+
+function RsvpPanel({ happeningId, title }: { happeningId?: string; title: string }) {
+  const [rsvps, setRsvps] = useState<RsvpRow[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!happeningId) { setRsvps([]); return; }
+    let cancelled = false;
+    setLoading(true);
+    supabase
+      .from('happening_rsvps_portal123')
+      .select('*')
+      .eq('happening_id', happeningId)
+      .eq('archived', false)
+      .order('created_at', { ascending: false })
+      .then(({ data, error }) => {
+        if (cancelled) return;
+        setLoading(false);
+        if (!error && data) setRsvps(data as RsvpRow[]);
+      });
+    return () => { cancelled = true; };
+  }, [happeningId]);
+
+  const totalParty = rsvps.reduce((sum, r) => sum + (r.party_size || 1), 0);
+
+  return (
+    <div style={{ marginTop: 14, background: C.bgSubtle, border: `1px solid ${C.border}`, borderRadius: 6, padding: '12px 14px' }}>
+      <div style={{ fontFamily: font.display, fontSize: 9, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>
+        Online RSVPs
+      </div>
+      {!happeningId ? (
+        <div style={{ fontFamily: font.body, fontSize: 12, color: C.textMuted }}>Save this happening to start collecting RSVPs.</div>
+      ) : loading ? (
+        <div style={{ fontFamily: font.body, fontSize: 12, color: C.textMuted }}>Loading...</div>
+      ) : rsvps.length === 0 ? (
+        <div style={{ fontFamily: font.body, fontSize: 12, color: C.textMuted }}>No RSVPs yet for "{title}".</div>
+      ) : (
+        <>
+          <div style={{ fontFamily: font.mono, fontSize: 11, color: C.accent, marginBottom: 8 }}>
+            {rsvps.length} {rsvps.length === 1 ? 'RSVP' : 'RSVPs'} · {totalParty} attending
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxHeight: 180, overflowY: 'auto' }}>
+            {rsvps.map(r => (
+              <div key={r.id} style={{ fontFamily: font.body, fontSize: 12, color: C.textSec, display: 'flex', justifyContent: 'space-between', gap: 8 }}>
+                <span>{r.name}{r.party_size && r.party_size > 1 ? ` (+${r.party_size - 1})` : ''}</span>
+                <span style={{ color: C.textMuted, fontFamily: font.mono, fontSize: 10, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.email || r.phone || ''}</span>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+export function AnnouncementForm({ announcement, initialOverrides, onSave, onCancel, onError, onOpenSignupSheet }: AnnouncementFormProps) {
   const today = new Date().toISOString().split('T')[0];
 
   const [f, setF] = useState<Omit<Announcement, 'id' | 'created_at' | 'updated_at'> & { id?: string }>(
@@ -157,12 +222,53 @@ export function AnnouncementForm({ announcement, initialOverrides, onSave, onCan
         </div>
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
           <AIWriteButton label="Write All" loading={aiLoading.all} onClick={generateAll} disabled={!hasEnoughForAI} />
+          <button
+            type="button"
+            onClick={() => set('is_published', !f.is_published)}
+            title={f.is_published ? 'Won\'t appear on the public site once you Save' : 'Will appear on the public site once you Save'}
+            style={{
+              fontFamily: font.display, fontSize: 10, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase',
+              padding: '6px 12px', borderRadius: 6, cursor: 'pointer', transition: 'all 0.15s',
+              border: `1px solid ${f.is_published ? '#15803D' : C.borderMed}`,
+              background: f.is_published ? 'rgba(22,163,74,0.12)' : C.card,
+              color: f.is_published ? '#15803D' : C.textSec,
+            }}
+          >
+            {f.is_published ? 'Published' : 'Unpublished'}
+          </button>
         </div>
       </div>
 
       <div style={{ padding: '24px 24px 20px' }}>
 
         <Section title="Basics">
+          <div style={fg}>
+            <label style={labelBase}>Type</label>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {HAPPENING_TYPE_OPTIONS.map(opt => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  title={opt.desc}
+                  onClick={() => set('happening_type', opt.value)}
+                  style={{
+                    fontFamily: font.body,
+                    fontSize: 12,
+                    fontWeight: 600,
+                    padding: '8px 14px',
+                    borderRadius: 6,
+                    border: `1px solid ${f.happening_type === opt.value ? C.accent : C.borderMed}`,
+                    background: f.happening_type === opt.value ? C.accentBg : C.card,
+                    color: f.happening_type === opt.value ? C.accent : C.textSec,
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
           <div style={fg}>
             <label style={labelBase}>Title</label>
             <input
@@ -242,6 +348,10 @@ export function AnnouncementForm({ announcement, initialOverrides, onSave, onCan
             <div style={{ gridColumn: '1 / -1' }}>
               <label style={labelBase}>Location</label>
               <input style={inputBase} value={f.event_location} onChange={e => set('event_location', e.target.value)} placeholder="e.g. Fellowship Hall, Room 201" />
+            </div>
+            <div style={{ gridColumn: '1 / -1' }}>
+              <label style={labelBase}>Registration Link <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(optional)</span></label>
+              <input type="url" style={inputBase} value={f.link} onChange={e => set('link', e.target.value)} placeholder="https://example.com/register" />
             </div>
             <div>
               <label style={labelBase}>Contact Name</label>
@@ -359,7 +469,7 @@ export function AnnouncementForm({ announcement, initialOverrides, onSave, onCan
 
           {f.recurrence_type === 'weekly' && (
             <>
-              <div style={{ ...fg, display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
+              <div style={{ ...fg, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div>
                   <label style={labelBase}>First Session *</label>
                   <input
@@ -386,15 +496,6 @@ export function AnnouncementForm({ announcement, initialOverrides, onSave, onCan
                     onChange={e => set('recurrence_end_date', e.target.value || null)}
                   />
                 </div>
-                <div>
-                  <label style={labelBase}>Time</label>
-                  <input
-                    type="time"
-                    style={{ ...inputBase, fontFamily: font.mono, fontSize: 12 }}
-                    value={f.event_time || ''}
-                    onChange={e => set('event_time', e.target.value)}
-                  />
-                </div>
               </div>
               <div style={fg}>
                 <label style={labelBase}>Repeats On</label>
@@ -409,6 +510,27 @@ export function AnnouncementForm({ announcement, initialOverrides, onSave, onCan
               </div>
             </>
           )}
+
+          <div style={{ ...fg, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div>
+              <label style={labelBase}>Start Time</label>
+              <input
+                type="time"
+                style={{ ...inputBase, fontFamily: font.mono, fontSize: 12 }}
+                value={f.event_time || ''}
+                onChange={e => set('event_time', e.target.value)}
+              />
+            </div>
+            <div>
+              <label style={labelBase}>End Time</label>
+              <input
+                type="time"
+                style={{ ...inputBase, fontFamily: font.mono, fontSize: 12 }}
+                value={f.end_time || ''}
+                onChange={e => set('end_time', e.target.value)}
+              />
+            </div>
+          </div>
 
           {f.recurrence_label && (
             <div style={{ fontFamily: font.body, fontSize: 12, color: C.accent, fontWeight: 600, padding: '6px 12px', background: C.accentBg, borderRadius: 6, border: `1px solid ${C.accent}33`, marginBottom: 14 }}>
@@ -448,7 +570,6 @@ export function AnnouncementForm({ announcement, initialOverrides, onSave, onCan
               { key: 'show_on_slides' as const, label: 'Sunday Slides' },
               { key: 'show_in_happenings' as const, label: 'The Happenings' },
               { key: 'monthly_include' as const, label: 'Monthly Flyer' },
-              { key: 'needs_signup' as const, label: 'Needs Sign-Up' },
             ].map(d => (
               <label key={d.key} style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: font.body, fontSize: 13, color: C.textSec, cursor: 'pointer', padding: '6px 12px', border: `1px solid ${f[d.key] ? C.accent + '44' : C.border}`, borderRadius: 6, background: f[d.key] ? C.accentBg : C.card, transition: 'all 0.15s' }}>
                 <input
@@ -461,10 +582,55 @@ export function AnnouncementForm({ announcement, initialOverrides, onSave, onCan
               </label>
             ))}
           </div>
-          {f.needs_signup && (
-            <div style={{ marginTop: 8, fontFamily: font.mono, fontSize: 11, color: C.textTer }}>
-              sign-up link will appear on this card →{' '}
-              <a href="https://urfsignup.bolt.host" target="_blank" rel="noopener noreferrer" style={{ color: C.accent }}>urfsignup.bolt.host</a>
+
+          <div style={{ marginTop: 14 }}>
+            <label style={labelBase}>Sign-Up</label>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {SIGNUP_MODE_OPTIONS.map(opt => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => set('signup_mode', opt.value)}
+                  style={{
+                    fontFamily: font.body,
+                    fontSize: 12,
+                    fontWeight: 600,
+                    padding: '8px 14px',
+                    borderRadius: 6,
+                    border: `1px solid ${f.signup_mode === opt.value ? C.accent : C.borderMed}`,
+                    background: f.signup_mode === opt.value ? C.accentBg : C.card,
+                    color: f.signup_mode === opt.value ? C.accent : C.textSec,
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {(f.signup_mode === 'online' || f.signup_mode === 'both') && (
+            <RsvpPanel happeningId={f.id} title={f.title} />
+          )}
+
+          {(f.signup_mode === 'sheet' || f.signup_mode === 'both') && (
+            <div style={{ marginTop: 14 }}>
+              <button
+                type="button"
+                disabled={!onOpenSignupSheet || !f.id}
+                title={!f.id ? 'Save this happening first' : 'Open the Sign-up Sheet builder for this happening'}
+                onClick={() => f.id && onOpenSignupSheet?.({ id: f.id, title: f.title, event_date: f.event_date })}
+                style={{
+                  ...btnGhost,
+                  fontSize: 12,
+                  fontWeight: 700,
+                  opacity: !onOpenSignupSheet || !f.id ? 0.5 : 1,
+                  cursor: !onOpenSignupSheet || !f.id ? 'default' : 'pointer',
+                }}
+              >
+                {f.signup_sheet_config ? 'Edit Sign-up Sheet' : 'Create Sign-up Sheet'}
+              </button>
             </div>
           )}
         </Section>

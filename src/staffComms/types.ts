@@ -1,4 +1,16 @@
 export type RecurrenceType = 'one_time' | 'date_range' | 'weekly';
+export type HappeningType = 'event' | 'class' | 'announcement' | 'general';
+export type SignupMode = 'none' | 'online' | 'sheet' | 'both';
+
+export interface SignupSheetConfig {
+  title: string;
+  showDateTime: boolean;
+  dateTimeLabel: string;
+  instructions: string;
+  columns: { name: string; width: number }[];
+  rows: number;
+  accentColor: string;
+}
 
 export interface Announcement {
   id: string;
@@ -8,9 +20,12 @@ export interface Announcement {
   short_version: string;
   category: string;
   scope: 'whole_church' | 'ministry' | 'informational';
+  happening_type: HappeningType;
+  link: string;
   event_date: string | null;
   event_dates: string[];
   event_time: string;
+  end_time: string;
   is_recurring: boolean;
   slides_lead_weeks: number;
   happenings_start_date: string | null;
@@ -27,6 +42,10 @@ export interface Announcement {
   stage_notes: string;
   slide_made: boolean;
   needs_signup: boolean;
+  signup_mode: SignupMode;
+  signup_sheet_config: SignupSheetConfig | null;
+  is_published: boolean;
+  published_at: string | null;
   status: 'draft' | 'approved';
   assigned_to: string;
   ministry: string;
