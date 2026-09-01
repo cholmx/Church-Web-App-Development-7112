@@ -1,6 +1,6 @@
 // Category badges are informational (letting staff tell announcement types
 // apart at a glance), not brand chrome, so they keep their own colors while
-// everything else below uses the site-wide deep/sun/gold/ivory admin palette.
+// everything else below uses the site-wide dark gray / white admin palette.
 export const scopeChipColors: Record<string, { bg: string; text: string; border: string }> = {
   whole_church:  { bg: '#E5E5E5', text: '#1E1E21', border: '#D0D0D0' },
   ministry:      { bg: '#EFEFEF', text: '#3A3A3D', border: '#DCDCDC' },
@@ -15,44 +15,40 @@ export const scopeRangeColors: Record<string, string> = {
 
 export const C = {
   // Surfaces
-  bg:          '#F9F9F7',
-  bgSubtle:    '#F1EEE6',
+  bg:          '#F7F7F7',
+  bgSubtle:    '#EFEFEF',
   card:        '#FFFFFF',
-  cardAlt:     '#F5F3EC',
+  cardAlt:     '#F5F5F5',
   // Borders
-  border:      '#E7E2D6',
-  borderMed:   '#D8D0BE',
-  borderFocus: '#0B1613',
+  border:      '#E2E2E2',
+  borderMed:   '#C7C7C7',
+  borderFocus: '#1E1E21',
   // Text
-  text:        '#080C0B',
-  textSec:     '#3F4542',
-  textTer:     '#6B706C',
-  textMuted:   '#9B9C93',
-  // Accent (design-system dark - matches the main site's admin buttons/nav)
-  accent:      '#0B1613',
-  accentBg:    '#F1EEE6',
+  text:        '#1E1E21',
+  textSec:     '#4A4A4D',
+  textTer:     '#6E6E6E',
+  textMuted:   '#9A9A9A',
+  // Accent (dark gray - matches the main site's admin buttons)
+  accent:      '#1E1E21',
+  accentBg:    '#EFEFEF',
   accentDark:  '#000000',
-  accentHover: '#1B2622',
-  // Highlight (design-system yellow/gold, for CTAs and dark-panel accents)
-  sun:         '#FFC44F',
-  gold:        '#CCA866',
-  goldText:    '#A6790F',
+  accentHover: '#3A3A3D',
   // Status
   warn:        '#BA1A1A',
   warnBg:      '#FFDAD6',
   success:     '#2E7D32',
   successBg:   '#DCF0DD',
   // Interaction tints
-  high:        '#0B1613',
-  highBg:      '#F1EEE6',
+  high:        '#1E1E21',
+  highBg:      '#EFEFEF',
   // Dark panels (Stage, Slides)
-  stageBg:     '#0B1613',
+  stageBg:     '#1E1E21',
   stageText:   '#FFFFFF',
-  stageAccent: '#FFC44F',
-  slideBg:     '#0B1613',
+  stageAccent: '#FFFFFF',
+  slideBg:     '#1E1E21',
   slideText:   '#FFFFFF',
   // Nav
-  navBg:       '#0B1613',
+  navBg:       '#1E1E21',
   navText:     '#FFFFFF',
 } as const;
 

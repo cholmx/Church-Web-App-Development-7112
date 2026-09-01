@@ -98,14 +98,14 @@ const AdminDashboard=({onNavigate})=> {
   };
 
   const stats=[
-    {key: 'announcements',icon: FiBell,label: 'Announcements',color: 'bg-deep'},
-    {key: 'sermons',icon: FiPlay,label: 'Sermons',color: 'bg-deep'},
-    {key: 'events',icon: FiCalendar,label: 'Events',color: 'bg-deep'},
-    {key: 'classes',icon: FiBookOpen,label: 'Classes',color: 'bg-deep'},
-    {key: 'resources',icon: FiBookOpen,label: 'Resources',color: 'bg-deep'},
-    {key: 'ministries',icon: FiHeart,label: 'Ministries',color: 'bg-deep'},
-    {key: 'staff',icon: FiUsers,label: 'Staff Members',color: 'bg-deep'},
-    {key: 'comments',icon: FiMessageSquare,label: 'Campaign Comments',color: 'bg-deep'},
+    {key: 'announcements',icon: FiBell,label: 'Announcements',color: 'bg-neutral-900'},
+    {key: 'sermons',icon: FiPlay,label: 'Sermons',color: 'bg-neutral-900'},
+    {key: 'events',icon: FiCalendar,label: 'Events',color: 'bg-neutral-900'},
+    {key: 'classes',icon: FiBookOpen,label: 'Classes',color: 'bg-neutral-900'},
+    {key: 'resources',icon: FiBookOpen,label: 'Resources',color: 'bg-neutral-900'},
+    {key: 'ministries',icon: FiHeart,label: 'Ministries',color: 'bg-neutral-900'},
+    {key: 'staff',icon: FiUsers,label: 'Staff Members',color: 'bg-neutral-900'},
+    {key: 'comments',icon: FiMessageSquare,label: 'Campaign Comments',color: 'bg-neutral-900'},
   ];
 
   const formatDate=(d)=> {
@@ -155,7 +155,7 @@ const AdminDashboard=({onNavigate})=> {
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-text-primary flex items-center space-x-2">
-              <SafeIcon icon={FiBell} className="h-4 w-4 text-deep" />
+              <SafeIcon icon={FiBell} className="h-4 w-4 text-neutral-900" />
               <span>Recent Announcements</span>
             </h3>
             <button
