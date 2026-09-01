@@ -42,8 +42,6 @@ const getEmailSubject = (formType, formData) => {
       return `New Realm Registration: ${formData.first_name} ${formData.last_name}`
     case 'table_group':
       return `Table Group Sign-up: ${formData.first_name} ${formData.last_name}`
-    case 'overflow':
-      return `Overflow Signup: ${formData.name}`
     default:
       return 'Church Portal Form Submission'
   }
@@ -82,20 +80,6 @@ const formatEmailBody = (formType, formData) => {
       body += `Email: ${formData.email}\n`
       body += `Party Size: ${formData.party_size}\n`
       body += `Unavailable Days: ${formData.unavailable_days.length > 0 ? formData.unavailable_days.join(', ') : 'None specified'}\n`
-      break
-
-    case 'overflow':
-      body += `Name: ${formData.name}\n`
-      body += `Phone: ${formData.phone}\n`
-      body += `Email: ${formData.email}\n`
-      body += `\nSunday Commitments:\n`
-      if (formData.selected_sundays && formData.selected_sundays.length > 0) {
-        formData.selected_sundays.forEach(sunday => {
-          body += `  ✓ ${sunday}\n`
-        })
-      } else {
-        body += `  None selected\n`
-      }
       break
 
     default:

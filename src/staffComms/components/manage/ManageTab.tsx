@@ -20,6 +20,7 @@ interface ManageTabProps {
   onSave: (a: Omit<Announcement, 'id' | 'created_at' | 'updated_at'> & { id?: string }) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
   onApprove: (id: string) => Promise<void>;
+  onPublish: (a: Announcement) => Promise<void>;
   editing: Announcement | 'new' | null;
   setEditing: (v: Announcement | 'new' | null) => void;
   copySource: Omit<Announcement, 'id' | 'created_at' | 'updated_at'> | null;
@@ -28,7 +29,7 @@ interface ManageTabProps {
   onError: (msg: string) => void;
 }
 
-export function ManageTab({ announcements, today, onSave, onDelete, onApprove, editing, setEditing, copySource, setCopySource, loading, onError }: ManageTabProps) {
+export function ManageTab({ announcements, today, onSave, onDelete, onApprove, onPublish, editing, setEditing, copySource, setCopySource, loading, onError }: ManageTabProps) {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
 
@@ -172,6 +173,7 @@ export function ManageTab({ announcements, today, onSave, onDelete, onApprove, e
             onEdit={() => setEditing(a)}
             onDelete={onDelete}
             onApprove={onApprove}
+            onPublish={onPublish}
           />
         ))}
       </div>

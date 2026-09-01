@@ -234,14 +234,14 @@ const AdminResources = () => {
         />
       )}
 
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
         <div className="flex items-start space-x-3">
-          <SafeIcon icon={FiBookOpen} className="h-5 w-5 text-blue-600 mt-0.5" />
+          <SafeIcon icon={FiBookOpen} className="h-5 w-5 text-gray-600 mt-0.5" />
           <div>
-            <h4 className="font-semibold text-blue-800 mb-1 font-inter">
+            <h4 className="font-semibold text-gray-800 mb-1 font-inter">
               Resource Categories
             </h4>
-            <p className="text-blue-700 text-sm font-inter">
+            <p className="text-gray-700 text-sm font-inter">
               <strong>Book Categories:</strong> For individual books with multiple purchase links<br />
               <strong>Link Groups:</strong> For collections of website links and online resources
             </p>

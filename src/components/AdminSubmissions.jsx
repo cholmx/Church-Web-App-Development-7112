@@ -3,13 +3,12 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import SubmissionsList from './admin-submissions/SubmissionsList';
 
-const { FiMail, FiUserPlus, FiUsers, FiCalendar } = FiIcons;
+const { FiMail, FiUserPlus, FiUsers } = FiIcons;
 
 const tabs = [
   { id: 'contact', label: 'Contact', icon: FiMail },
   { id: 'realm', label: 'Join Realm', icon: FiUserPlus },
   { id: 'table-groups', label: 'Table Groups', icon: FiUsers },
-  { id: 'overflow', label: 'Overflow', icon: FiCalendar }
 ];
 
 const AdminSubmissions = () => {
@@ -94,26 +93,6 @@ const AdminSubmissions = () => {
               <p className="text-sm text-text-light">
                 Party size: {item.party_size || 'Not specified'}
                 {item.unavailable_days?.length > 0 && ` · Unavailable: ${item.unavailable_days.join(', ')}`}
-              </p>
-            </>
-          )}
-        />
-      )}
-
-      {activeTab === 'overflow' && (
-        <SubmissionsList
-          table="overflow_signups_portal123"
-          emptyLabel="No overflow signups yet."
-          renderDetail={(item) => (
-            <>
-              <div className="flex items-center space-x-3 mb-1 flex-wrap">
-                <h3 className="font-semibold text-text-primary">{item.name}</h3>
-                {item.email && <a href={`mailto:${item.email}`} className="text-sm text-primary hover:underline">{item.email}</a>}
-                {item.phone && <span className="text-sm text-text-light">{item.phone}</span>}
-              </div>
-              <p className="text-sm text-text-light">
-                Party size: {item.party_size || 'Not specified'}
-                {item.selected_sundays?.length > 0 && ` · ${item.selected_sundays.join(', ')}`}
               </p>
             </>
           )}

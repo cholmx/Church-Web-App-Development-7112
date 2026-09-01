@@ -23,7 +23,7 @@ const DEFAULT_DATA = {
 };
 
 const DEFAULT_BRAND = (combo) => ({
-  bgColor: "#0A1A1F",
+  bgColor: "#1E1E21",
   textColor: "#F0EDE8",
   accentColor: "#E98A15",
   hFont: combo.h,

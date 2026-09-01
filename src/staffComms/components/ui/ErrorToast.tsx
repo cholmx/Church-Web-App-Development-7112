@@ -4,6 +4,7 @@ import { C, font } from '../../lib/theme';
 interface Toast {
   id: number;
   message: string;
+  type: 'error' | 'success';
 }
 
 let nextId = 0;
@@ -27,13 +28,13 @@ export function ErrorToastContainer({ toasts, onDismiss }: ErrorToastContainerPr
       maxWidth: 360,
     }}>
       {toasts.map(t => (
-        <ErrorToastItem key={t.id} message={t.message} onDismiss={() => onDismiss(t.id)} />
+        <ErrorToastItem key={t.id} message={t.message} type={t.type} onDismiss={() => onDismiss(t.id)} />
       ))}
     </div>
   );
 }
 
-function ErrorToastItem({ message, onDismiss }: { message: string; onDismiss: () => void }) {
+function ErrorToastItem({ message, type, onDismiss }: { message: string; type: 'error' | 'success'; onDismiss: () => void }) {
   useEffect(() => {
     const timer = setTimeout(onDismiss, 5000);
     return () => clearTimeout(timer);
@@ -41,7 +42,7 @@ function ErrorToastItem({ message, onDismiss }: { message: string; onDismiss: ()
 
   return (
     <div style={{
-      background: C.warn,
+      background: type === 'success' ? C.success : C.warn,
       color: '#fff',
       borderRadius: 8,
       padding: '12px 16px',
@@ -81,12 +82,17 @@ export function useErrorToast() {
 
   const showError = useCallback((message: string) => {
     const id = nextId++;
-    setToasts(prev => [...prev, { id, message }]);
+    setToasts(prev => [...prev, { id, message, type: 'error' }]);
+  }, []);
+
+  const showSuccess = useCallback((message: string) => {
+    const id = nextId++;
+    setToasts(prev => [...prev, { id, message, type: 'success' }]);
   }, []);
 
   const dismissToast = useCallback((id: number) => {
     setToasts(prev => prev.filter(t => t.id !== id));
   }, []);
 
-  return { toasts, showError, dismissToast };
+  return { toasts, showError, showSuccess, dismissToast };
 }

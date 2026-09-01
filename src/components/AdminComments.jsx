@@ -173,7 +173,7 @@ const AdminComments = () => {
               </div>
 
               {comment.admin_reply && (
-                <div className="mt-4 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                <div className="mt-4 p-4 bg-gray-50 rounded-lg border-l-4 border-gray-400">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <p className="text-sm font-semibold mb-2">Your Reply:</p>

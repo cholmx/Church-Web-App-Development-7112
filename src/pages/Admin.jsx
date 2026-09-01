@@ -50,7 +50,7 @@ const NAV_SECTIONS=[
   {
     label: 'Tools',
     items: [
-      {id: 'comms',label: 'Announcement Organizer',icon: FiRadio},
+      {id: 'comms',label: 'Communication Organizer',icon: FiRadio},
       {id: 'slideMaker',label: 'Slide Maker',icon: FiImage},
       {id: 'signupSheet',label: 'Sign-up Sheets',icon: FiClipboard},
     ],
@@ -263,7 +263,7 @@ const Admin=()=> {
                 }`}
               >
                 <SafeIcon icon={tab.icon} className="h-4 w-4 flex-shrink-0" />
-                <span className="text-left truncate">{tab.label}</span>
+                <span className="text-left leading-tight">{tab.label}</span>
               </button>
             ))}
           </div>
