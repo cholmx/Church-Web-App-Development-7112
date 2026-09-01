@@ -73,7 +73,7 @@
 
 .signup-sheet-tool .resize-handle:hover,
 .signup-sheet-tool .resize-handle.resizing {
-  background: var(--resize-color, #1E1E21);
+  background: var(--resize-color, #0B1613);
   opacity: 0.6;
 }
 

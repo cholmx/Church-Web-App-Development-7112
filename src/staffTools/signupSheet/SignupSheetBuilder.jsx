@@ -15,10 +15,10 @@ const PRESET_COLORS = [
   { label: 'Black', value: '#111827' },
 ];
 
-const sectionContainerClass = "rounded-lg border border-[#E2E2E2] bg-[#F5F5F5] p-6 mb-6";
-const sectionTitleClass = "text-[#1E1E21] text-[11px] font-bold tracking-[0.15em] uppercase mb-5 font-heading";
-const labelClass = "block text-[#3A3A3D] text-[10px] font-bold uppercase tracking-wider mb-2";
-const inputClass = "w-full bg-white border border-[#E2E2E2] rounded-md px-3 py-2.5 text-sm text-[#1E1E21] focus:outline-none focus:border-[#1E1E21] focus:ring-1 focus:ring-[#1E1E21] placeholder-[#9A9A9A] transition-shadow";
+const sectionContainerClass = "rounded-lg border border-[#E7E2D6] bg-[#F1EEE6] p-6 mb-6";
+const sectionTitleClass = "text-[#0B1613] text-[11px] font-bold tracking-[0.15em] uppercase mb-5 font-heading";
+const labelClass = "block text-[#1B2622] text-[10px] font-bold uppercase tracking-wider mb-2";
+const inputClass = "w-full bg-white border border-[#E7E2D6] rounded-md px-3 py-2.5 text-sm text-[#0B1613] focus:outline-none focus:border-[#0B1613] focus:ring-1 focus:ring-[#0B1613] placeholder-[#9B9C93] transition-shadow";
 
 const SignupSheetBuilder = ({ sheetData, setSheetData, onPreview }) => {
   const updateField = (field, value) => setSheetData(prev => ({ ...prev, [field]: value }));
@@ -54,24 +54,24 @@ const SignupSheetBuilder = ({ sheetData, setSheetData, onPreview }) => {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F7F7F7' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#F9F9F7' }}>
       {/* Header */}
-      <header className="bg-white border-b border-[#E2E2E2] px-8">
+      <header className="bg-white border-b border-[#E7E2D6] px-8">
         <div className="flex justify-between items-center max-w-5xl mx-auto w-full">
           <div className="flex gap-8">
-            <button className="py-3 text-sm font-bold uppercase tracking-wider border-b-4 border-[#1E1E21] text-[#1E1E21]">
+            <button className="py-3 text-sm font-bold uppercase tracking-wider border-b-4 border-[#0B1613] text-[#0B1613]">
               Manage
             </button>
             <button
               onClick={onPreview}
-              className="py-3 text-sm font-bold uppercase tracking-wider border-b-4 border-transparent text-[#9A9A9A] hover:text-[#1E1E21] transition-colors"
+              className="py-3 text-sm font-bold uppercase tracking-wider border-b-4 border-transparent text-[#9B9C93] hover:text-[#0B1613] transition-colors"
             >
               Preview
             </button>
           </div>
           <button
             onClick={onPreview}
-            className="bg-[#1E1E21] text-white px-4 py-2 rounded text-xs font-bold uppercase tracking-wider hover:bg-[#3A3A3D] transition-colors"
+            className="bg-[#0B1613] text-white px-4 py-2 rounded text-xs font-bold uppercase tracking-wider hover:bg-[#1B2622] transition-colors"
           >
             Preview & Print
           </button>
@@ -80,14 +80,14 @@ const SignupSheetBuilder = ({ sheetData, setSheetData, onPreview }) => {
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto p-6 mt-4 mb-12">
-        <div className="bg-white rounded-xl border border-[#E2E2E2] shadow-sm overflow-hidden">
+        <div className="bg-white rounded-xl border border-[#E7E2D6] shadow-sm overflow-hidden">
 
           {/* Card Header */}
-          <div className="px-8 py-6 border-b border-[#E2E2E2] flex justify-between items-center bg-white">
-            <h2 className="text-[#1E1E21] font-bold tracking-widest text-[15px] uppercase font-heading">
+          <div className="px-8 py-6 border-b border-[#E7E2D6] flex justify-between items-center bg-white">
+            <h2 className="text-[#0B1613] font-bold tracking-widest text-[15px] uppercase font-heading">
               New Sign-up Sheet
             </h2>
-            <div className="text-[11px] text-[#9A9A9A] italic">
+            <div className="text-[11px] text-[#9B9C93] italic">
               Fill in the details below to generate your sheet.
             </div>
           </div>
@@ -97,7 +97,7 @@ const SignupSheetBuilder = ({ sheetData, setSheetData, onPreview }) => {
 
             {/* Intro */}
             <div className="mb-8">
-              <div className="bg-[#F5F5F5] border border-[#E2E2E2] rounded-lg p-5 text-sm text-[#4A4A4D] mb-6">
+              <div className="bg-[#F1EEE6] border border-[#E7E2D6] rounded-lg p-5 text-sm text-[#3F4542] mb-6">
                 Fill in the title and any details, then configure your columns below. Switch to the <b>Preview</b> tab to print or save as PDF.
               </div>
 
@@ -147,7 +147,7 @@ const SignupSheetBuilder = ({ sheetData, setSheetData, onPreview }) => {
                         className="w-7 h-7 rounded-full transition-transform hover:scale-110"
                         style={{
                           backgroundColor: c.value,
-                          border: sheetData.accentColor === c.value ? '2px solid #1E1E21' : '1px solid #E2E2E2',
+                          border: sheetData.accentColor === c.value ? '2px solid #0B1613' : '1px solid #E7E2D6',
                           boxShadow: sheetData.accentColor === c.value ? '0 0 0 2px #fff inset' : 'none',
                         }}
                       />
@@ -157,7 +157,7 @@ const SignupSheetBuilder = ({ sheetData, setSheetData, onPreview }) => {
                         type="color"
                         value={sheetData.accentColor}
                         onChange={(e) => updateField('accentColor', e.target.value)}
-                        className="w-7 h-7 rounded cursor-pointer border border-[#E2E2E2] p-0 overflow-hidden"
+                        className="w-7 h-7 rounded cursor-pointer border border-[#E7E2D6] p-0 overflow-hidden"
                       />
                     </div>
                   </div>
@@ -173,14 +173,14 @@ const SignupSheetBuilder = ({ sheetData, setSheetData, onPreview }) => {
                   <label className={labelClass}>Date & Time Display</label>
                   <div className="flex items-center gap-3">
                     <div className="relative flex-1">
-                      <SafeIcon icon={FiCalendar} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9A9A9A]" />
+                      <SafeIcon icon={FiCalendar} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9B9C93]" />
                       <input
                         type="text"
                         value={sheetData.dateTimeLabel}
                         onChange={(e) => updateField('dateTimeLabel', e.target.value)}
                         placeholder="e.g. Sunday, April 9th @ 8:00 AM"
                         disabled={!sheetData.showDateTime}
-                        className={`${inputClass} pl-10 ${!sheetData.showDateTime ? 'opacity-50 bg-[#F5F5F5]' : ''}`}
+                        className={`${inputClass} pl-10 ${!sheetData.showDateTime ? 'opacity-50 bg-[#F1EEE6]' : ''}`}
                       />
                     </div>
                     <label className="flex items-center gap-2 cursor-pointer whitespace-nowrap">
@@ -188,10 +188,10 @@ const SignupSheetBuilder = ({ sheetData, setSheetData, onPreview }) => {
                         type="checkbox"
                         checked={sheetData.showDateTime}
                         onChange={toggleDateTime}
-                        className="w-4 h-4 rounded border-[#E2E2E2] text-[#1E1E21] focus:ring-[#1E1E21]"
-                        style={{ accentColor: '#1E1E21' }}
+                        className="w-4 h-4 rounded border-[#E7E2D6] text-[#0B1613] focus:ring-[#0B1613]"
+                        style={{ accentColor: '#0B1613' }}
                       />
-                      <span className="text-sm text-[#1E1E21]">Include Date</span>
+                      <span className="text-sm text-[#0B1613]">Include Date</span>
                     </label>
                   </div>
                 </div>
@@ -205,7 +205,7 @@ const SignupSheetBuilder = ({ sheetData, setSheetData, onPreview }) => {
                 <button
                   onClick={addColumn}
                   disabled={sheetData.columns.length >= 8}
-                  className="flex items-center gap-1.5 text-[#1E1E21] text-[11px] font-bold uppercase tracking-wider hover:opacity-80 transition-opacity disabled:opacity-40"
+                  className="flex items-center gap-1.5 text-[#0B1613] text-[11px] font-bold uppercase tracking-wider hover:opacity-80 transition-opacity disabled:opacity-40"
                 >
                   <SafeIcon icon={FiPlus} className="text-sm" />
                   Add Column
@@ -216,9 +216,9 @@ const SignupSheetBuilder = ({ sheetData, setSheetData, onPreview }) => {
                 {sheetData.columns.map((column, index) => (
                   <div
                     key={index}
-                    className="flex items-center gap-3 p-2.5 rounded border border-[#E2E2E2] bg-white transition-colors"
+                    className="flex items-center gap-3 p-2.5 rounded border border-[#E7E2D6] bg-white transition-colors"
                   >
-                    <span className="w-6 text-center font-bold text-[#3A3A3D] text-xs opacity-50">
+                    <span className="w-6 text-center font-bold text-[#1B2622] text-xs opacity-50">
                       {index + 1}
                     </span>
                     <input
@@ -226,15 +226,15 @@ const SignupSheetBuilder = ({ sheetData, setSheetData, onPreview }) => {
                       value={column.name}
                       onChange={(e) => updateColumnName(index, e.target.value)}
                       placeholder={`Column ${index + 1}`}
-                      className="flex-1 px-3 py-1.5 border border-transparent hover:border-[#E2E2E2] focus:border-[#1E1E21] rounded focus:outline-none text-sm text-[#1E1E21] transition-colors bg-transparent"
+                      className="flex-1 px-3 py-1.5 border border-transparent hover:border-[#E7E2D6] focus:border-[#0B1613] rounded focus:outline-none text-sm text-[#0B1613] transition-colors bg-transparent"
                     />
                     <div className="flex items-center gap-2 min-w-[100px] opacity-70">
-                      <span className="text-[10px] w-8 text-right text-[#3A3A3D] font-bold">
+                      <span className="text-[10px] w-8 text-right text-[#1B2622] font-bold">
                         {Math.round(column.width)}%
                       </span>
-                      <div className="flex-1 h-1.5 rounded-full relative bg-[#E2E2E2]">
+                      <div className="flex-1 h-1.5 rounded-full relative bg-[#E7E2D6]">
                         <div
-                          className="h-full rounded-full bg-[#1E1E21]"
+                          className="h-full rounded-full bg-[#0B1613]"
                           style={{ width: `${column.width}%` }}
                         />
                       </div>
@@ -242,14 +242,14 @@ const SignupSheetBuilder = ({ sheetData, setSheetData, onPreview }) => {
                     <button
                       onClick={() => removeColumn(index)}
                       disabled={sheetData.columns.length <= 1}
-                      className="p-1.5 rounded text-[#9A9A9A] hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-30"
+                      className="p-1.5 rounded text-[#9B9C93] hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-30"
                     >
                       <SafeIcon icon={FiTrash2} className="text-sm" />
                     </button>
                   </div>
                 ))}
               </div>
-              <p className="mt-3 text-[11px] text-[#6E6E6E]">
+              <p className="mt-3 text-[11px] text-[#6B706C]">
                 You can drag the column borders directly on the Preview tab to adjust their widths manually.
               </p>
             </div>
