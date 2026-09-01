@@ -30,7 +30,6 @@ export function TabBar({ active, onChange }: TabBarProps) {
         display: 'flex',
         gap: 0,
         overflowX: 'auto',
-        borderTop: '1px solid rgba(255,255,255,0.05)',
       }}>
         {TABS.map(t => {
           const isActive = active === t.key;
@@ -41,22 +40,22 @@ export function TabBar({ active, onChange }: TabBarProps) {
               style={{
                 padding: '9px 12px',
                 border: 'none',
-                borderBottom: isActive ? `2px solid ${C.stageAccent}` : '2px solid transparent',
+                borderBottom: isActive ? `2px solid ${C.accent}` : '2px solid transparent',
                 cursor: 'pointer',
                 fontFamily: font.display,
                 fontSize: 11,
                 fontWeight: isActive ? 700 : 500,
                 letterSpacing: '0.05em',
                 textTransform: 'uppercase',
-                color: isActive ? C.stageAccent : 'rgba(241,245,249,0.4)',
+                color: isActive ? C.text : C.textMuted,
                 background: 'transparent',
                 whiteSpace: 'nowrap',
                 flexShrink: 0,
                 transition: 'color 0.15s, border-color 0.15s',
                 outline: 'none',
               }}
-              onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = 'rgba(241,245,249,0.72)'; }}
-              onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = 'rgba(241,245,249,0.4)'; }}
+              onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = C.textSec; }}
+              onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = C.textMuted; }}
             >
               {t.label}
             </button>
@@ -77,7 +76,7 @@ export function TabBar({ active, onChange }: TabBarProps) {
               fontWeight: 500,
               letterSpacing: '0.05em',
               textTransform: 'uppercase',
-              color: 'rgba(241,245,249,0.3)',
+              color: C.textMuted,
               background: 'transparent',
               whiteSpace: 'nowrap',
               flexShrink: 0,
@@ -87,8 +86,8 @@ export function TabBar({ active, onChange }: TabBarProps) {
               alignItems: 'center',
               gap: 4,
             }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'rgba(241,245,249,0.6)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'rgba(241,245,249,0.3)')}
+            onMouseEnter={e => (e.currentTarget.style.color = C.textSec)}
+            onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
           >
             {link.label}
             <ExternalLink size={9} style={{ opacity: 0.6 }} />
@@ -101,7 +100,6 @@ export function TabBar({ active, onChange }: TabBarProps) {
         display: 'none',
         alignItems: 'center',
         justifyContent: 'space-between',
-        borderTop: '1px solid rgba(255,255,255,0.05)',
         padding: '0 4px',
         height: 38,
       }}>
@@ -111,7 +109,7 @@ export function TabBar({ active, onChange }: TabBarProps) {
           fontWeight: 700,
           letterSpacing: '0.05em',
           textTransform: 'uppercase',
-          color: C.stageAccent,
+          color: C.text,
         }}>
           {activeTabLabel(active)}
         </span>
@@ -127,7 +125,7 @@ export function TabBar({ active, onChange }: TabBarProps) {
             border: 'none',
             background: 'transparent',
             cursor: 'pointer',
-            color: 'rgba(241,245,249,0.6)',
+            color: C.textSec,
             borderRadius: 4,
             transition: 'color 0.15s',
             outline: 'none',
@@ -157,10 +155,10 @@ export function TabBar({ active, onChange }: TabBarProps) {
               position: 'absolute',
               left: 0,
               right: 0,
-              background: C.navBg,
-              borderBottom: '1px solid rgba(255,255,255,0.08)',
+              background: C.card,
+              borderBottom: `1px solid ${C.border}`,
               zIndex: 99,
-              boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
             }}
           >
             {TABS.map(t => {
@@ -175,15 +173,15 @@ export function TabBar({ active, onChange }: TabBarProps) {
                     width: '100%',
                     padding: '12px 16px',
                     border: 'none',
-                    borderLeft: isActive ? `3px solid ${C.stageAccent}` : '3px solid transparent',
-                    background: isActive ? 'rgba(249,115,22,0.07)' : 'transparent',
+                    borderLeft: isActive ? `3px solid ${C.accent}` : '3px solid transparent',
+                    background: isActive ? C.bgSubtle : 'transparent',
                     cursor: 'pointer',
                     fontFamily: font.display,
                     fontSize: 12,
                     fontWeight: isActive ? 700 : 500,
                     letterSpacing: '0.05em',
                     textTransform: 'uppercase',
-                    color: isActive ? C.stageAccent : 'rgba(241,245,249,0.55)',
+                    color: isActive ? C.text : C.textSec,
                     textAlign: 'left',
                     transition: 'background 0.1s, color 0.1s',
                     outline: 'none',
@@ -193,7 +191,7 @@ export function TabBar({ active, onChange }: TabBarProps) {
                 </button>
               );
             })}
-            <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)', margin: '4px 0' }} />
+            <div style={{ height: '1px', background: C.border, margin: '4px 0' }} />
             {EXTERNAL_LINKS.map(link => (
               <a
                 key={link.href}
@@ -213,7 +211,7 @@ export function TabBar({ active, onChange }: TabBarProps) {
                   fontWeight: 500,
                   letterSpacing: '0.05em',
                   textTransform: 'uppercase',
-                  color: 'rgba(241,245,249,0.35)',
+                  color: C.textMuted,
                   textDecoration: 'none',
                   boxSizing: 'border-box',
                   transition: 'color 0.1s',
