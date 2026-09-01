@@ -23,9 +23,9 @@ const DEFAULT_DATA = {
 };
 
 const DEFAULT_BRAND = (combo) => ({
-  bgColor: "#1E1E21",
-  textColor: "#F0EDE8",
-  accentColor: "#E98A15",
+  bgColor: "#0B1613",
+  textColor: "#F9F9F7",
+  accentColor: "#FFC44F",
   hFont: combo.h,
   bFont: combo.b,
   churchName: "UPPER ROOM FELLOWSHIP",

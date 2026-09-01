@@ -40,7 +40,7 @@ export function TabBar({ active, onChange }: TabBarProps) {
               style={{
                 padding: '9px 12px',
                 border: 'none',
-                borderBottom: isActive ? `2px solid ${C.accent}` : '2px solid transparent',
+                borderBottom: isActive ? `2px solid ${C.sun}` : '2px solid transparent',
                 cursor: 'pointer',
                 fontFamily: font.display,
                 fontSize: 11,
@@ -173,7 +173,7 @@ export function TabBar({ active, onChange }: TabBarProps) {
                     width: '100%',
                     padding: '12px 16px',
                     border: 'none',
-                    borderLeft: isActive ? `3px solid ${C.accent}` : '3px solid transparent',
+                    borderLeft: isActive ? `3px solid ${C.sun}` : '3px solid transparent',
                     background: isActive ? C.bgSubtle : 'transparent',
                     cursor: 'pointer',
                     fontFamily: font.display,
