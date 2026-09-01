@@ -20,16 +20,17 @@ interface ManageTabProps {
   onSave: (a: Omit<Announcement, 'id' | 'created_at' | 'updated_at'> & { id?: string }) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
   onApprove: (id: string) => Promise<void>;
-  onPublish: (a: Announcement) => Promise<void>;
+  onTogglePublish: (a: Announcement) => Promise<void>;
   editing: Announcement | 'new' | null;
   setEditing: (v: Announcement | 'new' | null) => void;
   copySource: Omit<Announcement, 'id' | 'created_at' | 'updated_at'> | null;
   setCopySource: (v: Omit<Announcement, 'id' | 'created_at' | 'updated_at'> | null) => void;
   loading: boolean;
   onError: (msg: string) => void;
+  onOpenSignupSheet?: (a: { id: string; title: string; event_date: string | null }) => void;
 }
 
-export function ManageTab({ announcements, today, onSave, onDelete, onApprove, onPublish, editing, setEditing, copySource, setCopySource, loading, onError }: ManageTabProps) {
+export function ManageTab({ announcements, today, onSave, onDelete, onApprove, onTogglePublish, editing, setEditing, copySource, setCopySource, loading, onError, onOpenSignupSheet }: ManageTabProps) {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
 
@@ -63,6 +64,7 @@ export function ManageTab({ announcements, today, onSave, onDelete, onApprove, o
         onSave={async (f) => { await onSave(f); setEditing(null); setCopySource(null); }}
         onCancel={() => { setEditing(null); setCopySource(null); }}
         onError={onError}
+        onOpenSignupSheet={onOpenSignupSheet}
       />
     );
   }
@@ -173,7 +175,7 @@ export function ManageTab({ announcements, today, onSave, onDelete, onApprove, o
             onEdit={() => setEditing(a)}
             onDelete={onDelete}
             onApprove={onApprove}
-            onPublish={onPublish}
+            onTogglePublish={onTogglePublish}
           />
         ))}
       </div>

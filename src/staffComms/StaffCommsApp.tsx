@@ -3,7 +3,7 @@ import { C, font } from './lib/theme';
 import { supabase } from './lib/supabase';
 import { TabBar } from './components/TabBar';
 import { ErrorToastContainer, useErrorToast } from './components/ui/ErrorToast';
-import { getAutoHappeningsStartDate, getAutoHappeningsEndDate, isArchived, plainTextToHtml } from './lib/helpers';
+import { getAutoHappeningsStartDate, getAutoHappeningsEndDate, isArchived } from './lib/helpers';
 import type { Announcement, Tab } from './types';
 
 const ManageTab     = lazy(() => import('./components/manage/ManageTab').then(m => ({ default: m.ManageTab })));
@@ -19,10 +19,14 @@ function TabFallback() {
   );
 }
 
+interface StaffCommsAppProps {
+  onOpenSignupSheet?: (a: { id: string; title: string; event_date: string | null }) => void;
+}
+
 // Ported from the standalone URFCommunication app. Auth is no longer handled
 // here - this is mounted as a tab inside the church site's /admin panel,
 // which already gates the whole page on the shared admin session.
-export default function StaffCommsApp() {
+export default function StaffCommsApp({ onOpenSignupSheet }: StaffCommsAppProps) {
   const [tab, setTab] = useState<Tab>('manage');
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [loading, setLoading] = useState(true);
@@ -63,8 +67,11 @@ export default function StaffCommsApp() {
       short_version: f.short_version,
       category: f.category,
       scope: f.scope,
+      happening_type: f.happening_type || 'announcement',
+      link: f.link || '',
       event_date: f.event_date || null,
       event_time: f.event_time || null,
+      end_time: f.end_time || '',
       is_recurring: f.is_recurring,
       slides_lead_weeks: f.slides_lead_weeks,
       happenings_start_date: getAutoHappeningsStartDate(announcementLike, today),
@@ -79,6 +86,10 @@ export default function StaffCommsApp() {
       flyer_text: f.flyer_text,
       stage_notes: f.stage_notes,
       needs_signup: f.needs_signup,
+      signup_mode: f.signup_mode || 'none',
+      signup_sheet_config: f.signup_sheet_config ?? null,
+      is_published: f.is_published,
+      published_at: f.is_published ? (f.published_at || new Date().toISOString()) : f.published_at,
       event_location: f.event_location,
       event_dates: f.event_dates,
       slide_made: f.slide_made,
@@ -148,26 +159,24 @@ export default function StaffCommsApp() {
     }
   };
 
-  // Copies a planning entry from this internal tool into the public,
-  // visitor-facing announcements_portal123 table (shown on urf.life's
-  // /announcements page) so staff don't have to retype it a second time.
-  // This inserts a new public announcement rather than linking the two
-  // records - editing one afterward does not affect the other.
-  const handlePublishToAnnouncements = async (a: Announcement) => {
-    const content = a.body?.trim()
-      ? plainTextToHtml(a.body)
-      : plainTextToHtml(a.description || a.short_version || '');
-    const { error } = await supabase.from('announcements_portal123').insert({
-      title: a.title,
-      content,
-      author: '',
-      announcement_date: a.event_date || today,
-    });
+  // Toggles a happening's visibility on the public site in place - no more
+  // copying into a separate table. published_at is stamped the first time
+  // a happening is published and preserved across later unpublish/
+  // republish cycles, so republishing doesn't make it look brand new.
+  const handleTogglePublish = async (a: Announcement) => {
+    const nextPublished = !a.is_published;
+    const nextPublishedAt = nextPublished ? (a.published_at || new Date().toISOString()) : a.published_at;
+    setAnnouncements(prev => prev.map(x => x.id === a.id ? { ...x, is_published: nextPublished, published_at: nextPublishedAt } : x));
+    const { error } = await supabase
+      .from('staff_announcements_portal123')
+      .update({ is_published: nextPublished, published_at: nextPublishedAt })
+      .eq('id', a.id);
     if (error) {
-      showError('Failed to copy to public Announcements.');
-      return;
+      showError('Failed to update publish status.');
+      setAnnouncements(prev => prev.map(x => x.id === a.id ? { ...x, is_published: a.is_published, published_at: a.published_at } : x));
+    } else {
+      showSuccess(nextPublished ? 'Published to the public site.' : 'Unpublished from the public site.');
     }
-    showSuccess('Copied to public Announcements.');
   };
 
   const activeAnnouncements = announcements.filter(a => !isArchived(a, today));
@@ -241,13 +250,14 @@ export default function StaffCommsApp() {
                 onSave={handleSave}
                 onDelete={handleDelete}
                 onApprove={handleApprove}
-                onPublish={handlePublishToAnnouncements}
+                onTogglePublish={handleTogglePublish}
                 editing={editing}
                 setEditing={setEditing}
                 copySource={copySource}
                 setCopySource={setCopySource}
                 loading={loading}
                 onError={showError}
+                onOpenSignupSheet={onOpenSignupSheet}
               />
             )}
             {tab === 'calendar' && (
