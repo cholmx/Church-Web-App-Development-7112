@@ -98,7 +98,7 @@ const Home=()=> {
             initial={{opacity: 0,y: 20}} animate={{opacity: 1,y: 0}} transition={{duration: 0.7}}
             className="text-2xl md:text-4xl text-text-primary tracking-tight flex items-center justify-center gap-3"
           >
-            <img src="/logonegtransblack%20copy.png" alt="" className="h-10 md:h-14 w-auto" />
+            <img src="/logonegtransblack%20copy.png" alt="" className="h-[1.5em] w-auto" />
             <span>Upper Room Fellowship</span>
           </motion.h1>
           <motion.p
