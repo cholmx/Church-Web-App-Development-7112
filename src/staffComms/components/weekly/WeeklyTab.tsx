@@ -7,8 +7,7 @@ import type { ReactNode } from 'react';
 const TEAL = '#000000';
 const TEAL_LIGHT = '#FFFFFF';
 const ORANGE = '#000000';
-const LOGO_URL = '/assets/logonegtransblue.png';
-const LOGO_FILTER = 'grayscale(100%) contrast(1.4) brightness(0)';
+const LOGO_URL = '/logonegtransblack.png';
 
 interface WeeklyTabProps {
   announcements: Announcement[];
@@ -178,7 +177,7 @@ function BulletinHeader({ size = 'full' }: { size?: 'full' | 'compact' }) {
   const line2Size = size === 'compact' ? 13 : 16;
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 12 }}>
-      <img src={LOGO_URL} alt="URF" style={{ height: logoH, width: 'auto', flexShrink: 0, filter: LOGO_FILTER }} />
+      <img src={LOGO_URL} alt="URF" style={{ height: logoH, width: 'auto', flexShrink: 0 }} />
       <div>
         <div style={{ fontFamily: font.display, fontSize: line1Size, fontWeight: 900, color: TEAL, lineHeight: 1, letterSpacing: '-0.01em' }}>
           Upper Room Fellowship
@@ -382,7 +381,7 @@ function buildBulletinHTML(items: Announcement[], sundayDate: string): string {
 function buildPrintFront(itemsHTML: string, sundayDate: string): string {
   return `<div class="bulletin">
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px;">
-      <img src="${LOGO_URL}" alt="URF" style="height:52px;width:auto;flex-shrink:0;filter:${LOGO_FILTER};" />
+      <img src="${LOGO_URL}" alt="URF" style="height:52px;width:auto;flex-shrink:0;" />
       <div>
         <div style="font-family:'Inter Tight',sans-serif;font-size:22pt;font-weight:900;color:${TEAL};line-height:1;letter-spacing:-0.01em;">Upper Room Fellowship</div>
         <div style="font-family:'Inter Tight',sans-serif;font-size:16pt;font-weight:700;color:${ORANGE};line-height:1.1;margin-top:2px;">Weekly Announcements</div>
@@ -408,7 +407,7 @@ function buildPrintBack(): string {
 
   return `<div class="bulletin">
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px;">
-      <img src="${LOGO_URL}" alt="URF" style="height:40px;width:auto;flex-shrink:0;filter:${LOGO_FILTER};" />
+      <img src="${LOGO_URL}" alt="URF" style="height:40px;width:auto;flex-shrink:0;" />
       <div>
         <div style="font-family:'Inter Tight',sans-serif;font-size:18pt;font-weight:900;color:${TEAL};line-height:1;letter-spacing:-0.01em;">Upper Room Fellowship</div>
         <div style="font-family:'Inter Tight',sans-serif;font-size:13pt;font-weight:700;color:${ORANGE};line-height:1.1;margin-top:2px;">Weekly Announcements</div>

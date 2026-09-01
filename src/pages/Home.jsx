@@ -99,9 +99,10 @@ const Home=()=> {
           </motion.p>
           <motion.h1
             initial={{opacity: 0,y: 20}} animate={{opacity: 1,y: 0}} transition={{duration: 0.7,delay: 0.05}}
-            className="font-gsans uppercase font-black text-4xl md:text-6xl lg:text-7xl text-ink tracking-tight leading-[0.95]"
+            className="font-gsans uppercase font-black text-4xl md:text-6xl lg:text-7xl text-ink tracking-tight leading-[0.95] flex items-center justify-center gap-3 md:gap-4"
           >
-            Upper Room Fellowship
+            <img src="/logonegtransblack%20copy.png" alt="" className="h-[1.5em] w-auto" />
+            <span>Upper Room Fellowship</span>
           </motion.h1>
           <motion.p
             initial={{opacity: 0,y: 20}} animate={{opacity: 1,y: 0}} transition={{duration: 0.7,delay: 0.12}}
