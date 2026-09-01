@@ -4,10 +4,8 @@ import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 
-const {FiBell,FiPlay,FiMic,FiUsers,FiCreditCard,FiUserPlus,FiMail,FiCalendar,FiBookOpen,FiGlobe,FiHeart,FiLogIn,FiExternalLink,FiFileText,FiHeadphones,FiTrendingUp,FiCheck,FiStar}=FiIcons;
+const {FiBell,FiPlay,FiMic,FiUsers,FiCreditCard,FiUserPlus,FiMail,FiCalendar,FiBookOpen,FiSettings,FiFacebook,FiInstagram,FiYoutube,FiGlobe,FiHeart,FiLogIn,FiExternalLink,FiFileText,FiHeadphones,FiTrendingUp,FiCheck,FiStar}=FiIcons;
 
 const Home=()=> {
   const [hasEvents,setHasEvents]=useState(false);
@@ -51,8 +49,8 @@ const Home=()=> {
       path: btn.path,
       isInternal: !btn.path.startsWith('http')
     })),
-    ...(hasClasses ? [{title: 'Classes',description: 'Available church classes',icon: FiBookOpen,path: '/class-registration',isGold: true}] : []),
-    ...(hasEvents ? [{title: 'Events',description: 'Upcoming church events',icon: FiCalendar,path: '/event-registration',isSun: true}] : [])
+    ...(hasClasses ? [{title: 'Classes',description: 'Available church classes',icon: FiBookOpen,path: '/class-registration',isYellow: true}] : []),
+    ...(hasEvents ? [{title: 'Events',description: 'Upcoming church events',icon: FiCalendar,path: '/event-registration',isOrange: true}] : [])
   ];
 
   const mainButtons=[
@@ -73,8 +71,14 @@ const Home=()=> {
     {title: 'Website',icon: FiGlobe,path: 'https://urfellowship.com'}
   ];
 
+  const socialLinks=[
+    {name: 'Facebook',icon: FiFacebook,url: 'https://www.facebook.com/urfellowship/'},
+    {name: 'Instagram',icon: FiInstagram,url: 'https://www.instagram.com/urfellowship/'},
+    {name: 'YouTube',icon: FiYoutube,url: 'https://www.youtube.com/c/TheUpperRoomFellowship'}
+  ];
+
   const SkeletonButton=()=> (
-    <div className="bg-ink/5 rounded-3xl animate-pulse w-full min-h-[160px] md:min-h-[200px] p-5 flex flex-col items-center justify-center">
+    <div className="bg-ink/5 rounded-2xl animate-pulse w-full min-h-[160px] md:min-h-[200px] p-5 flex flex-col items-center justify-center">
       <div className="w-8 h-8 bg-ink/10 rounded-full mb-3"></div>
       <div className="h-4 bg-ink/10 rounded w-20 mb-2"></div>
       <div className="h-3 bg-ink/10 rounded w-24"></div>
@@ -82,31 +86,24 @@ const Home=()=> {
   );
 
   const SkeletonQuickLink=()=> (
-    <div className="bg-ink/5 rounded-full animate-pulse w-[130px] h-[48px] md:w-[150px]">
+    <div className="bg-ink/5 rounded-xl animate-pulse w-[130px] h-[48px] md:w-[150px]">
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-ivory flex flex-col">
-      <Navbar />
-      <div className="flex-1 py-16 md:py-24 max-w-[1145px] mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <header className="text-center mb-10 md:mb-14">
-          <motion.p
-            initial={{opacity: 0,y: 12}} animate={{opacity: 1,y: 0}} transition={{duration: 0.5}}
-            className="font-caladea italic text-gold-text text-sm md:text-base mb-2"
-          >
-            Welcome home
-          </motion.p>
+    <div className="min-h-screen py-12 md:py-20 bg-ivory">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <header className="text-center mb-8 md:mb-10">
           <motion.h1
-            initial={{opacity: 0,y: 20}} animate={{opacity: 1,y: 0}} transition={{duration: 0.7,delay: 0.05}}
-            className="font-gsans uppercase font-black text-4xl md:text-6xl lg:text-7xl text-ink tracking-tight leading-[0.95] flex items-center justify-center gap-3 md:gap-4"
+            initial={{opacity: 0,y: 20}} animate={{opacity: 1,y: 0}} transition={{duration: 0.7}}
+            className="font-gsans uppercase font-black text-3xl md:text-5xl text-ink tracking-tight flex items-center justify-center gap-3"
           >
             <img src="/logonegtransblack%20copy.png" alt="" className="h-[1.5em] w-auto" />
             <span>Upper Room Fellowship</span>
           </motion.h1>
           <motion.p
             initial={{opacity: 0,y: 20}} animate={{opacity: 1,y: 0}} transition={{duration: 0.7,delay: 0.12}}
-            className="font-ui text-base md:text-lg text-ink/60 mt-4"
+            className="font-ui text-base md:text-lg text-ink/55 mt-2 font-normal"
           >
             Your hub for church life
           </motion.p>
@@ -116,11 +113,11 @@ const Home=()=> {
           {loading ? (
             <div className="flex flex-col items-center gap-8">
               <div className="w-full max-w-[344px] md:max-w-[711px]">
-                <div className="bg-ink/5 rounded-3xl animate-pulse w-full h-[100px] mb-4"></div>
+                <div className="bg-ink/5 rounded-2xl animate-pulse w-full h-[100px] mb-4"></div>
               </div>
               <div className="flex flex-col gap-4 w-full max-w-[344px] md:max-w-[711px]">
-                <div className="bg-ink/5 rounded-3xl animate-pulse w-full h-[70px]"></div>
-                <div className="bg-ink/5 rounded-3xl animate-pulse w-full h-[70px]"></div>
+                <div className="bg-ink/5 rounded-2xl animate-pulse w-full h-[70px]"></div>
+                <div className="bg-ink/5 rounded-2xl animate-pulse w-full h-[70px]"></div>
               </div>
               <div className="hidden md:grid md:grid-cols-3 gap-4"> {Array(9).fill(0).map((_, i) => <SkeletonButton key={i} />)} </div>
               <div className="grid grid-cols-2 md:hidden gap-3"> {Array(9).fill(0).map((_, i) => <SkeletonButton key={i} />)} </div>
@@ -177,7 +174,7 @@ const Home=()=> {
                     initial={{opacity: 0, y: 12}}
                     animate={{opacity: 1, y: 0}}
                     transition={{duration: 0.4, delay: 1.3}}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white text-ink font-ui font-semibold text-sm hover:-translate-y-1 transition-all duration-200 shadow-sm border border-ink/8"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-ink/5 text-ink font-semibold text-sm font-gsans hover:bg-white transition-all duration-200 hover:scale-105 shadow-sm border border-ink/10"
                   >
                     <SafeIcon icon={FiStar} className="h-4 w-4 text-sun" />
                     Leave a Review
@@ -187,74 +184,100 @@ const Home=()=> {
             </>
           )}
 
+          <motion.footer
+            initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.8, delay: 1.2}}
+            className="mt-16 text-center"
+          >
+            <div className="flex items-center justify-center gap-3 mb-5">
+              <div className="h-px w-10 bg-ink/15"></div>
+              <span className="font-caladea italic text-xs uppercase tracking-widest text-ink/50">Follow Us</span>
+              <div className="h-px w-10 bg-ink/15"></div>
+            </div>
+            <div className="flex justify-center space-x-3">
+              {socialLinks.map((social, i) => (
+                <motion.a
+                  key={social.name} href={social.url} target="_blank" rel="noopener noreferrer"
+                  initial={{opacity: 0, scale: 0.8}} animate={{opacity: 1, scale: 1}} transition={{duration: 0.5, delay: 1.3 + i * 0.1}}
+                  className="p-3 rounded-full bg-ink/5 hover:bg-sun/15 text-ink/50 hover:text-gold-text transition-all duration-300 hover:scale-110"
+                >
+                  <SafeIcon icon={social.icon} className="h-5 w-5" />
+                </motion.a>
+              ))}
+            </div>
+            <div className="mt-12">
+              <Link to="/admin" className="inline-flex items-center space-x-1 text-ink/40 hover:text-ink/70 transition-colors text-xs">
+                <SafeIcon icon={FiSettings} className="h-3 w-3" />
+                <span>Admin</span>
+              </Link>
+            </div>
+          </motion.footer>
         </main>
       </div>
-      <Footer />
     </div>
   );
 };
 
-const HomeButton = ({ title, description, icon, path, isFeatured = false, isInternal = true, delay = 0, gradient = false, isGold = false, isSun = false, isLastOdd = false, stretch = false }) => {
+const HomeButton = ({ title, description, icon, path, isFeatured = false, isInternal = true, delay = 0, gradient = false, isYellow = false, isOrange = false, isLastOdd = false, stretch = false }) => {
   const baseClasses = isFeatured
-    ? "relative overflow-hidden p-4 md:p-5 rounded-3xl border border-white/10 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block group w-full"
-    : `relative overflow-hidden p-5 rounded-3xl border border-ink/5 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-full${stretch ? ' h-full' : ' min-h-[160px] md:min-h-[200px]'}`;
+    ? "relative overflow-hidden p-4 md:p-5 rounded-2xl border border-white/10 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block group w-full"
+    : `relative overflow-hidden p-5 rounded-2xl border border-white/10 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 block text-center group flex flex-col justify-center items-center w-full${stretch ? ' h-full' : ' min-h-[160px] md:min-h-[200px]'}`;
 
-  const tinted = isGold || isSun;
-  const iconColor = tinted ? 'text-ink' : 'text-ink';
-  const textColor = tinted ? 'text-ink' : 'text-ink';
-  const subTextColor = tinted ? 'text-ink/65' : 'text-ink/55';
-  const iconBgClass = tinted ? 'bg-ink/10' : 'bg-sun/15';
+  const featuredClasses = gradient ? "" : "text-white";
+  const mainClasses = "bg-deep text-white";
+
+  const iconColor = (isYellow || isOrange) ? 'text-ink' : 'text-white';
+  const textColor = (isYellow || isOrange) ? 'text-ink' : 'text-white';
+  const subTextColor = (isYellow || isOrange) ? 'text-ink/70' : 'text-white/75';
+  const iconBgClass = (isYellow || isOrange) ? 'bg-black/10' : 'bg-white/15';
 
   const content = (
     <>
-      <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       {isFeatured ? (
         <div className="relative z-10 flex items-center justify-between">
           <div className="flex items-center space-x-3 md:space-x-4 flex-1">
-            <div className={`${gradient ? 'bg-sun text-ink' : `${iconBgClass} ${iconColor}`} p-2.5 md:p-3 rounded-2xl flex-shrink-0`}>
-              <SafeIcon icon={icon} className="h-5 w-5 md:h-6 md:w-6" />
+            <div className={`${iconBgClass} p-2.5 md:p-3 rounded-xl flex-shrink-0`}>
+              <SafeIcon icon={icon} className={`h-5 w-5 md:h-6 md:w-6 ${iconColor}`} />
             </div>
             <div className="text-left flex-1 min-w-0">
-              <h3 className={`text-sm md:text-base font-bold font-gsans leading-tight ${gradient ? 'text-ivory' : textColor}`}>{title}</h3>
-              <p className={`font-ui text-xs leading-tight mt-0.5 ${gradient ? 'text-ivory/70' : subTextColor}`}>{description}</p>
+              <h3 className={`text-sm md:text-base font-bold font-gsans leading-tight ${textColor}`}>{title}</h3>
+              <p className={`text-xs leading-tight mt-0.5 ${subTextColor}`}>{description}</p>
             </div>
           </div>
-          <div className={`flex items-center space-x-1 flex-shrink-0 ml-2 opacity-60 group-hover:opacity-100 transition-opacity duration-200 ${gradient ? 'text-ivory' : textColor}`}>
+          <div className={`flex items-center space-x-1 flex-shrink-0 ml-2 opacity-60 group-hover:opacity-100 transition-opacity duration-200 ${textColor}`}>
             <SafeIcon icon={FiExternalLink} className="h-4 w-4" />
           </div>
         </div>
       ) : (
         <div className="relative z-10 flex flex-col items-center">
-          <div className="p-2.5 rounded-2xl bg-sun/15 mb-2.5 md:mb-3 transition-transform duration-300 group-hover:scale-110">
-            <SafeIcon icon={icon} className="h-5 w-5 md:h-6 md:w-6 text-gold-text" />
+          <div className="p-2.5 rounded-xl bg-white/15 mb-2.5 md:mb-3 transition-transform duration-300 group-hover:scale-110">
+            <SafeIcon icon={icon} className="h-5 w-5 md:h-6 md:w-6" style={{color: '#FFC44F'}} />
           </div>
-          <h3 className="text-sm md:text-base font-bold font-gsans leading-tight text-ink">{title}</h3>
-          <p className="font-ui text-xs leading-tight text-ink/55 mt-0.5">{description}</p>
+          <h3 className="text-sm md:text-base font-bold font-gsans leading-tight text-white">{title}</h3>
+          <p className="text-xs leading-tight text-white/70 mt-0.5">{description}</p>
         </div>
       )}
     </>
   );
 
-  const surfaceClasses = isFeatured
-    ? (gradient ? '' : 'bg-white')
-    : 'bg-white';
-
   const gradientStyle = gradient
     ? {background: 'linear-gradient(135deg, #0B1613 0%, #A6790F 100%)'}
-    : isSun
+    : isOrange
       ? {backgroundColor: '#FFC44F'}
-      : isGold
+      : isYellow
         ? {backgroundColor: '#CCA866'}
-        : {};
+        : isFeatured
+          ? {backgroundColor: '#A6790F'}
+          : {};
 
   return (
     <motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay}} className={`${isLastOdd ? 'col-span-2' : ''}${stretch ? ' h-full flex flex-col' : ''}`}>
       {isInternal ? (
-        <Link to={path} className={`${baseClasses} ${surfaceClasses}`} style={gradientStyle}>
+        <Link to={path} className={`${baseClasses} ${isFeatured ? featuredClasses : mainClasses}`} style={gradientStyle}>
           {content}
         </Link>
       ) : (
-        <a href={path} target="_blank" rel="noopener noreferrer" className={`${baseClasses} ${surfaceClasses}`} style={gradientStyle}>
+        <a href={path} target="_blank" rel="noopener noreferrer" className={`${baseClasses} ${isFeatured ? featuredClasses : mainClasses}`} style={gradientStyle}>
           {content}
         </a>
       )}
@@ -263,11 +286,11 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, isInte
 };
 
 const QuickLinkButton = ({ title, icon, path, isInternal = false, delay = 0 }) => {
-  const className = "relative overflow-hidden px-4 py-3 rounded-full bg-white border border-ink/8 hover:border-sun/60 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 group flex items-center gap-2.5 w-[130px] md:w-[150px] justify-center";
+  const className = "relative overflow-hidden px-4 py-3 rounded-xl bg-white border border-black/8 hover:border-sun/40 shadow-modern hover:shadow-modern-lg transition-all duration-300 hover:-translate-y-1 group flex items-center gap-2.5 w-[130px] md:w-[150px] justify-center";
   const inner = (
     <>
       <SafeIcon icon={icon} className="h-4 w-4 text-gold-text transition-transform duration-300 group-hover:scale-110 flex-shrink-0" />
-      <span className="font-ui text-xs md:text-sm font-semibold text-ink group-hover:text-gold-text transition-colors duration-200">{title}</span>
+      <span className="text-xs md:text-sm font-semibold font-gsans text-ink group-hover:text-gold-text transition-colors duration-200">{title}</span>
     </>
   );
   return (
