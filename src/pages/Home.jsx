@@ -235,7 +235,7 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, isInte
             </div>
             <div className="text-left flex-1 min-w-0">
               <h3 className={`text-sm md:text-base font-bold font-gsans leading-tight ${textColor}`}>{title}</h3>
-              <p className={`font-ui text-xs leading-tight mt-0.5 ${subTextColor}`}>{description}</p>
+              <p className={`font-caladea italic text-xs leading-tight mt-0.5 ${subTextColor}`}>{description}</p>
             </div>
           </div>
           <div className={`flex items-center space-x-1 flex-shrink-0 ml-2 opacity-60 group-hover:opacity-100 transition-opacity duration-200 ${textColor}`}>
@@ -248,7 +248,7 @@ const HomeButton = ({ title, description, icon, path, isFeatured = false, isInte
             <SafeIcon icon={icon} className="h-5 w-5 md:h-6 md:w-6" style={{color: '#E2BA49'}} />
           </div>
           <h3 className="text-sm md:text-base font-bold font-gsans leading-tight text-white">{title}</h3>
-          <p className="font-ui text-xs leading-tight text-white/70 mt-0.5">{description}</p>
+          <p className="font-caladea italic text-xs leading-tight text-white/70 mt-0.5">{description}</p>
         </div>
       )}
     </>
