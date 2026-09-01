@@ -153,18 +153,18 @@ const Admin=()=> {
   if (!isAuthenticated) {
     if (checkingSession) {
       return (
-        <div className="admin-shell min-h-screen py-12 flex items-center justify-center bg-neutral-50">
+        <div className="admin-shell min-h-screen py-12 flex items-center justify-center bg-ivory">
           <SkeletonForm />
         </div>
       );
     }
     return (
-      <div className="admin-shell min-h-screen py-12 flex items-center justify-center relative bg-neutral-50">
+      <div className="admin-shell min-h-screen py-12 flex items-center justify-center relative bg-ivory">
         {/* Back to Home Button - Top Right */}
         <div className="fixed top-6 right-6 z-50">
           <Link
             to="/"
-            className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 bg-neutral-900"
+            className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 bg-deep"
             title="Back to Home"
           >
             <SafeIcon icon={FiHome} className="h-5 w-5 text-white" />
@@ -176,16 +176,16 @@ const Admin=()=> {
             initial={{opacity: 0,scale: 0.9}}
             animate={{opacity: 1,scale: 1}}
             transition={{duration: 0.5}}
-            className="bg-white rounded-3xl shadow-modern-lg p-8 max-w-md w-full mx-4 border border-neutral-100"
+            className="bg-white rounded-3xl shadow-modern-lg p-8 max-w-md w-full mx-4 border border-ink/8"
           >
             <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-neutral-900 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-deep rounded-full flex items-center justify-center mx-auto mb-4">
                 <SafeIcon icon={FiLock} className="h-8 w-8 text-white" />
               </div>
-              <h1 className="text-2xl font-bold text-neutral-900 mb-2">
+              <h1 className="text-2xl font-bold text-ink mb-2">
                 Admin Access
               </h1>
-              <p className="text-neutral-500">
+              <p className="text-ink/50">
                 Please enter the admin password to continue
               </p>
             </div>
@@ -210,7 +210,7 @@ const Admin=()=> {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-neutral-900 text-white py-3 px-6 rounded-xl font-semibold hover:bg-neutral-700 transition-colors disabled:opacity-50 active:scale-[0.98]"
+                className="w-full bg-deep text-white py-3 px-6 rounded-xl font-semibold hover:bg-deep-hover transition-colors disabled:opacity-50 active:scale-[0.98]"
               >
                 {loading ? 'Authenticating...' : 'Access Admin Dashboard'}
               </button>
@@ -237,10 +237,10 @@ const Admin=()=> {
               <button
                 key={tab.id}
                 onClick={()=> selectTab(tab.id)}
-                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-150 ${
+                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium border-l-2 transition-colors duration-150 ${
                   activeTab===tab.id
-                    ? 'bg-white/10 text-white'
-                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                    ? 'bg-white/5 border-sun text-sun'
+                    : 'border-transparent text-white/60 hover:text-white hover:bg-white/5'
                 }`}
               >
                 <SafeIcon icon={tab.icon} className="h-4 w-4 flex-shrink-0" />
@@ -255,9 +255,9 @@ const Admin=()=> {
 
   // Main admin dashboard (shown after authentication)
   return (
-    <div className="admin-shell min-h-screen bg-neutral-50 md:flex">
+    <div className="admin-shell min-h-screen bg-ivory md:flex">
       {/* Sidebar - desktop */}
-      <aside className="hidden md:flex md:flex-col md:w-64 md:flex-shrink-0 bg-neutral-900">
+      <aside className="hidden md:flex md:flex-col md:w-64 md:flex-shrink-0 bg-deep">
         <div className="px-5 py-5 border-b border-white/10">
           <div className="text-white font-bold text-lg leading-tight">Admin</div>
           <div className="text-white/40 text-xs">Upper Room Fellowship</div>
@@ -282,7 +282,7 @@ const Admin=()=> {
       </aside>
 
       {/* Mobile top bar */}
-      <div className="md:hidden sticky top-0 z-40 bg-neutral-900 text-white flex items-center justify-between px-4 h-14">
+      <div className="md:hidden sticky top-0 z-40 bg-deep text-white flex items-center justify-between px-4 h-14">
         <button onClick={()=> setSidebarOpen(true)} className="p-2 -ml-2" aria-label="Open menu">
           <SafeIcon icon={FiMenu} className="h-5 w-5" />
         </button>
@@ -308,7 +308,7 @@ const Admin=()=> {
               animate={{x: 0}}
               exit={{x: '-100%'}}
               transition={{duration: 0.2}}
-              className="md:hidden fixed top-0 left-0 bottom-0 w-72 bg-neutral-900 z-50 flex flex-col"
+              className="md:hidden fixed top-0 left-0 bottom-0 w-72 bg-deep z-50 flex flex-col"
             >
               <div className="px-5 py-5 border-b border-white/10 flex items-center justify-between">
                 <div>
@@ -337,7 +337,7 @@ const Admin=()=> {
       {/* Main content */}
       <div className="flex-1 min-w-0">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <h1 className="hidden md:block text-2xl font-bold text-neutral-900 mb-6">
+          <h1 className="hidden md:block text-2xl font-bold text-ink mb-6">
             {activeLabel}
           </h1>
           <motion.div
