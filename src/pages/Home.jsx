@@ -91,22 +91,16 @@ const Home=()=> {
   );
 
   return (
-    <div className="min-h-screen py-12 md:py-20 bg-accent">
+    <div className="min-h-screen py-6 md:py-10 bg-accent">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <header className="text-center mb-8 md:mb-10">
+        <header className="text-center mb-4 md:mb-6">
           <motion.h1
             initial={{opacity: 0,y: 20}} animate={{opacity: 1,y: 0}} transition={{duration: 0.7}}
-            className="font-gsans uppercase font-black text-3xl md:text-5xl text-text-primary tracking-tight flex items-center justify-center gap-3"
+            className="font-gsans uppercase font-black text-xl md:text-3xl text-text-primary tracking-tight flex items-center justify-center gap-2"
           >
-            <img src="/logonegtransblack%20copy.png" alt="" className="h-[1.5em] w-auto" />
+            <img src="/logonegtransblack%20copy.png" alt="" className="h-[1.2em] w-auto" />
             <span>Upper Room Fellowship</span>
           </motion.h1>
-          <motion.p
-            initial={{opacity: 0,y: 20}} animate={{opacity: 1,y: 0}} transition={{duration: 0.7,delay: 0.12}}
-            className="font-ui text-base md:text-lg text-text-light mt-2 font-normal"
-          >
-            Your hub for church life
-          </motion.p>
         </header>
 
         <main>
