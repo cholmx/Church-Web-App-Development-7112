@@ -96,9 +96,10 @@ const Home=()=> {
         <header className="text-center mb-8 md:mb-10">
           <motion.h1
             initial={{opacity: 0,y: 20}} animate={{opacity: 1,y: 0}} transition={{duration: 0.7}}
-            className="text-3xl md:text-5xl text-text-primary tracking-tight"
+            className="text-2xl md:text-4xl text-text-primary tracking-tight flex items-center justify-center gap-3"
           >
-            Upper Room Fellowship
+            <img src="/logonegtransblack%20copy.png" alt="" className="h-10 md:h-14 w-auto" />
+            <span>Upper Room Fellowship</span>
           </motion.h1>
           <motion.p
             initial={{opacity: 0,y: 20}} animate={{opacity: 1,y: 0}} transition={{duration: 0.7,delay: 0.12}}
