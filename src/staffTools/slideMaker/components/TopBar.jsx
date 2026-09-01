@@ -5,7 +5,8 @@ import {ASPECT_RATIOS} from '../constants/data';
 export default function TopBar({onDownload, onDownloadJpg, onCopy, aspectRatio, onAspectRatioChange, onUndo, canUndo, onToggleSidebar}) {
   return (
     <div style={{
-      background: C.navBg,
+      background: C.card,
+      borderBottom: `1px solid ${C.border}`,
       padding: "0 16px",
       position: "sticky",
       top: 0,
@@ -22,8 +23,8 @@ export default function TopBar({onDownload, onDownloadJpg, onCopy, aspectRatio, 
         style={{
           display: 'none',
           border: 'none',
-          background: 'rgba(255,255,255,0.1)',
-          color: C.navText,
+          background: C.bgSubtle,
+          color: C.text,
           borderRadius: 6,
           padding: '6px 10px',
           cursor: 'pointer',
@@ -35,7 +36,7 @@ export default function TopBar({onDownload, onDownloadJpg, onCopy, aspectRatio, 
       </button>
 
       <div style={{display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", justifyContent: "flex-end", marginLeft: "auto"}}>
-        <div style={{display: "flex", background: "rgba(255,255,255,0.08)", borderRadius: 6, padding: 2}} className="aspect-ratio-group">
+        <div style={{display: "flex", background: C.bgSubtle, borderRadius: 6, padding: 2}} className="aspect-ratio-group">
           {ASPECT_RATIOS.map(r => (
             <button
               key={r.id}
@@ -45,7 +46,7 @@ export default function TopBar({onDownload, onDownloadJpg, onCopy, aspectRatio, 
                 border: "none",
                 borderRadius: 4,
                 background: aspectRatio?.id === r.id ? C.accent : "transparent",
-                color: aspectRatio?.id === r.id ? "#fff" : "rgba(255,255,255,0.55)",
+                color: aspectRatio?.id === r.id ? "#fff" : C.textSec,
                 fontFamily: ui.display,
                 fontWeight: 700,
                 fontSize: 10,
@@ -65,10 +66,10 @@ export default function TopBar({onDownload, onDownloadJpg, onCopy, aspectRatio, 
           disabled={!canUndo}
           style={{
             padding: "6px 12px",
-            border: `1px solid rgba(255,255,255,0.2)`,
+            border: `1px solid ${C.border}`,
             borderRadius: 6,
             background: "transparent",
-            color: canUndo ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.25)",
+            color: canUndo ? C.textSec : C.textTer,
             fontFamily: ui.display,
             fontWeight: 600,
             fontSize: 11,
@@ -93,8 +94,8 @@ const primaryBtn = {
   padding: "6px 16px",
   border: "none",
   borderRadius: 6,
-  background: "#FFFFFF",
-  color: "#1E1E21",
+  background: C.accent,
+  color: "#fff",
   fontFamily: ui.display,
   fontWeight: 700,
   fontSize: 11,
@@ -105,10 +106,10 @@ const primaryBtn = {
 
 const jpgBtn = {
   padding: "6px 16px",
-  border: "1px solid rgba(255,255,255,0.3)",
+  border: `1px solid ${C.border}`,
   borderRadius: 6,
   background: "transparent",
-  color: "#FFFFFF",
+  color: C.textSec,
   fontFamily: ui.display,
   fontWeight: 700,
   fontSize: 11,

@@ -200,30 +200,30 @@ export default function StaffCommsApp() {
         }
       `}</style>
 
-      <div style={{ fontFamily: font.body, background: C.bg, minHeight: '100vh', borderRadius: 16, overflow: 'hidden' }}>
-        <header style={{ background: C.navBg, position: 'sticky', top: 0, zIndex: 40, isolation: 'isolate' }}>
+      <div style={{ fontFamily: font.body, background: C.bg, minHeight: '100vh' }}>
+        <header style={{ background: C.card, borderBottom: `1px solid ${C.border}`, position: 'sticky', top: 0, zIndex: 40, isolation: 'isolate' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
             <div style={{ flex: 1, minWidth: 0 }}>
               <TabBar active={tab} onChange={setTab} />
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0, padding: '8px 0' }}>
-              <span className="nav-preview-label" style={{ fontFamily: font.mono, fontSize: 10, color: 'rgba(241,245,249,0.3)', letterSpacing: '0.05em' }}>preview</span>
+              <span className="nav-preview-label" style={{ fontFamily: font.mono, fontSize: 10, color: C.textMuted, letterSpacing: '0.05em' }}>preview</span>
               <input
                 type="date"
                 value={today}
                 onChange={e => setToday(e.target.value)}
                 style={{
                   padding: '5px 7px',
-                  border: '1px solid rgba(241,245,249,0.12)',
+                  border: `1px solid ${C.border}`,
                   borderRadius: 5,
                   fontFamily: font.mono,
                   fontSize: 11,
                   fontWeight: 500,
-                  color: 'rgba(241,245,249,0.7)',
-                  background: 'rgba(255,255,255,0.06)',
+                  color: C.textSec,
+                  background: C.bg,
                   outline: 'none',
-                  colorScheme: 'dark',
+                  colorScheme: 'light',
                   cursor: 'pointer',
                   maxWidth: 130,
                 }}

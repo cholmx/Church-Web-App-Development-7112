@@ -56,22 +56,22 @@ const SignupSheetBuilder = ({ sheetData, setSheetData, onPreview }) => {
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F7F7F7' }}>
       {/* Header */}
-      <header className="bg-[#1E1E21] px-8 shadow-sm">
+      <header className="bg-white border-b border-[#E2E2E2] px-8">
         <div className="flex justify-between items-center max-w-5xl mx-auto w-full">
           <div className="flex gap-8">
-            <button className="py-3 text-sm font-bold uppercase tracking-wider border-b-4 border-white text-white">
+            <button className="py-3 text-sm font-bold uppercase tracking-wider border-b-4 border-[#1E1E21] text-[#1E1E21]">
               Manage
             </button>
             <button
               onClick={onPreview}
-              className="py-3 text-sm font-bold uppercase tracking-wider border-b-4 border-transparent text-white/60 hover:text-white transition-colors"
+              className="py-3 text-sm font-bold uppercase tracking-wider border-b-4 border-transparent text-[#9A9A9A] hover:text-[#1E1E21] transition-colors"
             >
               Preview
             </button>
           </div>
           <button
             onClick={onPreview}
-            className="bg-white text-[#1E1E21] px-4 py-2 rounded text-xs font-bold uppercase tracking-wider hover:bg-gray-200 transition-colors"
+            className="bg-[#1E1E21] text-white px-4 py-2 rounded text-xs font-bold uppercase tracking-wider hover:bg-[#3A3A3D] transition-colors"
           >
             Preview & Print
           </button>

@@ -16,13 +16,12 @@ import AdminStaffContacts from '../components/AdminStaffContacts';
 import AdminCapitalCampaign from '../components/AdminCapitalCampaign';
 import AdminComments from '../components/AdminComments';
 import AdminDashboard from '../components/AdminDashboard';
-import AdminLeadershipLinks from '../components/AdminLeadershipLinks';
 import AdminSubmissions from '../components/AdminSubmissions';
 import StaffCommsApp from '../staffComms/StaffCommsApp';
 import SlideMaker from '../staffTools/slideMaker/SlideMaker';
 import SignupSheetMaker from '../staffTools/signupSheet/SignupSheetMaker';
 
-const {FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiExternalLink,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid,FiLogOut,FiInbox,FiRadio,FiImage,FiClipboard,FiMenu,FiX}=FiIcons;
+const {FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid,FiLogOut,FiInbox,FiRadio,FiImage,FiClipboard,FiMenu,FiX}=FiIcons;
 
 const NAV_SECTIONS=[
   {
@@ -44,7 +43,6 @@ const NAV_SECTIONS=[
       {id: 'featured',label: 'Featured Buttons',icon: FiStar},
       {id: 'campaign',label: 'Growth Campaign',icon: FiTrendingUp},
       {id: 'comments',label: 'Comments',icon: FiMessageSquare},
-      {id: 'links',label: 'Leadership Links',icon: FiExternalLink},
     ],
   },
   {
@@ -155,8 +153,6 @@ const Admin=()=> {
         return <AdminCapitalCampaign />;
       case 'comments':
         return <AdminComments />;
-      case 'links':
-        return <AdminLeadershipLinks />;
       case 'comms':
         return <StaffCommsApp />;
       case 'slideMaker':
