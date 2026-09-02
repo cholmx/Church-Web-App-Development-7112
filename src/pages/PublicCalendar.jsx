@@ -5,12 +5,11 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import {LoadingTransition} from '../components/LoadingSkeletons';
 import AddToCalendarButton from '../components/AddToCalendarButton';
-import HappeningRsvpForm from '../components/HappeningRsvpForm';
 import supabase from '../lib/supabase';
 import {getTodayDateString,formatTime} from '../utils/dateFormat';
 import {getMonthGrid,getEventItems,getRangeItems} from '../staffComms/lib/calendar-grid';
 
-const {FiCalendar,FiClock,FiMapPin,FiExternalLink,FiHome,FiChevronLeft,FiChevronRight,FiUserCheck,FiX}=FiIcons;
+const {FiCalendar,FiClock,FiMapPin,FiExternalLink,FiHome,FiChevronLeft,FiChevronRight,FiX}=FiIcons;
 
 const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
@@ -28,7 +27,6 @@ const PublicCalendar=()=> {
   const [viewYear,setViewYear]=useState(()=> Number(today.slice(0,4)));
   const [viewMonth,setViewMonth]=useState(()=> Number(today.slice(5,7)) - 1);
   const [selectedDay,setSelectedDay]=useState(null);
-  const [rsvpTarget,setRsvpTarget]=useState(null);
 
   useEffect(()=> {
     fetchHappenings();
@@ -271,15 +269,6 @@ const PublicCalendar=()=> {
                               <SafeIcon icon={FiExternalLink} className="h-3.5 w-3.5" />
                             </a>
                           )}
-                          {(a.signup_mode==='online' || a.signup_mode==='both') && (
-                            <button
-                              onClick={()=> setRsvpTarget({id: a.id,title: a.title,event_date: selectedDay})}
-                              className="inline-flex items-center gap-1 text-primary hover:underline text-sm font-semibold"
-                            >
-                              <SafeIcon icon={FiUserCheck} className="h-3.5 w-3.5" />
-                              <span>RSVP</span>
-                            </button>
-                          )}
                           {(a.signup_mode==='sheet' || a.signup_mode==='both') && (
                             <span className="text-sm text-text-light italic">Sign up in person</span>
                           )}
@@ -291,12 +280,6 @@ const PublicCalendar=()=> {
               )}
             </motion.div>
           </div>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {rsvpTarget && (
-          <HappeningRsvpForm happening={rsvpTarget} onClose={()=> setRsvpTarget(null)} />
         )}
       </AnimatePresence>
     </div>
