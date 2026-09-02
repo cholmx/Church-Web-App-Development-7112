@@ -10,7 +10,7 @@ import supabase from '../lib/supabase';
 import {getTodayDateString,formatTime} from '../utils/dateFormat';
 import {getMonthGrid,getEventItems,getRangeItems} from '../staffComms/lib/calendar-grid';
 
-const {FiCalendar,FiClock,FiMapPin,FiExternalLink,FiHome,FiChevronLeft,FiChevronRight,FiUserCheck}=FiIcons;
+const {FiCalendar,FiClock,FiMapPin,FiExternalLink,FiHome,FiChevronLeft,FiChevronRight,FiUserCheck,FiX}=FiIcons;
 
 const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
@@ -27,7 +27,7 @@ const PublicCalendar=()=> {
   const [loading,setLoading]=useState(true);
   const [viewYear,setViewYear]=useState(()=> Number(today.slice(0,4)));
   const [viewMonth,setViewMonth]=useState(()=> Number(today.slice(5,7)) - 1);
-  const [selectedDay,setSelectedDay]=useState(today);
+  const [selectedDay,setSelectedDay]=useState(null);
   const [rsvpTarget,setRsvpTarget]=useState(null);
 
   useEffect(()=> {
@@ -185,18 +185,40 @@ const PublicCalendar=()=> {
               </div>
             ))}
           </div>
+        </LoadingTransition>
+      </div>
 
-          {selectedDay && (
+      <AnimatePresence>
+        {selectedDay && (
+          <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
             <motion.div
-              initial={{opacity: 0,y: 10}}
-              animate={{opacity: 1,y: 0}}
-              className="bg-white rounded-2xl shadow-modern mt-6 overflow-hidden"
+              initial={{opacity: 0}}
+              animate={{opacity: 1}}
+              exit={{opacity: 0}}
+              className="absolute inset-0 bg-black/40"
+              onClick={()=> setSelectedDay(null)}
+            />
+            <motion.div
+              initial={{opacity: 0,scale: 0.96,y: 10}}
+              animate={{opacity: 1,scale: 1,y: 0}}
+              exit={{opacity: 0,scale: 0.96}}
+              transition={{duration: 0.25}}
+              className="relative bg-white rounded-3xl shadow-modern-lg max-w-lg w-full max-h-[85vh] overflow-y-auto"
             >
-              <div className="px-6 py-4 border-b border-accent-dark">
-                <h3 className="text-lg font-semibold text-text-primary">{selectedDateLabel}</h3>
-                <p className="text-sm text-text-light">
-                  {selectedItems.length===0 ? 'Nothing scheduled' : `${selectedItems.length} happening${selectedItems.length !== 1 ? 's' : ''}`}
-                </p>
+              <div className="px-6 py-4 border-b border-accent-dark flex items-start justify-between sticky top-0 bg-white rounded-t-3xl">
+                <div>
+                  <h3 className="text-lg font-semibold text-text-primary">{selectedDateLabel}</h3>
+                  <p className="text-sm text-text-light">
+                    {selectedItems.length===0 ? 'Nothing scheduled' : `${selectedItems.length} happening${selectedItems.length !== 1 ? 's' : ''}`}
+                  </p>
+                </div>
+                <button
+                  onClick={()=> setSelectedDay(null)}
+                  aria-label="Close"
+                  className="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full text-text-light hover:bg-accent transition-colors"
+                >
+                  <SafeIcon icon={FiX} className="h-4 w-4" />
+                </button>
               </div>
 
               {selectedItems.length > 0 && (
@@ -268,9 +290,9 @@ const PublicCalendar=()=> {
                 </div>
               )}
             </motion.div>
-          )}
-        </LoadingTransition>
-      </div>
+          </div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {rsvpTarget && (
