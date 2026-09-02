@@ -55,6 +55,7 @@ const Home=()=> {
 
   const mainButtons=[
     {title: 'Announcements',description: 'Latest church news',icon: FiBell,path: '/announcements',isInternal: true},
+    {title: 'Calendar',description: 'Everything coming up',icon: FiCalendar,path: '/calendar',isInternal: true},
     {title: 'Sermon Blog',description: 'Weekly sermons',icon: FiFileText,path: '/sermon-blog',isInternal: true},
     {title: 'Shine Podcast',description: 'Latest episodes',icon: FiMic,path: '/shine-podcast',isInternal: true},
     {title: 'Sermon Podcast',description: 'Listen to recordings',icon: FiHeadphones,path: '/sermon-podcast',isInternal: true},
