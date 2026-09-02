@@ -57,7 +57,6 @@ export interface Announcement {
   updated_at?: string;
 }
 
-export type Tab = 'manage' | 'calendar' | 'outputs' | 'archive';
 export type OutputTab = 'stage' | 'slides' | 'happenings' | 'monthly' | 'weekly';
 
 export const STATUS_OPTIONS = [

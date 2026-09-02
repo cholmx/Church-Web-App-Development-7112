@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,useRef} from 'react';
 import {Link} from 'react-router-dom';
 import {motion,AnimatePresence} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
@@ -14,17 +14,31 @@ import AdminCapitalCampaign from '../components/AdminCapitalCampaign';
 import AdminComments from '../components/AdminComments';
 import AdminDashboard from '../components/AdminDashboard';
 import AdminSubmissions from '../components/AdminSubmissions';
-import StaffCommsApp from '../staffComms/StaffCommsApp';
+import {StaffCommsStyles} from '../staffComms/components/StaffCommsStyles';
+import {ErrorToastContainer} from '../staffComms/components/ui/ErrorToast';
+import {useHappeningsData} from '../staffComms/hooks/useHappeningsData';
+import {ManagePage} from '../staffComms/components/manage/ManagePage';
+import {CalendarPage} from '../staffComms/components/calendar/CalendarPage';
+import {OutputsPage} from '../staffComms/components/outputs/OutputsPage';
+import {ArchivePage} from '../staffComms/components/archive/ArchivePage';
 import SlideMaker from '../staffTools/slideMaker/SlideMaker';
 import SignupSheetMaker from '../staffTools/signupSheet/SignupSheetMaker';
 
-const {FiPlay,FiBookOpen,FiHome,FiLock,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid,FiLogOut,FiInbox,FiRadio,FiImage,FiClipboard,FiMenu,FiX}=FiIcons;
+const {FiPlay,FiBookOpen,FiHome,FiLock,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid,FiLogOut,FiInbox,FiRadio,FiCalendar,FiArchive,FiImage,FiClipboard,FiMenu,FiX}=FiIcons;
 
 const NAV_SECTIONS=[
   {
     items: [
-      {id: 'overview',label: 'Overview',icon: FiGrid},
+      {id: 'overview',label: 'Dashboard',icon: FiGrid},
       {id: 'submissions',label: 'Submissions',icon: FiInbox},
+    ],
+  },
+  {
+    label: 'Communication',
+    items: [
+      {id: 'calendar',label: 'Calendar',icon: FiCalendar},
+      {id: 'outputs',label: 'Outputs',icon: FiRadio},
+      {id: 'archive',label: 'Archive',icon: FiArchive},
     ],
   },
   {
@@ -42,7 +56,6 @@ const NAV_SECTIONS=[
   {
     label: 'Tools',
     items: [
-      {id: 'comms',label: 'Communication Organizer',icon: FiRadio},
       {id: 'slideMaker',label: 'Slide Maker',icon: FiImage},
       {id: 'signupSheet',label: 'Sign-up Sheets',icon: FiClipboard},
     ],
@@ -56,10 +69,19 @@ const Admin=()=> {
   const [checkingSession,setCheckingSession]=useState(true);
   const [password,setPassword]=useState('');
   const [error,setError]=useState('');
-  const [activeTab,setActiveTab]=useState('comms');
+  const [activeTab,setActiveTab]=useState('overview');
   const [loading,setLoading]=useState(false);
   const [sidebarOpen,setSidebarOpen]=useState(false);
   const [signupSheetTarget,setSignupSheetTarget]=useState(null);
+  const manageSectionRef=useRef(null);
+
+  // Shared across the Dashboard's embedded Manage section, Calendar,
+  // Outputs, and Archive pages - one fetch, one preview date, one toast
+  // queue, no matter which of those pages is currently active.
+  const happenings=useHappeningsData(isAuthenticated,()=> {
+    setActiveTab('overview');
+    setTimeout(()=> manageSectionRef.current?.scrollIntoView({behavior: 'smooth',block: 'start'}),50);
+  });
 
   useEffect(()=> {
     supabase.auth.getSession().then(({data: {session}})=> {
@@ -110,9 +132,64 @@ const Admin=()=> {
   const renderContent=()=> {
     switch (activeTab) {
       case 'overview':
-        return <AdminDashboard onNavigate={selectTab} />;
+        return (
+          <>
+            <AdminDashboard
+              onNavigate={selectTab}
+              onJumpToManage={()=> manageSectionRef.current?.scrollIntoView({behavior: 'smooth',block: 'start'})}
+            />
+            <div ref={manageSectionRef} className="mt-8">
+              <h2 className="text-xl font-bold text-neutral-900 mb-4">Communication Organizer</h2>
+              <ManagePage
+                announcements={happenings.activeAnnouncements}
+                today={happenings.today}
+                onPreviewDateChange={happenings.setToday}
+                onSave={happenings.handleSave}
+                onDelete={happenings.handleDelete}
+                onApprove={happenings.handleApprove}
+                onTogglePublish={happenings.handleTogglePublish}
+                editing={happenings.editing}
+                setEditing={happenings.setEditing}
+                copySource={happenings.copySource}
+                setCopySource={happenings.setCopySource}
+                loading={happenings.loading}
+                onError={happenings.showError}
+                onOpenSignupSheet={(a)=> { setSignupSheetTarget(a); setActiveTab('signupSheet'); }}
+              />
+            </div>
+          </>
+        );
       case 'submissions':
         return <AdminSubmissions />;
+      case 'calendar':
+        return (
+          <CalendarPage
+            announcements={happenings.activeAnnouncements}
+            today={happenings.today}
+            onSave={happenings.handleSave}
+            onDelete={happenings.handleDelete}
+            onPreviewDateChange={happenings.setToday}
+            onError={happenings.showError}
+          />
+        );
+      case 'outputs':
+        return (
+          <OutputsPage
+            announcements={happenings.activeAnnouncements}
+            today={happenings.today}
+            onPreviewDateChange={happenings.setToday}
+            onToggleSlideMade={happenings.handleToggleSlideMade}
+            onError={happenings.showError}
+          />
+        );
+      case 'archive':
+        return (
+          <ArchivePage
+            announcements={happenings.archivedAnnouncements}
+            onDelete={happenings.handleDelete}
+            onCopy={happenings.handleCopyFromArchive}
+          />
+        );
       case 'sermons':
         return <AdminSermons />;
       case 'resources':
@@ -127,12 +204,6 @@ const Admin=()=> {
         return <AdminCapitalCampaign />;
       case 'comments':
         return <AdminComments />;
-      case 'comms':
-        return (
-          <StaffCommsApp
-            onOpenSignupSheet={(a)=> { setSignupSheetTarget(a); setActiveTab('signupSheet'); }}
-          />
-        );
       case 'slideMaker':
         return <SlideMaker />;
       case 'signupSheet':
@@ -143,7 +214,12 @@ const Admin=()=> {
           />
         );
       default:
-        return <AdminDashboard onNavigate={selectTab} />;
+        return (
+          <AdminDashboard
+            onNavigate={selectTab}
+            onJumpToManage={()=> manageSectionRef.current?.scrollIntoView({behavior: 'smooth',block: 'start'})}
+          />
+        );
     }
   };
 
@@ -254,6 +330,7 @@ const Admin=()=> {
   // Main admin dashboard (shown after authentication)
   return (
     <div className="admin-shell min-h-screen bg-neutral-50 md:flex">
+      <StaffCommsStyles />
       {/* Sidebar - desktop */}
       <aside className="hidden md:flex md:flex-col md:w-64 md:flex-shrink-0 bg-neutral-900">
         <div className="px-5 py-5 border-b border-white/10">
@@ -348,6 +425,8 @@ const Admin=()=> {
           </motion.div>
         </div>
       </div>
+
+      <ErrorToastContainer toasts={happenings.toasts} onDismiss={happenings.dismissToast} />
     </div>
   );
 };
