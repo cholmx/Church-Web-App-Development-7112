@@ -52,7 +52,14 @@ Deno.serve(async (req: Request) => {
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
-    const client = new Anthropic({ apiKey });
+    // Only needed for a personal/service-account key that isn't scoped to a
+    // single workspace - such a key requires this header on every request.
+    // A key already scoped to one workspace works fine with this unset.
+    const workspaceId = Deno.env.get("ANTHROPIC_WORKSPACE_ID");
+    const client = new Anthropic({
+      apiKey,
+      defaultHeaders: workspaceId ? { "anthropic-workspace-id": workspaceId } : undefined,
+    });
 
     const body = await req.json();
 
