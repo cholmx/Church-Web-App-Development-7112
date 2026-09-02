@@ -38,7 +38,7 @@ function buildPostcardHTML(d: InviteData): string {
       <div style="font-family:'Caladea',Georgia,serif;font-style:italic;font-size:22pt;color:${ORANGE};margin-bottom:0;line-height:1;">
         You're Invited
       </div>
-      <div class="invite-title" style="font-family:'Google Sans Flex','Inter',sans-serif;font-size:${titleSize};font-weight:900;color:${TEAL};letter-spacing:-0.025em;line-height:0.9;margin-top:0;white-space:nowrap;overflow:hidden;">
+      <div class="invite-title" style="font-family:'Google Sans Flex','Inter',sans-serif;font-size:${titleSize};font-weight:900;color:${TEAL};letter-spacing:-0.025em;line-height:0.9;margin-top:0;white-space:nowrap;overflow:hidden;text-transform:uppercase;">
         ${d.title}
       </div>
     </div>
