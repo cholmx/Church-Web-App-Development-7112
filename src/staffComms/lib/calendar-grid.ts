@@ -23,11 +23,28 @@ export function getMonthGrid(year: number, month: number): string[] {
   return cells;
 }
 
+const WEEKDAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+// Weekly/date-range items only ever store their first session in event_date
+// (see AnnouncementForm's recurrence handling) - the actual calendar
+// occurrences have to be derived from recurrence_type/recurrence_day/
+// recurrence_end_date, not read off a literal date list.
+function occursOn(a: Announcement, day: string): boolean {
+  if (a.recurrence_type === 'weekly' && a.event_date) {
+    if (day < a.event_date) return false;
+    if (a.recurrence_end_date && day > a.recurrence_end_date) return false;
+    const targetDay = a.recurrence_day || WEEKDAY_NAMES[new Date(a.event_date + 'T12:00:00').getDay()];
+    return WEEKDAY_NAMES[new Date(day + 'T12:00:00').getDay()] === targetDay;
+  }
+  if (a.recurrence_type === 'date_range' && a.event_date && a.recurrence_end_date) {
+    return day >= a.event_date && day <= a.recurrence_end_date;
+  }
+  if (a.event_dates?.length) return a.event_dates.includes(day);
+  return a.event_date === day;
+}
+
 export function getEventItems(day: string, announcements: Announcement[]): Announcement[] {
-  return announcements.filter(a => {
-    if (a.event_dates?.length) return a.event_dates.includes(day);
-    return a.event_date === day;
-  });
+  return announcements.filter(a => occursOn(a, day));
 }
 
 export function getRangeItems(
