@@ -29,11 +29,13 @@ export const HAPPENING_TYPE_OPTIONS = [
   { value: 'general', label: 'General', desc: 'Anything else' },
 ] as const;
 
+// Online RSVP is built (happening_rsvps_portal123, the public RSVP modal,
+// the admin RSVP panel) but intentionally not offered as a choice right
+// now - 'online' and 'both' are left out of this list on purpose. See git
+// history around this line for how to bring the option back later.
 export const SIGNUP_MODE_OPTIONS = [
   { value: 'none', label: 'No sign-up needed' },
-  { value: 'online', label: 'Online RSVP' },
   { value: 'sheet', label: 'Printable sign-up sheet' },
-  { value: 'both', label: 'Both online and printable' },
 ] as const;
 
 export const TABS = [
