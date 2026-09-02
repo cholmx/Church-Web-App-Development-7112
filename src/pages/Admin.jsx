@@ -5,10 +5,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
 import {SkeletonForm,LoadingTransition} from '../components/LoadingSkeletons';
-import AdminAnnouncements from '../components/AdminAnnouncements';
 import AdminSermons from '../components/AdminSermons';
-import AdminEvents from '../components/AdminEvents';
-import AdminClasses from '../components/AdminClasses';
 import AdminResources from '../components/AdminResources';
 import AdminFeaturedButtons from '../components/AdminFeaturedButtons';
 import AdminMinistries from '../components/AdminMinistries';
@@ -21,7 +18,7 @@ import StaffCommsApp from '../staffComms/StaffCommsApp';
 import SlideMaker from '../staffTools/slideMaker/SlideMaker';
 import SignupSheetMaker from '../staffTools/signupSheet/SignupSheetMaker';
 
-const {FiBell,FiPlay,FiCalendar,FiBookOpen,FiHome,FiLock,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid,FiLogOut,FiInbox,FiRadio,FiImage,FiClipboard,FiMenu,FiX}=FiIcons;
+const {FiPlay,FiBookOpen,FiHome,FiLock,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid,FiLogOut,FiInbox,FiRadio,FiImage,FiClipboard,FiMenu,FiX}=FiIcons;
 
 const NAV_SECTIONS=[
   {
@@ -33,10 +30,7 @@ const NAV_SECTIONS=[
   {
     label: 'Content',
     items: [
-      {id: 'announcements',label: 'Announcements',icon: FiBell},
       {id: 'sermons',label: 'Sermons',icon: FiPlay},
-      {id: 'events',label: 'Events',icon: FiCalendar},
-      {id: 'classes',label: 'Classes',icon: FiBookOpen},
       {id: 'resources',label: 'Resources',icon: FiBookOpen},
       {id: 'ministries',label: 'Ministries',icon: FiHeart},
       {id: 'staff',label: 'Staff Contacts',icon: FiUsers},
@@ -119,14 +113,8 @@ const Admin=()=> {
         return <AdminDashboard onNavigate={selectTab} />;
       case 'submissions':
         return <AdminSubmissions />;
-      case 'announcements':
-        return <AdminAnnouncements />;
       case 'sermons':
         return <AdminSermons />;
-      case 'events':
-        return <AdminEvents />;
-      case 'classes':
-        return <AdminClasses />;
       case 'resources':
         return <AdminResources />;
       case 'ministries':
