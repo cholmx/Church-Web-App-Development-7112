@@ -260,26 +260,49 @@ const PublicCalendar=()=> {
                             endTime={a.end_time}
                             location={a.event_location}
                           />
-                          {a.link && (
-                            <a
-                              href={a.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 text-primary hover:underline text-sm"
-                            >
-                              <span>Learn more</span>
-                              <SafeIcon icon={FiExternalLink} className="h-3.5 w-3.5" />
-                            </a>
-                          )}
-                          {(a.signup_mode==='online' || a.signup_mode==='both') && (
-                            <button
-                              onClick={()=> setRsvpTarget({id: a.id,title: a.title,event_date: selectedDay})}
-                              className="inline-flex items-center gap-1 text-primary hover:underline text-sm font-semibold"
-                            >
-                              <SafeIcon icon={FiUserCheck} className="h-3.5 w-3.5" />
-                              <span>RSVP</span>
-                            </button>
-                          )}
+                          {(()=> {
+                            const onlineRsvp=a.signup_mode==='online' || a.signup_mode==='both';
+                            if (a.link && onlineRsvp) {
+                              // A registration link means RSVPs happen off-site,
+                              // at wherever that link points - not in our modal.
+                              return (
+                                <a
+                                  href={a.link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1 text-primary hover:underline text-sm font-semibold"
+                                >
+                                  <SafeIcon icon={FiUserCheck} className="h-3.5 w-3.5" />
+                                  <span>RSVP</span>
+                                </a>
+                              );
+                            }
+                            if (a.link) {
+                              return (
+                                <a
+                                  href={a.link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1 text-primary hover:underline text-sm"
+                                >
+                                  <span>Learn more</span>
+                                  <SafeIcon icon={FiExternalLink} className="h-3.5 w-3.5" />
+                                </a>
+                              );
+                            }
+                            if (onlineRsvp) {
+                              return (
+                                <button
+                                  onClick={()=> setRsvpTarget({id: a.id,title: a.title,event_date: selectedDay})}
+                                  className="inline-flex items-center gap-1 text-primary hover:underline text-sm font-semibold"
+                                >
+                                  <SafeIcon icon={FiUserCheck} className="h-3.5 w-3.5" />
+                                  <span>RSVP</span>
+                                </button>
+                              );
+                            }
+                            return null;
+                          })()}
                           {(a.signup_mode==='sheet' || a.signup_mode==='both') && (
                             <span className="text-sm text-text-light italic">Sign up in person</span>
                           )}

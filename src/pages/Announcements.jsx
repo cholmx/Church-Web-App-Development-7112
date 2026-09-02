@@ -161,7 +161,11 @@ const Announcements=()=> {
                           rel="noopener noreferrer"
                           className="inline-flex items-center space-x-2 text-primary font-semibold hover:underline"
                         >
-                          <span>Learn more / Register</span>
+                          <span>
+                            {announcement.signup_mode==='online' || announcement.signup_mode==='both'
+                              ? 'RSVP'
+                              : 'Learn more / Register'}
+                          </span>
                           <SafeIcon icon={FiExternalLink} className="h-4 w-4" />
                         </a>
                       </div>

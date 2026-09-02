@@ -91,7 +91,7 @@ interface RsvpRow {
   created_at: string;
 }
 
-function RsvpPanel({ happeningId, title }: { happeningId?: string; title: string }) {
+function RsvpPanel({ happeningId, title, hasLink }: { happeningId?: string; title: string; hasLink: boolean }) {
   const [rsvps, setRsvps] = useState<RsvpRow[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -120,6 +120,11 @@ function RsvpPanel({ happeningId, title }: { happeningId?: string; title: string
       <div style={{ fontFamily: font.display, fontSize: 9, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>
         Online RSVPs
       </div>
+      {hasLink && (
+        <div style={{ fontFamily: font.body, fontSize: 12, color: C.textMuted, marginBottom: rsvps.length ? 8 : 0 }}>
+          A registration link is set, so the public site sends people there to RSVP instead of using this form — this list will likely stay empty.
+        </div>
+      )}
       {!happeningId ? (
         <div style={{ fontFamily: font.body, fontSize: 12, color: C.textMuted }}>Save this happening to start collecting RSVPs.</div>
       ) : loading ? (
@@ -611,7 +616,7 @@ export function AnnouncementForm({ announcement, initialOverrides, onSave, onCan
           </div>
 
           {(f.signup_mode === 'online' || f.signup_mode === 'both') && (
-            <RsvpPanel happeningId={f.id} title={f.title} />
+            <RsvpPanel happeningId={f.id} title={f.title} hasLink={!!f.link} />
           )}
 
           {(f.signup_mode === 'sheet' || f.signup_mode === 'both') && (
