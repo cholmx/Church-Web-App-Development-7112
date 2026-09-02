@@ -1,4 +1,4 @@
-import React,{useState,useEffect,useRef} from 'react';
+import React,{useState,useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {motion,AnimatePresence} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
@@ -73,15 +73,11 @@ const Admin=()=> {
   const [loading,setLoading]=useState(false);
   const [sidebarOpen,setSidebarOpen]=useState(false);
   const [signupSheetTarget,setSignupSheetTarget]=useState(null);
-  const manageSectionRef=useRef(null);
 
   // Shared across the Dashboard's embedded Manage section, Calendar,
   // Outputs, and Archive pages - one fetch, one preview date, one toast
   // queue, no matter which of those pages is currently active.
-  const happenings=useHappeningsData(isAuthenticated,()=> {
-    setActiveTab('overview');
-    setTimeout(()=> manageSectionRef.current?.scrollIntoView({behavior: 'smooth',block: 'start'}),50);
-  });
+  const happenings=useHappeningsData(isAuthenticated,()=> setActiveTab('overview'));
 
   useEffect(()=> {
     supabase.auth.getSession().then(({data: {session}})=> {
@@ -134,28 +130,25 @@ const Admin=()=> {
       case 'overview':
         return (
           <>
-            <AdminDashboard
-              onNavigate={selectTab}
-              onJumpToManage={()=> manageSectionRef.current?.scrollIntoView({behavior: 'smooth',block: 'start'})}
+            <h2 className="text-xl font-bold text-neutral-900 mb-4">Communication Organizer</h2>
+            <ManagePage
+              announcements={happenings.activeAnnouncements}
+              today={happenings.today}
+              onPreviewDateChange={happenings.setToday}
+              onSave={happenings.handleSave}
+              onDelete={happenings.handleDelete}
+              onApprove={happenings.handleApprove}
+              onTogglePublish={happenings.handleTogglePublish}
+              editing={happenings.editing}
+              setEditing={happenings.setEditing}
+              copySource={happenings.copySource}
+              setCopySource={happenings.setCopySource}
+              loading={happenings.loading}
+              onError={happenings.showError}
+              onOpenSignupSheet={(a)=> { setSignupSheetTarget(a); setActiveTab('signupSheet'); }}
             />
-            <div ref={manageSectionRef} className="mt-8">
-              <h2 className="text-xl font-bold text-neutral-900 mb-4">Communication Organizer</h2>
-              <ManagePage
-                announcements={happenings.activeAnnouncements}
-                today={happenings.today}
-                onPreviewDateChange={happenings.setToday}
-                onSave={happenings.handleSave}
-                onDelete={happenings.handleDelete}
-                onApprove={happenings.handleApprove}
-                onTogglePublish={happenings.handleTogglePublish}
-                editing={happenings.editing}
-                setEditing={happenings.setEditing}
-                copySource={happenings.copySource}
-                setCopySource={happenings.setCopySource}
-                loading={happenings.loading}
-                onError={happenings.showError}
-                onOpenSignupSheet={(a)=> { setSignupSheetTarget(a); setActiveTab('signupSheet'); }}
-              />
+            <div className="mt-10 pt-6 border-t border-neutral-200">
+              <AdminDashboard onNavigate={selectTab} />
             </div>
           </>
         );
@@ -214,12 +207,7 @@ const Admin=()=> {
           />
         );
       default:
-        return (
-          <AdminDashboard
-            onNavigate={selectTab}
-            onJumpToManage={()=> manageSectionRef.current?.scrollIntoView({behavior: 'smooth',block: 'start'})}
-          />
-        );
+        return <AdminDashboard onNavigate={selectTab} />;
     }
   };
 
