@@ -33,7 +33,7 @@ const StatCard=({icon,label,count,color,onClick,delay=0})=> (
   </motion.button>
 );
 
-const AdminDashboard=({onNavigate})=> {
+const AdminDashboard=({onNavigate,onJumpToManage})=> {
   const [counts,setCounts]=useState({
     announcements: null,
     sermons: null,
@@ -100,15 +100,20 @@ const AdminDashboard=({onNavigate})=> {
   };
 
   const stats=[
-    {key: 'announcements',icon: FiBell,label: 'Announcements',color: 'bg-neutral-900',navTo: 'comms'},
+    {key: 'announcements',icon: FiBell,label: 'Announcements',color: 'bg-neutral-900',navTo: '__manage__'},
     {key: 'sermons',icon: FiPlay,label: 'Sermons',color: 'bg-neutral-900',navTo: 'sermons'},
-    {key: 'events',icon: FiCalendar,label: 'Events',color: 'bg-neutral-900',navTo: 'comms'},
-    {key: 'classes',icon: FiBookOpen,label: 'Classes',color: 'bg-neutral-900',navTo: 'comms'},
+    {key: 'events',icon: FiCalendar,label: 'Events',color: 'bg-neutral-900',navTo: '__manage__'},
+    {key: 'classes',icon: FiBookOpen,label: 'Classes',color: 'bg-neutral-900',navTo: '__manage__'},
     {key: 'resources',icon: FiBookOpen,label: 'Resources',color: 'bg-neutral-900',navTo: 'resources'},
     {key: 'ministries',icon: FiHeart,label: 'Ministries',color: 'bg-neutral-900',navTo: 'ministries'},
     {key: 'staff',icon: FiUsers,label: 'Staff Members',color: 'bg-neutral-900',navTo: 'staff'},
     {key: 'comments',icon: FiMessageSquare,label: 'Campaign Comments',color: 'bg-neutral-900',navTo: 'comments'},
   ];
+
+  const goTo=(navTo)=> {
+    if (navTo==='__manage__') onJumpToManage?.();
+    else onNavigate(navTo);
+  };
 
   const formatDate=(d)=> {
     if (!d) return '';
@@ -140,7 +145,7 @@ const AdminDashboard=({onNavigate})=> {
             label={stat.label}
             count={counts[stat.key]}
             color={stat.color}
-            onClick={()=> onNavigate(stat.navTo)}
+            onClick={()=> goTo(stat.navTo)}
             delay={i * 0.05}
           />
         ))}
@@ -161,7 +166,7 @@ const AdminDashboard=({onNavigate})=> {
               <span>Recently Published</span>
             </h3>
             <button
-              onClick={()=> onNavigate('comms')}
+              onClick={()=> onJumpToManage?.()}
               className="text-sm text-primary hover:underline font-medium"
             >
               View all
