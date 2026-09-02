@@ -16,9 +16,9 @@ interface HappeningsTabProps {
 function buildRawUpdateData(allItems: Announcement[], today: string): string {
   let t = `Week of ${formatDateNice(today)}\n\n`;
   allItems.forEach(a => {
-    const blurb = (a.short_version || a.body || '').trim();
+    const flyerText = (a.flyer_text || a.short_version || a.body || '').trim();
     t += `Title: ${a.title}\n`;
-    if (blurb) t += `Details: ${blurb}\n`;
+    if (flyerText) t += `Flyer Text: ${flyerText}\n`;
     if (a.event_date) t += `Date: ${formatDateNice(a.event_date)}\n`;
     if (a.contact_name || a.contact_info) {
       t += `Contact: ${[a.contact_name, a.contact_info].filter(Boolean).join(' | ')}\n`;
@@ -28,10 +28,13 @@ function buildRawUpdateData(allItems: Announcement[], today: string): string {
   return t;
 }
 
-const SYS_PROMPT = `You are writing a weekly email called "The Happenings" for Upper Room Fellowship. Write it as a friendly, straightforward note from someone at the church, personal and direct, not overly enthusiastic. This is not a list of events. Move from one thing to the next the way a person would in conversation. Say each thing directly, never set up or pre-announce what you are about to say, just say it. Write so that anyone reading it, including someone who has never been to the church, understands what's happening. When mentioning dates, always use the actual date (like "Saturday, July 12"). Never use relative terms like "tomorrow", "this weekend", "next week", or "in a few days", you do not know when this email will be read. No acronyms. No insider language. No assumed knowledge of the building or programs. No bullet points. No lists. No em dashes. No colons. No headers. Plain sentences. Write like people actually talk. End with a brief closer and point people to urf.life for the full list. Write ONLY the email body text. No subject line. No extra commentary.`;
+const SYS_PROMPT = `You are assembling the weekly "Happenings" email for Upper Room Fellowship. Each item below already has finished flyer copy that staff wrote for it - your job is light editing, not rewriting. Combine the flyer texts into one flowing email, adding only brief transitions between items so it reads naturally, one thing moving into the next. Keep each item's own wording, details, and tone as close to the original as you can - do not rephrase sentences that are already fine, and do not add claims or details that aren't already in the source text. Never set up or pre-announce what you're about to say, just say it. When mentioning dates, always use the actual date (like "Saturday, July 12"). Never use relative terms like "tomorrow", "this weekend", "next week", or "in a few days", you do not know when this email will be read. No bullet points. No lists. No em dashes. No colons. No headers. Plain sentences. End with a brief closer and point people to urf.life for the full list. Write ONLY the email body text. No subject line. No extra commentary.`;
 
 export function HappeningsTab({ announcements, today }: HappeningsTabProps) {
   const [script, setScript] = useState('');
+  const [dirty, setDirty] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [confirmRegenerate, setConfirmRegenerate] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [loadingScript, setLoadingScript] = useState(true);
   const [aiError, setAiError] = useState('');
@@ -46,6 +49,8 @@ export function HappeningsTab({ announcements, today }: HappeningsTabProps) {
 
   useEffect(() => {
     setScript('');
+    setDirty(false);
+    setConfirmRegenerate(false);
     setLoadingScript(true);
     supabase
       .from('staff_generated_scripts_portal123')
@@ -66,30 +71,51 @@ export function HappeningsTab({ announcements, today }: HappeningsTabProps) {
     );
   };
 
-  const handleGenerate = async () => {
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      await saveScript(script);
+      setDirty(false);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const runGenerate = async () => {
     const allItems = Object.values(grouped).flat();
     setGenerating(true);
     setAiError('');
+    setConfirmRegenerate(false);
     try {
       if (allItems.length === 0) {
         const fallback = `Nothing officially scheduled this week, but we'd still love to see you. Check urf.life for anything that might come up.`;
         setScript(fallback);
+        setDirty(false);
         await saveScript(fallback);
         return;
       }
       const rawData = buildRawUpdateData(allItems, today);
       const result = await callAI(
         SYS_PROMPT,
-        `Here are the announcements for this week. Write the Happenings email script:\n\n${rawData}`,
+        `Here is this week's flyer copy for each item. Assemble the Happenings email:\n\n${rawData}`,
       );
       const text = result.trim() || 'Could not generate script.';
       setScript(text);
+      setDirty(false);
       await saveScript(text);
     } catch (e) {
       setAiError(e instanceof Error ? e.message : 'AI generation failed');
     } finally {
       setGenerating(false);
     }
+  };
+
+  const handleGenerateClick = () => {
+    if (dirty && script) {
+      setConfirmRegenerate(true);
+      return;
+    }
+    runGenerate();
   };
 
   return (
@@ -133,19 +159,51 @@ export function HappeningsTab({ announcements, today }: HappeningsTabProps) {
               {copied ? 'Copied!' : 'Copy Script'}
             </button>
           )}
-          <button
-            onClick={handleGenerate}
-            disabled={generating}
-            style={{
-              ...btnPrimary,
-              fontSize: 12,
-              padding: '7px 16px',
-              opacity: generating ? 0.7 : 1,
-              cursor: generating ? 'wait' : 'pointer',
-            }}
-          >
-            {generating ? 'Writing...' : script ? 'Regenerate Script' : 'Generate Script'}
-          </button>
+          {dirty && (
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              style={{
+                ...btnPrimary,
+                fontSize: 12,
+                padding: '7px 16px',
+                opacity: saving ? 0.7 : 1,
+                cursor: saving ? 'wait' : 'pointer',
+              }}
+            >
+              {saving ? 'Saving...' : 'Save'}
+            </button>
+          )}
+          {confirmRegenerate ? (
+            <>
+              <button
+                onClick={() => setConfirmRegenerate(false)}
+                style={{ ...btnGhost, fontSize: 12, padding: '7px 14px' }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={runGenerate}
+                style={{ ...btnPrimary, fontSize: 12, padding: '7px 16px', background: C.warn }}
+              >
+                Overwrite unsaved edits
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={handleGenerateClick}
+              disabled={generating}
+              style={{
+                ...(script ? btnGhost : btnPrimary),
+                fontSize: 12,
+                padding: '7px 16px',
+                opacity: generating ? 0.7 : 1,
+                cursor: generating ? 'wait' : 'pointer',
+              }}
+            >
+              {generating ? 'Writing...' : script ? 'Regenerate Script' : 'Generate Script'}
+            </button>
+          )}
         </div>
       </div>
 
@@ -159,38 +217,31 @@ export function HappeningsTab({ announcements, today }: HappeningsTabProps) {
         <div style={{ padding: '48px 0', textAlign: 'center', fontFamily: font.body, fontSize: 13, color: C.textMuted }}>
           Loading...
         </div>
-      ) : script ? (
+      ) : (
         <div style={{
           background: C.stageBg,
           borderRadius: 10,
           padding: '32px 36px',
         }}>
-          <pre style={{
-            fontFamily: font.body,
-            fontSize: 15,
-            lineHeight: 1.8,
-            color: C.stageText,
-            whiteSpace: 'pre-wrap',
-            wordBreak: 'break-word',
-            margin: 0,
-          }}>
-            {script}
-          </pre>
-        </div>
-      ) : (
-        <div style={{
-          padding: '56px 24px',
-          textAlign: 'center',
-          border: `2px dashed ${C.border}`,
-          borderRadius: 10,
-          background: C.bgSubtle,
-        }}>
-          <p style={{ fontFamily: font.display, fontSize: 15, fontWeight: 700, color: C.textSec, margin: '0 0 6px' }}>
-            No script yet for this week
-          </p>
-          <p style={{ fontFamily: font.body, fontSize: 13, color: C.textTer, margin: 0 }}>
-            Press "Generate Script" to write this week's Happenings email.
-          </p>
+          <textarea
+            value={script}
+            onChange={e => { setScript(e.target.value); setDirty(true); setConfirmRegenerate(false); }}
+            placeholder={`No script yet for this week. Press "Generate Script" to assemble this week's flyer copy into a Happenings email, or start typing here.`}
+            disabled={generating}
+            style={{
+              width: '100%',
+              minHeight: 360,
+              border: 'none',
+              outline: 'none',
+              resize: 'vertical',
+              background: 'transparent',
+              fontFamily: font.body,
+              fontSize: 15,
+              lineHeight: 1.8,
+              color: C.stageText,
+              boxSizing: 'border-box',
+            }}
+          />
         </div>
       )}
     </div>
