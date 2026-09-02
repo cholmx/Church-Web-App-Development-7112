@@ -1,4 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import Anthropic from "npm:@anthropic-ai/sdk";
+import { z } from "npm:zod";
+import { zodOutputFormat } from "npm:@anthropic-ai/sdk/helpers/zod";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -6,51 +9,34 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };
 
-const GEMINI_MODEL = "gemini-3.6-flash";
+const MODEL = "claude-opus-5";
+const MAX_TOKENS = 8192;
 
-async function callGemini(apiKey: string, system: string, userContent: string, maxTokens = 1000): Promise<string> {
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-goog-api-key": apiKey,
-      },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: system }] },
-        contents: [{ role: "user", parts: [{ text: userContent }] }],
-        generationConfig: {
-          maxOutputTokens: maxTokens,
-          // Flash models "think" before answering by default, and those
-          // reasoning tokens are drawn from the same maxOutputTokens budget -
-          // with thinking left on, the model can burn the whole budget
-          // reasoning and leave little or nothing for the actual visible
-          // answer, which is what was truncating/garbling responses. We
-          // just want direct copywriting here, not chain-of-thought, so
-          // thinking is turned off entirely.
-          thinkingConfig: { thinkingBudget: 0 },
-        },
-      }),
-    }
-  );
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.error?.message || `Gemini API error (${response.status})`);
+// Schema for the Communication Organizer's "Write All" call, which asks for
+// the email description, slide line, and flyer copy together in one
+// response. Structured outputs make this a hard schema-validity guarantee
+// from Claude's side, instead of a "please return only JSON" instruction we
+// then hope holds - the previous provider's occasional malformed/truncated
+// JSON was exactly how garbled text ended up in the announcement form.
+const WriteAllSchema = z.object({
+  body: z.string(),
+  slide: z.string(),
+  flyer: z.string(),
+});
+
+function checkStopReason(response: { stop_reason: string | null; stop_details?: { explanation?: string | null } | null }) {
+  if (response.stop_reason === "refusal") {
+    const explanation = response.stop_details?.explanation;
+    throw new Error(`Claude declined to respond${explanation ? `: ${explanation}` : "."}`);
   }
-  const candidate = data.candidates?.[0];
-  const parts = candidate?.content?.parts as { text?: string }[] | undefined;
-  const text = parts?.map((p) => p.text ?? "").join("") || "";
-  if (candidate?.finishReason === "MAX_TOKENS") {
-    // Report truncation as a failure rather than silently handing back a
-    // half-finished sentence (or, for the combined "write all" call, a
-    // half-finished JSON object) as if it were the real answer.
-    throw new Error("Gemini's response was cut off before finishing. Try again.");
+  if (response.stop_reason === "max_tokens") {
+    throw new Error("Claude's response was cut off before finishing. Try again.");
   }
-  if (!text && candidate?.finishReason) {
-    throw new Error(`Gemini returned no text (finishReason: ${candidate.finishReason})`);
-  }
-  return text;
+}
+
+function extractText(response: Anthropic.Message): string {
+  const textBlock = response.content.find((b): b is Anthropic.TextBlock => b.type === "text");
+  return textBlock?.text ?? "";
 }
 
 Deno.serve(async (req: Request) => {
@@ -59,20 +45,45 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
-    const geminiKey = Deno.env.get("GEMINI_API_KEY");
-    if (!geminiKey) {
+    const apiKey = Deno.env.get("ANTHROPIC_API_KEY");
+    if (!apiKey) {
       return new Response(
-        JSON.stringify({ error: "GEMINI_API_KEY not configured" }),
+        JSON.stringify({ error: "ANTHROPIC_API_KEY not configured" }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
+    const client = new Anthropic({ apiKey });
 
     const body = await req.json();
 
     if (body._direct && body.systemPrompt && body.userPrompt) {
-      const result = await callGemini(geminiKey, body.systemPrompt, body.userPrompt, 1500);
+      if (body._json) {
+        const response = await client.messages.parse({
+          model: MODEL,
+          max_tokens: MAX_TOKENS,
+          system: body.systemPrompt,
+          messages: [{ role: "user", content: body.userPrompt }],
+          output_config: { format: zodOutputFormat(WriteAllSchema) },
+        });
+        checkStopReason(response);
+        if (!response.parsed_output) {
+          throw new Error("Claude did not return structured output.");
+        }
+        return new Response(
+          JSON.stringify({ script: JSON.stringify(response.parsed_output) }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      const response = await client.messages.create({
+        model: MODEL,
+        max_tokens: MAX_TOKENS,
+        system: body.systemPrompt,
+        messages: [{ role: "user", content: body.userPrompt }],
+      });
+      checkStopReason(response);
       return new Response(
-        JSON.stringify({ script: result }),
+        JSON.stringify({ script: extractText(response) }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
@@ -115,7 +126,14 @@ Deno.serve(async (req: Request) => {
 
     const userContent = `Write the Sunday morning stage announcement script for ${formattedSunday}. Here are the whole-church announcements that need to be covered:\n\n${itemsContext}\n\nWrite ONLY the script text. No headers, no labels, no stage directions. Just the words the pastor would say out loud.`;
 
-    const script = await callGemini(geminiKey, systemPrompt, userContent, 1500);
+    const response = await client.messages.create({
+      model: MODEL,
+      max_tokens: MAX_TOKENS,
+      system: systemPrompt,
+      messages: [{ role: "user", content: userContent }],
+    });
+    checkStopReason(response);
+    const script = extractText(response);
 
     return new Response(
       JSON.stringify({ script: script || "Could not generate script." }),
