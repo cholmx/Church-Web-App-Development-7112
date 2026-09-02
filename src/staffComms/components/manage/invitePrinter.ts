@@ -35,23 +35,23 @@ function buildPostcardHTML(d: InviteData): string {
   return `<div class="card" style="width:5.5in;height:4.25in;background:#fff;font-family:'Inter',sans-serif;display:flex;flex-direction:column;box-sizing:border-box;padding:0.65in 0.6in;overflow:hidden;">
     ${imageBlock}
     <div style="flex-shrink:0;text-align:left;padding-bottom:10pt;border-bottom:4pt solid ${ORANGE};">
-      <div style="font-family:'Protest Riot',cursive;font-size:22pt;color:${ORANGE};margin-bottom:0;line-height:1;">
+      <div style="font-family:'Caladea',Georgia,serif;font-style:italic;font-size:22pt;color:${ORANGE};margin-bottom:0;line-height:1;">
         You're Invited
       </div>
-      <div class="invite-title" style="font-family:'Inter Tight',sans-serif;font-size:${titleSize};font-weight:900;color:${TEAL};letter-spacing:-0.025em;line-height:0.9;margin-top:0;white-space:nowrap;overflow:hidden;">
+      <div class="invite-title" style="font-family:'Google Sans Flex','Inter',sans-serif;font-size:${titleSize};font-weight:900;color:${TEAL};letter-spacing:-0.025em;line-height:0.9;margin-top:0;white-space:nowrap;overflow:hidden;">
         ${d.title}
       </div>
     </div>
     <div style="text-align:left;border-left:4pt solid ${TEAL};padding:8pt 0 8pt 10pt;margin-top:10pt;">
-      <div style="font-family:'Inter Tight',sans-serif;font-size:14pt;font-weight:800;color:${TEAL};line-height:0.98;">
+      <div style="font-family:'Google Sans Flex','Inter',sans-serif;font-size:14pt;font-weight:800;color:${TEAL};line-height:0.98;">
         ${dateLine}
       </div>
       ${recurrenceBlock}
-      ${d.timeStr ? `<div style="font-family:'Protest Riot',cursive;font-size:14pt;color:${ORANGE};margin-top:4pt;line-height:1.0;">@ ${d.timeStr}</div>` : ''}
+      ${d.timeStr ? `<div style="font-family:'Caladea',Georgia,serif;font-style:italic;font-size:14pt;color:${ORANGE};margin-top:4pt;line-height:1.0;">@ ${d.timeStr}</div>` : ''}
       ${d.location ? `<div style="font-family:'Inter',sans-serif;font-size:11pt;font-weight:800;color:${TEAL};margin-top:6pt;line-height:1.0;">${d.location}</div>` : ''}
       ${d.address ? `<div style="font-family:'Inter',sans-serif;font-size:10pt;color:#666;margin-top:2pt;line-height:1.0;">${d.address}</div>` : ''}
       ${d.flyerText ? `<div style="font-family:'Inter',sans-serif;font-size:10pt;color:#222;line-height:1.08;margin-top:7pt;max-width:4.2in;white-space:pre-wrap;">${d.flyerText}</div>` : ''}
-      ${d.inviteNote ? `<div style="font-family:'Inter Tight',sans-serif;font-size:11pt;font-weight:700;color:${ORANGE};font-style:italic;margin-top:7pt;max-width:4.2in;line-height:1.0;">&ldquo;${d.inviteNote}&rdquo;</div>` : ''}
+      ${d.inviteNote ? `<div style="font-family:'Caladea',Georgia,serif;font-style:italic;font-size:11pt;color:${ORANGE};margin-top:7pt;max-width:4.2in;line-height:1.0;">&ldquo;${d.inviteNote}&rdquo;</div>` : ''}
     </div>
     <div style="border-top:1pt solid #D5E8E2;padding-top:6pt;text-align:left;flex-shrink:0;margin-top:auto;">
       ${(d.contactName || d.contactInfo) ? `<div style="font-family:'Inter',sans-serif;font-size:9pt;font-weight:600;color:#666;margin-bottom:3pt;line-height:1.0;">Questions? ${d.contactName ? `${d.contactName}, ` : ''}${d.contactInfo}</div>` : ''}
@@ -70,7 +70,7 @@ function buildInviteHTML(d: InviteData): string {
   <title>Invites - ${d.title}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,700;1,14..32,400&family=Protest+Riot&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;700;900&family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,700;1,14..32,400&family=Caladea:ital,wght@0,400;1,400;1,700&display=swap" rel="stylesheet">
   <style>
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #fff; }
