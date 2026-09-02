@@ -585,7 +585,7 @@ export function AnnouncementForm({ announcement, initialOverrides, onSave, onCan
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 5 }}>
               <div>
                 <label style={labelBase}>Flyer Text <span style={{ fontWeight: 400, textTransform: 'none' }}>(Monthly Flyer)</span></label>
-                <div style={{ fontFamily: font.mono, fontSize: 10, color: C.textMuted, marginTop: 1 }}>1–2 sentences, max 40 words</div>
+                <div style={{ fontFamily: font.mono, fontSize: 10, color: C.textMuted, marginTop: 1 }}>2–3 sentences, max 65 words</div>
               </div>
               <AIWriteButton label="Draft" loading={aiLoading.flyer} onClick={generateFlyer} disabled={!hasEnoughForAI} />
             </div>

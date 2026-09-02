@@ -49,7 +49,7 @@ Deno.serve(async (req: Request) => {
     const body = await req.json();
 
     if (body._direct && body.systemPrompt && body.userPrompt) {
-      const result = await callGemini(geminiKey, body.systemPrompt, body.userPrompt, 600);
+      const result = await callGemini(geminiKey, body.systemPrompt, body.userPrompt, 1000);
       return new Response(
         JSON.stringify({ script: result }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
