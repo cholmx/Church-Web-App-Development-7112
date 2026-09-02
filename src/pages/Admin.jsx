@@ -56,7 +56,7 @@ const Admin=()=> {
   const [checkingSession,setCheckingSession]=useState(true);
   const [password,setPassword]=useState('');
   const [error,setError]=useState('');
-  const [activeTab,setActiveTab]=useState('overview');
+  const [activeTab,setActiveTab]=useState('comms');
   const [loading,setLoading]=useState(false);
   const [sidebarOpen,setSidebarOpen]=useState(false);
   const [signupSheetTarget,setSignupSheetTarget]=useState(null);
