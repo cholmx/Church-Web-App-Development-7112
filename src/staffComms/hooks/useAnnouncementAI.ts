@@ -113,19 +113,24 @@ export function useAnnouncementAI(
         `Write all versions for this announcement:\n\n${buildContext(f)}`,
       );
       const sd = (s: string) => stripEmDash(s);
+      const cleaned = result.trim().replace(/```json|```/g, '').trim();
+      let parsed: { body?: string; slide?: string; flyer?: string };
       try {
-        const cleaned = result.trim().replace(/```json|```/g, '').trim();
-        const parsed = JSON.parse(cleaned);
-        if (parsed.body) set('body', sd(parsed.body));
-        if (parsed.slide) {
-          const slideClean = sd(parsed.slide.replace(/^["']|["']$/g, ''));
-          set('slide_override', slideClean);
-          set('short_version', slideClean);
-        }
-        if (parsed.flyer) set('flyer_text', sd(parsed.flyer));
+        parsed = JSON.parse(cleaned);
       } catch {
-        if (result.trim()) set('body', result.trim());
+        // A malformed/truncated response used to get dumped straight into
+        // the description field as a last resort, which is how half a JSON
+        // blob ended up looking like "weird, cut-off" announcement text.
+        // Surface an error instead of ever writing that into the form.
+        throw new Error('AI returned an unexpected format. Try again, or use the individual Draft buttons instead.');
       }
+      if (parsed.body) set('body', sd(parsed.body));
+      if (parsed.slide) {
+        const slideClean = sd(parsed.slide.replace(/^["']|["']$/g, ''));
+        set('slide_override', slideClean);
+        set('short_version', slideClean);
+      }
+      if (parsed.flyer) set('flyer_text', sd(parsed.flyer));
     } catch (e) {
       onError(e instanceof Error ? e.message : 'AI generation failed');
     } finally {

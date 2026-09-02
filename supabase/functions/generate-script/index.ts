@@ -20,7 +20,17 @@ async function callGemini(apiKey: string, system: string, userContent: string, m
       body: JSON.stringify({
         system_instruction: { parts: [{ text: system }] },
         contents: [{ role: "user", parts: [{ text: userContent }] }],
-        generationConfig: { maxOutputTokens: maxTokens },
+        generationConfig: {
+          maxOutputTokens: maxTokens,
+          // Flash models "think" before answering by default, and those
+          // reasoning tokens are drawn from the same maxOutputTokens budget -
+          // with thinking left on, the model can burn the whole budget
+          // reasoning and leave little or nothing for the actual visible
+          // answer, which is what was truncating/garbling responses. We
+          // just want direct copywriting here, not chain-of-thought, so
+          // thinking is turned off entirely.
+          thinkingConfig: { thinkingBudget: 0 },
+        },
       }),
     }
   );
@@ -28,8 +38,19 @@ async function callGemini(apiKey: string, system: string, userContent: string, m
   if (!response.ok) {
     throw new Error(data.error?.message || `Gemini API error (${response.status})`);
   }
-  const parts = data.candidates?.[0]?.content?.parts as { text?: string }[] | undefined;
-  return parts?.map((p) => p.text ?? "").join("") || "";
+  const candidate = data.candidates?.[0];
+  const parts = candidate?.content?.parts as { text?: string }[] | undefined;
+  const text = parts?.map((p) => p.text ?? "").join("") || "";
+  if (candidate?.finishReason === "MAX_TOKENS") {
+    // Report truncation as a failure rather than silently handing back a
+    // half-finished sentence (or, for the combined "write all" call, a
+    // half-finished JSON object) as if it were the real answer.
+    throw new Error("Gemini's response was cut off before finishing. Try again.");
+  }
+  if (!text && candidate?.finishReason) {
+    throw new Error(`Gemini returned no text (finishReason: ${candidate.finishReason})`);
+  }
+  return text;
 }
 
 Deno.serve(async (req: Request) => {
@@ -49,7 +70,7 @@ Deno.serve(async (req: Request) => {
     const body = await req.json();
 
     if (body._direct && body.systemPrompt && body.userPrompt) {
-      const result = await callGemini(geminiKey, body.systemPrompt, body.userPrompt, 1000);
+      const result = await callGemini(geminiKey, body.systemPrompt, body.userPrompt, 1500);
       return new Response(
         JSON.stringify({ script: result }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -94,7 +115,7 @@ Deno.serve(async (req: Request) => {
 
     const userContent = `Write the Sunday morning stage announcement script for ${formattedSunday}. Here are the whole-church announcements that need to be covered:\n\n${itemsContext}\n\nWrite ONLY the script text. No headers, no labels, no stage directions. Just the words the pastor would say out loud.`;
 
-    const script = await callGemini(geminiKey, systemPrompt, userContent, 1000);
+    const script = await callGemini(geminiKey, systemPrompt, userContent, 1500);
 
     return new Response(
       JSON.stringify({ script: script || "Could not generate script." }),

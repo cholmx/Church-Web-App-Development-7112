@@ -15,7 +15,16 @@ export async function callAI(systemPrompt: string, userPrompt: string): Promise<
     body: JSON.stringify({ _direct: true, systemPrompt, userPrompt }),
   });
   const data = await res.json();
-  return data.script || data.error || '';
+  // This used to fall back to returning data.error as if it were the
+  // generated text, which meant any AI failure (a truncated response, an
+  // invalid model name, a rate limit) landed silently inside whatever
+  // field called it - "weird" text that was actually an error message,
+  // not a bug in the writing itself. Throw instead, so callers' existing
+  // catch/onError handling surfaces it properly.
+  if (!res.ok || data.error) {
+    throw new Error(data.error || `AI request failed (${res.status})`);
+  }
+  return data.script || '';
 }
 
 export async function generateStageScript(
