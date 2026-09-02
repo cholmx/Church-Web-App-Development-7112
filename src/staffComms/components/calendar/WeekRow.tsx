@@ -71,16 +71,24 @@ export function WeekRow({
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}>
-                {eventItems.slice(0, 2).map(a => (
-                  <EventChip
-                    key={a.id}
-                    a={a}
-                    isDragging={draggedId === a.id}
-                    onDragStart={() => onDragStart(a.id, day)}
-                    onDragEnd={onDragEnd}
-                    onEdit={() => onEditChip(a)}
-                  />
-                ))}
+                {eventItems.slice(0, 2).map(a => {
+                  // Weekly/date-range items now show a chip on every occurrence
+                  // day, but there's still only one stored date to drag - only
+                  // the anchor (first) occurrence can actually be rescheduled.
+                  const anchorDay = a.event_dates?.[0] || a.event_date;
+                  const isDraggable = a.recurrence_type === 'one_time' || anchorDay === day;
+                  return (
+                    <EventChip
+                      key={a.id}
+                      a={a}
+                      isDragging={draggedId === a.id}
+                      draggable={isDraggable}
+                      onDragStart={() => onDragStart(a.id, day)}
+                      onDragEnd={onDragEnd}
+                      onEdit={() => onEditChip(a)}
+                    />
+                  );
+                })}
                 {eventItems.length > 2 && (
                   <span style={{ fontSize: 9, color: C.textMuted, fontFamily: font.mono, paddingLeft: 2, letterSpacing: '0.02em' }}>
                     +{eventItems.length - 2}

@@ -4,22 +4,23 @@ import type { Announcement } from '../../types';
 interface EventChipProps {
   a: Announcement;
   isDragging: boolean;
+  draggable?: boolean;
   onDragStart: () => void;
   onDragEnd: () => void;
   onEdit: () => void;
 }
 
-export function EventChip({ a, isDragging, onDragStart, onDragEnd, onEdit }: EventChipProps) {
+export function EventChip({ a, isDragging, draggable = true, onDragStart, onDragEnd, onEdit }: EventChipProps) {
   const colors = scopeChipColors[a.scope] || scopeChipColors.informational;
   const dot = scopeRangeColors[a.scope] || C.borderFocus;
 
   return (
     <div
-      draggable
-      onDragStart={e => { e.stopPropagation(); onDragStart(); }}
+      draggable={draggable}
+      onDragStart={e => { if (!draggable) { e.preventDefault(); return; } e.stopPropagation(); onDragStart(); }}
       onDragEnd={e => { e.stopPropagation(); onDragEnd(); }}
       onClick={e => { e.stopPropagation(); onEdit(); }}
-      title={a.title}
+      title={draggable ? a.title : `${a.title} (repeat occurrence - edit the series to reschedule)`}
       style={{
         background: colors.bg,
         border: `1px solid ${colors.border}`,
@@ -29,7 +30,7 @@ export function EventChip({ a, isDragging, onDragStart, onDragEnd, onEdit }: Eve
         fontWeight: 500,
         color: colors.text,
         fontFamily: font.body,
-        cursor: 'grab',
+        cursor: draggable ? 'grab' : 'pointer',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
