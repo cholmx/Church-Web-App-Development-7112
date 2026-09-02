@@ -21,10 +21,11 @@ import {ManagePage} from '../staffComms/components/manage/ManagePage';
 import {CalendarPage} from '../staffComms/components/calendar/CalendarPage';
 import {OutputsPage} from '../staffComms/components/outputs/OutputsPage';
 import {ArchivePage} from '../staffComms/components/archive/ArchivePage';
+import {HappeningsPage} from '../staffComms/components/happenings/HappeningsPage';
 import SlideMaker from '../staffTools/slideMaker/SlideMaker';
 import SignupSheetMaker from '../staffTools/signupSheet/SignupSheetMaker';
 
-const {FiPlay,FiBookOpen,FiHome,FiLock,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid,FiLogOut,FiInbox,FiRadio,FiCalendar,FiArchive,FiImage,FiClipboard,FiMenu,FiX}=FiIcons;
+const {FiPlay,FiBookOpen,FiHome,FiLock,FiStar,FiHeart,FiUsers,FiTrendingUp,FiMessageSquare,FiGrid,FiLogOut,FiInbox,FiRadio,FiCalendar,FiArchive,FiMail,FiImage,FiClipboard,FiMenu,FiX}=FiIcons;
 
 const NAV_SECTIONS=[
   {
@@ -37,6 +38,7 @@ const NAV_SECTIONS=[
     label: 'Communication',
     items: [
       {id: 'calendar',label: 'Calendar',icon: FiCalendar},
+      {id: 'happenings',label: 'The Happenings',icon: FiMail},
       {id: 'outputs',label: 'Outputs',icon: FiRadio},
       {id: 'archive',label: 'Archive',icon: FiArchive},
     ],
@@ -165,6 +167,14 @@ const Admin=()=> {
             onError={happenings.showError}
           />
         );
+      case 'happenings':
+        return (
+          <HappeningsPage
+            announcements={happenings.activeAnnouncements}
+            today={happenings.today}
+            onPreviewDateChange={happenings.setToday}
+          />
+        );
       case 'outputs':
         return (
           <OutputsPage
@@ -198,7 +208,13 @@ const Admin=()=> {
       case 'comments':
         return <AdminComments />;
       case 'slideMaker':
-        return <SlideMaker />;
+        return (
+          <SlideMaker
+            announcements={happenings.activeAnnouncements}
+            today={happenings.today}
+            onToggleSlideMade={happenings.handleToggleSlideMade}
+          />
+        );
       case 'signupSheet':
         return (
           <SignupSheetMaker
