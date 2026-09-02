@@ -341,7 +341,7 @@ const Admin=()=> {
         <div className="px-3 py-4 border-t border-white/10 space-y-0.5">
           <Link
             to="/"
-            className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 transition-colors"
+            className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium !text-white/60 hover:!text-white hover:bg-white/5 transition-colors"
           >
             <SafeIcon icon={FiHome} className="h-4 w-4" />
             Back to Site
@@ -362,7 +362,7 @@ const Admin=()=> {
           <SafeIcon icon={FiMenu} className="h-5 w-5" />
         </button>
         <span className="font-semibold text-sm truncate">{activeLabel}</span>
-        <Link to="/" className="p-2 -mr-2" title="Back to Home">
+        <Link to="/" className="p-2 -mr-2 !text-white" title="Back to Home">
           <SafeIcon icon={FiHome} className="h-5 w-5" />
         </Link>
       </div>
