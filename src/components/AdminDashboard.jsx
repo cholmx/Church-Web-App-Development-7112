@@ -55,26 +55,28 @@ const AdminDashboard=({onNavigate})=> {
 
   const fetchCounts=async ()=> {
     try {
-      const tables=[
-        {key: 'announcements',table: 'announcements_portal123'},
+      const otherTables=[
         {key: 'sermons',table: 'sermons_portal123'},
-        {key: 'events',table: 'events_portal123'},
-        {key: 'classes',table: 'classes_portal123'},
         {key: 'resources',table: 'resources_portal123'},
         {key: 'ministries',table: 'ministries_portal123'},
         {key: 'staff',table: 'staff_contacts_portal123'},
         {key: 'comments',table: 'campaign_comments_portal123'},
       ];
 
-      const results=await Promise.all(
-        tables.map(({table})=>
-          supabase.from(table).select('id',{count: 'exact',head: true})
-        )
-      );
+      const [otherResults,annRes,eventRes,classRes]=await Promise.all([
+        Promise.all(otherTables.map(({table})=> supabase.from(table).select('id',{count: 'exact',head: true}))),
+        supabase.from('staff_announcements_portal123').select('id',{count: 'exact',head: true}).eq('happening_type','announcement').eq('is_published',true),
+        supabase.from('staff_announcements_portal123').select('id',{count: 'exact',head: true}).eq('happening_type','event').eq('is_published',true),
+        supabase.from('staff_announcements_portal123').select('id',{count: 'exact',head: true}).eq('happening_type','class').eq('is_published',true),
+      ]);
 
-      const newCounts={};
-      tables.forEach(({key},i)=> {
-        newCounts[key]=results[i].count ?? 0;
+      const newCounts={
+        announcements: annRes.count ?? 0,
+        events: eventRes.count ?? 0,
+        classes: classRes.count ?? 0,
+      };
+      otherTables.forEach(({key},i)=> {
+        newCounts[key]=otherResults[i].count ?? 0;
       });
       setCounts(newCounts);
     } catch (error) {
@@ -85,7 +87,7 @@ const AdminDashboard=({onNavigate})=> {
   const fetchRecent=async ()=> {
     try {
       const [annRes,sermonRes]=await Promise.all([
-        supabase.from('announcements_portal123').select('id,title,announcement_date').order('announcement_date',{ascending: false}).limit(4),
+        supabase.from('staff_announcements_portal123').select('id,title,event_date,published_at').eq('is_published',true).order('published_at',{ascending: false,nullsFirst: false}).limit(4),
         supabase.from('sermons_portal123').select('id,title,sermon_date,speaker').order('sermon_date',{ascending: false}).limit(4),
       ]);
       setRecentAnnouncements(annRes.data || []);
@@ -98,14 +100,14 @@ const AdminDashboard=({onNavigate})=> {
   };
 
   const stats=[
-    {key: 'announcements',icon: FiBell,label: 'Announcements',color: 'bg-neutral-900'},
-    {key: 'sermons',icon: FiPlay,label: 'Sermons',color: 'bg-neutral-900'},
-    {key: 'events',icon: FiCalendar,label: 'Events',color: 'bg-neutral-900'},
-    {key: 'classes',icon: FiBookOpen,label: 'Classes',color: 'bg-neutral-900'},
-    {key: 'resources',icon: FiBookOpen,label: 'Resources',color: 'bg-neutral-900'},
-    {key: 'ministries',icon: FiHeart,label: 'Ministries',color: 'bg-neutral-900'},
-    {key: 'staff',icon: FiUsers,label: 'Staff Members',color: 'bg-neutral-900'},
-    {key: 'comments',icon: FiMessageSquare,label: 'Campaign Comments',color: 'bg-neutral-900'},
+    {key: 'announcements',icon: FiBell,label: 'Announcements',color: 'bg-neutral-900',navTo: 'comms'},
+    {key: 'sermons',icon: FiPlay,label: 'Sermons',color: 'bg-neutral-900',navTo: 'sermons'},
+    {key: 'events',icon: FiCalendar,label: 'Events',color: 'bg-neutral-900',navTo: 'comms'},
+    {key: 'classes',icon: FiBookOpen,label: 'Classes',color: 'bg-neutral-900',navTo: 'comms'},
+    {key: 'resources',icon: FiBookOpen,label: 'Resources',color: 'bg-neutral-900',navTo: 'resources'},
+    {key: 'ministries',icon: FiHeart,label: 'Ministries',color: 'bg-neutral-900',navTo: 'ministries'},
+    {key: 'staff',icon: FiUsers,label: 'Staff Members',color: 'bg-neutral-900',navTo: 'staff'},
+    {key: 'comments',icon: FiMessageSquare,label: 'Campaign Comments',color: 'bg-neutral-900',navTo: 'comments'},
   ];
 
   const formatDate=(d)=> {
@@ -138,7 +140,7 @@ const AdminDashboard=({onNavigate})=> {
             label={stat.label}
             count={counts[stat.key]}
             color={stat.color}
-            onClick={()=> onNavigate(stat.key==='comments' ? 'comments' : stat.key)}
+            onClick={()=> onNavigate(stat.navTo)}
             delay={i * 0.05}
           />
         ))}
@@ -156,10 +158,10 @@ const AdminDashboard=({onNavigate})=> {
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-text-primary flex items-center space-x-2">
               <SafeIcon icon={FiBell} className="h-4 w-4 text-neutral-900" />
-              <span>Recent Announcements</span>
+              <span>Recently Published</span>
             </h3>
             <button
-              onClick={()=> onNavigate('announcements')}
+              onClick={()=> onNavigate('comms')}
               className="text-sm text-primary hover:underline font-medium"
             >
               View all
@@ -172,13 +174,13 @@ const AdminDashboard=({onNavigate})=> {
               ))}
             </div>
           ) : recentAnnouncements.length===0 ? (
-            <p className="text-sm text-text-light py-4 text-center">No announcements yet</p>
+            <p className="text-sm text-text-light py-4 text-center">Nothing published yet</p>
           ) : (
             <div className="space-y-3">
               {recentAnnouncements.map(a=> (
                 <div key={a.id} className="flex items-center justify-between py-2 border-b border-accent last:border-0">
                   <span className="text-sm text-text-primary font-medium truncate pr-4">{a.title}</span>
-                  <span className="text-xs text-text-light whitespace-nowrap">{formatDate(a.announcement_date)}</span>
+                  <span className="text-xs text-text-light whitespace-nowrap">{formatDate(a.event_date || a.published_at)}</span>
                 </div>
               ))}
             </div>

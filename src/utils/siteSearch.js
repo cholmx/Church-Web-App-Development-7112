@@ -5,12 +5,16 @@ const SOURCES = [
   {
     type: 'announcement',
     label: 'Announcements',
-    table: 'announcements_portal123',
-    select: 'id,title,content,announcement_date',
-    columns: ['title', 'content'],
+    table: 'staff_announcements_portal123',
+    select: 'id,title,body',
+    columns: ['title', 'body'],
     titleField: 'title',
-    snippetField: 'content',
+    snippetField: 'body',
     url: '/announcements',
+    // Only published happenings, and skip ones copied in from the legacy
+    // events/classes tables - those are indexed separately below, still
+    // pointed at their own (frozen, no-longer-added-to) tables.
+    extraFilter: (q) => q.eq('is_published', true).is('legacy_source_table', null),
   },
   {
     type: 'sermon',
@@ -78,11 +82,9 @@ const searchSource = async (source, term) => {
   const pattern = `%${term}%`;
   const orFilter = source.columns.map((column) => `${column}.ilike.${pattern}`).join(',');
 
-  const { data, error } = await supabase
-    .from(source.table)
-    .select(source.select)
-    .or(orFilter)
-    .limit(10);
+  let query = supabase.from(source.table).select(source.select);
+  if (source.extraFilter) query = source.extraFilter(query);
+  const { data, error } = await query.or(orFilter).limit(10);
 
   if (error) {
     console.error(`Search failed for ${source.table}:`, error);
