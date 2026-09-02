@@ -14,6 +14,7 @@ const Ministries = lazy(() => import('./pages/Ministries'))
 const Give = lazy(() => import('./pages/Give'))
 const Contact = lazy(() => import('./pages/Contact'))
 const Announcements = lazy(() => import('./pages/Announcements'))
+const PublicCalendar = lazy(() => import('./pages/PublicCalendar'))
 const SermonBlog = lazy(() => import('./pages/SermonBlog'))
 const ShinePodcast = lazy(() => import('./pages/ShinePodcast'))
 const SermonPodcast = lazy(() => import('./pages/SermonPodcast'))
@@ -70,6 +71,7 @@ const AnimatedRoutes = () => {
             <Route path="/daily-devotionals" element={<DailyDevotionals />} />
             <Route path="/search" element={<Search />} />
             <Route path="/announcements" element={<Announcements />} />
+            <Route path="/calendar" element={<PublicCalendar />} />
             <Route path="/sermon-blog" element={<SermonBlog />} />
             <Route path="/shine-podcast" element={<ShinePodcast />} />
             <Route path="/sermon-podcast" element={<SermonPodcast />} />
