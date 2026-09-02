@@ -61,7 +61,7 @@ export function useAnnouncementAI(
     setAiLoading(p => ({ ...p, body: true }));
     try {
       const result = await callAI(
-        SYS_BASE + ` You write church announcement descriptions for a weekly email called "The Happenings." These are 2-4 sentences. Open with a brief, genuine story or human reason why this event matters, what someone will get out of it, why it's worth their time, how it connects to their life or faith. Weave in the practical details (what, when, where) naturally, not as a list. End with one clear, specific action, tell them exactly what to do next.`,
+        SYS_BASE + ` You write church announcement descriptions for a weekly email called "The Happenings." Write a full paragraph, 5-7 sentences. Open with a brief, genuine story or human reason why this event matters, what someone will get out of it, why it's worth their time, how it connects to their life or faith. Then give real substance: weave in the practical details (what, when, where, who it's for) naturally, not as a list, and add enough specifics that a first-time reader has a clear, vivid picture of what to expect. End with one clear, specific action, tell them exactly what to do next.`,
         `Write the full description for this church announcement. Return ONLY the description text, nothing else.\n\n${buildContext(f)}`,
       );
       set('body', stripEmDash(result.trim()));
@@ -93,7 +93,7 @@ export function useAnnouncementAI(
     setAiLoading(p => ({ ...p, flyer: true }));
     try {
       const result = await callAI(
-        SYS_BASE + ` You write flyer copy for a monthly printed church bulletin. This must be exactly 1-2 short sentences, maximum 40 words total. Be tight and punchy, much shorter than the email description. One sentence on what makes it worth showing up for, one sentence with the key practical detail or next step. No flowery language. No filler. Every word must earn its place on a printed page.`,
+        SYS_BASE + ` You write flyer copy for a monthly printed church bulletin. Write 2-3 short sentences, maximum 65 words total. Be tight and punchy, noticeably shorter than the email description, but still give real substance, not just a title restated. One to two sentences on what makes it worth showing up for and what to expect, plus one sentence with the key practical details (when, where, who it's for) or the next step. No flowery language. No filler. Every word must earn its place on a printed page.`,
         `Write the monthly flyer text for this announcement. Return ONLY the text, nothing else.\n\n${buildContext(f)}`,
       );
       set('flyer_text', stripEmDash(result.trim()));
@@ -109,7 +109,7 @@ export function useAnnouncementAI(
     setAiLoading({ body: true, slide: true, flyer: true, all: true });
     try {
       const result = await callAI(
-        SYS_BASE + ` You help write all versions of a church announcement at once. Return a JSON object with three keys: "body" (2-4 sentence weekly email description, open with a brief human reason why it matters, weave in practical details naturally, end with one clear action step), "slide" (a single short phrase, not a full sentence, in normal sentence case, no pipe characters, under 12 words; include only event name, dates, time, and location, think billboard, not sentence), and "flyer" (1-2 short sentences, max 40 words, for a printed monthly bulletin; one sentence on why it matters, one on the key detail or next step; tight and punchy). Return ONLY valid JSON. No markdown backticks. No extra text.`,
+        SYS_BASE + ` You help write all versions of a church announcement at once. Return a JSON object with three keys: "body" (5-7 sentence weekly email description, a full paragraph; open with a brief human reason why it matters, weave in practical details naturally with enough specifics for a first-time reader to picture it, end with one clear action step), "slide" (a single short phrase, not a full sentence, in normal sentence case, no pipe characters, under 12 words; include only event name, dates, time, and location, think billboard, not sentence), and "flyer" (2-3 short sentences, max 65 words, for a printed monthly bulletin; real substance but noticeably shorter than the email description; one to two sentences on why it matters and what to expect, one on the key practical details or next step; tight and punchy). Return ONLY valid JSON. No markdown backticks. No extra text.`,
         `Write all versions for this announcement:\n\n${buildContext(f)}`,
       );
       const sd = (s: string) => stripEmDash(s);
