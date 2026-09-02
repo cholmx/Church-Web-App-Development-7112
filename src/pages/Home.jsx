@@ -5,7 +5,7 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import supabase from '../lib/supabase';
 
-const {FiBell,FiPlay,FiMic,FiUsers,FiCreditCard,FiUserPlus,FiMail,FiCalendar,FiBookOpen,FiSettings,FiFacebook,FiInstagram,FiYoutube,FiGlobe,FiHeart,FiLogIn,FiExternalLink,FiFileText,FiHeadphones,FiTrendingUp,FiCheck,FiStar}=FiIcons;
+const {FiBell,FiPlay,FiMic,FiUsers,FiCreditCard,FiUserPlus,FiMail,FiCalendar,FiBookOpen,FiSettings,FiFacebook,FiInstagram,FiYoutube,FiGlobe,FiLogIn,FiExternalLink,FiFileText,FiHeadphones,FiTrendingUp,FiCheck,FiStar}=FiIcons;
 
 const Home=()=> {
   const [hasEvents,setHasEvents]=useState(false);
@@ -62,8 +62,7 @@ const Home=()=> {
     {title: 'Give',description: 'Support our ministry',icon: FiCreditCard,path: 'https://onrealm.org/urfellowship/-/form/give/now',isInternal: false},
     {title: 'Table Group Sign-Up',description: 'Join a small group',icon: FiUsers,path: '/table-group-signup',isInternal: true},
     ...(hasResources ? [{title: 'Resources',description: 'Helpful materials',icon: FiBookOpen,path: '/resources',isInternal: true}] : []),
-    {title: 'Join Realm',description: 'Our online community',icon: FiUserPlus,path: '/join-realm',isInternal: true},
-    {title: 'Opportunities',description: 'Explore our opportunities',icon: FiHeart,path: '/ministries',isInternal: true}
+    {title: 'Join Realm',description: 'Our online community',icon: FiUserPlus,path: '/join-realm',isInternal: true}
   ];
 
   const quickLinks=[
