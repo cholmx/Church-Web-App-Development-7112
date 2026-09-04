@@ -1,4 +1,38 @@
-import type { Announcement } from '../types';
+import type { Announcement, RecurrenceType } from '../types';
+
+export const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+export function weekdayOf(dateStr: string): string {
+  if (!dateStr) return '';
+  const d = new Date(dateStr + 'T12:00:00');
+  return WEEKDAYS[d.getDay()] || '';
+}
+
+// Shared by AnnouncementForm (typing a date) and CalendarTab (dragging a
+// weekly item's anchor to a new day) - both change the same three inputs
+// and need the resulting label to stay consistent.
+export function computeRecurrenceLabel(
+  type: RecurrenceType,
+  eventDate: string | null,
+  endDate: string | null,
+  day: string,
+): string {
+  if (type === 'one_time' || !eventDate) return '';
+  if (type === 'date_range') {
+    if (!endDate) return '';
+    const s = new Date(eventDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const e = new Date(endDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return `${s} – ${e}`;
+  }
+  if (type === 'weekly') {
+    const wd = day || weekdayOf(eventDate);
+    if (!endDate) return `Every ${wd}`;
+    const s = new Date(eventDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const e = new Date(endDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return `Every ${wd}, ${s} – ${e}`;
+  }
+  return '';
+}
 
 export function getScopeLeadWeeks(scope: Announcement['scope']): number {
   if (scope === 'whole_church') return 6;
@@ -80,15 +114,20 @@ export function isStageActive(a: Announcement, today: string): boolean {
   return today >= start && today <= end;
 }
 
-export function isArchived(a: Announcement, today: string): boolean {
-  if (a.is_recurring) return false;
+// Shared by isArchived and the Archive tab's own display/sort - all three
+// used to independently gather+sort the same three date fields.
+export function getLastRelevantDate(a: Announcement): string | null {
   const dates: string[] = [];
   if (a.event_date) dates.push(a.event_date);
   if (a.event_dates?.length) dates.push(...a.event_dates);
   if (a.happenings_end_date) dates.push(a.happenings_end_date);
-  if (dates.length === 0) return false;
-  const last = dates.sort().at(-1)!;
-  return last < today;
+  return dates.length ? dates.sort().at(-1)! : null;
+}
+
+export function isArchived(a: Announcement, today: string): boolean {
+  if (a.is_recurring) return false;
+  const last = getLastRelevantDate(a);
+  return last !== null && last < today;
 }
 
 export function formatDateNice(d: string | null | undefined): string {
@@ -104,6 +143,14 @@ export function weeksUntil(eventDate: string | null | undefined, today: string):
   if (!eventDate) return null;
   const diff = (new Date(eventDate + 'T12:00:00').getTime() - new Date(today + 'T12:00:00').getTime()) / (1000 * 60 * 60 * 24 * 7);
   return Math.ceil(diff);
+}
+
+// Announcement body/flyer text often repeats the title as its own leading
+// sentence ("Men's Bible Study - join us...") - strip that duplicate lead-in
+// wherever the title is already shown separately (bulletin/flyer layouts).
+export function stripLeadingTitle(text: string, title: string): string {
+  if (!text || !title) return text;
+  return text.replace(new RegExp(`^${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*[:\\-–—]?\\s*`, 'i'), '');
 }
 
 export function escapeHtml(s: string): string {

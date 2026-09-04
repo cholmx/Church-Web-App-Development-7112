@@ -8,48 +8,20 @@ import {
   getAutoHappeningsStartDate,
   getAutoHappeningsEndDate,
   getScopeLeadWeeks,
+  weekdayOf,
+  computeRecurrenceLabel,
+  WEEKDAYS,
 } from '../../lib/helpers';
 import { AIWriteButton } from './AIWriteButton';
 import { useAnnouncementAI } from '../../hooks/useAnnouncementAI';
 import { STATUS_OPTIONS } from '../../types';
 import type { Announcement, RecurrenceType } from '../../types';
 
-const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
 const RECURRENCE_OPTIONS: { value: RecurrenceType; label: string; desc: string }[] = [
   { value: 'one_time', label: 'One-Time', desc: 'A single event on one date' },
   { value: 'date_range', label: 'Date Range', desc: 'Spans multiple consecutive days (e.g. a retreat)' },
   { value: 'weekly', label: 'Weekly Class', desc: 'Repeats every week on the same day' },
 ];
-
-function weekdayOf(dateStr: string): string {
-  if (!dateStr) return '';
-  const d = new Date(dateStr + 'T12:00:00');
-  return WEEKDAYS[d.getDay()] || '';
-}
-
-function computeRecurrenceLabel(
-  type: RecurrenceType,
-  eventDate: string | null,
-  endDate: string | null,
-  day: string,
-): string {
-  if (type === 'one_time' || !eventDate) return '';
-  if (type === 'date_range') {
-    if (!endDate) return '';
-    const s = new Date(eventDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    const e = new Date(endDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    return `${s} – ${e}`;
-  }
-  if (type === 'weekly') {
-    const wd = day || weekdayOf(eventDate);
-    if (!endDate) return `Every ${wd}`;
-    const s = new Date(eventDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    const e = new Date(endDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    return `Every ${wd}, ${s} – ${e}`;
-  }
-  return '';
-}
 
 interface AnnouncementFormProps {
   announcement: Announcement | null;
@@ -136,8 +108,17 @@ export function AnnouncementForm({ announcement, initialOverrides, onSave, onCan
   const updateDate = (i: number, val: string) => syncDatesFromArray(f.event_dates.map((d, idx) => idx === i ? val : d));
   const removeDate = (i: number) => syncDatesFromArray(f.event_dates.filter((_, idx) => idx !== i));
 
+  // A recurring item saved without its required date(s) never becomes
+  // active anywhere (isHappeningsActive/isSlideActive/isStageActive all
+  // key off event_date/recurrence_end_date) - block save instead of
+  // silently producing a happening that can never appear.
+  const missingRequiredDate =
+    (f.recurrence_type === 'date_range' && (!f.event_date || !f.recurrence_end_date)) ||
+    (f.recurrence_type === 'weekly' && !f.event_date);
+  const canSave = !!f.title.trim() && !missingRequiredDate;
+
   const handleSave = async () => {
-    if (!f.title.trim()) return;
+    if (!canSave) return;
     setSaving(true);
     try { await onSave(f); } finally { setSaving(false); }
   };
@@ -368,7 +349,7 @@ export function AnnouncementForm({ announcement, initialOverrides, onSave, onCan
                       onChange={e => updateDate(i, e.target.value)}
                     />
                     <button type="button" onClick={() => removeDate(i)} style={{ fontFamily: font.body, fontSize: 12, color: C.textMuted, background: 'none', border: 'none', cursor: 'pointer', padding: '2px 4px', lineHeight: 1 }}>×</button>
-                    {i === 0 && f.event_dates.length > 1 && (
+                    {d && d === f.event_date && f.event_dates.length > 1 && (
                       <span style={{ fontFamily: font.mono, fontSize: 9, color: C.textMuted, textTransform: 'uppercase', letterSpacing: '0.06em' }}>primary</span>
                     )}
                   </div>
@@ -471,6 +452,12 @@ export function AnnouncementForm({ announcement, initialOverrides, onSave, onCan
           {f.recurrence_label && (
             <div style={{ fontFamily: font.body, fontSize: 12, color: C.accent, fontWeight: 600, padding: '6px 12px', background: C.accentBg, borderRadius: 6, border: `1px solid ${C.accent}33`, marginBottom: 14 }}>
               {f.recurrence_label}
+            </div>
+          )}
+
+          {missingRequiredDate && (
+            <div style={{ fontFamily: font.body, fontSize: 12, color: C.warn, fontWeight: 600, padding: '6px 12px', background: C.warnBg, borderRadius: 6, marginBottom: 14 }}>
+              {f.recurrence_type === 'date_range' ? 'Start and End Date are required.' : 'First Session is required.'}
             </div>
           )}
 
@@ -617,9 +604,9 @@ export function AnnouncementForm({ announcement, initialOverrides, onSave, onCan
         <div style={{ display: 'flex', gap: 8, paddingTop: 4 }}>
           <button
             onClick={handleSave}
-            disabled={saving || !f.title.trim()}
-            style={{ ...btnPrimary, opacity: saving || !f.title.trim() ? 0.5 : 1 }}
-            onMouseEnter={e => { if (!saving && f.title.trim()) (e.currentTarget as HTMLElement).style.background = C.accentHover; }}
+            disabled={saving || !canSave}
+            style={{ ...btnPrimary, opacity: saving || !canSave ? 0.5 : 1 }}
+            onMouseEnter={e => { if (!saving && canSave) (e.currentTarget as HTMLElement).style.background = C.accentHover; }}
             onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = C.accent}
           >
             {saving ? 'Saving...' : 'Save'}

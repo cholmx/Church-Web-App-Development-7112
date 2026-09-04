@@ -1,6 +1,6 @@
 import { C, font } from '../../lib/theme';
 import { btnGhost } from '../ui/inputs';
-import { formatDateNice, escapeHtml } from '../../lib/helpers';
+import { formatDateNice, escapeHtml, stripLeadingTitle } from '../../lib/helpers';
 import type { Announcement } from '../../types';
 import type { ReactNode } from 'react';
 
@@ -78,7 +78,7 @@ function announcementDateLabel(a: Announcement): string {
 
 function getAnnouncementBody(a: Announcement): string {
   const raw = a.flyer_text || a.body || a.short_version || '';
-  return raw.replace(new RegExp(`^${a.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*[:\\-–—]?\\s*`, 'i'), '');
+  return stripLeadingTitle(raw, a.title);
 }
 
 export function WeeklyTab({ announcements, today }: WeeklyTabProps) {
@@ -345,8 +345,7 @@ function buildBulletinHTML(items: Announcement[], sundayDate: string): string {
         const dateLabel = escapeHtml(announcementDateLabel(a));
         const accent = a.scope === 'whole_church' ? ORANGE : TEAL;
         const raw = a.flyer_text || a.body || a.short_version || '';
-        const rawText = raw.replace(new RegExp(`^${a.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*[:\\-–—]?\\s*`, 'i'), '');
-        const text = escapeHtml(rawText);
+        const text = escapeHtml(stripLeadingTitle(raw, a.title));
         const title = escapeHtml(a.title);
         const ministry = escapeHtml(a.ministry);
         const contactName = escapeHtml(a.contact_name);
