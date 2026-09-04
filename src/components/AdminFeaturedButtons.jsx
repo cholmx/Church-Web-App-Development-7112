@@ -122,7 +122,7 @@ const AdminFeaturedButtons=()=> {
       </div>
 
       {showForm && (
-        <LoadingTransition isLoading={saving && editingId} skeleton={<SkeletonForm />}>
+        <LoadingTransition isLoading={saving && !!editingId} skeleton={<SkeletonForm />}>
           <motion.div
             initial={{opacity: 0,y: 20}}
             animate={{opacity: 1,y: 0}}
