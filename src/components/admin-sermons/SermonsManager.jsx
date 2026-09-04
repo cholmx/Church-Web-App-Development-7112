@@ -6,7 +6,6 @@ import RichTextEditor from '../RichTextEditor';
 import { toTitleCase } from '../../utils/textFormat';
 import { formatDate } from '../../utils/dateFormat';
 import { useSupabaseCrud } from '../../hooks/useSupabaseCrud';
-import { useSermonSeries } from './SermonSeriesManager';
 import { useConfirm } from '../../hooks/useConfirm';
 
 const { FiPlus, FiEdit, FiTrash2, FiSave, FiX, FiLayers, FiAlertTriangle, FiCheckCircle } = FiIcons;
@@ -21,16 +20,15 @@ const emptyForm = {
   sermon_series_id: ''
 };
 
-const SermonsManager = () => {
+// sermonSeries comes from AdminSermons, which owns the single
+// useSermonSeries() instance shared with SermonSeriesManager - see the
+// comment there for why this can't just call the hook itself.
+const SermonsManager = ({ sermonSeries }) => {
   const confirm = useConfirm();
   const { items: sermons, loading, insertItem, updateItem, deleteItem } = useSupabaseCrud(
     'sermons_portal123',
     { orderBy: 'sermon_date', ascending: false }
   );
-  // Read-only copy of the series list, just for the dropdown and the
-  // series-name lookup on each sermon card - series themselves are
-  // managed in SermonSeriesManager.
-  const { items: sermonSeries } = useSermonSeries();
 
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState(null);
