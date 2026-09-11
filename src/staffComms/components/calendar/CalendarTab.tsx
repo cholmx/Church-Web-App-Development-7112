@@ -1,5 +1,6 @@
 import { C, font } from '../../lib/theme';
 import { getMonthGrid, getEventItems, getRangeItems } from '../../lib/calendar-grid';
+import { weekdayOf, computeRecurrenceLabel } from '../../lib/helpers';
 import { CalendarProvider, useCalendarState, useCalendarActions } from './CalendarContext';
 import { WeekRow } from './WeekRow';
 import { DayPanel } from './DayPanel';
@@ -87,7 +88,17 @@ function CalendarInner({ announcements, today, onSave, onDelete, onPreviewDateCh
       await onSave({ ...a, event_dates: newDates, event_date: sorted[0] ?? null });
     } else {
       if (a.event_date === day) { clearDrag(); return; }
-      await onSave({ ...a, event_date: day, event_dates: [day] });
+      if (a.recurrence_type === 'weekly') {
+        // Dragging a weekly item's anchor changes what weekday it recurs
+        // on - recompute recurrence_day/recurrence_label to match, or its
+        // future occurrences (derived from the old recurrence_day) would
+        // silently desync from the day it now sits on.
+        const newDay = weekdayOf(day);
+        const recurrence_label = computeRecurrenceLabel(a.recurrence_type, day, a.recurrence_end_date, newDay);
+        await onSave({ ...a, event_date: day, event_dates: [day], recurrence_day: newDay, recurrence_label });
+      } else {
+        await onSave({ ...a, event_date: day, event_dates: [day] });
+      }
     }
     clearDrag();
   };

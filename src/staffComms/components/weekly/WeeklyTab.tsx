@@ -1,6 +1,6 @@
 import { C, font } from '../../lib/theme';
 import { btnGhost } from '../ui/inputs';
-import { formatDateNice } from '../../lib/helpers';
+import { formatDateNice, escapeHtml, stripLeadingTitle } from '../../lib/helpers';
 import type { Announcement } from '../../types';
 import type { ReactNode } from 'react';
 
@@ -27,7 +27,28 @@ function getWeekEnd(start: Date): Date {
   return end;
 }
 
+// event_date only ever holds a recurring item's first session (see
+// AnnouncementForm) - later weeks have to be derived from recurrence_type/
+// recurrence_day/recurrence_end_date, not read off that one literal date.
 function isThisWeek(a: Announcement, weekStart: Date, weekEnd: Date): boolean {
+  if (a.is_recurring && a.recurrence_type === 'weekly' && a.event_date) {
+    const start = new Date(a.event_date + 'T12:00:00');
+    const end = a.recurrence_end_date ? new Date(a.recurrence_end_date + 'T12:00:00') : null;
+    if (start > weekEnd || (end && end < weekStart)) return false;
+    const targetWeekday = a.recurrence_day || start.toLocaleDateString('en-US', { weekday: 'long' });
+    for (let d = new Date(Math.max(weekStart.getTime(), start.getTime())); d <= weekEnd; d.setDate(d.getDate() + 1)) {
+      if (end && d > end) break;
+      if (d.toLocaleDateString('en-US', { weekday: 'long' }) === targetWeekday) return true;
+    }
+    return false;
+  }
+
+  if (a.is_recurring && a.recurrence_type === 'date_range' && a.event_date) {
+    const start = new Date(a.event_date + 'T12:00:00');
+    const end = a.recurrence_end_date ? new Date(a.recurrence_end_date + 'T12:00:00') : start;
+    return start <= weekEnd && end >= weekStart;
+  }
+
   const dates: string[] = [];
   if (a.event_date) dates.push(a.event_date);
   if (a.event_dates?.length) dates.push(...a.event_dates.filter(Boolean));
@@ -57,7 +78,7 @@ function announcementDateLabel(a: Announcement): string {
 
 function getAnnouncementBody(a: Announcement): string {
   const raw = a.flyer_text || a.body || a.short_version || '';
-  return raw.replace(new RegExp(`^${a.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*[:\\-–—]?\\s*`, 'i'), '');
+  return stripLeadingTitle(raw, a.title);
 }
 
 export function WeeklyTab({ announcements, today }: WeeklyTabProps) {
@@ -160,7 +181,7 @@ function BulletinHalf({ children }: { children: ReactNode }) {
       height: '8.5in',
       display: 'flex',
       flexDirection: 'column',
-      padding: '0.75in 0.7in',
+      padding: '0.85in 0.75in',
       boxSizing: 'border-box',
       overflow: 'hidden',
     }}>
@@ -176,7 +197,7 @@ function BulletinHeader({ size = 'full' }: { size?: 'full' | 'compact' }) {
   const line1Size = size === 'compact' ? 18 : 22;
   const line2Size = size === 'compact' ? 13 : 16;
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 12 }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
       <img src={LOGO_URL} alt="URF" style={{ height: logoH, width: 'auto', flexShrink: 0 }} />
       <div>
         <div style={{ fontFamily: font.display, fontSize: line1Size, fontWeight: 900, color: TEAL, lineHeight: 1, letterSpacing: '-0.01em' }}>
@@ -192,7 +213,7 @@ function BulletinHeader({ size = 'full' }: { size?: 'full' | 'compact' }) {
 
 function Footer() {
   return (
-    <div style={{ borderTop: `1.5pt solid ${ORANGE}`, paddingTop: 7, textAlign: 'center', flexShrink: 0, marginTop: 6 }}>
+    <div style={{ borderTop: `1.5pt solid ${ORANGE}`, paddingTop: 9, textAlign: 'center', flexShrink: 0, marginTop: 10 }}>
       <div style={{ fontFamily: font.body, fontSize: 7.5, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: TEAL }}>
         Upper Room Fellowship &nbsp;·&nbsp; urf.life &nbsp;·&nbsp; Info@urfellowship.com
       </div>
@@ -206,10 +227,10 @@ function FrontContent({ items, sundayDate }: { items: Announcement[]; sundayDate
   return (
     <>
       <BulletinHeader />
-      <div style={{ fontFamily: font.display, fontSize: 10, fontWeight: 600, color: ORANGE, letterSpacing: '0.1em', marginBottom: 2 }}>
+      <div style={{ fontFamily: font.display, fontSize: 10, fontWeight: 600, color: ORANGE, letterSpacing: '0.1em', marginBottom: 4 }}>
         {sundayDate}
       </div>
-      <div style={{ borderTop: `2.5pt solid ${ORANGE}`, marginTop: 8, marginBottom: 10, flexShrink: 0 }} />
+      <div style={{ borderTop: `2.5pt solid ${ORANGE}`, marginTop: 10, marginBottom: 14, flexShrink: 0 }} />
 
       <div style={{ flex: 1, overflow: 'hidden' }}>
         {items.length === 0 && (
@@ -233,19 +254,19 @@ function FrontAnnouncement({ a }: { a: Announcement }) {
   return (
     <div style={{
       display: 'flex',
-      gap: 10,
-      padding: '8px 0',
+      gap: 12,
+      padding: '11px 0',
       borderBottom: '1pt solid #000',
       alignItems: 'flex-start',
     }}>
       <div style={{ width: '4pt', alignSelf: 'stretch', minHeight: '0.35in', background: accent, borderRadius: '2pt', flexShrink: 0 }} />
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap', marginBottom: 2 }}>
-          <span style={{ fontFamily: font.display, fontSize: 13, fontWeight: 800, color: TEAL }}>{a.title}</span>
-          {dateLabel && <span style={{ fontFamily: font.display, fontSize: 10, fontWeight: 700, color: ORANGE }}>{dateLabel}</span>}
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap', marginBottom: 4 }}>
+          <span style={{ fontFamily: font.display, fontSize: 11.5, fontWeight: 800, color: TEAL, textTransform: 'uppercase', letterSpacing: '0.01em' }}>{a.title}</span>
+          {dateLabel && <span style={{ fontFamily: font.display, fontSize: 9, fontWeight: 700, color: ORANGE }}>{dateLabel}</span>}
           {a.ministry && <Pill>{a.ministry}</Pill>}
         </div>
-        {text && <div style={{ fontFamily: font.body, fontSize: 10.5, color: '#1A1A1A', lineHeight: 1.3, marginBottom: 2 }}>{text}</div>}
+        {text && <div style={{ fontFamily: font.body, fontSize: 9.5, color: '#1A1A1A', lineHeight: 1.4, marginBottom: 4 }}>{text}</div>}
         {a.contact_info && <ContactLine a={a} />}
       </div>
     </div>
@@ -262,7 +283,7 @@ function Pill({ children }: { children: ReactNode }) {
 
 function ContactLine({ a }: { a: Announcement }) {
   return (
-    <div style={{ fontFamily: font.body, fontSize: 8, color: '#000', marginTop: 3 }}>
+    <div style={{ fontFamily: font.body, fontSize: 7.5, color: '#000', marginTop: 4 }}>
       {a.contact_name ? `${a.contact_name}, ` : ''}{a.contact_info}
     </div>
   );
@@ -321,20 +342,24 @@ function buildBulletinHTML(items: Announcement[], sundayDate: string): string {
   const itemsHTML = items.length === 0
     ? `<div style="color:#000;padding:40px 0;text-align:center;font-size:13pt;">No announcements for this week.</div>`
     : items.map(a => {
-        const dateLabel = announcementDateLabel(a);
+        const dateLabel = escapeHtml(announcementDateLabel(a));
         const accent = a.scope === 'whole_church' ? ORANGE : TEAL;
         const raw = a.flyer_text || a.body || a.short_version || '';
-        const text = raw.replace(new RegExp(`^${a.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*[:\\-–—]?\\s*`, 'i'), '');
-        return `<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1pt solid #000;align-items:flex-start;">
+        const text = escapeHtml(stripLeadingTitle(raw, a.title));
+        const title = escapeHtml(a.title);
+        const ministry = escapeHtml(a.ministry);
+        const contactName = escapeHtml(a.contact_name);
+        const contactInfo = escapeHtml(a.contact_info);
+        return `<div style="display:flex;gap:12px;padding:11px 0;border-bottom:1pt solid #000;align-items:flex-start;">
           <div style="width:4pt;align-self:stretch;min-height:0.35in;background:${accent};border-radius:2pt;flex-shrink:0;"></div>
           <div style="flex:1;min-width:0;">
-            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:2px;">
-              <span style="font-family:'Inter Tight',sans-serif;font-size:13pt;font-weight:800;color:${TEAL};">${a.title}</span>
-              ${dateLabel ? `<span style="font-family:'Inter Tight',sans-serif;font-size:10pt;font-weight:700;color:${ORANGE};">${dateLabel}</span>` : ''}
-              ${a.ministry ? `<span style="font-family:'Inter',sans-serif;font-size:7.5pt;font-weight:700;color:${TEAL};background:${TEAL_LIGHT};border-radius:999px;padding:2pt 7pt;">${a.ministry}</span>` : ''}
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:4px;">
+              <span style="font-family:'Inter Tight',sans-serif;font-size:11.5pt;font-weight:800;color:${TEAL};text-transform:uppercase;letter-spacing:0.01em;">${title}</span>
+              ${dateLabel ? `<span style="font-family:'Inter Tight',sans-serif;font-size:9pt;font-weight:700;color:${ORANGE};">${dateLabel}</span>` : ''}
+              ${ministry ? `<span style="font-family:'Inter',sans-serif;font-size:7.5pt;font-weight:700;color:${TEAL};background:${TEAL_LIGHT};border-radius:999px;padding:2pt 7pt;">${ministry}</span>` : ''}
             </div>
-            ${text ? `<div style="font-family:'Inter',sans-serif;font-size:10.5pt;color:#1A1A1A;line-height:1.3;margin-bottom:2px;">${text}</div>` : ''}
-            ${a.contact_info ? `<div style="font-family:'Inter',sans-serif;font-size:8pt;color:#000;margin-top:3px;">${a.contact_name ? `${a.contact_name}, ` : ''}${a.contact_info}</div>` : ''}
+            ${text ? `<div style="font-family:'Inter',sans-serif;font-size:9.5pt;color:#1A1A1A;line-height:1.4;margin-bottom:4px;">${text}</div>` : ''}
+            ${contactInfo ? `<div style="font-family:'Inter',sans-serif;font-size:7.5pt;color:#000;margin-top:4px;">${contactName ? `${contactName}, ` : ''}${contactInfo}</div>` : ''}
           </div>
         </div>`;
       }).join('');
@@ -354,7 +379,7 @@ function buildBulletinHTML(items: Announcement[], sundayDate: string): string {
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #fff; }
     .page { width: 11in; height: 8.5in; display: flex; page-break-after: always; break-after: page; overflow: hidden; position: relative; }
-    .bulletin { width: 5.5in; height: 8.5in; display: flex; flex-direction: column; padding: 0.75in 0.7in; box-sizing: border-box; overflow: hidden; }
+    .bulletin { width: 5.5in; height: 8.5in; display: flex; flex-direction: column; padding: 0.85in 0.75in; box-sizing: border-box; overflow: hidden; }
     .cut-line { position: absolute; top: 0; bottom: 0; left: 50%; width: 0; border-left: 1px dashed #000; pointer-events: none; }
     @page { size: 11in 8.5in landscape; margin: 0; }
     @media screen { body { background: #eee; padding: 20px; display: flex; flex-direction: column; gap: 16px; align-items: center; } .page { box-shadow: 0 4px 24px rgba(0,0,0,0.12); } }
@@ -380,19 +405,19 @@ function buildBulletinHTML(items: Announcement[], sundayDate: string): string {
 
 function buildPrintFront(itemsHTML: string, sundayDate: string): string {
   return `<div class="bulletin">
-    <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px;">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
       <img src="${LOGO_URL}" alt="URF" style="height:52px;width:auto;flex-shrink:0;" />
       <div>
         <div style="font-family:'Inter Tight',sans-serif;font-size:22pt;font-weight:900;color:${TEAL};line-height:1;letter-spacing:-0.01em;">Upper Room Fellowship</div>
         <div style="font-family:'Inter Tight',sans-serif;font-size:16pt;font-weight:700;color:${ORANGE};line-height:1.1;margin-top:2px;">Weekly Announcements</div>
       </div>
     </div>
-    <div style="font-family:'Inter Tight',sans-serif;font-size:10pt;font-weight:600;color:${ORANGE};letter-spacing:0.1em;margin-bottom:2px;">${sundayDate}</div>
-    <div style="border-top:2.5pt solid ${ORANGE};margin-top:8px;margin-bottom:10px;flex-shrink:0;"></div>
+    <div style="font-family:'Inter Tight',sans-serif;font-size:10pt;font-weight:600;color:${ORANGE};letter-spacing:0.1em;margin-bottom:4px;">${sundayDate}</div>
+    <div style="border-top:2.5pt solid ${ORANGE};margin-top:10px;margin-bottom:14px;flex-shrink:0;"></div>
     <div style="flex:1;overflow:hidden;">
       ${itemsHTML}
     </div>
-    <div style="border-top:1.5pt solid ${ORANGE};padding-top:7px;text-align:center;flex-shrink:0;margin-top:6px;">
+    <div style="border-top:1.5pt solid ${ORANGE};padding-top:9px;text-align:center;flex-shrink:0;margin-top:10px;">
       <div style="font-family:'Inter',sans-serif;font-size:7.5pt;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:${TEAL};">Upper Room Fellowship &nbsp;&middot;&nbsp; urf.life &nbsp;&middot;&nbsp; Info@urfellowship.com</div>
     </div>
   </div>`;
@@ -406,7 +431,7 @@ function buildPrintBack(): string {
     </div>`).join('');
 
   return `<div class="bulletin">
-    <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px;">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
       <img src="${LOGO_URL}" alt="URF" style="height:40px;width:auto;flex-shrink:0;" />
       <div>
         <div style="font-family:'Inter Tight',sans-serif;font-size:18pt;font-weight:900;color:${TEAL};line-height:1;letter-spacing:-0.01em;">Upper Room Fellowship</div>
@@ -418,7 +443,7 @@ function buildPrintBack(): string {
     <div style="flex-shrink:0;padding:12px 14px;background:#FFFFFF;border-radius:6px;display:flex;flex-direction:column;gap:8px;">
       ${sectionsHTML}
     </div>
-    <div style="border-top:1.5pt solid ${ORANGE};padding-top:7px;text-align:center;flex-shrink:0;margin-top:6px;">
+    <div style="border-top:1.5pt solid ${ORANGE};padding-top:9px;text-align:center;flex-shrink:0;margin-top:10px;">
       <div style="font-family:'Inter',sans-serif;font-size:7.5pt;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:${TEAL};">Upper Room Fellowship &nbsp;&middot;&nbsp; urf.life &nbsp;&middot;&nbsp; Info@urfellowship.com</div>
     </div>
   </div>`;

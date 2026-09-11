@@ -20,14 +20,21 @@ const Home=()=> {
 
   const checkAvailability=async ()=> {
     try {
-      const {data: events}=await supabase.from('events_portal123').select('id').limit(1);
-      const {data: classes}=await supabase.from('classes_portal123').select('id').limit(1);
-      const {data: resources}=await supabase.from('resources_portal123').select('id').limit(1);
-      const {data: featuredButtons}=await supabase
-        .from('featured_buttons_portal123')
-        .select('*')
-        .eq('is_active',true)
-        .order('display_order',{ascending: true});
+      const [
+        {data: events},
+        {data: classes},
+        {data: resources},
+        {data: featuredButtons}
+      ]=await Promise.all([
+        supabase.from('events_portal123').select('id').limit(1),
+        supabase.from('classes_portal123').select('id').limit(1),
+        supabase.from('resources_portal123').select('id').limit(1),
+        supabase
+          .from('featured_buttons_portal123')
+          .select('*')
+          .eq('is_active',true)
+          .order('display_order',{ascending: true})
+      ]);
 
       setHasEvents(events && events.length > 0);
       setHasClasses(classes && classes.length > 0);
@@ -47,7 +54,7 @@ const Home=()=> {
       description: btn.description || '',
       icon: FiCheck,
       path: btn.path,
-      isInternal: !btn.path.startsWith('http')
+      isInternal: !(btn.path || '').startsWith('http')
     })),
     ...(hasClasses ? [{title: 'Classes',description: 'Available church classes',icon: FiBookOpen,path: '/class-registration',isYellow: true}] : []),
     ...(hasEvents ? [{title: 'Events',description: 'Upcoming church events',icon: FiCalendar,path: '/event-registration',isOrange: true}] : [])

@@ -17,7 +17,7 @@ const DEFAULT_DATA = {
   dateMo: "APRIL",
   label: "JOIN US",
   s1: 155, s2: 65, s3: 24,
-  uppercaseHeadline: false,
+  uppercaseHeadline: true,
   autoFit: true,
   headLineHeight: 1.12,
 };
@@ -175,7 +175,7 @@ function SlideMakerInner() {
 
     if (presetData.photoId) {
       const photo = photos.find(p => p.dbId === presetData.photoId);
-      if (photo) setActivePhoto(photo);
+      setActivePhoto(photo ? photo.img : null);
     } else {
       setActivePhoto(null);
     }

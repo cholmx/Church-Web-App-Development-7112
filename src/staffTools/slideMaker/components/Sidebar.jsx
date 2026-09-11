@@ -120,6 +120,7 @@ export default function Sidebar(props) {
             tmplId={tmplId}
             data={data}
             brand={brand}
+            photos={photos}
             activePhoto={activePhoto}
             accentPhoto={accentPhoto}
             ov={ov}
